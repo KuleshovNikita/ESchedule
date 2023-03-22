@@ -4,9 +4,9 @@ namespace ESchedule.Domain.Lessons
 {
     public record ScheduleModel : BaseModel
     {
-        public TimeOnly StartTime { get; set; }
+        public TimeSpan StartTime { get; set; }
 
-        public TimeOnly EndTime { get; set; }
+        public TimeSpan EndTime { get; set; }
 
         public DayOfWeek DayOfWeek { get; set; }
 

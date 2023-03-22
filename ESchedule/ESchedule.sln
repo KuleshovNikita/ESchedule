@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESchedule.Domain", "ESchedu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESchedule.DataAccess", "ESchedule.DataAccess\ESchedule.DataAccess.csproj", "{0DA51E0B-C618-4CFA-A850-2D15B46CACDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESchedule.Startup", "ESchedule.Startup\ESchedule.Startup.csproj", "{A81719E5-3463-4A81-8492-A4D104691747}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0DA51E0B-C618-4CFA-A850-2D15B46CACDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DA51E0B-C618-4CFA-A850-2D15B46CACDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DA51E0B-C618-4CFA-A850-2D15B46CACDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A81719E5-3463-4A81-8492-A4D104691747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A81719E5-3463-4A81-8492-A4D104691747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A81719E5-3463-4A81-8492-A4D104691747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A81719E5-3463-4A81-8492-A4D104691747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

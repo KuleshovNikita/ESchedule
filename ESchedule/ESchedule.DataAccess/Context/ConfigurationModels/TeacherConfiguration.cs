@@ -9,8 +9,6 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
         public void Configure(EntityTypeBuilder<TeacherModel> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.OwnGroup)
-                   .WithOne(x => x.MasterTeacher);
 
             builder.Property(x => x.Id)
                 .IsRequired();

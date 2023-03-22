@@ -12,11 +12,13 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
 
             builder.HasOne(x => x.Teacher)
                 .WithMany(x => x.StudyGroups)
-                .HasForeignKey(x => x.TeacherId);
+                .HasForeignKey(x => x.TeacherId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.StudyGroup)
                 .WithMany(x => x.GroupTeachers)
-                .HasForeignKey(x => x.StudyGroupId);
+                .HasForeignKey(x => x.StudyGroupId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
