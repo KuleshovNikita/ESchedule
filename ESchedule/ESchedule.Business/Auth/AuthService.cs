@@ -38,7 +38,7 @@ namespace ESchedule.Business.Auth
             _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>();
         }
 
-        public async Task<ServiceResult<string>> Login(AuthModel authModel)
+        public async Task<ServiceResult<string>> Login(UserCredentialsModel authModel)
         {
             var serviceResult = new ServiceResult<string>();
 

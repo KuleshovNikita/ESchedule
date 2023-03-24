@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ESchedule.Api.Models.RequestModels;
+using ESchedule.Api.Models.Requests;
 using ESchedule.Business.Auth;
 using ESchedule.Domain;
 using ESchedule.ServiceResulting;
-using ESchedule.Api.Models.Requests;
 
 namespace ESchedule.Api.Controllers
 {
@@ -20,7 +19,7 @@ namespace ESchedule.Api.Controllers
             => await RunWithServiceResult(async () => await _authService.Register(userModel));
 
         [HttpPost("login")]
-        public async Task<ServiceResult<string>> Login([FromBody] AuthModel authModel)
+        public async Task<ServiceResult<string>> Login([FromBody] UserCredentialsModel authModel)
             => await RunWithServiceResult(async () => await _authService.Login(authModel));
 
         [HttpPatch("confirmEmail/{key}")]
@@ -30,10 +29,6 @@ namespace ESchedule.Api.Controllers
                 key = Uri.UnescapeDataString(key);
                 return await _authService.ConfirmEmail(key);
             });
-
-        [HttpGet("current")]
-        public async Task<ServiceResult<UserModel>> GetCurrentUser()
-            => await RunWithServiceResult(async () => await _authService.GetCurrentUser());
 
         [Authorize]
         [HttpGet("logout")]
