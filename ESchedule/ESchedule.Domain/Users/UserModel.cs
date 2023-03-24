@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ESchedule.Domain.Users
 {
-    public abstract record UserModel : BaseModel
+    public record UserModel : BaseModel
     {
         public string Name { get; set; } = null!;
 
