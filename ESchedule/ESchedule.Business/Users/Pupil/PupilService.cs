@@ -4,6 +4,7 @@ using ESchedule.Business.Extensions;
 using ESchedule.Business.Hashing;
 using ESchedule.DataAccess.Repos.User.Pupil;
 using ESchedule.Domain.Exceptions;
+using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using System.Linq.Expressions;

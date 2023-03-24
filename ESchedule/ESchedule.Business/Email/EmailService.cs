@@ -2,6 +2,7 @@
 using System.Net.Mail;
 using System.Net;
 using ESchedule.Domain;
+using ESchedule.Domain.Properties;
 
 namespace ESchedule.Business.Email
 {
@@ -55,7 +56,7 @@ namespace ESchedule.Business.Email
                 Credentials = new NetworkCredential(sender, password)
             };
 
-            await client.SendMailAsync(sender, consumer, Resources.ConfirmYourEmail, message);
+            await client.SendMailAsync(sender!, consumer, Resources.ConfirmYourEmail, message);
         }
     }
 }

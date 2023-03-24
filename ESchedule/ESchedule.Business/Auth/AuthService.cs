@@ -4,6 +4,7 @@ using ESchedule.Business.Hashing;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Auth;
+using ESchedule.Domain.Properties;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
