@@ -1,13 +1,14 @@
 ﻿using ESchedule.DataAccess.Context;
+using ESchedule.DataAccess.Repos.User.Teacher;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace ESchedule.DataAccess.Repos.User
+namespace ESchedule.DataAccess.Repos.User.Pupil
 {
-    public class PupilRepository : BaseRepository<PupilModel>, IUserRepository<PupilModel>
+    public class PupilRepository : BaseRepository<PupilModel>, IPupilRepository
     {
         public PupilRepository(EScheduleDbContext context) : base(context)
         {

@@ -5,9 +5,9 @@ using ESchedule.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace ESchedule.DataAccess.Repos.User
+namespace ESchedule.DataAccess.Repos.User.Teacher
 {
-    public class TeacherRepository : BaseRepository<TeacherModel>, IUserRepository<TeacherModel>
+    public class TeacherRepository : BaseRepository<TeacherModel>, ITeacherRepository
     {
         public TeacherRepository(EScheduleDbContext context) : base(context)
         {
