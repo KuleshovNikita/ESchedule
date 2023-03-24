@@ -63,9 +63,9 @@ namespace ESchedule.Startup.Extensions
         private static Action<IMapperConfigurationExpression> GetAutoMapperConfigs()
             => cfg =>
             {
-                cfg.CreateMap<UserRequestModel, BaseUserModel>();
-                cfg.CreateMap<UserUpdateRequestModel, BaseUserModel>();
-                cfg.CreateMap<BaseUserModel, UserUpdateRequestModel>();
+                cfg.CreateMap<UserRequestModel, UserModel>();
+                cfg.CreateMap<UserUpdateRequestModel, UserModel>();
+                cfg.CreateMap<UserModel, UserUpdateRequestModel>();
             };
     }
 }

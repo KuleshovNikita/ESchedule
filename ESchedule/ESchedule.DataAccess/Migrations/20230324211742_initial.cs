@@ -28,7 +28,6 @@ namespace ESchedule.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OwnGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FatherName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -39,6 +38,20 @@ namespace ESchedule.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TeacherModel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserCredentialsModel",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Login = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsEmailConfirmed = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCredentialsModel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -292,6 +305,12 @@ namespace ESchedule.DataAccess.Migrations
                 name: "IX_TeachersLessonsModel_TeacherId",
                 table: "TeachersLessonsModel",
                 column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCredentialsModel_Login",
+                table: "UserCredentialsModel",
+                column: "Login",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -314,6 +333,9 @@ namespace ESchedule.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "TeachersLessonsModel");
+
+            migrationBuilder.DropTable(
+                name: "UserCredentialsModel");
 
             migrationBuilder.DropTable(
                 name: "GroupModel");

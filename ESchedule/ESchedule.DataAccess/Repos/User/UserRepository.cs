@@ -1,26 +1,25 @@
 ﻿using ESchedule.DataAccess.Context;
-using ESchedule.DataAccess.Repos.User.Teacher;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace ESchedule.DataAccess.Repos.User.Pupil
+namespace ESchedule.DataAccess.Repos.User
 {
-    public class PupilRepository : BaseRepository<PupilModel>, IPupilRepository
+    public class UserRepository : BaseRepository<UserModel>, IUserRepository
     {
-        public PupilRepository(EScheduleDbContext context) : base(context)
+        public UserRepository(EScheduleDbContext context) : base(context)
         {
         }
 
-        public override async Task<ServiceResult<PupilModel>> FirstOrDefault(Expression<Func<PupilModel, bool>> command)
+        public override async Task<ServiceResult<UserModel>> FirstOrDefault(Expression<Func<UserModel, bool>> command)
         {
-            var result = new ServiceResult<PupilModel>();
+            var result = new ServiceResult<UserModel>();
 
             try
             {
-                result.Value = await _context.Set<PupilModel>()
+                result.Value = await _context.Set<UserModel>()
                     .Include(p => p.Group)
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
 

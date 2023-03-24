@@ -2,29 +2,29 @@
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Extensions;
 using ESchedule.Business.Hashing;
-using ESchedule.DataAccess.Repos.User.Pupil;
+using ESchedule.DataAccess.Repos.User;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using System.Linq.Expressions;
 
-namespace ESchedule.Business.Users.Pupil
+namespace ESchedule.Business.Users
 {
-    public class PupilService : IPupilService
+    public class UserService : IUserService
     {
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IPupilRepository _repository;
+        private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
 
-        public PupilService(IMapper mapper, IPasswordHasher passwordHasher, IPupilRepository repository)
+        public UserService(IMapper mapper, IPasswordHasher passwordHasher, IUserRepository repository)
         {
             _mapper = mapper;
             _passwordHasher = passwordHasher;
             _repository = repository;
         }
 
-        public async Task<ServiceResult<Empty>> AddPupil(PupilModel userModel)
+        public async Task<ServiceResult<Empty>> AddUser(UserModel userModel)
         {
             var serviceResult = new ServiceResult<Empty>();
 
@@ -42,13 +42,13 @@ namespace ESchedule.Business.Users.Pupil
             return serviceResult.Success();
         }
 
-        public async Task<ServiceResult<Empty>> RemovePupil(Guid userId)
+        public async Task<ServiceResult<Empty>> RemoveUser(Guid userId)
         {
             var serviceResult = new ServiceResult<Empty>();
 
             if (await UserExists(userId))
             {
-                var userModel = await GetPupil(x => x.Id == userId);
+                var userModel = await GetUser(x => x.Id == userId);
                 (await _repository.Remove(userModel.Value)).CatchAny();
 
                 return serviceResult.Success();
@@ -57,7 +57,7 @@ namespace ESchedule.Business.Users.Pupil
             return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);
         }
 
-        public async Task<ServiceResult<PupilModel>> GetPupil(Expression<Func<PupilModel, bool>> predicate)
+        public async Task<ServiceResult<UserModel>> GetUser(Expression<Func<UserModel, bool>> predicate)
         {
             var result = await _repository.FirstOrDefault(predicate);
 
@@ -68,7 +68,7 @@ namespace ESchedule.Business.Users.Pupil
         public async Task<ServiceResult<Empty>> UpdateUser(UserUpdateRequestModel userModel, Guid userId)
         {
             userModel.Id = userId;
-            var user = await GetPupil(x => x.Id == userModel.Id);
+            var user = await GetUser(x => x.Id == userModel.Id);
             user.Value = _mapper.MapOnlyUpdatedProperties(userModel, user.Value);
 
             var result = await _repository.Update(user.Value);

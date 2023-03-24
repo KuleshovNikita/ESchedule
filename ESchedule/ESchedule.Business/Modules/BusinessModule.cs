@@ -1,8 +1,7 @@
 ﻿using ESchedule.Business.Auth;
 using ESchedule.Business.Email;
 using ESchedule.Business.Hashing;
-using ESchedule.Business.Users.Pupil;
-using ESchedule.Business.Users.Teacher;
+using ESchedule.Business.Users;
 using ESchedule.Domain.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,8 +15,7 @@ namespace ESchedule.Business.Modules
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
 
-            services.AddScoped<ITeacherService, TeacherService>();
-            services.AddScoped<IPupilService, PupilService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

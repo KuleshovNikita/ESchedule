@@ -1,4 +1,6 @@
-﻿namespace ESchedule.Domain
+﻿using ESchedule.Domain.Users;
+
+namespace ESchedule.Domain
 {
     public record UserCredentialsModel : BaseModel
     {
