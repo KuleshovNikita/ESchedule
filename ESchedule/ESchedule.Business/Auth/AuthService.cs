@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using ESchedule.Api.Models.Requests;
-using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Email;
 using ESchedule.Business.Hashing;
+using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Auth;
-using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -20,22 +18,22 @@ namespace ESchedule.Business.Auth
     public class AuthService : IAuthService
     {
         private readonly IEmailService _emailService;
-        private readonly IUserService _userService;
+        private readonly IRepository<UserCredentialsModel> _credentialsRepo;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMapper _mapper;
         private readonly JwtSettings _jwtSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AuthService(IMapper mapper, IPasswordHasher passwordHasher, IEmailService emailService,
-            IUserService userService, IConfiguration config, IHttpContextAccessor httpContextAccessor)
+            IRepository<UserCredentialsModel> credentialsRepo, IConfiguration config, IHttpContextAccessor httpContextAccessor)
         {
             _emailService = emailService;
-            _userService = userService;
+            _credentialsRepo = credentialsRepo;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
 
-            _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>();
+            _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>()!;
         }
 
         public async Task<ServiceResult<string>> Login(UserCredentialsModel authModel)
@@ -49,7 +47,7 @@ namespace ESchedule.Business.Auth
 
             ValidateEmail(authModel.Login, serviceResult);
 
-            var userResult = await _userService.GetUser(x => x.Login == authModel.Login);
+            var userResult = await _credentialsRepo.FirstOrDefault(x => x.Login == authModel.Login);
 
             if (!userResult.Value.IsEmailConfirmed)
             {
@@ -66,23 +64,21 @@ namespace ESchedule.Business.Auth
             return serviceResult.CatchAny();
         }
 
-        public async Task<ServiceResult<string>> Register(UserRequestModel userModel)
+        public async Task<ServiceResult<string>> Register(UserCredentialsModel credentialsModel)
         {
             var serviceResult = new ServiceResult<string>();
 
-            if (userModel is null)
+            if (credentialsModel is null)
             {
                 return serviceResult.FailAndThrow(Resources.InvalidDataFoundCantRegisterUser);
             }
 
-            var userDomainModel = _mapper.Map<BaseUserModel>(userModel);
+            ValidateEmail(credentialsModel.Login, serviceResult);
 
-            ValidateEmail(userModel.Login, serviceResult);
+            await _credentialsRepo.Insert(credentialsModel);
+            await _emailService.SendEmailConfirmMessage(credentialsModel);
 
-            await _userService.AddUser(userDomainModel);
-            await _emailService.SendEmailConfirmMessage(userDomainModel);
-
-            serviceResult.Value = BuildInitialClaims(userDomainModel);
+            serviceResult.Value = BuildInitialClaims(credentialsModel);
 
             return serviceResult.CatchAny();
         }
@@ -91,20 +87,19 @@ namespace ESchedule.Business.Auth
         {
             var serviceResult = new ServiceResult<string>();
 
-            var userResult = await _userService.GetUser(x => x.Password.ToLower() == key.ToLower());
-            var userDomainModel = userResult.Value;
+            var credentialsResult = await _credentialsRepo.FirstOrDefault(x => x.Password.ToLower() == key.ToLower());
+            var credentialsModel = credentialsResult.Value;
 
-            if (userDomainModel.IsEmailConfirmed)
+            if (credentialsModel.IsEmailConfirmed)
             {
                 return serviceResult.FailAndThrow(Resources.TheUsersEmailIsAlreadyConfirmed);
             }
 
-            userDomainModel.IsEmailConfirmed = true;
-            var userUpdateModel = _mapper.Map<UserUpdateRequestModel>(userDomainModel);
+            credentialsModel.IsEmailConfirmed = true;
 
-            await _userService.UpdateUser(userUpdateModel, userDomainModel.Id);
+            await _credentialsRepo.Update(credentialsModel);
 
-            serviceResult.Value = BuildClaimsWithEmail(userDomainModel);
+            serviceResult.Value = BuildClaimsWithEmail(credentialsModel);
             return serviceResult.CatchAny();
         }
 
@@ -116,15 +111,15 @@ namespace ESchedule.Business.Auth
             }
         }
 
-        private string BuildInitialClaims(BaseUserModel userModel)
+        private string BuildInitialClaims(UserCredentialsModel credentialsModel)
         {
-            var claims = ClaimsSets.GetInitialClaims(userModel);
+            var claims = ClaimsSets.GetInitialClaims(credentialsModel);
             return BuildClaims(claims);
         }
 
-        private string BuildClaimsWithEmail(BaseUserModel userModel)
+        private string BuildClaimsWithEmail(UserCredentialsModel credentialsModel)
         {
-            var claims = ClaimsSets.GetClaimsWithEmail(userModel);
+            var claims = ClaimsSets.GetClaimsWithEmail(credentialsModel);
             return BuildClaims(claims);
         }
 

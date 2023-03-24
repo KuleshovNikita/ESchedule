@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ESchedule.Api.Models.Requests;
 using ESchedule.Business.Auth;
 using ESchedule.Domain;
 using ESchedule.ServiceResulting;
@@ -15,8 +14,8 @@ namespace ESchedule.Api.Controllers
         public AuthenticationController(IAuthService authService) => _authService = authService;
 
         [HttpPost("register")]
-        public async Task<ServiceResult<string>> Register([FromBody] UserRequestModel userModel)
-            => await RunWithServiceResult(async () => await _authService.Register(userModel));
+        public async Task<ServiceResult<string>> Register([FromBody] UserCredentialsModel credentialsModel)
+            => await RunWithServiceResult(async () => await _authService.Register(credentialsModel));
 
         [HttpPost("login")]
         public async Task<ServiceResult<string>> Login([FromBody] UserCredentialsModel authModel)

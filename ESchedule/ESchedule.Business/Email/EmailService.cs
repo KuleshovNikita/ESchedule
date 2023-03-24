@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Net;
-using ESchedule.Domain.Users;
+using ESchedule.Domain;
 
 namespace ESchedule.Business.Email
 {
@@ -14,14 +14,14 @@ namespace ESchedule.Business.Email
             _emailConfig = emailConfig;
         }
 
-        public async Task SendEmailConfirmMessage(BaseUserModel userModel)
+        public async Task SendEmailConfirmMessage(UserCredentialsModel userModel)
         {
             var confirmUrl = BuildConfirmUrl(userModel);
             var message = BuildEmailMessage(confirmUrl);
             await SendEmail(message, userModel.Login);
         }
 
-        private string BuildConfirmUrl(BaseUserModel userModel)
+        private string BuildConfirmUrl(UserCredentialsModel userModel)
         {
             var serverUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")?.Split(";").First();
 

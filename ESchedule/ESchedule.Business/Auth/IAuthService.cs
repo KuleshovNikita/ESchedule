@@ -10,6 +10,6 @@ namespace ESchedule.Business.Auth
 
         Task<ServiceResult<string>> Login(UserCredentialsModel authModel);
 
-        Task<ServiceResult<string>> Register(UserRequestModel userModel);
+        Task<ServiceResult<string>> Register(UserCredentialsModel credentialsModel);
     }
 }

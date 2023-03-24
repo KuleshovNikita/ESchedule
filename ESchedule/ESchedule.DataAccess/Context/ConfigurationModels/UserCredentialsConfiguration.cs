@@ -17,6 +17,10 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
 
             builder.Property(x => x.Password)
                 .IsRequired();
+
+            builder.Property(x => x.IsEmailConfirmed)
+                .HasDefaultValue(false)
+                .IsRequired();
         }
     }
 }
