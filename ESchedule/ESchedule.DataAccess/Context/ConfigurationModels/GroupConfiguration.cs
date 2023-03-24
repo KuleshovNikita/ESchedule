@@ -19,10 +19,6 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
 
             builder.Property(x => x.MaxLessonsCountPerDay)
                 .IsRequired();
-
-            builder.HasOne(x => x.MasterTeacher)
-                .WithOne(x => x.OwnGroup)
-                .HasForeignKey<GroupModel>(x => x.MasterTeacherId);
         }
     }
 }

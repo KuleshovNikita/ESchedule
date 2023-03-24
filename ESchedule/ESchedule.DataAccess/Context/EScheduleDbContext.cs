@@ -12,8 +12,7 @@ namespace ESchedule.DataAccess.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new PupilConfiguration());
-            modelBuilder.ApplyConfiguration(new TeacherConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new LessonConfiguration());
             modelBuilder.ApplyConfiguration(new SettingsConfiguration());
@@ -21,7 +20,6 @@ namespace ESchedule.DataAccess.Context
             modelBuilder.ApplyConfiguration(new TeachersLessonsConfiguration());
             modelBuilder.ApplyConfiguration(new GroupsLessonsConfiguration());
             modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
-            modelBuilder.ApplyConfiguration(new UserCredentialsConfiguration());
         }
     }
 }

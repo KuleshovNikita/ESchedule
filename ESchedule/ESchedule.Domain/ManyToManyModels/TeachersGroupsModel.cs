@@ -8,6 +8,6 @@ namespace ESchedule.Domain.ManyToManyModels
         public GroupModel StudyGroup { get; set; } = null!;
 
         public Guid TeacherId { get; set; }
-        public TeacherModel Teacher { get; set; } = null!;
+        public UserModel Teacher { get; set; } = null!;
     }
 }

@@ -1,4 +1,5 @@
-﻿using ESchedule.Domain.Lessons;
+﻿using ESchedule.Domain.Enums;
+using ESchedule.Domain.Lessons;
 using ESchedule.Domain.ManyToManyModels;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,6 +20,11 @@ namespace ESchedule.Domain.Users
 
         public string Password { get; set; } = null!;
 
+        public bool IsEmailConfirmed { get; set; }
+
+        public Role Role { get; set; }
+
+        public Guid GroupId { get; set; }
         public GroupModel Group { get; set; } = null!;
 
         public IList<ScheduleModel> StudySchedules { get; set; } = null!;

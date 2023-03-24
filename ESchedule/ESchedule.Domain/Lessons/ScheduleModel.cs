@@ -14,7 +14,7 @@ namespace ESchedule.Domain.Lessons
         public GroupModel StudyGroup { get; set; } = null!;
 
         public Guid TeacherId { get; set; }
-        public TeacherModel Teacher { get; set; } = null!;
+        public UserModel Teacher { get; set; } = null!;
 
         public Guid LessonId { get; set; }
         public LessonModel Lesson { get; set; } = null!;

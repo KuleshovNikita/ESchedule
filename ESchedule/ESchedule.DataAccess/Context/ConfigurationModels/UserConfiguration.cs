@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ESchedule.DataAccess.Context.ConfigurationModels
 {
-    public record PupilConfiguration : IEntityTypeConfiguration<PupilModel>
+    public record UserConfiguration : IEntityTypeConfiguration<UserModel>
     {
-        public void Configure(EntityTypeBuilder<PupilModel> builder)
+        public void Configure(EntityTypeBuilder<UserModel> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -31,6 +31,16 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
                 .IsUnique();
             builder.Property(x => x.Login)
                 .IsRequired();
+
+            builder.Property(x => x.IsEmailConfirmed)
+                .IsRequired();
+
+            builder.Property(x => x.Role)
+                .IsRequired();
+
+            builder.HasOne(x => x.Group)
+                .WithMany(x => x.Members)
+                .HasForeignKey(x => x.GroupId);
         }
     }
 }

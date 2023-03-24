@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ESchedule.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ESchedule.Api.Models.Requests
 {
@@ -9,6 +10,8 @@ namespace ESchedule.Api.Models.Requests
         public string LastName { get; set; } = null!;
 
         public string FatherName { get; set; } = null!;
+
+        public Role Role { get; set; }
 
         [Range(5, 99)]
         public int Age { get; set; }

@@ -9,6 +9,6 @@ namespace ESchedule.Domain.Management
         public TimeSpan BreaksDurationTime { get; set; }
 
         public Guid CreatorId { get; set; }
-        public TeacherModel Creator { get; set; } = null!;
+        public UserModel Creator { get; set; } = null!;
     }
 }
