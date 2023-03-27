@@ -16,6 +16,10 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
             builder.HasOne(x => x.Creator)
                 .WithOne()
                 .HasForeignKey<SettingsModel>(x => x.CreatorId);
+
+            builder.HasOne(x => x.Tenant)
+                .WithOne()
+                .HasForeignKey<SettingsModel>(x => x.TenantId);
         }
     }
 }

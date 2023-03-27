@@ -41,6 +41,10 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
             builder.HasOne(x => x.Group)
                 .WithMany(x => x.Members)
                 .HasForeignKey(x => x.GroupId);
+
+            builder.HasOne(x => x.Tenant)
+                .WithMany()
+                .HasForeignKey(x => x.TenantId);
         }
     }
 }

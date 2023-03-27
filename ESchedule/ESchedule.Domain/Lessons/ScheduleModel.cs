@@ -1,4 +1,5 @@
-﻿using ESchedule.Domain.Users;
+﻿using ESchedule.Domain.Tenant;
+using ESchedule.Domain.Users;
 
 namespace ESchedule.Domain.Lessons
 {
@@ -18,5 +19,8 @@ namespace ESchedule.Domain.Lessons
 
         public Guid LessonId { get; set; }
         public LessonModel Lesson { get; set; } = null!;
+
+        public Guid TenantId { get; set; }
+        public TenantModel Tenant { get; set; } = null!;
     }
 }
