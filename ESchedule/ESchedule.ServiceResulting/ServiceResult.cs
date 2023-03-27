@@ -35,7 +35,11 @@ namespace ESchedule.ServiceResulting
             return this;
         }
 
-        public ServiceResult<TEntity> Success() => SetResultState(true, string.Empty);
+        public ServiceResult<TEntity> Success()
+        {
+            CatchAny();
+            return SetResultState(true, string.Empty);
+        }
 
         public ServiceResult<TEntity> FailAndThrow(string failMessage = "")
         {
