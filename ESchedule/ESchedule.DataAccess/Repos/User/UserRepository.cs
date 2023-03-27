@@ -7,27 +7,27 @@ using System.Linq.Expressions;
 
 namespace ESchedule.DataAccess.Repos.User
 {
-    public class UserRepository : BaseRepository<UserModel>, IUserRepository
+    public class UserRepository : Repository<UserModel>
     {
         public UserRepository(EScheduleDbContext context) : base(context)
         {
         }
 
-        public override async Task<ServiceResult<UserModel>> FirstOrDefault(Expression<Func<UserModel, bool>> command)
+        public override Task<ServiceResult<IEnumerable<UserModel>>> Where(Expression<Func<UserModel, bool>> command)
         {
-            var result = new ServiceResult<UserModel>();
+            var result = new ServiceResult<IEnumerable<UserModel>>();
 
             try
             {
-                result.Value = await _context.Set<UserModel>()
-                    .Include(p => p.Group)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+                result.Value = _context.Set<UserModel>()
+                    .Where(command)
+                    .Include(p => p.Group) ?? throw new EntityNotFoundException();
 
-                return result.Success();
+                return Task.FromResult(result.Success());
             }
             catch (Exception ex)
             {
-                return result.Fail(ex);
+                return Task.FromResult(result.Fail(ex));
             }
         }
     }

@@ -6,11 +6,11 @@ using System.Linq.Expressions;
 
 namespace ESchedule.DataAccess.Repos
 {
-    public class BaseRepository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly EScheduleDbContext _context;
 
-        public BaseRepository(EScheduleDbContext context) => _context = context;
+        public Repository(EScheduleDbContext context) => _context = context;
 
         public virtual async Task<ServiceResult<T>> FirstOrDefault(Expression<Func<T, bool>> command)
         {

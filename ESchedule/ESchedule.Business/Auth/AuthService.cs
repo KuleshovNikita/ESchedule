@@ -52,7 +52,7 @@ namespace ESchedule.Business.Auth
 
             ValidateEmail(authModel.Login, serviceResult);
 
-            var userResult = await _userService.GetUser(x => x.Login == authModel.Login);
+            var userResult = await _userService.GetItems(x => x.Login == authModel.Login);
 
             if (!userResult.Value.IsEmailConfirmed)
             {
@@ -94,7 +94,7 @@ namespace ESchedule.Business.Auth
         {
             var serviceResult = new ServiceResult<string>();
 
-            var userResult = await _userService.GetUser(x => x.Password.ToLower() == key.ToLower());
+            var userResult = await _userService.GetItems(x => x.Password.ToLower() == key.ToLower());
             var userDomainModel = userResult.Value;
 
             if (userDomainModel.IsEmailConfirmed)
