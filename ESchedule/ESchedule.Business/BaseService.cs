@@ -21,11 +21,12 @@ namespace ESchedule.Business
             _mapper = mapper;
         }
 
-        public async virtual Task<ServiceResult<Empty>> CreateItem(T ItemModel)
+        public async virtual Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel ItemCreateModel)
         {
+            var itemDomainModel = _mapper.Map<T>(ItemCreateModel);
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
-            ItemModel.Id = Guid.NewGuid();
-            return (await _repository.Insert(ItemModel)).Success();
+            itemDomainModel.Id = Guid.NewGuid();
+            return (await _repository.Insert(itemDomainModel)).Success();
         }
 
         public async virtual Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate)
@@ -48,7 +49,7 @@ namespace ESchedule.Business
         }
 
         public async virtual Task<ServiceResult<Empty>> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel)
-            where TUpdatedModel : BaseModel
+            where TUpdatedModel : BaseUpdateModel
         {
             var serviceResult = new ServiceResult<Empty>();
 

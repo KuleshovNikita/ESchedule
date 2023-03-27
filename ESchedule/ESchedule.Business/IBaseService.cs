@@ -1,12 +1,13 @@
-﻿using ESchedule.Domain;
+﻿using ESchedule.Api.Models.Updates;
+using ESchedule.Domain;
 using ESchedule.ServiceResulting;
 using System.Linq.Expressions;
 
 namespace ESchedule.Business
 {
-    public interface IBaseService<T> where T : class
+    public interface IBaseService<T> where T : BaseModel
     {
-        Task<ServiceResult<Empty>> CreateItem(T ItemModel);
+        Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel ItemModel);
 
         Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate);
 
@@ -14,6 +15,6 @@ namespace ESchedule.Business
 
         Task<ServiceResult<Empty>> RemoveItem(Guid itemId);
 
-        Task<ServiceResult<Empty>> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel) where TUpdatedModel : BaseModel;
+        Task<ServiceResult<Empty>> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel) where TUpdatedModel : BaseUpdateModel;
     }
 }

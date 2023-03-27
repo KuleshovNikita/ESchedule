@@ -21,9 +21,9 @@ namespace ESchedule.Domain.Users
 
         public string Password { get; set; } = null!;
 
-        public bool IsEmailConfirmed { get; set; }
-
         public Role Role { get; set; }
+
+        public bool IsEmailConfirmed { get; set; }
 
         public Guid GroupId { get; set; }
         public GroupModel Group { get; set; } = null!;

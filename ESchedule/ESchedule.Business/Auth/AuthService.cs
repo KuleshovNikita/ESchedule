@@ -4,13 +4,11 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Email;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Users;
-using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -27,21 +25,16 @@ namespace ESchedule.Business.Auth
         private readonly IPasswordHasher _passwordHasher;
         private readonly IMapper _mapper;
         private readonly JwtSettings _jwtSettings;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly BaseService<UserModel> _baseService;
 
         public AuthService(IMapper mapper, IPasswordHasher passwordHasher, IEmailService emailService,
-            IUserService userService, IConfiguration config, IHttpContextAccessor httpContextAccessor
-            , BaseService<UserModel> baseService)
+            IUserService userService, IConfiguration config)
         {
             _emailService = emailService;
             _userService = userService;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
 
             _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>()!;
-            _baseService = baseService;
         }
 
         public async Task<ServiceResult<string>> Login(AuthModel authModel)
@@ -72,7 +65,7 @@ namespace ESchedule.Business.Auth
             return serviceResult.CatchAny();
         }
 
-        public async Task<ServiceResult<string>> Register(UserRequestModel userModel)
+        public async Task<ServiceResult<string>> Register(UserCreateModel userModel)
         {
             var serviceResult = new ServiceResult<string>();
 
@@ -106,7 +99,7 @@ namespace ESchedule.Business.Auth
             }
 
             userDomainModel.IsEmailConfirmed = true;
-            var userUpdateModel = _mapper.Map<UserUpdateRequestModel>(userDomainModel);
+            var userUpdateModel = _mapper.Map<UserUpdateModel>(userDomainModel);
 
             await _userService.UpdateItem(userUpdateModel);
 

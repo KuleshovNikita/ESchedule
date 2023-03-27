@@ -5,7 +5,9 @@ using ESchedule.Business.Modules;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Modules;
 using ESchedule.Domain.Auth;
+using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Modules;
+using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -63,9 +65,24 @@ namespace ESchedule.Startup.Extensions
         private static Action<IMapperConfigurationExpression> GetAutoMapperConfigs()
             => cfg =>
             {
-                cfg.CreateMap<UserRequestModel, UserModel>();
-                cfg.CreateMap<UserUpdateRequestModel, UserModel>();
-                cfg.CreateMap<UserModel, UserUpdateRequestModel>();
+                cfg.CreateMap<UserCreateModel, UserModel>();
+                cfg.CreateMap<UserUpdateModel, UserModel>();
+                cfg.CreateMap<UserModel, UserUpdateModel>();
+
+                cfg.CreateMap<GroupCreateModel, GroupModel>();
+                cfg.CreateMap<GroupUpdateModel, GroupModel>();
+
+                cfg.CreateMap<LessonCreateModel, LessonModel>();
+                cfg.CreateMap<LessonUpdateModel, LessonModel>();
+
+                cfg.CreateMap<TenantUpdateModel, TenantModel>();
+                cfg.CreateMap<TenantCreateModel, TenantModel>();
+
+                cfg.CreateMap<TenantSettingsUpdateModel, TenantSettingsModel>();
+                cfg.CreateMap<TenantSettingsCreateModel, TenantSettingsModel>();
+
+                cfg.CreateMap<ScheduleUpdateModel, ScheduleModel>();
+                cfg.CreateMap<ScheduleCreateModel, ScheduleModel>();
             };
     }
 }
