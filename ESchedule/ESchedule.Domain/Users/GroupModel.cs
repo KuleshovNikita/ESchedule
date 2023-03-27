@@ -9,10 +9,7 @@ namespace ESchedule.Domain.Users
 
         public int MaxLessonsCountPerDay { get; set; }
 
-        public Guid MasterTeacherId { get; set; }
-        public TeacherModel MasterTeacher { get; set; } = null!;
-
-        public IList<PupilModel> Members { get; set; } = null!;
+        public IList<UserModel> Members { get; set; } = null!;
         public IList<TeachersGroupsModel> GroupTeachers { get; set; } = null!;
         public IList<ScheduleModel> StudySchedules { get; set; } = null!;
         public IList<GroupsLessonsModel> StudingLessons { get; set; } = null!;

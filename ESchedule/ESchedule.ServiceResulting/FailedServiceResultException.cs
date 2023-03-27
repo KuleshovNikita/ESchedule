@@ -1,4 +1,4 @@
-﻿namespace PetHelper.ServiceResulting
+﻿namespace ESchedule.ServiceResulting
 {
     public class FailedServiceResultException : Exception
     {
