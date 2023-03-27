@@ -28,9 +28,11 @@ namespace ESchedule.Business.Auth
         private readonly IMapper _mapper;
         private readonly JwtSettings _jwtSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly BaseService<UserModel> _baseService;
 
         public AuthService(IMapper mapper, IPasswordHasher passwordHasher, IEmailService emailService,
-            IUserService userService, IConfiguration config, IHttpContextAccessor httpContextAccessor)
+            IUserService userService, IConfiguration config, IHttpContextAccessor httpContextAccessor
+            , BaseService<UserModel> baseService)
         {
             _emailService = emailService;
             _userService = userService;
@@ -39,6 +41,7 @@ namespace ESchedule.Business.Auth
             _httpContextAccessor = httpContextAccessor;
 
             _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>()!;
+            _baseService = baseService;
         }
 
         public async Task<ServiceResult<string>> Login(AuthModel authModel)
@@ -52,7 +55,7 @@ namespace ESchedule.Business.Auth
 
             ValidateEmail(authModel.Login, serviceResult);
 
-            var userResult = await _userService.GetItems(x => x.Login == authModel.Login);
+            var userResult = await _userService.First(x => x.Login == authModel.Login);
 
             if (!userResult.Value.IsEmailConfirmed)
             {
@@ -94,7 +97,7 @@ namespace ESchedule.Business.Auth
         {
             var serviceResult = new ServiceResult<string>();
 
-            var userResult = await _userService.GetItems(x => x.Password.ToLower() == key.ToLower());
+            var userResult = await _userService.First(x => x.Password.ToLower() == key.ToLower());
             var userDomainModel = userResult.Value;
 
             if (userDomainModel.IsEmailConfirmed)
@@ -105,7 +108,7 @@ namespace ESchedule.Business.Auth
             userDomainModel.IsEmailConfirmed = true;
             var userUpdateModel = _mapper.Map<UserUpdateRequestModel>(userDomainModel);
 
-            await _userService.UpdateUser(userUpdateModel, userDomainModel.Id);
+            await _userService.UpdateItem(userUpdateModel);
 
             serviceResult.Value = BuildClaimsWithEmail(userDomainModel);
             return serviceResult.CatchAny();

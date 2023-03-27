@@ -12,7 +12,7 @@ namespace ESchedule.DataAccess.Repos
 
         public Repository(EScheduleDbContext context) => _context = context;
 
-        public virtual async Task<ServiceResult<T>> FirstOrDefault(Expression<Func<T, bool>> command)
+        public virtual async Task<ServiceResult<T>> First(Expression<Func<T, bool>> command)
         {
             var result = new ServiceResult<T>();
 

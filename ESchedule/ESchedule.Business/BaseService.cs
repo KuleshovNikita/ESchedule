@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Extensions;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
@@ -8,7 +9,8 @@ using System.Linq.Expressions;
 
 namespace ESchedule.Business
 {
-    public class BaseService<T> where T : BaseModel
+    public class BaseService<T> : IBaseService<T>
+        where T : BaseModel
     {
         protected readonly IRepository<T> _repository;
         protected readonly IMapper _mapper;
@@ -29,6 +31,9 @@ namespace ESchedule.Business
         public async virtual Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate)
             => (await _repository.Where(predicate)).Success();
 
+        public async virtual Task<ServiceResult<T>> First(Expression<Func<T, bool>> predicate)
+            => (await _repository.First(predicate)).Success();
+
         public async virtual Task<ServiceResult<Empty>> RemoveItem(Guid itemId)
         {
             var serviceResult = new ServiceResult<Empty>();
@@ -42,28 +47,27 @@ namespace ESchedule.Business
             return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);
         }
 
-        public async virtual Task<ServiceResult<Empty>> UpdateItem<K>(K updateModel, Guid itemId)
-            where K : BaseModel
+        public async virtual Task<ServiceResult<Empty>> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel)
+            where TUpdatedModel : BaseModel
         {
             var serviceResult = new ServiceResult<Empty>();
 
-            if (!await ItemExists(itemId))
+            if (!await ItemExists(updateModel.Id))
             {
                 return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);
             }
 
-            updateModel.Id = itemId;
-            var user = (await GetItems(x => x.Id == updateModel.Id)).Value.First();
+            var user = await First(x => x.Id == updateModel.Id);
             user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
 
-            var result = await _repository.Update(user);
+            var result = await _repository.Update(user.Value);
             return result.Success();
         }
 
         protected async Task<bool> ItemExists(Guid itemId)
         {
             var result = await _repository.Any(x => x.Id == itemId);
-            return result.CatchAny().Value;
+            return result.Success().Value;
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace ESchedule.Api.Models.Updates
-{
-    public record UserUpdateRequestModel
-    {
-        public Guid? Id { get; set; }
+﻿using ESchedule.Domain;
 
+namespace ESchedule.Api.Models.Updates
+{
+    public record UserUpdateRequestModel : BaseModel
+    {
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }

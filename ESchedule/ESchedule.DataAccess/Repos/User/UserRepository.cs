@@ -13,6 +13,24 @@ namespace ESchedule.DataAccess.Repos.User
         {
         }
 
+        public override async Task<ServiceResult<UserModel>> First(Expression<Func<UserModel, bool>> command)
+        {
+            var result = new ServiceResult<UserModel>();
+
+            try
+            {
+                result.Value = await _context.Set<UserModel>()
+                    .Include(x => x.Group)
+                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+
+                return result.Success();
+            }
+            catch (Exception ex)
+            {
+                return result.Fail(ex);
+            }
+        }
+
         public override Task<ServiceResult<IEnumerable<UserModel>>> Where(Expression<Func<UserModel, bool>> command)
         {
             var result = new ServiceResult<IEnumerable<UserModel>>();
