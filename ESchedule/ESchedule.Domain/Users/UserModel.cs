@@ -25,11 +25,11 @@ namespace ESchedule.Domain.Users
 
         public bool IsEmailConfirmed { get; set; }
 
-        public Guid GroupId { get; set; }
-        public GroupModel Group { get; set; } = null!;
+        public Guid? GroupId { get; set; }
+        public GroupModel? Group { get; set; } = null!;
 
-        public Guid TenantId { get; set; }
-        public TenantModel Tenant { get; set; } = null!;
+        public Guid? TenantId { get; set; }
+        public TenantModel? Tenant { get; set; } = null!;
 
         public IList<ScheduleModel> StudySchedules { get; set; } = null!;
         public IList<TeachersGroupsModel> StudyGroups { get; set; } = null!;

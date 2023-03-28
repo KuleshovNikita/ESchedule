@@ -38,7 +38,7 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<Empty>> LogOut()
             => await RunWithServiceResult(async () =>
             {
-                await HttpContext.SignOutAsync();
+                await HttpContext.SignOutAsync("OAuth");
 
                 return SuccessEmptyResult();
             });

@@ -95,9 +95,9 @@ namespace ESchedule.DataAccess.Migrations
                     Login = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
-                    IsEmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsEmailConfirmed = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -10,6 +10,7 @@ using ESchedule.Domain.Modules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +25,6 @@ namespace ESchedule.Startup.Extensions
         {
             services.AddModule<BusinessModule>();
             services.AddModule<DataAccessModule>();
-
 
             services.AddAutoMapper(GetAutoMapperConfigs());
 

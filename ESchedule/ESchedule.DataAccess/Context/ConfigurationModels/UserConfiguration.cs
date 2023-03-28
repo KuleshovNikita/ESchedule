@@ -33,6 +33,7 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
                 .IsRequired();
 
             builder.Property(x => x.IsEmailConfirmed)
+                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(x => x.Role)

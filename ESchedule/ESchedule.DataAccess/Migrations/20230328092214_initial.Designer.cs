@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESchedule.DataAccess.Migrations
 {
     [DbContext(typeof(EScheduleDbContext))]
-    [Migration("20230327200425_initial")]
+    [Migration("20230328092214_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -230,11 +230,13 @@ namespace ESchedule.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("GroupId")
+                    b.Property<Guid?>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsEmailConfirmed")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -255,7 +257,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TenantId")
+                    b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -400,14 +402,12 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasOne("ESchedule.Domain.Users.GroupModel", "Group")
                         .WithMany("Members")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
                         .WithMany()
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Group");
 

@@ -15,7 +15,7 @@ namespace ESchedule.Business
         protected readonly IRepository<T> _repository;
         protected readonly IMapper _mapper;
 
-        protected BaseService(IRepository<T> repository, IMapper mapper)
+        public BaseService(IRepository<T> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -59,7 +59,7 @@ namespace ESchedule.Business
             }
 
             var user = await First(x => x.Id == updateModel.Id);
-            user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
+            user.Value = _mapper.MapOnlyUpdatedProperties(updateModel, user.Value);
 
             var result = await _repository.Update(user.Value);
             return result.Success();

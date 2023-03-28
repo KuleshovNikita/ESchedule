@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmYourEmail" xml:space="preserve">
-    <value>ERR0001</value>
+    <value>Confirm Your Email</value>
   </data>
   <data name="EmailConfirmationIsNeeded" xml:space="preserve">
     <value>ERR0002</value>
   </data>
   <data name="EmailMessageTemplate" xml:space="preserve">
-    <value>ERR0003</value>
+    <value>Hi! Your email was used for registration in PetHelper! Follow this link to confirm your email address and finish registration {0}</value>
   </data>
   <data name="InvalidDataFound" xml:space="preserve">
     <value>ERR0004</value>

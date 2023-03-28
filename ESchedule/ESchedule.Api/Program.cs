@@ -13,6 +13,7 @@ builder.Services.AddControllers()
                 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.RegisterDependencies();
 builder.Services.AddCors(x => x.AllowAnyOriginPolicy());
 
 builder.Services.AddHttpContextAccessor();
