@@ -52,6 +52,9 @@ namespace ESchedule.ServiceResulting
         public ServiceResult<TEntity> Fail(Exception ex)
             => SetResultState(false, ex.Message, ex);
 
+        public ServiceResult<TEntity> Fail(string message)
+            => SetResultState(false, message);
+
         private void BuildException(string? errorMessage = null)
         {
             ClientErrorMessage = errorMessage ?? Exception?.Message ?? "An error occured";

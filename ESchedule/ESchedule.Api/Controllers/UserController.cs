@@ -2,6 +2,7 @@
 using ESchedule.Business;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ESchedule.Api.Controllers
@@ -10,14 +11,17 @@ namespace ESchedule.Api.Controllers
     {
         public UserController(IBaseService<UserModel> userService) : base(userService) { }
 
+        [Authorize]
         [HttpPut]
         public async Task<ServiceResult<Empty>> UpdateUser([FromBody] UserUpdateModel userModel)
             => await RunWithServiceResult(async () => await _service.UpdateItem(userModel));
 
         // написать логику для выборки нескольки предметов вместо одного по айдишнику
+        [Authorize]
         [HttpGet]
         public async Task<ServiceResult<Empty>> GetUsers() => throw new NotImplementedException();
 
+        [Authorize]
         [HttpDelete]
         public async Task<ServiceResult<Empty>> RemoveUser(Guid userId)
             => await RunWithServiceResult(async () => await _service.RemoveItem(userId));

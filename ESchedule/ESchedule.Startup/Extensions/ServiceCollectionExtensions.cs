@@ -9,8 +9,10 @@ using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Modules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
+using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +52,16 @@ namespace ESchedule.Startup.Extensions
                         ValidIssuer = jwtSettings.Issuer,
                         ValidAudience = jwtSettings.Audience,
                         IssuerSigningKey = key
+                    };
+
+                    cfg.Events = new JwtBearerEvents
+                    {
+                        OnChallenge = async context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.StatusCode = 401;
+                            await context.Response.WriteAsJsonAsync(new ServiceResult<Empty>().Fail("Unauthorized"));
+                        }
                     };
                 });
 

@@ -3,6 +3,7 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Domain.Lessons;
 using ESchedule.ServiceResulting;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ESchedule.Api.Controllers
@@ -13,18 +14,22 @@ namespace ESchedule.Api.Controllers
         {
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ServiceResult<Empty>> CreateSchedule([FromBody] ScheduleCreateModel scheduleModel)
             => await RunWithServiceResult(async () => await _service.CreateItem(scheduleModel));
 
+        [Authorize]
         [HttpPut]
         public async Task<ServiceResult<Empty>> UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel)
             => await RunWithServiceResult(async () => await _service.UpdateItem(scheduleModel));
 
         // написать логику для выборки нескольки предметов вместо одного по айдишнику
+        [Authorize]
         [HttpGet]
         public async Task<ServiceResult<Empty>> GetSchedules() => throw new NotImplementedException();
 
+        [Authorize]
         [HttpDelete]
         public async Task<ServiceResult<Empty>> RemoveSchedule(Guid scheduleId)
             => await RunWithServiceResult(async () => await _service.RemoveItem(scheduleId));

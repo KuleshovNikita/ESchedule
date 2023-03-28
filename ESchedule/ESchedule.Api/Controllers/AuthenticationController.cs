@@ -32,15 +32,5 @@ namespace ESchedule.Api.Controllers
                 key = Uri.UnescapeDataString(key);
                 return await _authService.ConfirmEmail(key);
             });
-
-        [Authorize]
-        [HttpGet("logout")]
-        public async Task<ServiceResult<Empty>> LogOut()
-            => await RunWithServiceResult(async () =>
-            {
-                await HttpContext.SignOutAsync("OAuth");
-
-                return SuccessEmptyResult();
-            });
     }
 }
