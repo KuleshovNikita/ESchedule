@@ -22,13 +22,13 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<Empty>> UpdateLesson([FromBody] LessonUpdateModel lessonModel)
             => await RunWithServiceResult(async () => await _service.UpdateItem(lessonModel));
 
-        // написать логику для выборки нескольки предметов вместо одного по айдишнику
         [Authorize]
-        [HttpGet]
-        public async Task<ServiceResult<Empty>> GetLessons() => throw new NotImplementedException();
+        [HttpGet("{lessonId}")]
+        public async Task<ServiceResult<LessonModel>> GetLesson(Guid lessonId)
+            => await RunWithServiceResult(async () => await _service.First(x => x.Id == lessonId));
 
         [Authorize]
-        [HttpDelete]
+        [HttpDelete("{lessonId}")]
         public async Task<ServiceResult<Empty>> RemoveLesson(Guid lessonId)
             => await RunWithServiceResult(async () => await _service.RemoveItem(lessonId));
     }

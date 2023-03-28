@@ -24,13 +24,13 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<Empty>> UpdateTenant([FromBody] TenantUpdateModel tenantModel)
             => await RunWithServiceResult(async () => await _service.UpdateItem(tenantModel));
 
-        // написать логику для выборки нескольки предметов вместо одного по айдишнику
         [Authorize]
-        [HttpGet]
-        public async Task<ServiceResult<Empty>> GetTenants() => throw new NotImplementedException();
+        [HttpGet("{tenantId}")]
+        public async Task<ServiceResult<TenantModel>> GetTenants(Guid tenantId)
+            => await RunWithServiceResult(async () => await _service.First(x => x.Id == tenantId));
 
         [Authorize]
-        [HttpDelete]
+        [HttpDelete("{tenantId}")]
         public async Task<ServiceResult<Empty>> RemoveTenant(Guid tenantId)
             => await RunWithServiceResult(async () => await _service.RemoveItem(tenantId));
     }

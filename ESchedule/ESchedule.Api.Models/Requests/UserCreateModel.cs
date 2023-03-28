@@ -19,5 +19,7 @@ namespace ESchedule.Api.Models.Requests
         public string Password { get; set; } = null!;
 
         public Role Role { get; set; }
+
+        public Guid? TenantId { get; set; } = null!;
     }
 }

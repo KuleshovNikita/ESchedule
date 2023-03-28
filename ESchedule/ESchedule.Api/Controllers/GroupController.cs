@@ -22,13 +22,13 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<Empty>> UpdateGroup([FromBody] GroupUpdateModel groupModel)
             => await RunWithServiceResult(async () => await _service.UpdateItem(groupModel));
 
-        // написать логику для выборки нескольки предметов вместо одного по айдишнику
         [Authorize]
-        [HttpGet]
-        public async Task<ServiceResult<Empty>> GetGroups() => throw new NotImplementedException();
+        [HttpGet("{groupId}")]
+        public async Task<ServiceResult<GroupModel>> GetGroup(Guid groupId)
+            => await RunWithServiceResult(async () => await _service.First(x => x.Id == groupId));
 
         [Authorize]
-        [HttpDelete]
+        [HttpDelete("{groupId}")]
         public async Task<ServiceResult<Empty>> RemoveGroup(Guid groupId)
             => await RunWithServiceResult(async () => await _service.RemoveItem(groupId));
     }

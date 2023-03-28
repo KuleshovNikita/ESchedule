@@ -24,13 +24,13 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<Empty>> UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel)
             => await RunWithServiceResult(async () => await _service.UpdateItem(scheduleModel));
 
-        // написать логику для выборки нескольки предметов вместо одного по айдишнику
         [Authorize]
-        [HttpGet]
-        public async Task<ServiceResult<Empty>> GetSchedules() => throw new NotImplementedException();
+        [HttpGet("{scheduleId}")]
+        public async Task<ServiceResult<ScheduleModel>> GetSchedules(Guid scheduleId)
+            => await RunWithServiceResult(async () => await _service.First(x => x.Id == scheduleId));
 
         [Authorize]
-        [HttpDelete]
+        [HttpDelete("{scheduleId}")]
         public async Task<ServiceResult<Empty>> RemoveSchedule(Guid scheduleId)
             => await RunWithServiceResult(async () => await _service.RemoveItem(scheduleId));
     }
