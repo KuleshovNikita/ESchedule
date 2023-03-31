@@ -61,7 +61,7 @@ namespace ESchedule.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ERR0001.
+        ///   Looks up a localized string similar to Confirm Your Email.
         /// </summary>
         public static string ConfirmYourEmail {
             get {
@@ -79,7 +79,7 @@ namespace ESchedule.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ERR0003.
+        ///   Looks up a localized string similar to Hi! Your email was used for registration in PetHelper! Follow this link to confirm your email address and finish registration {0}.
         /// </summary>
         public static string EmailMessageTemplate {
             get {

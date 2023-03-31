@@ -11,6 +11,8 @@ namespace ESchedule.Business.Modules
     {
         public IServiceCollection ConfigureModule(IServiceCollection services)
         {
+            services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();

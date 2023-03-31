@@ -14,11 +14,13 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
 
             builder.Property(x => x.Title)
                 .HasMaxLength(5);
-            builder.HasIndex(x => x.Title)
-                .IsUnique();
 
             builder.Property(x => x.MaxLessonsCountPerDay)
                 .IsRequired();
+
+            builder.HasOne(x => x.Tenant)
+                .WithMany()
+                .HasForeignKey(x => x.TenantId);
         }
     }
 }

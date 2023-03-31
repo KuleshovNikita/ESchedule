@@ -12,8 +12,10 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
 
             builder.Property(x => x.Title)
                 .HasMaxLength(30);
-            builder.HasIndex(x => x.Title)
-                .IsUnique();
+
+            builder.HasOne(x => x.Tenant)
+                .WithMany()
+                .HasForeignKey(x => x.TenantId);
         }
     }
 }

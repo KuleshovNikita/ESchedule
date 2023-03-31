@@ -5,7 +5,7 @@ namespace ESchedule.DataAccess.Repos
 {
     public interface IRepository<T> where T : class
     {
-        Task<ServiceResult<T>> FirstOrDefault(Expression<Func<T, bool>> command);
+        Task<ServiceResult<T>> First(Expression<Func<T, bool>> command);
 
         Task<ServiceResult<IEnumerable<T>>> Where(Expression<Func<T, bool>> command);
 

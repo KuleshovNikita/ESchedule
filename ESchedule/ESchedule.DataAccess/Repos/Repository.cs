@@ -6,19 +6,19 @@ using System.Linq.Expressions;
 
 namespace ESchedule.DataAccess.Repos
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<TModel> : IRepository<TModel> where TModel : class
     {
         protected readonly EScheduleDbContext _context;
 
         public Repository(EScheduleDbContext context) => _context = context;
 
-        public virtual async Task<ServiceResult<T>> FirstOrDefault(Expression<Func<T, bool>> command)
+        public virtual async Task<ServiceResult<TModel>> First(Expression<Func<TModel, bool>> command)
         {
-            var result = new ServiceResult<T>();
+            var result = new ServiceResult<TModel>();
 
             try
             {
-                result.Value = await _context.Set<T>().FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+                result.Value = await _context.Set<TModel>().FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
 
                 return result.Success();
             }
@@ -28,13 +28,13 @@ namespace ESchedule.DataAccess.Repos
             }
         }
 
-        public virtual Task<ServiceResult<IEnumerable<T>>> Where(Expression<Func<T, bool>> command)
+        public virtual Task<ServiceResult<IEnumerable<TModel>>> Where(Expression<Func<TModel, bool>> command)
         {
-            var result = new ServiceResult<IEnumerable<T>>();
+            var result = new ServiceResult<IEnumerable<TModel>>();
 
             try
             {
-                result.Value = _context.Set<T>().Where(command) ?? throw new EntityNotFoundException();
+                result.Value = _context.Set<TModel>().Where(command) ?? throw new EntityNotFoundException();
 
                 return Task.FromResult(result.Success());
             }
@@ -44,13 +44,13 @@ namespace ESchedule.DataAccess.Repos
             }
         }
 
-        public virtual async Task<ServiceResult<bool>> Any(Expression<Func<T, bool>> command)
+        public virtual async Task<ServiceResult<bool>> Any(Expression<Func<TModel, bool>> command)
         {
             var result = new ServiceResult<bool>();
 
             try
             {
-                result.Value = await _context.Set<T>().AnyAsync(command);
+                result.Value = await _context.Set<TModel>().AnyAsync(command);
 
                 return result.Success();
             }
@@ -60,13 +60,13 @@ namespace ESchedule.DataAccess.Repos
             }
         }
 
-        public virtual async Task<ServiceResult<Empty>> Insert(T entity)
+        public virtual async Task<ServiceResult<Empty>> Insert(TModel entity)
         {
             var result = new ServiceResult<Empty>();
 
             try
             {
-                await _context.Set<T>().AddAsync(entity);
+                await _context.Set<TModel>().AddAsync(entity);
                 await _context.SaveChangesAsync();
 
                 return result.Success();
@@ -77,13 +77,13 @@ namespace ESchedule.DataAccess.Repos
             }
         }
 
-        public virtual async Task<ServiceResult<Empty>> Update(T entity)
+        public virtual async Task<ServiceResult<Empty>> Update(TModel entity)
         {
             var result = new ServiceResult<Empty>();
 
             try
             {
-                _context.Set<T>().Update(entity);
+                _context.Set<TModel>().Update(entity);
                 _context.Entry(entity).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
@@ -95,13 +95,13 @@ namespace ESchedule.DataAccess.Repos
             }
         }
 
-        public virtual async Task<ServiceResult<Empty>> Remove(T entity)
+        public virtual async Task<ServiceResult<Empty>> Remove(TModel entity)
         {
             var result = new ServiceResult<Empty>();
 
             try
             {
-                _context.Set<T>().Remove(entity);
+                _context.Set<TModel>().Remove(entity);
                 await _context.SaveChangesAsync();
 
                 return result.Success();

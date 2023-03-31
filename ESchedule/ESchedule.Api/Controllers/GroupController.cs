@@ -1,18 +1,35 @@
-﻿using ESchedule.Business;
+﻿using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Updates;
+using ESchedule.Business;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ESchedule.Api.Controllers
 {
-    public class GroupController : ResultingController
+    public class GroupController : ResultingController<GroupModel>
     {
-        private readonly BaseService<GroupModel> _groupService;
+        public GroupController(IBaseService<GroupModel> groupService) : base(groupService) { }
 
-        public GroupController(BaseService<GroupModel> groupService) => _groupService = groupService;
-
+        [Authorize]
         [HttpPost]
-        public async Task<ServiceResult<Empty>> CreateGroup([FromBody] GroupModel groupModel)
-            => await RunWithServiceResult(async () => await _groupService.CreateItem(groupModel));
+        public async Task<ServiceResult<Empty>> CreateGroup([FromBody] GroupCreateModel groupModel)
+            => await RunWithServiceResult(async () => await _service.CreateItem(groupModel));
+
+        [Authorize]
+        [HttpPut]
+        public async Task<ServiceResult<Empty>> UpdateGroup([FromBody] GroupUpdateModel groupModel)
+            => await RunWithServiceResult(async () => await _service.UpdateItem(groupModel));
+
+        [Authorize]
+        [HttpGet("{groupId}")]
+        public async Task<ServiceResult<GroupModel>> GetGroup(Guid groupId)
+            => await RunWithServiceResult(async () => await _service.First(x => x.Id == groupId));
+
+        [Authorize]
+        [HttpDelete("{groupId}")]
+        public async Task<ServiceResult<Empty>> RemoveGroup(Guid groupId)
+            => await RunWithServiceResult(async () => await _service.RemoveItem(groupId));
     }
 }

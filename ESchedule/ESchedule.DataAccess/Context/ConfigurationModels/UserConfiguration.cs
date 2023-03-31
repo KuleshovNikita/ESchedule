@@ -33,6 +33,7 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
                 .IsRequired();
 
             builder.Property(x => x.IsEmailConfirmed)
+                .HasDefaultValue(false)
                 .IsRequired();
 
             builder.Property(x => x.Role)
@@ -40,7 +41,13 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
 
             builder.HasOne(x => x.Group)
                 .WithMany(x => x.Members)
-                .HasForeignKey(x => x.GroupId);
+                .HasForeignKey(x => x.GroupId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.Tenant)
+                .WithMany()
+                .HasForeignKey(x => x.TenantId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

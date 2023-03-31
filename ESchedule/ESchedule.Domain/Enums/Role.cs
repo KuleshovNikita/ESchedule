@@ -2,7 +2,7 @@
 {
     public enum Role
     {
-        Pupil,
-        Teacher
+        Pupil = 0,
+        Teacher = 1
     }
 }

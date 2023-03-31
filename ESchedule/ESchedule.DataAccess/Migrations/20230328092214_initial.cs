@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -11,16 +12,35 @@ namespace ESchedule.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "TenantModel",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantName = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TenantModel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GroupModel",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    MaxLessonsCountPerDay = table.Column<int>(type: "int", nullable: false)
+                    MaxLessonsCountPerDay = table.Column<int>(type: "int", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GroupModel_TenantModel_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "TenantModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -28,11 +48,39 @@ namespace ESchedule.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LessonModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LessonModel_TenantModel_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "TenantModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TenantSettingsModel",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StudyDayStartTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    LessonDurationTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    BreaksDurationTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TenantSettingsModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TenantSettingsModel_TenantModel_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "TenantModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,9 +94,10 @@ namespace ESchedule.DataAccess.Migrations
                     Age = table.Column<int>(type: "int", nullable: false),
                     Login = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsEmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsEmailConfirmed = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,8 +106,12 @@ namespace ESchedule.DataAccess.Migrations
                         name: "FK_UserModel_GroupModel_GroupId",
                         column: x => x.GroupId,
                         principalTable: "GroupModel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserModel_TenantModel_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "TenantModel",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -94,7 +147,8 @@ namespace ESchedule.DataAccess.Migrations
                     DayOfWeek = table.Column<int>(type: "int", nullable: false),
                     StudyGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LessonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    LessonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,31 +164,15 @@ namespace ESchedule.DataAccess.Migrations
                         principalTable: "LessonModel",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_ScheduleModel_TenantModel_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "TenantModel",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_ScheduleModel_UserModel_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "UserModel",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SettingsModel",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StudyDayStartTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    LessonDurationTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    BreaksDurationTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SettingsModel", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SettingsModel_UserModel_CreatorId",
-                        column: x => x.CreatorId,
-                        principalTable: "UserModel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,10 +222,9 @@ namespace ESchedule.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupModel_Title",
+                name: "IX_GroupModel_TenantId",
                 table: "GroupModel",
-                column: "Title",
-                unique: true);
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroupsLessonsModel_LessonId",
@@ -200,10 +237,9 @@ namespace ESchedule.DataAccess.Migrations
                 column: "StudyGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LessonModel_Title",
+                name: "IX_LessonModel_TenantId",
                 table: "LessonModel",
-                column: "Title",
-                unique: true);
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ScheduleModel_LessonId",
@@ -221,10 +257,9 @@ namespace ESchedule.DataAccess.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SettingsModel_CreatorId",
-                table: "SettingsModel",
-                column: "CreatorId",
-                unique: true);
+                name: "IX_ScheduleModel_TenantId",
+                table: "ScheduleModel",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeachersGroupsModel_StudyGroupId",
@@ -247,6 +282,18 @@ namespace ESchedule.DataAccess.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TenantModel_TenantName",
+                table: "TenantModel",
+                column: "TenantName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TenantSettingsModel_TenantId",
+                table: "TenantSettingsModel",
+                column: "TenantId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserModel_GroupId",
                 table: "UserModel",
                 column: "GroupId");
@@ -256,6 +303,11 @@ namespace ESchedule.DataAccess.Migrations
                 table: "UserModel",
                 column: "Login",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserModel_TenantId",
+                table: "UserModel",
+                column: "TenantId");
         }
 
         /// <inheritdoc />
@@ -268,13 +320,13 @@ namespace ESchedule.DataAccess.Migrations
                 name: "ScheduleModel");
 
             migrationBuilder.DropTable(
-                name: "SettingsModel");
-
-            migrationBuilder.DropTable(
                 name: "TeachersGroupsModel");
 
             migrationBuilder.DropTable(
                 name: "TeachersLessonsModel");
+
+            migrationBuilder.DropTable(
+                name: "TenantSettingsModel");
 
             migrationBuilder.DropTable(
                 name: "LessonModel");
@@ -284,6 +336,9 @@ namespace ESchedule.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "GroupModel");
+
+            migrationBuilder.DropTable(
+                name: "TenantModel");
         }
     }
 }

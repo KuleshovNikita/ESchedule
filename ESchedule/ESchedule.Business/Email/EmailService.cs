@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Net;
-using ESchedule.Domain;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
 

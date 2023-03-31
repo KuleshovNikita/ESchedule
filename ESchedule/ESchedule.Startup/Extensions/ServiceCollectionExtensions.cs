@@ -5,9 +5,14 @@ using ESchedule.Business.Modules;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Modules;
 using ESchedule.Domain.Auth;
+using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Modules;
+using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
+using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +27,6 @@ namespace ESchedule.Startup.Extensions
         {
             services.AddModule<BusinessModule>();
             services.AddModule<DataAccessModule>();
-
 
             services.AddAutoMapper(GetAutoMapperConfigs());
 
@@ -49,6 +53,16 @@ namespace ESchedule.Startup.Extensions
                         ValidAudience = jwtSettings.Audience,
                         IssuerSigningKey = key
                     };
+
+                    cfg.Events = new JwtBearerEvents
+                    {
+                        OnChallenge = async context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.StatusCode = 401;
+                            await context.Response.WriteAsJsonAsync(new ServiceResult<Empty>().Fail("Unauthorized"));
+                        }
+                    };
                 });
 
         private static IServiceCollection AddModule<TModule>(this IServiceCollection services)
@@ -63,9 +77,24 @@ namespace ESchedule.Startup.Extensions
         private static Action<IMapperConfigurationExpression> GetAutoMapperConfigs()
             => cfg =>
             {
-                cfg.CreateMap<UserRequestModel, UserModel>();
-                cfg.CreateMap<UserUpdateRequestModel, UserModel>();
-                cfg.CreateMap<UserModel, UserUpdateRequestModel>();
+                cfg.CreateMap<UserCreateModel, UserModel>();
+                cfg.CreateMap<UserUpdateModel, UserModel>();
+                cfg.CreateMap<UserModel, UserUpdateModel>();
+
+                cfg.CreateMap<GroupCreateModel, GroupModel>();
+                cfg.CreateMap<GroupUpdateModel, GroupModel>();
+
+                cfg.CreateMap<LessonCreateModel, LessonModel>();
+                cfg.CreateMap<LessonUpdateModel, LessonModel>();
+
+                cfg.CreateMap<TenantUpdateModel, TenantModel>();
+                cfg.CreateMap<TenantCreateModel, TenantModel>();
+
+                cfg.CreateMap<TenantSettingsUpdateModel, TenantSettingsModel>();
+                cfg.CreateMap<TenantSettingsCreateModel, TenantSettingsModel>();
+
+                cfg.CreateMap<ScheduleUpdateModel, ScheduleModel>();
+                cfg.CreateMap<ScheduleCreateModel, ScheduleModel>();
             };
     }
 }

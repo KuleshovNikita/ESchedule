@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESchedule.DataAccess.Migrations
 {
     [DbContext(typeof(EScheduleDbContext))]
-    [Migration("20230324220045_initial")]
+    [Migration("20230328092214_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -31,6 +31,9 @@ namespace ESchedule.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -38,8 +41,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Title")
-                        .IsUnique();
+                    b.HasIndex("TenantId");
 
                     b.ToTable("LessonModel");
                 });
@@ -68,6 +70,9 @@ namespace ESchedule.DataAccess.Migrations
                     b.Property<Guid>("TeacherId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("LessonId");
@@ -76,33 +81,9 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TeacherId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("ScheduleModel");
-                });
-
-            modelBuilder.Entity("ESchedule.Domain.Management.SettingsModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<TimeSpan>("BreaksDurationTime")
-                        .HasColumnType("time");
-
-                    b.Property<Guid>("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<TimeSpan>("LessonDurationTime")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan>("StudyDayStartTime")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId")
-                        .IsUnique();
-
-                    b.ToTable("SettingsModel");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.ManyToManyModels.GroupsLessonsModel", b =>
@@ -168,6 +149,50 @@ namespace ESchedule.DataAccess.Migrations
                     b.ToTable("TeachersLessonsModel");
                 });
 
+            modelBuilder.Entity("ESchedule.Domain.Tenant.TenantModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TenantName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantName")
+                        .IsUnique();
+
+                    b.ToTable("TenantModel");
+                });
+
+            modelBuilder.Entity("ESchedule.Domain.Tenant.TenantSettingsModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<TimeSpan>("BreaksDurationTime")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("LessonDurationTime")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("StudyDayStartTime")
+                        .HasColumnType("time");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId")
+                        .IsUnique();
+
+                    b.ToTable("TenantSettingsModel");
+                });
+
             modelBuilder.Entity("ESchedule.Domain.Users.GroupModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -177,6 +202,9 @@ namespace ESchedule.DataAccess.Migrations
                     b.Property<int>("MaxLessonsCountPerDay")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(5)
@@ -184,8 +212,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Title")
-                        .IsUnique();
+                    b.HasIndex("TenantId");
 
                     b.ToTable("GroupModel");
                 });
@@ -203,11 +230,13 @@ namespace ESchedule.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("GroupId")
+                    b.Property<Guid?>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsEmailConfirmed")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -228,6 +257,9 @@ namespace ESchedule.DataAccess.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
@@ -235,7 +267,20 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasIndex("Login")
                         .IsUnique();
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("UserModel");
+                });
+
+            modelBuilder.Entity("ESchedule.Domain.Lessons.LessonModel", b =>
+                {
+                    b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.Lessons.ScheduleModel", b =>
@@ -258,22 +303,19 @@ namespace ESchedule.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Lesson");
 
                     b.Navigation("StudyGroup");
 
                     b.Navigation("Teacher");
-                });
 
-            modelBuilder.Entity("ESchedule.Domain.Management.SettingsModel", b =>
-                {
-                    b.HasOne("ESchedule.Domain.Users.UserModel", "Creator")
-                        .WithOne()
-                        .HasForeignKey("ESchedule.Domain.Management.SettingsModel", "CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.ManyToManyModels.GroupsLessonsModel", b =>
@@ -333,15 +375,43 @@ namespace ESchedule.DataAccess.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("ESchedule.Domain.Tenant.TenantSettingsModel", b =>
+                {
+                    b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
+                        .WithOne()
+                        .HasForeignKey("ESchedule.Domain.Tenant.TenantSettingsModel", "TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("ESchedule.Domain.Users.GroupModel", b =>
+                {
+                    b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
+                });
+
             modelBuilder.Entity("ESchedule.Domain.Users.UserModel", b =>
                 {
                     b.HasOne("ESchedule.Domain.Users.GroupModel", "Group")
                         .WithMany("Members")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Group");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.Lessons.LessonModel", b =>
