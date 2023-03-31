@@ -9,6 +9,6 @@ namespace ESchedule.Domain.Tenant
         public Guid CreatorId { get; set; }
         public UserModel Creator { get; set; } = null!;
 
-        public TenantSettingsModel TenantSettings { get; set; } = null!;
+        public TenantSettingsModel Settings { get; set; } = null!;
     }
 }

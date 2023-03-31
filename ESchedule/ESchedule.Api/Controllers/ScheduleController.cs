@@ -1,7 +1,7 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
-using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Schedule;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

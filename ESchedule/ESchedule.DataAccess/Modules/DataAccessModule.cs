@@ -22,6 +22,7 @@ namespace ESchedule.DataAccess.Modules
             services.AddScoped<IRepository<LessonModel>, LessonRepository>();
             services.AddScoped<IRepository<TenantSettingsModel>, TenantSettingsRepository>();
             services.AddScoped<IRepository<ScheduleModel>, ScheduleRepository>();
+            services.AddScoped<IRepository<TenantModel>, TenantRepository>();
 
             return services;
         }

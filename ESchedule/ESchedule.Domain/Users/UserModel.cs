@@ -1,6 +1,6 @@
 ﻿using ESchedule.Domain.Enums;
-using ESchedule.Domain.Lessons;
 using ESchedule.Domain.ManyToManyModels;
+using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Tenant;
 using System.ComponentModel.DataAnnotations;
 

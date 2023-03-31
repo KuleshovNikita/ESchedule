@@ -1,7 +1,7 @@
 ﻿using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 
-namespace ESchedule.Domain.Lessons
+namespace ESchedule.Domain.Lessons.Schedule
 {
     public record ScheduleModel : BaseModel
     {

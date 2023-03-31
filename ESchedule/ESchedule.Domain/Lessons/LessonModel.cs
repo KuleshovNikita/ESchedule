@@ -1,4 +1,5 @@
 ﻿using ESchedule.Domain.ManyToManyModels;
+using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Tenant;
 
 namespace ESchedule.Domain.Lessons
