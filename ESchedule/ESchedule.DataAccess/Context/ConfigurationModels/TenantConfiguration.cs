@@ -11,6 +11,10 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
             builder.HasKey(x => x.Id);
             builder.Property(x => x.TenantName).IsRequired();
             builder.HasIndex(x => x.TenantName).IsUnique();
+
+            builder.HasOne(x => x.Creator)
+                  .WithMany()
+                  .HasForeignKey(x => x.CreatorId);
         }
     }
 }
