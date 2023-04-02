@@ -7,7 +7,9 @@ namespace ESchedule.Business
 {
     public interface IBaseService<T> where T : BaseModel
     {
-        Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel ItemModel);
+        Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel itemModel);
+
+        Task<ServiceResult<Empty>> InsertMany(IEnumerable<T> itemsSet);
 
         Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate);
 
@@ -16,6 +18,8 @@ namespace ESchedule.Business
         Task<ServiceResult<IEnumerable<T>>> Where(Expression<Func<T, bool>> predicate);
 
         Task<ServiceResult<Empty>> RemoveItem(Guid itemId);
+
+        Task<ServiceResult<Empty>> RemoveItem(T item);
 
         Task<ServiceResult<Empty>> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel) where TUpdatedModel : BaseUpdateModel;
     }

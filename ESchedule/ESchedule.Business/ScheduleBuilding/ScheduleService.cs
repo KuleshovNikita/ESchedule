@@ -37,7 +37,7 @@ namespace ESchedule.Business.ScheduleBuilding
             var builderData = await GetNecessaryBuilderData(tenantId);
             var schedules = _scheduleBuilder.BuildSchedules(builderData);
 
-            _ = (await InsertSchedules(schedules)).Success();
+            _ = (await InsertMany(schedules)).Success();
 
             return new ServiceResult<IEnumerable<ScheduleModel>>
             {
@@ -51,7 +51,7 @@ namespace ESchedule.Business.ScheduleBuilding
             return (await _repository.RemoveRange(items.Value)).Success();
         }
 
-        private async Task<ServiceResult<Empty>> InsertSchedules(IEnumerable<ScheduleModel> schedulesSet)
+        public override async Task<ServiceResult<Empty>> InsertMany(IEnumerable<ScheduleModel> schedulesSet)
         {
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
             return (await _repository.InsertMany(schedulesSet)).Success();
