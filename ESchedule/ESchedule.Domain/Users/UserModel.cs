@@ -32,7 +32,7 @@ namespace ESchedule.Domain.Users
         public TenantModel? Tenant { get; set; } = null!;
 
         public IList<ScheduleModel> StudySchedules { get; set; } = null!;
-        public IList<TeachersGroupsModel> StudyGroups { get; set; } = null!;
+        public IList<TeachersGroupsLessonsModel> StudyGroups { get; set; } = null!;
         public IList<TeachersLessonsModel> TaughtLessons { get; set; } = null!;
     }
 }

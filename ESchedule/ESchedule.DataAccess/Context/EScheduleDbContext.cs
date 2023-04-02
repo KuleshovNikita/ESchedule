@@ -16,7 +16,7 @@ namespace ESchedule.DataAccess.Context
             modelBuilder.ApplyConfiguration(new GroupConfiguration());
             modelBuilder.ApplyConfiguration(new LessonConfiguration());
             modelBuilder.ApplyConfiguration(new SettingsConfiguration());
-            modelBuilder.ApplyConfiguration(new TeachersGroupsConfiguration());
+            modelBuilder.ApplyConfiguration(new TeachersGroupsLessonsConfiguration());
             modelBuilder.ApplyConfiguration(new TeachersLessonsConfiguration());
             modelBuilder.ApplyConfiguration(new GroupsLessonsConfiguration());
             modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
