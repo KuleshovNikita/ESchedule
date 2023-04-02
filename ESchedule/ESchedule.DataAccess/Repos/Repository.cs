@@ -128,5 +128,22 @@ namespace ESchedule.DataAccess.Repos
                 return result.Fail(ex);
             }
         }
+
+        public virtual async Task<ServiceResult<Empty>> RemoveRange(IEnumerable<TModel> entities)
+        {
+            var result = new ServiceResult<Empty>();
+
+            try
+            {
+                _context.Set<TModel>().RemoveRange(entities);
+                await _context.SaveChangesAsync();
+
+                return result.Success();
+            }
+            catch (Exception ex)
+            {
+                return result.Fail(ex);
+            }
+        }
     }
 }

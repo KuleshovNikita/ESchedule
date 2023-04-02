@@ -18,5 +18,7 @@ namespace ESchedule.DataAccess.Repos
         Task<ServiceResult<Empty>> Update(TModel entity);
 
         Task<ServiceResult<Empty>> Remove(TModel entity);
+
+        Task<ServiceResult<Empty>> RemoveRange(IEnumerable<TModel> entities);
     }
 }

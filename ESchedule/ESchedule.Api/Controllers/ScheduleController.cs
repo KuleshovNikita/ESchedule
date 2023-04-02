@@ -1,7 +1,7 @@
-﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
-using ESchedule.Domain.Schedule;
+using ESchedule.Business.ScheduleBuilding;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,28 +10,32 @@ namespace ESchedule.Api.Controllers
 {
     public class ScheduleController : ResultingController<ScheduleModel>
     {
-        public ScheduleController(IBaseService<ScheduleModel> service) : base(service)
+        private readonly IScheduleService _scheduleService; 
+
+        public ScheduleController(IScheduleService scheduleService, IBaseService<ScheduleModel> baseService) : base(baseService)
         {
+            _scheduleService = scheduleService;
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<ServiceResult<Empty>> CreateSchedule([FromBody] ScheduleCreateModel scheduleModel)
-            => await RunWithServiceResult(async () => await _service.CreateItem(scheduleModel));
+        [HttpPost("{tenantId}")]
+        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> BuildSchedule(Guid tenantId)           //TODO в будующем изменить на модель
+                                                                                                            //со списком правил для построения
+            => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId));
 
         [Authorize]
         [HttpPut]
-        public async Task<ServiceResult<Empty>> UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel)
+        public async Task<ServiceResult<Empty>> UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel) //TODO сделать позже, подумать как должно работать
             => await RunWithServiceResult(async () => await _service.UpdateItem(scheduleModel));
 
         [Authorize]
-        [HttpGet("{scheduleId}")]
-        public async Task<ServiceResult<ScheduleModel>> GetSchedules(Guid scheduleId)
-            => await RunWithServiceResult(async () => await _service.First(x => x.Id == scheduleId));
+        [HttpGet("{tenantId}")]
+        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedules(Guid tenantId)
+            => await RunWithServiceResult(async () => await _service.Where(x => x.TenantId == tenantId));
 
         [Authorize]
-        [HttpDelete("{scheduleId}")]
-        public async Task<ServiceResult<Empty>> RemoveSchedule(Guid scheduleId)
-            => await RunWithServiceResult(async () => await _service.RemoveItem(scheduleId));
+        [HttpDelete("{tenantId}")]
+        public async Task<ServiceResult<Empty>> RemoveSchedule(Guid tenantId)
+            => await RunWithServiceResult(async () => await _scheduleService.RemoveWhere(x => x.TenantId == tenantId));
     }
 }

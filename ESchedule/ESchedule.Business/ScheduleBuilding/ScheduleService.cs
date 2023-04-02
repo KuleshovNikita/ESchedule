@@ -3,10 +3,12 @@ using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Enums;
 using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
+using ESchedule.Domain.Properties;
 using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
+using System.Linq.Expressions;
 
 namespace ESchedule.Business.ScheduleBuilding
 {
@@ -30,14 +32,23 @@ namespace ESchedule.Business.ScheduleBuilding
             _scheduleBuilder = scheduleBuilder;
         }
 
-        public async Task<IEnumerable<ScheduleModel>> BuildSchedule(Guid tenantId)
+        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> BuildSchedule(Guid tenantId)
         {
             var builderData = await GetNecessaryBuilderData(tenantId);
             var schedules = _scheduleBuilder.BuildSchedules(builderData);
 
             _ = (await InsertSchedules(schedules)).Success();
 
-            return schedules;
+            return new ServiceResult<IEnumerable<ScheduleModel>>
+            {
+                Value = schedules,
+            }.Success();
+        }
+
+        public async Task<ServiceResult<Empty>> RemoveWhere(Expression<Func<ScheduleModel, bool>> predicate)
+        {
+            var items = await GetItems(predicate);
+            return (await _repository.RemoveRange(items.Value)).Success();
         }
 
         private async Task<ServiceResult<Empty>> InsertSchedules(IEnumerable<ScheduleModel> schedulesSet)

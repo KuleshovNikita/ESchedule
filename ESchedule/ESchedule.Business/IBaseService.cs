@@ -13,6 +13,8 @@ namespace ESchedule.Business
 
         Task<ServiceResult<T>> First(Expression<Func<T, bool>> predicate);
 
+        Task<ServiceResult<IEnumerable<T>>> Where(Expression<Func<T, bool>> predicate);
+
         Task<ServiceResult<Empty>> RemoveItem(Guid itemId);
 
         Task<ServiceResult<Empty>> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel) where TUpdatedModel : BaseUpdateModel;

@@ -35,6 +35,9 @@ namespace ESchedule.Business
         public async virtual Task<ServiceResult<T>> First(Expression<Func<T, bool>> predicate)
             => (await _repository.First(predicate)).Success();
 
+        public async virtual Task<ServiceResult<IEnumerable<T>>> Where(Expression<Func<T, bool>> predicate)
+            => (await _repository.Where(predicate)).Success();
+
         public async virtual Task<ServiceResult<Empty>> RemoveItem(Guid itemId)
         {
             var serviceResult = new ServiceResult<Empty>();
