@@ -77,6 +77,23 @@ namespace ESchedule.DataAccess.Repos
             }
         }
 
+        public virtual async Task<ServiceResult<Empty>> InsertMany(IEnumerable<TModel> entities)
+        {
+            var result = new ServiceResult<Empty>();
+
+            try
+            {
+                await _context.Set<TModel>().AddRangeAsync(entities);
+                await _context.SaveChangesAsync();
+
+                return result.Success();
+            }
+            catch (Exception ex)
+            {
+                return result.Fail(ex);
+            }
+        }
+
         public virtual async Task<ServiceResult<Empty>> Update(TModel entity)
         {
             var result = new ServiceResult<Empty>();

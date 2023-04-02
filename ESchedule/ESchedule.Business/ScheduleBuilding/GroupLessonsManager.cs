@@ -4,6 +4,8 @@ namespace ESchedule.Business.ScheduleBuilding
 {
     public class GroupLessonsManager
     {
+        public int Count => _lessonsList.Length;
+
         private readonly LessonModel[] _lessonsList;
         private int _currentLessonIndex = 0;
 

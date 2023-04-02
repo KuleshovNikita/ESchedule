@@ -1,12 +1,16 @@
-﻿using ESchedule.Domain.Enums;
+﻿using AutoMapper;
+using ESchedule.DataAccess.Repos;
+using ESchedule.Domain.Enums;
 using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
+using ESchedule.ServiceResulting;
 
 namespace ESchedule.Business.ScheduleBuilding
 {
-    public class ScheduleService : IScheduleService
+    public class ScheduleService : BaseService<ScheduleModel>, IScheduleService
     {
         private readonly IBaseService<GroupModel> _groupService;
         private readonly IBaseService<UserModel> _teacherService;
@@ -16,7 +20,8 @@ namespace ESchedule.Business.ScheduleBuilding
 
         public ScheduleService(IBaseService<GroupModel> groupService, IBaseService<UserModel> teacherService,
             IBaseService<LessonModel> lessonService, IBaseService<TenantModel> tenantService,
-            IScheduleBuilder scheduleBuilder)
+            IScheduleBuilder scheduleBuilder, IRepository<ScheduleModel> repo, IMapper mapper) 
+            : base(repo, mapper)
         {
             _groupService = groupService;
             _teacherService = teacherService;
@@ -25,10 +30,20 @@ namespace ESchedule.Business.ScheduleBuilding
             _scheduleBuilder = scheduleBuilder;
         }
 
-        public async Task BuildSchedule(Guid tenantId)
+        public async Task<IEnumerable<ScheduleModel>> BuildSchedule(Guid tenantId)
         {
             var builderData = await GetNecessaryBuilderData(tenantId);
-            _scheduleBuilder.BuildSchedule(builderData);
+            var schedules = _scheduleBuilder.BuildSchedules(builderData);
+
+            _ = (await InsertSchedules(schedules)).Success();
+
+            return schedules;
+        }
+
+        private async Task<ServiceResult<Empty>> InsertSchedules(IEnumerable<ScheduleModel> schedulesSet)
+        {
+            // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
+            return (await _repository.InsertMany(schedulesSet)).Success();
         }
 
         private async Task<ScheduleBuilderHelpData> GetNecessaryBuilderData(Guid tenantId)

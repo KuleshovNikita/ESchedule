@@ -1,9 +1,10 @@
-﻿using ESchedule.Domain.Schedule;
+﻿using ESchedule.Domain.Lessons.Schedule;
+using ESchedule.Domain.Schedule;
 
 namespace ESchedule.Business.ScheduleBuilding
 {
-    internal interface IScheduleBuilder
+    public interface IScheduleBuilder
     {
-        void BuildSchedule(ScheduleBuilderHelpData builderData);
+        HashSet<ScheduleModel> BuildSchedules(ScheduleBuilderHelpData builderData);
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace ESchedule.Business.ScheduleBuilding
+﻿using ESchedule.Domain.Lessons.Schedule;
+
+namespace ESchedule.Business.ScheduleBuilding
 {
     public interface IScheduleService
     {
-        Task BuildSchedule(Guid tenantId);
+        Task<IEnumerable<ScheduleModel>> BuildSchedule(Guid tenantId);
     }
 }

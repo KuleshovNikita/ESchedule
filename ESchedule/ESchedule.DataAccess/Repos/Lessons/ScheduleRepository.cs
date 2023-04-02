@@ -1,6 +1,6 @@
 ﻿using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Exceptions;
-using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

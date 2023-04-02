@@ -1,4 +1,5 @@
-﻿using ESchedule.Domain.Lessons.Schedule;
+﻿using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Users;
 
@@ -10,9 +11,9 @@ namespace ESchedule.Business.ScheduleBuilding
         private DayOfWeek _currentDay = DayOfWeek.Monday;
         private ScheduleBuilderHelpData _builderData = null!;
         private GroupLessonsManager _lessonsMananger = null!;
-        private readonly List<ScheduleModel> _schedulesList = new List<ScheduleModel>();
+        private readonly HashSet<ScheduleModel> _schedulesSet = new HashSet<ScheduleModel>();
 
-        public void BuildSchedule(ScheduleBuilderHelpData builderData)
+        public HashSet<ScheduleModel> BuildSchedules(ScheduleBuilderHelpData builderData)
         {
             _builderData = builderData;
 
@@ -22,6 +23,8 @@ namespace ESchedule.Business.ScheduleBuilding
                 _lessonsMananger = new GroupLessonsManager(group.StudingLessons.Select(l => l.Lesson).ToArray());
                 GenerateStudingWeek();
             }
+
+            return _schedulesSet;
         }
 
         private void GenerateStudingWeek()
@@ -47,25 +50,47 @@ namespace ESchedule.Business.ScheduleBuilding
 
         private TimeSpan AddLessonToSchedule(TimeSpan lessonStartTime, TimeSpan lessonDurationTime)
         {
-            var targetLesson = _lessonsMananger.Next();
-            var teacher = GetSuitableTeacherByLesson(targetLesson.Id);
+            (var teacher, var lesson) = FindFreeTeacher(lessonStartTime);
 
-            var schedule = new ScheduleModel
+            if(teacher != null && lesson != null)
             {
-                StudyGroupId = _currentGroup.Id,
-                TeacherId = teacher.Id,
-                LessonId = targetLesson.Id,
-                TenantId = _builderData.TargetTenant.Id,
-                DayOfWeek = _currentDay,
-                StartTime = lessonStartTime,
-                EndTime = lessonStartTime + lessonDurationTime,
-            };
+                var schedule = new ScheduleModel
+                {
+                    Id = Guid.NewGuid(),
+                    StudyGroupId = _currentGroup.Id,
+                    TeacherId = teacher!.Id,
+                    LessonId = lesson!.Id,
+                    TenantId = _builderData.TargetTenant.Id,
+                    DayOfWeek = _currentDay,
+                    StartTime = lessonStartTime,
+                    EndTime = lessonStartTime + lessonDurationTime,
+                };
 
-            _schedulesList.Add(schedule);
+                _schedulesSet.Add(schedule);
+            }
 
             var lessonEndTime = lessonStartTime + lessonDurationTime;
             return lessonEndTime;
         }
+
+        private (UserModel?, LessonModel?) FindFreeTeacher(TimeSpan lessonStartTime)
+        {
+            for (var i = 0; i < _lessonsMananger.Count; i++)
+            {
+                var targetLesson = _lessonsMananger.Next();
+                var teacher = GetSuitableTeacherByLesson(targetLesson.Id);
+
+                if (!IsTeacherBusyAtThisTime(teacher, lessonStartTime))
+                {
+                    return (teacher, targetLesson);
+                }
+            }
+
+            return (null, null);
+        }
+
+        private bool IsTeacherBusyAtThisTime(UserModel teacher, TimeSpan lessonStartTime)
+            => teacher.StudySchedules.Any(sch => sch.StartTime == lessonStartTime && sch.DayOfWeek == _currentDay);
 
         private UserModel GetSuitableTeacherByLesson(Guid lessonId)
         {

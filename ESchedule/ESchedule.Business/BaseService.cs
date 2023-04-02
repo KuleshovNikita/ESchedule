@@ -21,9 +21,9 @@ namespace ESchedule.Business
             _mapper = mapper;
         }
 
-        public async virtual Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel ItemCreateModel)
+        public async virtual Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel itemCreateModel)
         {
-            var itemDomainModel = _mapper.Map<T>(ItemCreateModel);
+            var itemDomainModel = _mapper.Map<T>(itemCreateModel);
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
             itemDomainModel.Id = Guid.NewGuid();
             return (await _repository.Insert(itemDomainModel)).Success();
