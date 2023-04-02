@@ -1,4 +1,4 @@
-﻿using ESchedule.Domain.Lessons;
+﻿using ESchedule.Domain.Lessons.Schedule;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

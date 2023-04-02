@@ -6,6 +6,7 @@ using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Modules;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Modules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
