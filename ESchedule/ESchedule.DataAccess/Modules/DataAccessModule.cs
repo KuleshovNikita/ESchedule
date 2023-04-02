@@ -1,9 +1,12 @@
 ﻿using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Groups;
 using ESchedule.DataAccess.Repos.Lessons;
+using ESchedule.DataAccess.Repos.ManyToMany;
 using ESchedule.DataAccess.Repos.Tenant;
 using ESchedule.DataAccess.Repos.User;
 using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
+using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Modules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
@@ -23,6 +26,9 @@ namespace ESchedule.DataAccess.Modules
             services.AddScoped<IRepository<TenantSettingsModel>, TenantSettingsRepository>();
             services.AddScoped<IRepository<ScheduleModel>, ScheduleRepository>();
             services.AddScoped<IRepository<TenantModel>, TenantRepository>();
+            services.AddScoped<IRepository<TeachersLessonsModel>, TeachersLessonsRepository>();
+            services.AddScoped<IRepository<TeachersGroupsLessonsModel>, TeachersGroupsLessonsRepository>();
+            services.AddScoped<IRepository<GroupsLessonsModel>, GroupsLessonsRepository>();
 
             return services;
         }
