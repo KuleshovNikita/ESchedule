@@ -31,7 +31,7 @@ namespace ESchedule.Api.Controllers
         [Authorize]
         [HttpGet("{tenantId}")]
         public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedules(Guid tenantId)
-            => await RunWithServiceResult(async () => await _service.Where(x => x.TenantId == tenantId));
+            => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TenantId == tenantId));
 
         [Authorize]
         [HttpDelete("{tenantId}")]

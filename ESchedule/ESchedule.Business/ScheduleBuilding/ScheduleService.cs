@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 
 namespace ESchedule.Business.ScheduleBuilding
 {
-    public class ScheduleService : BaseService<ScheduleModel>, IScheduleService
+    public class ScheduleService : BaseService<ScheduleModel>, IScheduleService, IBaseService<ScheduleModel>
     {
         private readonly IBaseService<GroupModel> _groupService;
         private readonly IBaseService<UserModel> _teacherService;
@@ -55,6 +55,29 @@ namespace ESchedule.Business.ScheduleBuilding
         {
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
             return (await _repository.InsertMany(schedulesSet)).Success();
+        }
+
+        public override async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetItems(Expression<Func<ScheduleModel, bool>> predicate)
+        {
+            var schedules = (await base.GetItems(predicate)).Value;
+
+            return new ServiceResult<IEnumerable<ScheduleModel>>
+            {
+                Value = SimplifySchedulesSet(schedules)
+            }.Success();
+        }
+
+        private IEnumerable<ScheduleModel> SimplifySchedulesSet(IEnumerable<ScheduleModel> schedulesSet)
+        {
+            foreach (var schedule in schedulesSet)
+            {
+                schedule.Teacher = null!;
+                schedule.StudyGroup = null!;
+                schedule.Lesson = null!;
+                schedule.Tenant = null!;
+            }
+
+            return schedulesSet;
         }
 
         private async Task<ScheduleBuilderHelpData> GetNecessaryBuilderData(Guid tenantId)

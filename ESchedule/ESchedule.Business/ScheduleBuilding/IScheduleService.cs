@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace ESchedule.Business.ScheduleBuilding
 {
-    public interface IScheduleService
+    public interface IScheduleService : IBaseService<ScheduleModel>
     {
         Task<ServiceResult<IEnumerable<ScheduleModel>>> BuildSchedule(Guid tenantId);
 
