@@ -1,4 +1,4 @@
-﻿namespace ESchedule.Business.Hashing
+﻿namespace ESchedule.Core.Interfaces
 {
     public interface IPasswordHasher
     {

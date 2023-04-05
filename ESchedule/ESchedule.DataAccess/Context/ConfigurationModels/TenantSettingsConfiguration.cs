@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ESchedule.DataAccess.Context.ConfigurationModels
 {
-    public record SettingsConfiguration : IEntityTypeConfiguration<TenantSettingsModel>
+    public record TenantSettingsConfiguration : IEntityTypeConfiguration<TenantSettingsModel>
     {
         public void Configure(EntityTypeBuilder<TenantSettingsModel> builder)
         {
@@ -14,7 +14,7 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
             builder.Property(x => x.BreaksDurationTime).IsRequired();
 
             builder.HasOne(x => x.Tenant)
-                .WithOne()
+                .WithOne(x => x.Settings)
                 .HasForeignKey<TenantSettingsModel>(x => x.TenantId);
         }
     }

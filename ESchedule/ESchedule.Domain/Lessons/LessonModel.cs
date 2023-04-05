@@ -11,8 +11,8 @@ namespace ESchedule.Domain.Lessons
         public Guid TenantId { get; set; }
         public TenantModel Tenant { get; set; } = null!;
 
-        public IList<TeachersLessonsModel> ResponsibleTeachers { get; set; } = null!;
-        public IList<GroupsLessonsModel> StudingGroups { get; set; } = null!;
-        public IList<ScheduleModel> RelatedSchedules { get; set; } = null!;
+        public IList<TeachersLessonsModel> ResponsibleTeachers { get; set; } = new List<TeachersLessonsModel>();
+        public IList<GroupsLessonsModel> StudingGroups { get; set; } = new List<GroupsLessonsModel>();
+        public IList<ScheduleModel> RelatedSchedules { get; set; } = new List<ScheduleModel>();
     }
 }

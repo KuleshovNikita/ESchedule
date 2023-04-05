@@ -3,6 +3,7 @@ using ESchedule.Business.Email;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Business.Users;
+using ESchedule.Core.Interfaces;
 using ESchedule.Domain.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +22,7 @@ namespace ESchedule.Business.Modules
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IScheduleBuilder, ScheduleBuilder>();
 
             return services;
         }

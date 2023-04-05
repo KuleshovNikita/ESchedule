@@ -21,7 +21,6 @@ namespace ESchedule.DataAccess.Repos.Tenant
             {
                 result.Value = await _context.Set<TenantModel>()
                     .Include(x => x.Settings)
-                    .Include(x => x.Creator)
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
 
                 return result.Success();
@@ -40,7 +39,6 @@ namespace ESchedule.DataAccess.Repos.Tenant
             {
                 result.Value = _context.Set<TenantModel>()
                     .Include(x => x.Settings)
-                    .Include(x => x.Creator)
                     .Where(command)
                         ?? throw new EntityNotFoundException();
 

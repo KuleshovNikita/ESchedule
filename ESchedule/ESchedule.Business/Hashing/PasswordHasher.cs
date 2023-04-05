@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using ESchedule.Core.Interfaces;
+using System.Security.Cryptography;
 
 namespace ESchedule.Business.Hashing
 {

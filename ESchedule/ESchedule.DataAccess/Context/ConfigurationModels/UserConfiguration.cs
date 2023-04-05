@@ -1,4 +1,6 @@
-﻿using ESchedule.Domain.Users;
+﻿using ESchedule.Core.Interfaces;
+using ESchedule.Domain.Enums;
+using ESchedule.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
