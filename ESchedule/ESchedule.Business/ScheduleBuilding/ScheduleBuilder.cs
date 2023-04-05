@@ -24,7 +24,20 @@ namespace ESchedule.Business.ScheduleBuilding
                 GenerateStudingWeek();
             }
 
-            return _schedulesSet;
+            return SimplifySchedulesSet(_schedulesSet);
+        }
+
+        private HashSet<ScheduleModel> SimplifySchedulesSet(HashSet<ScheduleModel> schedulesSet)
+        {
+            foreach(var schedule in schedulesSet)
+            {
+                schedule.Teacher = null!;
+                schedule.StudyGroup = null!;
+                schedule.Lesson = null!;
+                schedule.Tenant = null!;
+            }
+
+            return schedulesSet;
         }
 
         private void GenerateStudingWeek()

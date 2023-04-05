@@ -66,9 +66,9 @@ namespace ESchedule.Business.ScheduleBuilding
 
             var scheduleBuilderData = new ScheduleBuilderHelpData
             {
-                AllTenantGroups = (IReadOnlyCollection<GroupModel>)groups,
-                AllTenantTeachers = (IReadOnlyCollection<UserModel>)teachers,
-                AllTenantLessons = (IReadOnlyCollection<LessonModel>)lessons,
+                AllTenantGroups = groups.ToList().AsReadOnly(),
+                AllTenantTeachers = teachers.ToList().AsReadOnly(),
+                AllTenantLessons = lessons.ToList().AsReadOnly(),
                 TargetTenant = tenant
             };
 
