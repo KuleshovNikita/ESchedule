@@ -19,8 +19,8 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPost("{tenantId}")]
-        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> BuildSchedule(Guid tenantId)           //TODO в будующем изменить на модель
-                                                                                                            //со списком правил для построения
+        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId)           //TODO в будующем изменить на модель
+                                                                                       //со списком правил для построения
             => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId));
 
         [Authorize]
@@ -29,9 +29,14 @@ namespace ESchedule.Api.Controllers
             => await RunWithServiceResult(async () => await _service.UpdateItem(scheduleModel));
 
         [Authorize]
-        [HttpGet("{tenantId}")]
-        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedules(Guid tenantId)
+        [HttpGet("tenant/{tenantId}")]
+        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForTenant(Guid tenantId)
             => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TenantId == tenantId));
+
+        [Authorize]
+        [HttpGet("group/{groupId}")]
+        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForGroup(Guid groupId)
+            => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.StudyGroupId == groupId));
 
         [Authorize]
         [HttpDelete("{tenantId}")]
