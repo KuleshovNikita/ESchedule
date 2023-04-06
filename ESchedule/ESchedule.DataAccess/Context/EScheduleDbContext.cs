@@ -3,6 +3,7 @@ using ESchedule.DataAccess.Context.ConfigurationModels;
 using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.ManyToManyModels;
+using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace ESchedule.DataAccess.Context
         public DbSet<UserModel> Users { get; set; }
         public DbSet<LessonModel> Lessons { get; set; }
         public DbSet<ScheduleModel> Schedules { get; set; }
+        public DbSet<RuleModel> ScheduleRules { get; set; }
         public DbSet<TenantSettingsModel> TenantSettings { get; set; }
         public DbSet<TenantModel> Tenant { get; set; }
         public DbSet<GroupModel> Groups { get; set; }
@@ -39,6 +41,7 @@ namespace ESchedule.DataAccess.Context
             modelBuilder.ApplyConfiguration(new GroupsLessonsConfiguration());
             modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
             modelBuilder.ApplyConfiguration(new TenantConfiguration());
+            modelBuilder.ApplyConfiguration(new ScheduleRulesConfiguration());
 
             Seeds.ApplySeeds(modelBuilder, _passwordHasher);
         }

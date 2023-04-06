@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using ESchedule.Business.ScheduleRules;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Enums;
 using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule;
+using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
@@ -31,10 +33,10 @@ namespace ESchedule.Business.ScheduleBuilding
             _scheduleBuilder = scheduleBuilder;
         }
 
-        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId)
+        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, IEnumerable<BaseScheduleRule> rules)
         {
             var builderData = await GetNecessaryBuilderData(tenantId);
-            var schedules = _scheduleBuilder.BuildSchedules(builderData);
+            var schedules = _scheduleBuilder.BuildSchedules(builderData, rules);
 
             return (await InsertMany(schedules)).Success();
         }

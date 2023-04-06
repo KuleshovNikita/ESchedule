@@ -1,6 +1,8 @@
-﻿using ESchedule.Domain.Lessons;
+﻿using ESchedule.Business.ScheduleRules;
+using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule;
+using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Users;
 
 namespace ESchedule.Business.ScheduleBuilding
@@ -9,13 +11,15 @@ namespace ESchedule.Business.ScheduleBuilding
     {
         private GroupModel _currentGroup = null!;
         private DayOfWeek _currentDay = DayOfWeek.Monday;
+        private IEnumerable<BaseScheduleRule> _rules = null!;
         private ScheduleBuilderHelpData _builderData = null!;
         private GroupLessonsManager _lessonsMananger = null!;
         private readonly HashSet<ScheduleModel> _schedulesSet = new HashSet<ScheduleModel>();
 
-        public HashSet<ScheduleModel> BuildSchedules(ScheduleBuilderHelpData builderData)
+        public HashSet<ScheduleModel> BuildSchedules(ScheduleBuilderHelpData builderData, IEnumerable<BaseScheduleRule> rules)
         {
             _builderData = builderData;
+            _rules = rules;
 
             foreach (var group in _builderData.AllTenantGroups)
             {
@@ -79,7 +83,10 @@ namespace ESchedule.Business.ScheduleBuilding
                     EndTime = lessonStartTime + lessonDurationTime,
                 };
 
-                _schedulesSet.Add(schedule);
+                if(RulesVerified(schedule))
+                {
+                    _schedulesSet.Add(schedule);
+                }
             }
 
             var lessonEndTime = lessonStartTime + lessonDurationTime;
@@ -109,6 +116,19 @@ namespace ESchedule.Business.ScheduleBuilding
         {
             var teacherLessonInfo = _currentGroup.GroupTeachersLessons.First(x => x.LessonId == lessonId);
             return teacherLessonInfo.Teacher;
+        }
+
+        private bool RulesVerified(ScheduleModel schedule)
+        {
+            foreach(var rule in _rules)
+            {
+                if(!rule.Verify(schedule))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
