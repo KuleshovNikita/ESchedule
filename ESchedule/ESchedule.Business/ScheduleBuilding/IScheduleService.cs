@@ -1,4 +1,5 @@
-﻿using ESchedule.Business.ScheduleRules;
+﻿using ESchedule.Api.Models.Requests;
+using ESchedule.Business.ScheduleRules;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.ServiceResulting;
@@ -8,7 +9,7 @@ namespace ESchedule.Business.ScheduleBuilding
 {
     public interface IScheduleService : IBaseService<ScheduleModel>
     {
-        Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, IEnumerable<BaseScheduleRule> rules);
+        Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, IEnumerable<RuleInputModel> rules);
 
         Task<ServiceResult<Empty>> RemoveWhere(Expression<Func<ScheduleModel, bool>> predicate);
     }

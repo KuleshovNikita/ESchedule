@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ESchedule.Api.Models.Requests;
 using ESchedule.Business.ScheduleRules;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Enums;
@@ -9,6 +10,7 @@ using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
+using System.Data;
 using System.Linq.Expressions;
 
 namespace ESchedule.Business.ScheduleBuilding
@@ -16,6 +18,7 @@ namespace ESchedule.Business.ScheduleBuilding
     public class ScheduleService : BaseService<ScheduleModel>, IScheduleService, IBaseService<ScheduleModel>
     {
         private readonly IBaseService<GroupModel> _groupService;
+        private readonly IBaseService<RuleModel> _rulesService;
         private readonly IBaseService<UserModel> _teacherService;
         private readonly IBaseService<LessonModel> _lessonService;
         private readonly IBaseService<TenantModel> _tenantService;
@@ -23,7 +26,8 @@ namespace ESchedule.Business.ScheduleBuilding
 
         public ScheduleService(IBaseService<GroupModel> groupService, IBaseService<UserModel> teacherService,
             IBaseService<LessonModel> lessonService, IBaseService<TenantModel> tenantService,
-            IScheduleBuilder scheduleBuilder, IRepository<ScheduleModel> repo, IMapper mapper) 
+            IScheduleBuilder scheduleBuilder, IRepository<ScheduleModel> repo, IMapper mapper,
+            IBaseService<RuleModel> ruleService) 
             : base(repo, mapper)
         {
             _groupService = groupService;
@@ -31,14 +35,37 @@ namespace ESchedule.Business.ScheduleBuilding
             _lessonService = lessonService;
             _tenantService = tenantService;
             _scheduleBuilder = scheduleBuilder;
+            _rulesService = ruleService;
         }
 
-        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, IEnumerable<BaseScheduleRule> rules)
+        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, IEnumerable<RuleInputModel> jsonRules)
         {
-            var builderData = await GetNecessaryBuilderData(tenantId);
-            var schedules = _scheduleBuilder.BuildSchedules(builderData, rules);
+            if(jsonRules == null)
+            {
+                throw new ArgumentNullException(nameof(jsonRules));
+            }
 
-            return (await InsertMany(schedules)).Success();
+            var builderData = await GetNecessaryBuilderData(tenantId);
+            var parsedRules = new RulesParser().ParseToRules(jsonRules);
+            var schedules = _scheduleBuilder.BuildSchedules(builderData, parsedRules);
+
+            (await InsertMany(schedules)).Success();
+
+            return await InsertRules(parsedRules, tenantId);
+        }
+
+        private async Task<ServiceResult<Empty>> InsertRules(IEnumerable<BaseScheduleRule> rules, Guid tenantId)
+        {
+            var ruleModels = rules.Select(r => 
+                new RuleModel
+                {
+                    Id = Guid.NewGuid(),
+                    TenantId = tenantId,
+                    RuleJson = r.GetJson(),
+                }
+            );
+
+            return (await _rulesService.InsertMany(ruleModels)).Success();
         }
 
         public async Task<ServiceResult<Empty>> RemoveWhere(Expression<Func<ScheduleModel, bool>> predicate)

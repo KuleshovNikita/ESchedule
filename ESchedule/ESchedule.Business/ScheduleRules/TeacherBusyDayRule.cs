@@ -4,7 +4,7 @@ namespace ESchedule.Business.ScheduleRules
 {
     public class TeacherBusyDayRule : BaseScheduleRule
     {
-        public override string RuleName => nameof(TeacherBusyDayRule);
+        public override string Name => nameof(TeacherBusyDayRule);
 
         public DayOfWeek Target { get; set; }
 

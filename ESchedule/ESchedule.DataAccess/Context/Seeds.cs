@@ -10,8 +10,8 @@ namespace ESchedule.DataAccess.Context
 {
     public static class Seeds
     {
-        private static ModelBuilder _builder;
-        private static IPasswordHasher _passwordHasher;
+        private static ModelBuilder _builder = null!;
+        private static IPasswordHasher _passwordHasher = null!;
 
         public static void ApplySeeds(ModelBuilder builder, IPasswordHasher passwordHasher)
         {

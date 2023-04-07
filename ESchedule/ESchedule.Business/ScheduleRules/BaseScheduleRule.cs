@@ -3,14 +3,14 @@ using System.Text.Json;
 
 namespace ESchedule.Business.ScheduleRules
 {
-    public abstract class BaseScheduleRule
+    public class BaseScheduleRule
     {
-        public abstract string RuleName { get; }
+        public virtual string Name { get; set; } = null!;
 
         public Guid ActorId { get; set; }
 
-        public abstract bool Verify(ScheduleModel schedule);
+        public virtual bool Verify(ScheduleModel schedule) => throw new NotImplementedException();
 
-        public string GetJson() => JsonSerializer.Serialize(this);
+        public string GetJson() => JsonSerializer.Serialize(this, GetType());
     }
 }

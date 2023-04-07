@@ -1,4 +1,5 @@
-﻿using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Business.ScheduleRules;
@@ -24,7 +25,7 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPost("{tenantId}")]
-        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, [FromBody] IEnumerable<BaseScheduleRule> rules)
+        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, [FromBody] IEnumerable<RuleInputModel> rules)
             => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId, rules));
 
         [Authorize]

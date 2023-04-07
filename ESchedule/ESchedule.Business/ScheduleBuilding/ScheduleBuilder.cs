@@ -4,6 +4,7 @@ using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Users;
+using System.Reflection;
 
 namespace ESchedule.Business.ScheduleBuilding
 {
@@ -120,7 +121,7 @@ namespace ESchedule.Business.ScheduleBuilding
 
         private bool RulesVerified(ScheduleModel schedule)
         {
-            foreach(var rule in _rules)
+            foreach (var rule in _rules)
             {
                 if(!rule.Verify(schedule))
                 {
