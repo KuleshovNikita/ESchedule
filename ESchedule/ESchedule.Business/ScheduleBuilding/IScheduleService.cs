@@ -1,7 +1,5 @@
 ﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Business.ScheduleRules;
 using ESchedule.Domain.Lessons.Schedule;
-using ESchedule.Domain.Schedule.Rules;
 using ESchedule.ServiceResulting;
 using System.Linq.Expressions;
 

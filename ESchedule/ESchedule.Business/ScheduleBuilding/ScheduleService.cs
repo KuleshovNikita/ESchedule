@@ -51,17 +51,18 @@ namespace ESchedule.Business.ScheduleBuilding
 
             (await InsertMany(schedules)).Success();
 
-            return await InsertRules(parsedRules, tenantId);
+            return await InsertRules(jsonRules, tenantId);
         }
 
-        private async Task<ServiceResult<Empty>> InsertRules(IEnumerable<BaseScheduleRule> rules, Guid tenantId)
+        private async Task<ServiceResult<Empty>> InsertRules(IEnumerable<RuleInputModel> rules, Guid tenantId)
         {
             var ruleModels = rules.Select(r => 
                 new RuleModel
                 {
                     Id = Guid.NewGuid(),
                     TenantId = tenantId,
-                    RuleJson = r.GetJson(),
+                    RuleName = r.RuleName,
+                    RuleJson = r.JsonBody,
                 }
             );
 

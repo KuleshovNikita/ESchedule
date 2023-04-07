@@ -2,7 +2,6 @@
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
-using ESchedule.Business.ScheduleRules;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.ServiceResulting;
