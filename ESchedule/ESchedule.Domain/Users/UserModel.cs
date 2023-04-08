@@ -1,5 +1,5 @@
 ﻿using ESchedule.Domain.Enums;
-using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Tenant;
 using System.ComponentModel.DataAnnotations;
@@ -31,8 +31,8 @@ namespace ESchedule.Domain.Users
         public Guid? TenantId { get; set; }
         public TenantModel? Tenant { get; set; } = null!;
 
-        public IList<ScheduleModel> StudySchedules { get; set; } = null!;
-        public IList<TeachersGroupsModel> StudyGroups { get; set; } = null!;
-        public IList<TeachersLessonsModel> TaughtLessons { get; set; } = null!;
+        public IList<ScheduleModel> StudySchedules { get; set; } = new List<ScheduleModel>();
+        public IList<TeachersGroupsLessonsModel> StudyGroups { get; set; } = new List<TeachersGroupsLessonsModel>();
+        public IList<TeachersLessonsModel> TaughtLessons { get; set; } = new List<TeachersLessonsModel>();
     }
 }

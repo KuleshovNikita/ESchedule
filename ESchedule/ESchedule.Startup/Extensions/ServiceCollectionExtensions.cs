@@ -2,11 +2,14 @@
 using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Modules;
+using ESchedule.Business.ScheduleRules;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Modules;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Modules;
+using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
@@ -36,7 +39,7 @@ namespace ESchedule.Startup.Extensions
         public static IServiceCollection ConfigureDbConnection(this IServiceCollection services, ConfigurationManager config)
             => services
                 .AddDbContext<EScheduleDbContext>(
-                    opt => opt.UseSqlServer(config.GetConnectionString("SqlServer"))
+                    opt => opt.UseSqlServer(config.GetConnectionString("SqlServer")!)
                 );
 
         public static AuthenticationBuilder ConfigureAuthentication(this IServiceCollection services, JwtSettings jwtSettings)

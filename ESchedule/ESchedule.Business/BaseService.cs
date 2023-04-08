@@ -21,12 +21,18 @@ namespace ESchedule.Business
             _mapper = mapper;
         }
 
-        public async virtual Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel ItemCreateModel)
+        public async virtual Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel itemCreateModel)
         {
-            var itemDomainModel = _mapper.Map<T>(ItemCreateModel);
+            var itemDomainModel = _mapper.Map<T>(itemCreateModel);
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
             itemDomainModel.Id = Guid.NewGuid();
             return (await _repository.Insert(itemDomainModel)).Success();
+        }
+
+        public async virtual Task<ServiceResult<Empty>> InsertMany(IEnumerable<T> itemsSet)
+        {
+            // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
+            return (await _repository.InsertMany(itemsSet)).Success();
         }
 
         public async virtual Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate)
@@ -34,6 +40,9 @@ namespace ESchedule.Business
 
         public async virtual Task<ServiceResult<T>> First(Expression<Func<T, bool>> predicate)
             => (await _repository.First(predicate)).Success();
+
+        public async virtual Task<ServiceResult<IEnumerable<T>>> Where(Expression<Func<T, bool>> predicate)
+            => (await _repository.Where(predicate)).Success();
 
         public async virtual Task<ServiceResult<Empty>> RemoveItem(Guid itemId)
         {
@@ -43,6 +52,18 @@ namespace ESchedule.Business
             {
                 var items = await GetItems(x => x.Id == itemId);
                 return (await _repository.Remove(items.Value.First())).Success();
+            }
+
+            return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);
+        }
+
+        public async virtual Task<ServiceResult<Empty>> RemoveItem(T item)
+        {
+            var serviceResult = new ServiceResult<Empty>();
+
+            if (await ItemExists(item.Id))
+            {
+                return (await _repository.Remove(item)).Success();
             }
 
             return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);

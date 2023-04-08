@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ESchedule.DataAccess.Context.ConfigurationModels
 {
-    public record TeachersGroupsConfiguration : IEntityTypeConfiguration<TeachersGroupsModel>
+    public record TeachersGroupsLessonsConfiguration : IEntityTypeConfiguration<TeachersGroupsLessonsModel>
     {
-        public void Configure(EntityTypeBuilder<TeachersGroupsModel> builder)
+        public void Configure(EntityTypeBuilder<TeachersGroupsLessonsModel> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -16,8 +16,13 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.StudyGroup)
-                .WithMany(x => x.GroupTeachers)
+                .WithMany(x => x.GroupTeachersLessons)
                 .HasForeignKey(x => x.StudyGroupId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.Lesson)
+                .WithMany()
+                .HasForeignKey(x => x.LessonId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

@@ -4,6 +4,7 @@ using ESchedule.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESchedule.DataAccess.Migrations
 {
     [DbContext(typeof(EScheduleDbContext))]
-    partial class EScheduleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230406145029_AddedRulesTable")]
+    partial class AddedRulesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,10 +367,6 @@ namespace ESchedule.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RuleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
@@ -545,7 +543,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Kuleshov",
                             Login = "admin@admin.com",
                             Name = "Mykyta",
-                            Password = "y8VZmuHG1n8AtQjmkTIfo9XqzKF8lGxIMyD3yo8+fCSD7wJG",
+                            Password = "uXZZJu84VhkcKKMR40jQXouLlccEmO80tP0082LdQYKXDDYO",
                             Role = 0,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -559,7 +557,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Kuleshov2",
                             Login = "admin2@admin.com",
                             Name = "Mykyta2",
-                            Password = "nAAhHoGAVLcBd3TS9wtMR25qYeuHXK5ZFqxysDjUKgZai3Sf",
+                            Password = "kO5wVz0/TdxuRG1n/J7dDg7L+aD64iKEInU/Ea/VK5pH5tQh",
                             Role = 0,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -573,7 +571,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Kuleshov3",
                             Login = "admin3@admin.com",
                             Name = "Mykyta3",
-                            Password = "LDV4sVHqm0cW9DOyB4s2bid2hBUGZ7YIXpG8zr+AUADPfxQX",
+                            Password = "F4vvhl54DenHqd+YF5LjNo1Fxe+XqapTzQOeNNT6TEIRDCAS",
                             Role = 0,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -587,7 +585,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Kuleshov4",
                             Login = "admin4@admin.com",
                             Name = "Mykyta4",
-                            Password = "shUespHSIRERoj2kQUX5fcVnmqf5NCdxTZgSEdUanfDBl7YB",
+                            Password = "guo5H0EI9b6tN65zZzSiv1+GMOKNNjOPy2S31cn0bKg4yOwV",
                             Role = 0,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -600,7 +598,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Teacher1",
                             Login = "teacher1@admin.com",
                             Name = "Teacher1",
-                            Password = "32B+k2TO8V0mRFYGCZUPK6usIYFVYZzIO9zHIOnpkjyIeQg+",
+                            Password = "e9DYht48mJmZJ7CsmiXCR7oAIb93zPReB8aJ90EfeTr3iPxp",
                             Role = 1,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -613,7 +611,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Teacher2",
                             Login = "teacher2@admin.com",
                             Name = "Teacher2",
-                            Password = "vlCnIhDKDKA5CXiuUt4amYZE30o6CxUH46UZQ/mG5U74usw4",
+                            Password = "9OJpQj7jCpzcJ0YHBurff7R/A2mEfN0XmKsyIuFhEugL+ftE",
                             Role = 1,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -626,7 +624,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Teacher3",
                             Login = "teacher3@admin.com",
                             Name = "Teacher3",
-                            Password = "U0HASmOMw5nc0QegRgJzk+WDM6djk8swjA/ze2viKGVy3dX9",
+                            Password = "v1RNrTwJFiua2Ys99reIqD+Z15GeASwHfbkhmlI3RsTEM80g",
                             Role = 1,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         });

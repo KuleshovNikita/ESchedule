@@ -23,7 +23,7 @@ namespace ESchedule.DataAccess.Repos.Groups
                 result.Value = await _context.Set<GroupModel>()
                     .Include(x => x.StudingLessons)
                     .Include(x => x.Members)
-                    .Include(x => x.GroupTeachers)
+                    .Include(x => x.GroupTeachersLessons)
                     .Include(x => x.StudySchedules)
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
 
@@ -44,7 +44,7 @@ namespace ESchedule.DataAccess.Repos.Groups
                 result.Value = _context.Set<GroupModel>()
                     .Include(x => x.StudingLessons)
                     .Include(x => x.Members)
-                    .Include(x => x.GroupTeachers)
+                    .Include(x => x.GroupTeachersLessons)
                     .Include(x => x.StudySchedules)
                     .Where(command)
                         ?? throw new EntityNotFoundException();

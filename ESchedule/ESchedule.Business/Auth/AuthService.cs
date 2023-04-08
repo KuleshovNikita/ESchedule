@@ -2,8 +2,8 @@
 using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Email;
-using ESchedule.Business.Hashing;
 using ESchedule.Business.Users;
+using ESchedule.Core.Interfaces;
 using ESchedule.Domain;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Properties;

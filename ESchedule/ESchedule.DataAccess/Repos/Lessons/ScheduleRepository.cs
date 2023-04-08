@@ -1,6 +1,6 @@
 ﻿using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Exceptions;
-using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -24,7 +24,8 @@ namespace ESchedule.DataAccess.Repos.Lessons
                     .Include(x => x.Lesson)
                     .Include(x => x.Teacher)
                     .Include(x => x.StudyGroup)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+                    .FirstOrDefaultAsync(command) 
+                        ?? throw new EntityNotFoundException();
 
                 return result.Success();
             }

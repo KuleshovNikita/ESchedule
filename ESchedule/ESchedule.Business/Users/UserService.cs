@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ESchedule.Business.Hashing;
+using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
