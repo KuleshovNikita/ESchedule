@@ -8,6 +8,7 @@ using ESchedule.DataAccess.Modules;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
+using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Modules;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
@@ -98,6 +99,10 @@ namespace ESchedule.Startup.Extensions
 
                 cfg.CreateMap<ScheduleUpdateModel, ScheduleModel>();
                 cfg.CreateMap<ScheduleCreateModel, ScheduleModel>();
+
+                cfg.CreateMap<TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel>();
+                cfg.CreateMap<TeachersLessonsCreateModel, TeachersLessonsModel>();
+                cfg.CreateMap<GroupsLessonsCreateModel, GroupsLessonsModel>();
             };
     }
 }

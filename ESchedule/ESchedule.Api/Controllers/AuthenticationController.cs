@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using ESchedule.Api.Models.Requests;
+using ESchedule.Business;
 using ESchedule.Business.Auth;
 using ESchedule.Domain;
-using ESchedule.ServiceResulting;
-using ESchedule.Api.Models.Requests;
 using ESchedule.Domain.Users;
-using ESchedule.Business;
-using Microsoft.AspNetCore.Authentication;
+using ESchedule.ServiceResulting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ESchedule.Api.Controllers
 {

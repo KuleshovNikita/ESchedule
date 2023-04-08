@@ -35,6 +35,13 @@ namespace ESchedule.Business
             return (await _repository.InsertMany(itemsSet)).Success();
         }
 
+        public async virtual Task<ServiceResult<Empty>> InsertMany<K>(IEnumerable<K> itemsSet)
+        {
+            // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
+            var mappedItems = _mapper.Map<IEnumerable<T>>(itemsSet);
+            return (await _repository.InsertMany(mappedItems)).Success();
+        }
+
         public async virtual Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate)
             => (await _repository.Where(predicate)).Success();
 

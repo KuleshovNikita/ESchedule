@@ -1,4 +1,5 @@
-﻿using ESchedule.Business;
+﻿using ESchedule.Api.Models.Requests;
+using ESchedule.Business;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ServiceResult<Empty>> CreateItems([FromBody] IEnumerable<GroupsLessonsModel> items)
+        public async Task<ServiceResult<Empty>> CreateItems([FromBody] IEnumerable<GroupsLessonsCreateModel> items)
             => await RunWithServiceResult(async () => await _service.InsertMany(items));
 
         [Authorize]
