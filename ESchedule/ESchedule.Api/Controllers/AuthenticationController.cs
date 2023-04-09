@@ -5,6 +5,7 @@ using ESchedule.Domain;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace ESchedule.Api.Controllers
 {
@@ -22,6 +23,20 @@ namespace ESchedule.Api.Controllers
         [HttpPost("login")]
         public async Task<ServiceResult<string>> Login([FromBody] AuthModel authModel)
             => await RunWithServiceResult(async () => await _authService.Login(authModel));
+
+        [HttpGet]
+        public async Task<ServiceResult<UserModel>> GetAuthenticatedUserInfo()
+        {
+            var claims = HttpContext.User.Claims;
+            var userId = claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
+
+            if(!Guid.TryParse(userId, out var id))
+            {
+                return new ServiceResult<UserModel>().Fail("Invalid token provided");
+            }
+
+            return await RunWithServiceResult(async () => await _service.First(x => x.Id == id));
+        }
 
         [HttpPatch("confirmEmail/{key}")]
         public async Task<ServiceResult<string>> ConfirmEmail(string key)

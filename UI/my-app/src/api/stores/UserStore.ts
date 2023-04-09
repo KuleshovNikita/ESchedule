@@ -23,8 +23,11 @@ export default class UserStore extends BaseStore {
 
         this.handleErrors(response);
 
-        console.log("login successful, token - " + response.value);
+        console.debug("login successful, token - " + response.value);
         store.commonStore.setToken(response.value);
+
+        this.user = await this.getAutenticatedUserInfo();
+        return response.isSuccessful;
     };
 
     logout = () => {
@@ -38,4 +41,16 @@ export default class UserStore extends BaseStore {
 
     register = async (creds: UserCreateModel) => 
         await agent.Auth.register(creds);
+
+    getAutenticatedUserInfo = async () => {
+        if(this.isLoggedIn) {
+            return this.user;
+        } else {
+            const response = await agent.Auth.getAuthenticatedUserInfo();
+
+            this.handleErrors(response);
+
+            return response.value;
+        }
+    }
 }

@@ -10,7 +10,7 @@ import TenantStore from "./Tenant";
 import TenantSettingsStore from "./TenantSettings";
 import UserStore from "./UserStore";
 
-interface Store {
+export interface Store {
     commonStore: CommonStore;
     userStore: UserStore;
     groupStore: GroupStore;

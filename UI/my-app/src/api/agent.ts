@@ -77,7 +77,8 @@ const requests = {
 
 const Auth = {
     login: (body: UserLoginModel) => requests.post<Result<string>>("/authentication/login", body),
-    register: (body: UserCreateModel) => requests.post<Result<string>>("/authentication/register", body)
+    register: (body: UserCreateModel) => requests.post<Result<string>>("/authentication/register", body),
+    getAuthenticatedUserInfo: () => requests.get<Result<UserModel>>("/authentication")
 }
 
 const User = {

@@ -1,26 +1,46 @@
+import { useEffect } from 'react';
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
+import { useStore } from './api/stores/StoresManager';
+import LoadingComponent from './components/hoc/LoadingComponent';
+import { ToastContainer } from 'react-toastify';
+import { observer } from 'mobx-react-lite';
+import AppRoutes from './components/AppRoutes';
+import Header from './components/markups/Header';
+import AppLoader from './AppLoader';
 
 function App() {
+  const stores = useStore();
+
+  useEffect(() => {
+    AppLoader(stores);
+  }, [stores.commonStore, 
+      stores.userStore,
+      stores.groupStore,
+      stores.lessonStore,
+      stores.groupLessonStore,
+      stores.scheduleStore,
+      stores.teacherGroupLessonStore,
+      stores.teacherLessonStore,
+      stores.tenantStore,
+      stores.tenantSettingsStore]);
+
+  if (!stores.commonStore.appLoaded) {
+    return <LoadingComponent />;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <React.StrictMode>
+        <Header />        
+        <main className="main">
+          <AppRoutes />
+        </main>
+        <ToastContainer position={"bottom-right"} hideProgressBar={true}/>
+      </React.StrictMode>
+    </BrowserRouter>
   );
 }
 
-export default App;
+export default observer(App);
