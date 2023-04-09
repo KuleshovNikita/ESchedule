@@ -32,7 +32,7 @@ export default function Header() {
              &&
                 <Box sx={headerBox}>
                     <Typography  variant="h2" component="h2" sx={{ display: "inline-block"}}>
-                        Pet Helper
+                        Eschedule
                     </Typography>
                         <Box sx={{ display: "flex", justifyContent: "center", mt: 2}}>
                         <Avatar /*sx={listItemButton}*/ onClick={userProfile}>

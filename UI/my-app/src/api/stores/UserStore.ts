@@ -5,12 +5,12 @@ import { store } from "./StoresManager";
 import BaseStore from "./BaseStore";
 
 
-export default class UserStore extends BaseStore {
+export default class UserStore {
+    base: BaseStore = new BaseStore();
     client: any = null;
     user: UserModel | null = null;
 
     constructor() {
-        super();
         makeAutoObservable(this);
     }
 
@@ -21,7 +21,7 @@ export default class UserStore extends BaseStore {
     login = async (creds: UserLoginModel) => {
         const response = await agent.Auth.login(creds);
 
-        this.handleErrors(response);
+        this.base.handleErrors(response);
 
         console.debug("login successful, token - " + response.value);
         store.commonStore.setToken(response.value);
@@ -37,7 +37,7 @@ export default class UserStore extends BaseStore {
     };
 
     updateUserInfo = async (user: UserUpdateModel) =>
-        await this.simpleRequest(async () => await agent.User.updateUser(user));
+        await this.base.simpleRequest(async () => await agent.User.updateUser(user));
 
     register = async (creds: UserCreateModel) => 
         await agent.Auth.register(creds);
@@ -48,7 +48,11 @@ export default class UserStore extends BaseStore {
         } else {
             const response = await agent.Auth.getAuthenticatedUserInfo();
 
-            this.handleErrors(response);
+            this.base.handleErrors(response);
+            
+            if(response.value !== null) {
+                this.user = response.value;
+            }
 
             return response.value;
         }

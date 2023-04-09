@@ -2,9 +2,9 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useLocation } from "react-router";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { toast } from "react-toastify";
 import { UserLoginModel } from "../../models/Users";
 import { useStore } from "../../api/stores/StoresManager";
+import { toast } from "react-toastify";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -89,7 +89,7 @@ export function Login() {
             <Typography variant="h1" 
                         component="h1"
                         align="center">
-                Pet Helper
+                ESchedule
             </Typography>
             <Box
                 component="form"

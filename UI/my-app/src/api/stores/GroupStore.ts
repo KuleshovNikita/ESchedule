@@ -3,28 +3,28 @@ import { GroupCreateModel, GroupModel, GroupUpdateModel } from "../../models/Gro
 import { agent } from "../agent";
 import BaseStore from "./BaseStore";
 
-export default class GroupStore extends BaseStore {
+export default class GroupStore {
+    base: BaseStore = new BaseStore();
     client = agent.Group;
     group: GroupModel | null = null;
 
     constructor() {
-        super();
         makeAutoObservable(this);
     }
 
     createGroup = async (group: GroupCreateModel) => 
-        await this.simpleRequest(async () => await this.client.createGroup(group));
+        await this.base.simpleRequest(async () => await this.client.createGroup(group));
     
     updateGroup = async (group: GroupUpdateModel) => 
-        await this.simpleRequest(async () => await this.client.updateGroup(group));
+        await this.base.simpleRequest(async () => await this.client.updateGroup(group));
 
     removeGroup = async (id: string) => 
-        await this.simpleRequest(async () => await this.client.removeGroup(id));
+        await this.base.simpleRequest(async () => await this.client.removeGroup(id));
 
     getGroup = async (id: string) => {
         const response = await this.client.getGroup(id);
 
-        this.handleErrors(response);
+        this.base.handleErrors(response);
 
         return response.value;
     }

@@ -5,6 +5,7 @@ import './App.css';
 import { useStore } from './api/stores/StoresManager';
 import LoadingComponent from './components/hoc/LoadingComponent';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { observer } from 'mobx-react-lite';
 import AppRoutes from './components/AppRoutes';
 import Header from './components/markups/Header';

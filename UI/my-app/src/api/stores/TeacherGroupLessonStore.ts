@@ -3,25 +3,25 @@ import { TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel } from "..
 import { agent } from "../agent";
 import BaseStore from "./BaseStore";
 
-export default class TeacherGroupLessonStore extends BaseStore {
+export default class TeacherGroupLessonStore {
+    base: BaseStore = new BaseStore();
     client = agent.TeacherGroupLesson;
     items: TeachersGroupsLessonsModel | null = null;
 
     constructor() {
-        super();
         makeAutoObservable(this);
     }
 
     createItems = async (settings: TeachersGroupsLessonsCreateModel) => 
-        await this.simpleRequest(async () => await this.client.createItems(settings));
+        await this.base.simpleRequest(async () => await this.client.createItems(settings));
 
     removeItems = async (id: string) => 
-        await this.simpleRequest(async () => await this.client.removeItems(id));
+        await this.base.simpleRequest(async () => await this.client.removeItems(id));
 
     getItems = async (id: string) => {
         const response = await this.client.getItems(id);
 
-        this.handleErrors(response);
+        this.base.handleErrors(response);
 
         return response.value;
     }

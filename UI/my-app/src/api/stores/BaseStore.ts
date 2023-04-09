@@ -1,8 +1,8 @@
 import { toast } from "react-toastify"
 import { EmptyResult } from "../../models/Result"
 
-export default abstract class BaseStore {
-    abstract client: any;
+export default class BaseStore {
+    client: any;
 
     handleErrors = (response: EmptyResult) => {
         if(!response.isSuccessful) {

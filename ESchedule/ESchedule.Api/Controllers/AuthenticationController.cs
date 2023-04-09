@@ -6,6 +6,7 @@ using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
+using System.Security.Claims;
 
 namespace ESchedule.Api.Controllers
 {
@@ -28,7 +29,13 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<UserModel>> GetAuthenticatedUserInfo()
         {
             var claims = HttpContext.User.Claims;
-            var userId = claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
+
+            if(!claims.Any())
+            {
+                return new ServiceResult<UserModel>();
+            }
+
+            var userId = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
             if(!Guid.TryParse(userId, out var id))
             {
