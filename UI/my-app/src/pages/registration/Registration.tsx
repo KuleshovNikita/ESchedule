@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
@@ -23,7 +23,7 @@ export default function Registration() {
     const [ageErrors, setAgeErrors] = useState('');
 
     const [role, setRole] = useState(Role.Pupil);
-    //const [roleErrors, setRoleErrors] = useState("");
+    const [roleErrors, setRoleErrors] = useState("");
 
     const [email, setEmail] = useState('');
     const [emailErrors, setEmailErrors] = useState("");
@@ -34,7 +34,7 @@ export default function Registration() {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [repeatPasswordErrors, setRepeatPasswordErrors] = useState('');
 
-    const firstNameRef = useRef<HTMLInputElement>();
+    const nameRef = useRef<HTMLInputElement>();
     const lastNameRef = useRef<HTMLInputElement>();
     const fatherNameRef = useRef<HTMLInputElement>();
     const ageRef = useRef<HTMLInputElement>();
@@ -144,14 +144,33 @@ export default function Registration() {
     }
 
     const hasErrors = () => {
+        nameRef.current?.focus();
+        lastNameRef.current?.focus();
+        fatherNameRef.current?.focus();
+        ageRef.current?.focus();
+        emailRef.current?.focus();
+        passwordRef.current?.focus();
+        repeatPasswordRef.current?.focus();
+
+        const isTouched =  name.length 
+                        && lastName.length
+                        && fatherName.length
+                        && age
+                        && email.length
+                        && role
+                        && password.length
+                        && repeatPassword.length;
+
         const hasAnyErrors = nameErrors.length 
                          || lastNameErrors.length 
                          || fatherNameErrors.length 
+                         || ageErrors.length 
+                         || roleErrors.length 
                          || emailErrors.length 
                          || passwordErrors.length 
                          || repeatPasswordErrors.length;
 
-        return hasAnyErrors;
+        return !isTouched || (isTouched && hasAnyErrors);
     }
 
     const submit = async () => {
@@ -166,7 +185,7 @@ export default function Registration() {
             fatherName: fatherName, 
             age: age,
             password: password,
-            role: role,
+            role: role as Role,
             tenantId: '00000000-0000-0000-0000-000000000001'
         };
 
@@ -211,7 +230,7 @@ export default function Registration() {
                     required={true}
                     helperText={nameErrors}
                     error={nameErrors.length !== 0}
-                    inputRef={firstNameRef}
+                    inputRef={nameRef}
                     onFocus={(e) => handleFirstNameChange(e)}
                     onChange={handleFirstNameChange}
                 />
@@ -243,23 +262,31 @@ export default function Registration() {
                     label="Age"
                     variant="filled"
                     value={age}
-                    required={false}
+                    required
                     helperText={ageErrors}
                     error={ageErrors.length !== 0}
                     inputRef={ageRef}
+                    margin="dense"
                     onFocus={(e) => handleAgeChange(e)}
                     onChange={handleAgeChange}
                 />
-                <Select
-                    id="role-registration-select"
-                    value={Role.Pupil}
-                    label="Role"
-                    required
-                    inputRef={roleRef}
-                    onChange={handleRoleChange}
-                >
-                    { getRolesItems() }
-                </Select>
+                <FormControl>
+                    <InputLabel id="role-registration-select-label">Role</InputLabel>
+                    <Select
+                        label="Role"
+                        id="role-registration-select"
+                        labelId="role-registration-select-label"
+                        variant="filled"
+                        required
+                        value={role}
+                        inputRef={roleRef}
+                        error={roleErrors.length !== 0}
+                        onChange={handleRoleChange}
+                    >
+                        { getRolesItems() }
+                    </Select>
+                    <FormHelperText sx={{color: '#d32f2f'}}>{roleErrors}</FormHelperText>
+                </FormControl>
                 <TextField
                     label="Email"
                     variant="filled"
