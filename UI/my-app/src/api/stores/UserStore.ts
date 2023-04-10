@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { agent } from "../agent";
-import { UserModel, UserLoginModel, UserCreateModel, UserUpdateModel } from "../../models/Users";
+import { UserModel, UserLoginModel, UserCreateModel, UserUpdateModel, Role } from "../../models/Users";
 import { store } from "./StoresManager";
 import BaseStore from "./BaseStore";
+import { toast } from "react-toastify";
 
 
 export default class UserStore {
@@ -26,7 +27,14 @@ export default class UserStore {
         console.debug("login successful, token - " + response.value);
         store.commonStore.setToken(response.value);
 
-        this.user = await this.getAutenticatedUserInfo();
+        const userInfo = await this.getAutenticatedUserInfo();
+        if(userInfo?.role === Role.Pupil) {
+            this.logout();
+            toast.error("Pupils are not allowed to access the web system");
+            return false;
+        } 
+
+        this.user = userInfo;
         return response.isSuccessful;
     };
 
