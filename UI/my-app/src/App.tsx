@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { observer } from 'mobx-react-lite';
 import AppRoutes from './components/AppRoutes';
-import Header from './components/markups/Header';
+import Header from './components/markups/Header/Header';
 import AppLoader from './AppLoader';
 
 function App() {
