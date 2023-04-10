@@ -16,16 +16,7 @@ function App() {
 
   useEffect(() => {
     AppLoader(stores);
-  }, [stores.commonStore, 
-      stores.userStore,
-      stores.groupStore,
-      stores.lessonStore,
-      stores.groupLessonStore,
-      stores.scheduleStore,
-      stores.teacherGroupLessonStore,
-      stores.teacherLessonStore,
-      stores.tenantStore,
-      stores.tenantSettingsStore]);
+  }, [stores]);
 
   if (!stores.commonStore.appLoaded) {
     return <LoadingComponent />;

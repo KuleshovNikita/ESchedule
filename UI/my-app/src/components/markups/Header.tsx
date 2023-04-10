@@ -2,6 +2,7 @@ import { Avatar, Box, Button, Typography } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../api/stores/StoresManager";
+import { listItemButton } from "../../styles/ButtonStyles";
 
 const headerBox = {
     bgcolor: "orange",
@@ -35,11 +36,11 @@ export default function Header() {
                         Eschedule
                     </Typography>
                         <Box sx={{ display: "flex", justifyContent: "center", mt: 2}}>
-                        <Avatar /*sx={listItemButton}*/ onClick={userProfile}>
+                        <Avatar sx={listItemButton} onClick={userProfile}>
                             {userStore.user?.name[0].toUpperCase()}
                             {userStore.user?.lastName[0].toUpperCase()}
                         </Avatar>
-                        <Button sx={{/*...listItemButton,*/ width: "20px", height: "40px"}}
+                        <Button sx={{...listItemButton, width: "20px", height: "40px"}}
                                 onClick={logout}
                         >
                             <LogoutIcon fontSize="large"/>

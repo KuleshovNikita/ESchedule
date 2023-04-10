@@ -22,5 +22,20 @@ export const avatarStyle = {
     height: 240,
     fontSize: 100,
     mb: 2,
+    ml: 3,
     bgcolor: deepOrange[500]
+}
+
+export const userInfoBlocks = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    ml: 2
+}
+
+export const userInfoSubSetBlock = {
+    mb: 3,
+    "*": {
+        mr: 1
+    }
 }

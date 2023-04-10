@@ -1,4 +1,4 @@
-import { Avatar, Button, TextField } from "@mui/material";
+import { Avatar, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState, useRef } from "react";
 import { useStore } from "../../api/stores/StoresManager";
@@ -6,7 +6,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import { mainBoxStyle, 
          profileBoxStyle, 
-         avatarStyle } from "./UserProfileStyles";
+         avatarStyle, 
+         userInfoBlocks,
+         userInfoSubSetBlock} from "./UserProfileStyles";
 import { buttonImageIconStyles,
          buttonHoverStyles, 
          buttonBoxStyles } from "../../styles/ButtonStyles";
@@ -38,7 +40,7 @@ export default function UserProfile() {
     const [login, setLogin] = useState(currentUser!.login);
     const [loginErrors, setLoginErrors] = useState('');
 
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState(passwordSecret);
     const [passwordErrors, setPasswordErrors] = useState('');
 
     const [changeMode, setChangeMode] = useState(true);
@@ -57,7 +59,6 @@ export default function UserProfile() {
     const ageRef = useRef<HTMLInputElement>();
     const loginRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
-    const repeatPasswordRef = useRef<HTMLInputElement>();
 
     const handleFirstNameChange = (e: Focus) => {
         const firstName = e.target.value;
@@ -100,10 +101,10 @@ export default function UserProfile() {
 
         if(!age) {
             return;
-        } else if (age < 10) {
-            setAgeErrors('The minimal allowed age is 10');
-        } else if (age > 100) {
-            setAgeErrors('The maximal allowed age is 100');
+        } else if (age < 5) {
+            setAgeErrors('The minimal allowed age is 5');
+        } else if (age > 99) {
+            setAgeErrors('The maximal allowed age is 99');
         } else {
             setAgeErrors('');
         }
@@ -138,28 +139,13 @@ export default function UserProfile() {
     }
 
     const hasErrors = () => {
-        // focus inputs
-        firstNameRef.current?.focus();
-        lastNameRef.current?.focus();
-        fatherNameRef.current?.focus();
-        loginRef.current?.focus();
-        passwordRef.current?.focus();
-        repeatPasswordRef.current?.focus();
-        repeatPasswordRef.current?.blur();
-
-        const isTouched =  name.length 
-                        && lastName.length 
-                        && fatherName.length 
-                        && login.length
-                        && password.length;
-
-        const hasAnyError = firstNameErrors.length 
+        const hasAnyErrors = firstNameErrors.length 
                          || lastNameErrors.length 
                          || fatherNameErrors.length 
                          || loginErrors.length
                          || passwordErrors.length;
 
-        return !isTouched || (isTouched && hasAnyError);
+        return hasAnyErrors;
     }
 
     const submit = async () => {
@@ -179,7 +165,7 @@ export default function UserProfile() {
             name: name,
             lastName: lastName, 
             fatherName: fatherName,
-            password: password === passwordSecret ? null : password
+            password: password === passwordSecret || !password ? null : password
         };
 
         const result = await userStore.updateUserInfo(user);
@@ -191,13 +177,41 @@ export default function UserProfile() {
 
     return(
         <Box sx={mainBoxStyle}>
-            <Box>
-                <Box sx={profileBoxStyle}>
-                    <Avatar sx={avatarStyle}>
-                        {currentUser?.name[0].toUpperCase()}
-                        {currentUser?.lastName[0].toUpperCase()}
-                    </Avatar>
+            <Box sx={profileBoxStyle}>
+                <Avatar sx={avatarStyle}>
+                    {currentUser?.name[0].toUpperCase()}
+                    {currentUser?.lastName[0].toUpperCase()}
+                </Avatar>
 
+                <Box sx={buttonBoxStyles}>
+                    <Button
+                        sx={buttonHoverStyles}   
+                        variant="contained"   
+                        onClick={setProfileChanging}
+                        disabled={!changeMode}             
+                    >
+                        Change
+                        <Avatar sx={buttonImageIconStyles}>
+                            <EditIcon />
+                        </Avatar>
+                    </Button>
+
+                    <Button
+                        sx={buttonHoverStyles}   
+                        variant="contained"   
+                        onClick={submit} 
+                        disabled={changeMode}          
+                    >
+                        Save
+                        <Avatar sx={buttonImageIconStyles}>
+                            <SaveIcon/>
+                        </Avatar>
+                    </Button>
+                </Box>
+            </Box>
+            <Box sx={userInfoBlocks}>
+                <Box sx={userInfoSubSetBlock}>
+                    <Typography variant='h5'> Personal Info: </Typography>
                     <TextField 
                         label="First Name"
                         variant="filled"
@@ -254,6 +268,10 @@ export default function UserProfile() {
                         onFocus={(e) => handleAgeChange(e)}
                         onChange={handleAgeChange}
                     />
+                    <hr/>
+                </Box>
+                <Box sx={userInfoSubSetBlock}>
+                    <Typography variant='h5'> Credentials: </Typography>
                     <TextField 
                         label="Email"
                         variant="filled"
@@ -274,7 +292,7 @@ export default function UserProfile() {
                         size="small"
                         helperText={passwordErrors}
                         type="password"
-                        value={passwordSecret}
+                        value={password}
                         required={true}
                         disabled={changeMode}
                         inputRef={passwordRef}
@@ -283,6 +301,10 @@ export default function UserProfile() {
                         onFocus={(e) => handlePasswordChange(e)}
                         onChange={handlePasswordChange}
                     />
+                    <hr/>
+                </Box>
+                <Box sx={userInfoSubSetBlock}>
+                    <Typography variant='h5'> Tenant Info: </Typography>
                     <TextField 
                         label="Role"
                         variant="filled"
@@ -310,36 +332,9 @@ export default function UserProfile() {
                         disabled
                         margin="dense"
                     />
-                </Box>
-                <Box sx={buttonBoxStyles}>
-                    <Button
-                        sx={buttonHoverStyles}   
-                        variant="contained"   
-                        onClick={setProfileChanging}
-                        disabled={!changeMode}             
-                    >
-                        Change
-                        <Avatar sx={buttonImageIconStyles}>
-                            <EditIcon />
-                        </Avatar>
-                    </Button>
-
-                    <Button
-                        sx={buttonHoverStyles}   
-                        variant="contained"   
-                        onClick={submit} 
-                        disabled={changeMode}          
-                    >
-                        Save
-                        <Avatar sx={buttonImageIconStyles}>
-                            <SaveIcon/>
-                        </Avatar>
-                    </Button>
+                    <hr/>
                 </Box>
             </Box>
-            {/* <Box sx={{ ml: 2 }}>
-                <PetsList pets={currentUser?.pets!}/>
-            </Box> */}
         </Box>
     );
 }

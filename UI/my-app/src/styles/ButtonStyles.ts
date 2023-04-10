@@ -1,7 +1,6 @@
 export const buttonBoxStyles = { 
     display: "flex", 
-    justifyContent: "space-between", 
-    width: 300 
+    justifyContent: "space-between"
 }
 
 export const buttonHoverStyles = { 
