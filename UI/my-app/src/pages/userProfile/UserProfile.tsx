@@ -25,8 +25,8 @@ export default function UserProfile() {
     const { userStore } = useStore();
     const currentUser = userStore.user;
 
-    const [name, setFirstName] = useState(currentUser!.name);
-    const [firstNameErrors, setFirstNameErrors] = useState('');
+    const [name, setName] = useState(currentUser!.name);
+    const [firstNameErrors, setNameErrors] = useState('');
 
     const [lastName, setLastName] = useState(currentUser!.lastName);
     const [lastNameErrors, setLastNameErrors] = useState('');
@@ -37,8 +37,8 @@ export default function UserProfile() {
     const [age, setAge] = useState(currentUser!.age);
     const [ageErrors, setAgeErrors] = useState('');
 
-    const [login, setLogin] = useState(currentUser!.login);
-    const [loginErrors, setLoginErrors] = useState('');
+    const [email, setEmail] = useState(currentUser!.login);
+    const [emailErrors, setEmailErrors] = useState('');
 
     const [password, setPassword] = useState(passwordSecret);
     const [passwordErrors, setPasswordErrors] = useState('');
@@ -64,12 +64,12 @@ export default function UserProfile() {
         const firstName = e.target.value;
 
         if (firstName.length === 0) {
-            setFirstNameErrors('First name is required');
+            setNameErrors('First name is required');
         } else {
-            setFirstNameErrors('');
+            setNameErrors('');
         }
 
-        setFirstName(firstName);
+        setName(firstName);
     }
 
     const handleLastNameChange = (e: Focus) => {
@@ -116,14 +116,14 @@ export default function UserProfile() {
         const email = e.target.value;
 
         if (email.length === 0) {
-            setLoginErrors('Email is required');
+            setEmailErrors('Email is required');
         } else if (!email.match(EMAIL_REGEX)) {
-            setLoginErrors('Email should be in correct format');
+            setEmailErrors('Email should be in correct format');
         } else {
-            setLoginErrors('');
+            setEmailErrors('');
         }
 
-        setLogin(email);
+        setEmail(email);
     }
 
     const handlePasswordChange = (e: Focus) => {
@@ -142,7 +142,7 @@ export default function UserProfile() {
         const hasAnyErrors = firstNameErrors.length 
                          || lastNameErrors.length 
                          || fatherNameErrors.length 
-                         || loginErrors.length
+                         || emailErrors.length
                          || passwordErrors.length;
 
         return hasAnyErrors;
@@ -157,7 +157,7 @@ export default function UserProfile() {
 
         const user: UserUpdateModel = {
             id: currentUser?.id!,
-            login: login, 
+            login: email, 
             age: age,
             role: null,
             groupId: null,
@@ -276,12 +276,12 @@ export default function UserProfile() {
                         label="Email"
                         variant="filled"
                         size="small"
-                        helperText={loginErrors}
-                        value={login}
+                        helperText={emailErrors}
+                        value={email}
                         required={true}
                         disabled={changeMode}
                         inputRef={loginRef}
-                        error={loginErrors.length !== 0}
+                        error={emailErrors.length !== 0}
                         margin="dense"
                         onFocus={(e) => handleEmailChange(e)}
                         onChange={handleEmailChange}

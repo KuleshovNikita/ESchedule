@@ -24,6 +24,7 @@ export default function Header() {
         <>
             {
                 !location.pathname.startsWith('/login') 
+             && !location.pathname.startsWith('/register') 
              &&
                 <Box sx={headerBox}>
                     <Typography variant="h2" component="h2" sx={titleTextStyle}>
