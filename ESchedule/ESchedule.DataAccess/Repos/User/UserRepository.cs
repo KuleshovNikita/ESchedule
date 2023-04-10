@@ -1,5 +1,6 @@
 ﻿using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Exceptions;
+using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ namespace ESchedule.DataAccess.Repos.User
             }
             catch (Exception ex)
             {
-                return result.Fail(ex);
+                return result.Fail(Resources.SuchLoginIsNotRegistered);
             }
         }
 

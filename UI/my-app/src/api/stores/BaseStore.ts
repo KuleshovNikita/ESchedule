@@ -13,6 +13,8 @@ export default class BaseStore {
     simpleRequest = async (request: BaseRequest) => {
         const response = await request();
         this.handleErrors(response);
+
+        return response;
     }
 }
 

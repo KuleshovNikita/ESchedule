@@ -1,10 +1,10 @@
 import { Route, Routes, Navigate } from "react-router";
-//import UserProfile from "../../pages/UserProfile/UserProfile";
 //import Registration from "../../pages/Registration/Registration";
 import NotFound from "../pages/notFound/NotFound";
 import { useStore } from "../api/stores/StoresManager";
 import { RequireAuth } from "./hoc/RequiresAuth";
 import { Login } from "../pages/login/Login";
+import UserProfile from "../pages/userProfile/UserProfile";
 
 export default function AppRoutes() {
     return (
@@ -15,7 +15,7 @@ export default function AppRoutes() {
             <Route path="/login" element={ <Login/> } />
             <Route path="/logout" element={ <Logout/> } />
 
-            <Route path="/profile" element={ <RequireAuth><>{/* add user profile comp later */}</></RequireAuth> } />
+            <Route path="/profile" element={ <RequireAuth><UserProfile /></RequireAuth> } />
 
             <Route path="*" element={ <NotFound /> } />
         </Routes>

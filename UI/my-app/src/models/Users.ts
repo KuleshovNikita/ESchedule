@@ -1,4 +1,6 @@
 import BaseEntity from "./Base";
+import { GroupModel } from "./Groups";
+import { TenantModel } from "./Tenants";
 
 export interface UserCreateModel extends UserLoginModel {
     name: string;
@@ -9,7 +11,7 @@ export interface UserCreateModel extends UserLoginModel {
     tenantId: string | null;
 }
 
-export interface UserUpdateModel {
+export interface UserUpdateModel extends BaseEntity {
     name: string | null;
     lastName: string | null;
     fatherName: string | null;
@@ -31,7 +33,9 @@ export interface UserModel extends BaseEntity {
     role: Role;
     isEmailConfirmed: boolean;
     groupId: string | null;
+    group: GroupModel;
     tenantId: string | null;
+    tenant: TenantModel;
 }
 
 export interface UserLoginModel {

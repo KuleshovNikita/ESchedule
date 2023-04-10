@@ -133,6 +133,15 @@ namespace ESchedule.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERR0015.
+        /// </summary>
+        public static string SuchLoginIsNotRegistered {
+            get {
+                return ResourceManager.GetString("SuchLoginIsNotRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ERR0009.
         /// </summary>
         public static string TheItemDoesntExist {
