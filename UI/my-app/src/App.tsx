@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import { useStore } from './api/stores/StoresManager';
-import LoadingComponent from './components/hoc/LoadingComponent';
+import LoadingComponent from './components/hoc/loading/LoadingComponent';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { observer } from 'mobx-react-lite';

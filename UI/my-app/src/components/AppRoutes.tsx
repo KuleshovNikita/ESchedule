@@ -5,6 +5,7 @@ import { RequireAuth } from "./hoc/RequiresAuth";
 import { Login } from "../pages/login/Login";
 import UserProfile from "../pages/userProfile/UserProfile";
 import Registration from "../pages/registration/Registration";
+import ConfirmEmail from "../pages/confirmEmail/ConfirmEmail";
 
 export default function AppRoutes() {
     return (
@@ -15,6 +16,7 @@ export default function AppRoutes() {
             <Route path="/login" element={ <Login/> } />
             <Route path="/logout" element={ <Logout/> } />
 
+            <Route path="/confirmEmail/:key" element={ <ConfirmEmail/> } />
             <Route path="/profile" element={ <RequireAuth><UserProfile /></RequireAuth> } />
 
             <Route path="*" element={ <NotFound /> } />

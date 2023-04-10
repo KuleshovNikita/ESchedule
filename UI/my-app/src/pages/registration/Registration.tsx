@@ -157,7 +157,6 @@ export default function Registration() {
                         && fatherName.length
                         && age
                         && email.length
-                        && role
                         && password.length
                         && repeatPassword.length;
 
@@ -203,7 +202,7 @@ export default function Registration() {
 
     const getRolesItems = () => {
         const values = Object.values(Role).filter(x => typeof x !== 'string') as Role[];
-        const result = values.map(vk => <MenuItem value={vk}>
+        const result = values.map((vk, key) => <MenuItem key={key} value={vk}>
                                             {Role[vk]}
                                         </MenuItem>
                                 );

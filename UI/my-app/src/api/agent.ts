@@ -78,7 +78,8 @@ const requests = {
 const Auth = {
     login: (body: UserLoginModel) => requests.post<Result<string>>("/authentication/login", body),
     register: (body: UserCreateModel) => requests.post<Result<string>>("/authentication/register", body),
-    getAuthenticatedUserInfo: () => requests.get<Result<UserModel>>("/authentication")
+    getAuthenticatedUserInfo: () => requests.get<Result<UserModel>>("/authentication"),
+    confirmEmail: (key: string) => requests.patch<EmptyResult>(`/authentication/confirmEmail/${key}`)
 }
 
 const User = {

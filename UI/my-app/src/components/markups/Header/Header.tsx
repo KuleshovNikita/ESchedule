@@ -25,6 +25,7 @@ export default function Header() {
             {
                 !location.pathname.startsWith('/login') 
              && !location.pathname.startsWith('/register') 
+             && !location.pathname.startsWith('/confirmEmail') 
              &&
                 <Box sx={headerBox}>
                     <Typography variant="h2" component="h2" sx={titleTextStyle}>

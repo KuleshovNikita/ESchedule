@@ -47,6 +47,14 @@ export default class UserStore {
     updateUserInfo = async (user: UserUpdateModel) =>
         await this.base.simpleRequest(async () => await agent.User.updateUser(user));
 
+    confirmEmail = async (key: string) => {
+        const response = await agent.Auth.confirmEmail(key);
+
+        this.base.handleErrors(response);
+
+        return response.isSuccessful;
+    }
+
     register = async (creds: UserCreateModel) => 
         await agent.Auth.register(creds);
 
