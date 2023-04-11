@@ -19,7 +19,7 @@ export default function Registration() {
     const [fatherName, setFatherName] = useState('');
     const [fatherNameErrors, setFatherNameErrors] = useState('');
 
-    const [age, setAge] = useState(5);
+    const [age, setAge] = useState<number>();
     const [ageErrors, setAgeErrors] = useState('');
 
     const [role, setRole] = useState(Role.Pupil);
@@ -83,11 +83,15 @@ export default function Registration() {
     }
 
     const handleAgeChange = (e: Focus) => {
+        if(e.target.value === '') {
+            setAgeErrors('The minimal allowed age is 5');
+            setAge(undefined);
+            return;
+        } 
+
         const age = Number(e.target.value);
 
-        if(!age) {
-            return;
-        } else if (age < 5) {
+        if (age < 5) {
             setAgeErrors('The minimal allowed age is 5');
         } else if (age > 99) {
             setAgeErrors('The maximal allowed age is 99');
@@ -182,7 +186,7 @@ export default function Registration() {
             name: name,
             lastName: lastName, 
             fatherName: fatherName, 
-            age: age,
+            age: age as number,
             password: password,
             role: role as Role,
             tenantId: '00000000-0000-0000-0000-000000000001'
@@ -203,8 +207,8 @@ export default function Registration() {
     const getRolesItems = () => {
         const values = Object.values(Role).filter(x => typeof x !== 'string') as Role[];
         const result = values.map((vk, key) => <MenuItem key={key} value={vk}>
-                                            {Role[vk]}
-                                        </MenuItem>
+                                                    {Role[vk]}
+                                                </MenuItem>
                                 );
 
         return result;
@@ -261,6 +265,7 @@ export default function Registration() {
                     label="Age"
                     variant="filled"
                     value={age}
+                    type="number"
                     required
                     helperText={ageErrors}
                     error={ageErrors.length !== 0}
