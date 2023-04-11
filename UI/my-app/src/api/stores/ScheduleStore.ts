@@ -6,7 +6,7 @@ import BaseStore from "./BaseStore";
 export default class ScheduleStore {
     base: BaseStore = new BaseStore();
     client = agent.Schedule;
-    schedule: ScheduleModel | null = null;
+    schedules: ScheduleModel[] | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -20,6 +20,10 @@ export default class ScheduleStore {
 
         this.base.handleErrors(response);
 
+        if(response.isSuccessful) {
+            this.schedules = this.parseDate(response.value);
+        }
+
         return response.value;
     }
  
@@ -27,6 +31,10 @@ export default class ScheduleStore {
         const response = await this.client.getScheduleForGroup(groupId);
 
         this.base.handleErrors(response);
+
+        if(response.isSuccessful) {
+            this.schedules = this.parseDate(response.value);
+        }
 
         return response.value;
     }
@@ -39,8 +47,30 @@ export default class ScheduleStore {
         return response.value;
     }
 
+    getScheduleForTeacher = async (teacherId: string) => {
+        const response = await this.client.getScheduleForTeacher(teacherId);
+
+        this.base.handleErrors(response);
+
+        if(response.isSuccessful) {
+            this.schedules = this.parseDate(response.value);
+        }
+
+        return response.value;
+    }
+
     removeSchedule = async (tenantId: string) =>
         await this.base.simpleRequest(async () => await this.client.removeSchedule(tenantId)); 
 
+    parseDate = (schedules: ScheduleModel[]) => {
+        schedules.forEach(el => {
+            const start = el.startTime.toString().split(':');
+            el.startTime = new Date(0, 0, 0, Number(start[0]), Number(start[1]), Number(start[2]));
 
+            const end = el.endTime.toString().split(':');
+            el.endTime = new Date(0, 0, 0, Number(end[0]), Number(end[1]), Number(end[2]));
+        });
+
+        return schedules;
+    }
 }

@@ -324,10 +324,10 @@ export default function UserProfile() {
                         margin="dense"
                     />
                     <TextField 
-                        label="Group"
+                        label={userStore.user?.role === Role.Teacher ? "Underlying Group" : "Group"}
                         variant="filled"
                         size="small"
-                        value={userStore.user?.group.title}
+                        value={userStore.user?.group?.title ?? 'None'}
                         required={false}
                         disabled
                         margin="dense"

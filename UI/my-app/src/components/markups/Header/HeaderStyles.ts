@@ -26,9 +26,6 @@ export const logoutButtonStyle = {
 
 export const headerBox = {
     bgcolor: "orange",
-    mt: -1,
-    ml: -1, 
-    mr: -1,
     display: "grid",
     gridTemplateColumns: "6fr 1fr"
 }

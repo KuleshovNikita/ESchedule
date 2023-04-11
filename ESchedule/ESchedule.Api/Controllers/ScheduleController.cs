@@ -38,6 +38,11 @@ namespace ESchedule.Api.Controllers
             => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TenantId == tenantId));
 
         [Authorize]
+        [HttpGet("teacher/{teacherId}")]
+        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForTeacher(Guid teacherId)
+            => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TeacherId == teacherId));
+
+        [Authorize]
         [HttpGet("rules/{tenantId}")]
         public async Task<ServiceResult<IEnumerable<RuleModel>>> GetScheduleRules(Guid tenantId)
             => await RunWithServiceResult(async () => await _rulesService.GetItems(x => x.TenantId == tenantId));

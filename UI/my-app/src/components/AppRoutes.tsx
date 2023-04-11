@@ -6,6 +6,7 @@ import { Login } from "../pages/login/Login";
 import UserProfile from "../pages/userProfile/UserProfile";
 import Registration from "../pages/registration/Registration";
 import ConfirmEmail from "../pages/confirmEmail/ConfirmEmail";
+import { ScheduleTable } from "../pages/schedules/ScheduleTable";
 
 export default function AppRoutes() {
     return (
@@ -18,6 +19,7 @@ export default function AppRoutes() {
 
             <Route path="/confirmEmail/:key" element={ <ConfirmEmail/> } />
             <Route path="/profile" element={ <RequireAuth><UserProfile /></RequireAuth> } />
+            <Route path="/schedule" element={ <RequireAuth><ScheduleTable /></RequireAuth> } />
 
             <Route path="*" element={ <NotFound /> } />
         </Routes>
