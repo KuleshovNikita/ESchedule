@@ -99,7 +99,13 @@ namespace ESchedule.Business.ScheduleBuilding
             for (var i = 0; i < _lessonsMananger.Count; i++)
             {
                 var targetLesson = _lessonsMananger.Next();
-                var teacher = GetSuitableTeacherByLesson(targetLesson.Id);
+                var teacher = GetSuitableTeacherByLesson(targetLesson.Id, lessonStartTime);
+
+                if(teacher == null)
+                {
+                    i--;
+                    continue;
+                }
 
                 if (!IsTeacherBusyAtThisTime(teacher, lessonStartTime))
                 {
@@ -113,11 +119,22 @@ namespace ESchedule.Business.ScheduleBuilding
         private bool IsTeacherBusyAtThisTime(UserModel teacher, TimeSpan lessonStartTime)
             => teacher.StudySchedules.Any(sch => sch.StartTime == lessonStartTime && sch.DayOfWeek == _currentDay);
 
-        private UserModel GetSuitableTeacherByLesson(Guid lessonId)
+        private UserModel GetSuitableTeacherByLesson(Guid lessonId, TimeSpan lessonStartTime)
         {
             var teacherLessonInfo = _currentGroup.GroupTeachersLessons.First(x => x.LessonId == lessonId);
+
+            if(TeacherHasLessonAtThisTime(teacherLessonInfo.TeacherId, lessonStartTime))
+            {
+                return null;
+            }
+
             return teacherLessonInfo.Teacher;
         }
+
+        private bool TeacherHasLessonAtThisTime(Guid teacherId, TimeSpan lessonStartTime) =>
+            _schedulesSet.Any(x => x.StartTime == lessonStartTime
+                                && x.DayOfWeek == _currentDay
+                                && x.TeacherId == teacherId);
 
         private bool RulesVerified(ScheduleModel schedule)
         {

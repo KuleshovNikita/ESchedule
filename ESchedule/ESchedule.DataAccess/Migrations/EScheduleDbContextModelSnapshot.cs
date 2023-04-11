@@ -40,7 +40,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
 
                     b.HasData(
                         new
@@ -112,7 +112,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("Schedules", (string)null);
                 });
 
             modelBuilder.Entity("ESchedule.Domain.ManyToManyModels.GroupsLessonsModel", b =>
@@ -133,7 +133,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("StudyGroupId");
 
-                    b.ToTable("GroupsLessons");
+                    b.ToTable("GroupsLessons", (string)null);
 
                     b.HasData(
                         new
@@ -221,7 +221,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeachersGroupsLessons");
+                    b.ToTable("TeachersGroupsLessons", (string)null);
 
                     b.HasData(
                         new
@@ -314,7 +314,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeachersLessons");
+                    b.ToTable("TeachersLessons", (string)null);
 
                     b.HasData(
                         new
@@ -376,7 +376,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("ScheduleRules");
+                    b.ToTable("ScheduleRules", (string)null);
                 });
 
             modelBuilder.Entity("ESchedule.Domain.Tenant.TenantModel", b =>
@@ -394,7 +394,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasIndex("TenantName")
                         .IsUnique();
 
-                    b.ToTable("Tenant");
+                    b.ToTable("Tenant", (string)null);
 
                     b.HasData(
                         new
@@ -427,7 +427,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasIndex("TenantId")
                         .IsUnique();
 
-                    b.ToTable("TenantSettings");
+                    b.ToTable("TenantSettings", (string)null);
 
                     b.HasData(
                         new
@@ -461,7 +461,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
 
                     b.HasData(
                         new
@@ -532,7 +532,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new

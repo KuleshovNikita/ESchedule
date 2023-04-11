@@ -12,7 +12,7 @@
     "ESchedule": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:20000;http://localhost:20001",
       "environmentVariables": {

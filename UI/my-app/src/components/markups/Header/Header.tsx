@@ -2,9 +2,10 @@ import { Avatar, Box, Button, Typography } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
-import { headerBox, headerNavButtonStyle, 
-         logoutButtonStyle, 
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { headerBox, headerNavButtonStyle,
          navigationButtonsStyle, 
+         profileNavButtonStyle, 
          titleTextStyle } from "./HeaderStyles";
 
 export default function Header() {
@@ -20,6 +21,10 @@ export default function Header() {
         navigate('/profile', { replace: true });
     }
 
+    const schedules = () => {
+        navigate('/schedule', { replace: true });
+    }
+
     return( 
         <>
             {
@@ -32,11 +37,18 @@ export default function Header() {
                         Eschedule
                     </Typography>
                     <Box sx={navigationButtonsStyle}>
-                        <Avatar sx={headerNavButtonStyle} onClick={userProfile}>
+                        <Avatar sx={[headerNavButtonStyle, profileNavButtonStyle]} onClick={userProfile}>
                             {userStore.user?.name[0].toUpperCase()}
                             {userStore.user?.lastName[0].toUpperCase()}
                         </Avatar>
-                        <Button sx={[headerNavButtonStyle, logoutButtonStyle]}
+
+                        <Button sx={[headerNavButtonStyle]}
+                                onClick={schedules}
+                        >
+                            <CalendarMonthIcon fontSize="large"/>
+                        </Button>
+
+                        <Button sx={[headerNavButtonStyle]}
                                 onClick={logout}
                         >
                             <LogoutIcon fontSize="large"/>

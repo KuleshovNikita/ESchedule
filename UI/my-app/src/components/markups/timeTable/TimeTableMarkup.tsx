@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { TimeTableHeadStyles, TableHeadCellStyle, TableMarkupStyle, TimeTableBodyStyles, TimeTableCellStyle } from "./TimeTableMarkupStyles";
+import { TimeTableHeadStyles, TableHeadCellStyle, TableMarkupStyle, TimeTableBodyStyles, TimeTableCellStyle, TimeTableRowStyle } from "./TimeTableMarkupStyles";
 import { ReactNode } from "react";
 import { daysOfWeek, timeTableScope } from "../../../utils/Utils";
 
@@ -23,7 +23,7 @@ const buildTableHourRows = () => {
 
     for(let i = timeTableScope.start; i <= timeTableScope.end; i++) {
         rows.push(
-            <TableRow key={i}>
+            <TableRow key={i} sx={TimeTableRowStyle}>
                 <TableCell sx={TimeTableCellStyle}>
                     {i}:00
                 </TableCell>

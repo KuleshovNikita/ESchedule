@@ -1,13 +1,15 @@
 export const titleTextStyle = {
     display: "inline-block",
     ml: 2,
+    pt: 0.5,
     color: 'white'
 }
 
 export const navigationButtonsStyle = { 
     display: "flex", 
-    justifyContent: "center", 
-    mt: 2
+    justifyContent: "end",
+    mt: 2,
+    mb: 2,
 }
 
 export const headerNavButtonStyle = {
@@ -19,9 +21,9 @@ export const headerNavButtonStyle = {
     },
 }
 
-export const logoutButtonStyle = {
-    width: "20px", 
-    height: "40px"
+export const profileNavButtonStyle = {
+    padding: '6px',
+    mr: 2
 }
 
 export const headerBox = {

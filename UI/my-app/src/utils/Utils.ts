@@ -14,3 +14,5 @@ export const daysOfWeek = [
     'Friday', 
     'Saturday'
 ]
+
+export const hourInPixels = 148;

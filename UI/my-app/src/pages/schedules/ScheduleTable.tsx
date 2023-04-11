@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import { DayOfWeek, ScheduleModel } from "../../models/Schedules";
 import { daysOfWeek, timeTableScope } from "../../utils/Utils";
 import { TimeTableBodyStyles } from "../../components/markups/timeTable/TimeTableMarkupStyles";
-import { ScheduleActiveItemStyle, ScheduleItemPlaceholderStyle, ScheduleRowStyle, ScheduleTableHeadStyle } from "./ScheduleTableStyles";
+import { ScheduleItemStyle, ScheduleItemPlaceholderStyle, ScheduleRowStyle, ScheduleTableHeadStyle } from "./ScheduleTableStyles";
 
 export const ScheduleTable = observer(() => {
     const { scheduleStore, userStore } = useStore();
@@ -18,7 +18,7 @@ export const ScheduleTable = observer(() => {
 
     const buildRowCells = () => {
             if(!schedules || schedules.length === 0) {
-                return daysOfWeek.map(x => <TableCell key={x}></TableCell>);
+                return;
             }
 
             const schedule = schedules?.shift();
@@ -30,7 +30,7 @@ export const ScheduleTable = observer(() => {
                 const item = rowItems.find(x => x.dayOfWeek === i as DayOfWeek);
 
                 if(item) {
-                    result.push(<TableCell sx={ScheduleActiveItemStyle} key={item.id}>{item.id}</TableCell>);
+                    result.push(<TableCell sx={ScheduleItemStyle} key={item.id}>{item.id}</TableCell>);
                 } else {
                     result.push(<TableCell sx={ScheduleItemPlaceholderStyle} key={i}></TableCell>)
                 } 
