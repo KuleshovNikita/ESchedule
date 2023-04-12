@@ -42,7 +42,7 @@ namespace ESchedule.Business
             return (await _repository.InsertMany(mappedItems)).Success();
         }
 
-        public async virtual Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate)
+        public async virtual Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate, bool includeNavs = false)
             => (await _repository.Where(predicate)).Success();
 
         public async virtual Task<ServiceResult<T>> First(Expression<Func<T, bool>> predicate)

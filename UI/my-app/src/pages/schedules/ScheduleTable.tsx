@@ -1,20 +1,24 @@
-import { Box, Table, TableBody, TableCell, TableRow, tableRowClasses } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { useStore } from "../../api/stores/StoresManager";
 import TimeTableMarkup from "../../components/markups/timeTable/TimeTableMarkup";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { DayOfWeek, ScheduleModel } from "../../models/Schedules";
 import { daysOfWeek, timeTableScope } from "../../utils/Utils";
 import { TimeTableBodyStyles } from "../../components/markups/timeTable/TimeTableMarkupStyles";
 import { ScheduleItemStyle, ScheduleItemPlaceholderStyle, ScheduleRowStyle, ScheduleTableHeadStyle } from "./ScheduleTableStyles";
+import ScheduleCellContent from "../../components/scheduleCell/ScheduleCellContent";
+import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 
 export const ScheduleTable = observer(() => {
     const { scheduleStore, userStore } = useStore();
+    const [ isLoaded, setLoadedState ] = useState(false);
     let schedules: ScheduleModel[] | undefined;
 
     useEffect(() => {
-        scheduleStore.getScheduleForTeacher(userStore.user?.id as string);
-    }, [scheduleStore, userStore.user?.id])
+        scheduleStore.getScheduleForTeacher(userStore.user?.id as string)
+            .then(() => setLoadedState(true))
+    }, [scheduleStore, userStore.user?.id]);
 
     const buildRowCells = () => {
             if(!schedules || schedules.length === 0) {
@@ -30,7 +34,9 @@ export const ScheduleTable = observer(() => {
                 const item = rowItems.find(x => x.dayOfWeek === i as DayOfWeek);
 
                 if(item) {
-                    result.push(<TableCell sx={ScheduleItemStyle} key={item.id}>{item.id}</TableCell>);
+                    result.push(<TableCell sx={ScheduleItemStyle} key={item.id}>
+                                    <ScheduleCellContent item={item}/>
+                                </TableCell>);
                 } else {
                     result.push(<TableCell sx={ScheduleItemPlaceholderStyle} key={i}></TableCell>)
                 } 
@@ -63,12 +69,20 @@ export const ScheduleTable = observer(() => {
 
     return( 
         <Box>
-            <TimeTableMarkup/>
-            <Table sx={ScheduleTableHeadStyle}>
-                <TableBody sx={TimeTableBodyStyles}>
-                    { buildRows() }
-                </TableBody>
-            </Table>
+            { 
+                !isLoaded
+            ?
+                <LoadingComponent/>
+            :
+                <Box>
+                    <TimeTableMarkup/>
+                    <Table sx={ScheduleTableHeadStyle}>
+                        <TableBody sx={TimeTableBodyStyles}>
+                            { buildRows() }
+                        </TableBody>
+                    </Table>
+                </Box>
+            }
         </Box>
     );
 })

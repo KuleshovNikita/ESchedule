@@ -40,7 +40,7 @@ namespace ESchedule.Api.Controllers
         [Authorize]
         [HttpGet("teacher/{teacherId}")]
         public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForTeacher(Guid teacherId)
-            => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TeacherId == teacherId));
+            => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TeacherId == teacherId, includeNavs: true));
 
         [Authorize]
         [HttpGet("rules/{tenantId}")]
