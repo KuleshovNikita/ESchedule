@@ -17,6 +17,7 @@ namespace ESchedule.Business.Auth
             => new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userModel.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Typ, userModel.Role.ToString()),
                 new Claim(ClaimTypes.Name, $"{userModel.Name} {userModel.LastName}"),
                 new Claim(JwtRegisteredClaimNames.Email, userModel.Login)
             };

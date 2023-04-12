@@ -1,5 +1,6 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
+using ESchedule.Domain.Policy;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Domain.Lessons.Schedule;
@@ -22,12 +23,12 @@ namespace ESchedule.Api.Controllers
             _rulesService = rulesService;
         }
 
-        [Authorize]
+        [Authorize(Policies.DispatcherOnly)]
         [HttpPost("{tenantId}")]
         public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, [FromBody] IEnumerable<RuleInputModel> rules)
             => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId, rules));
 
-        [Authorize]
+        [Authorize(Policies.DispatcherOnly)]
         [HttpPut]
         public async Task<ServiceResult<Empty>> UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel) //TODO сделать позже, подумать как должно работать
             => await RunWithServiceResult(async () => await _service.UpdateItem(scheduleModel));
@@ -42,7 +43,7 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForTeacher(Guid teacherId)
             => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TeacherId == teacherId, includeNavs: true));
 
-        [Authorize]
+        [Authorize(Policies.DispatcherOnly)]
         [HttpGet("rules/{tenantId}")]
         public async Task<ServiceResult<IEnumerable<RuleModel>>> GetScheduleRules(Guid tenantId)
             => await RunWithServiceResult(async () => await _rulesService.GetItems(x => x.TenantId == tenantId));
@@ -52,7 +53,7 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForGroup(Guid groupId)
             => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.StudyGroupId == groupId));
 
-        [Authorize]
+        [Authorize(Policies.DispatcherOnly)]
         [HttpDelete("{tenantId}")]
         public async Task<ServiceResult<Empty>> RemoveSchedule(Guid tenantId)
             => await RunWithServiceResult(async () => await _scheduleService.RemoveWhere(x => x.TenantId == tenantId));

@@ -6,7 +6,7 @@ import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useEffect, useState } from "react";
 import { loginButtonStyle } from "../registration/RegistrationStyles";
 
-export default function ConfirmEmail() {
+export default function ConfirmEmailPage() {
     const navigate = useNavigate();
 
     const [finished, setFinishState] = useState(false);

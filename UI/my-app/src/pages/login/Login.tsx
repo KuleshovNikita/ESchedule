@@ -11,7 +11,7 @@ import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
 
-export function Login() {
+export function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
 

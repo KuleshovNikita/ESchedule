@@ -7,7 +7,7 @@ import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { ScheduleStartEndTime } from "../../models/Tenants";
 import ScheduleTableBuilder from "./ScheduleTableBuilder";
 
-export const ScheduleTable = () => {
+export const ScheduleTablePage = () => {
     const { scheduleStore, userStore, tenantSettingsStore } = useStore();
     const [ isLoaded, setLoadedState ] = useState(false);
     const [ schedules, setSchedules ] = useState<ScheduleModel[]>([]);

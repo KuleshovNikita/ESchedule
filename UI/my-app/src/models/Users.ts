@@ -45,5 +45,6 @@ export interface UserLoginModel {
 
 export enum Role {
     Pupil = 0,
-    Teacher = 1
+    Teacher = 1,
+    Dispatcher
 }
