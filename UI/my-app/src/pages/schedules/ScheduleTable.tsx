@@ -9,25 +9,35 @@ import { TimeTableBodyStyles } from "../../components/markups/timeTable/TimeTabl
 import { ScheduleItemStyle, ScheduleItemPlaceholderStyle, ScheduleRowStyle, ScheduleTableHeadStyle } from "./ScheduleTableStyles";
 import ScheduleCellContent from "../../components/scheduleCell/ScheduleCellContent";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
+import { ScheduleStartEndTime } from "../../models/Tenants";
 
 export const ScheduleTable = observer(() => {
-    const { scheduleStore, userStore } = useStore();
+    const { scheduleStore, userStore, tenantSettingsStore } = useStore();
     const [ isLoaded, setLoadedState ] = useState(false);
     let schedules: ScheduleModel[] | undefined;
+    let timeTable: ScheduleStartEndTime[] | undefined;
 
     useEffect(() => {
-        scheduleStore.getScheduleForTeacher(userStore.user?.id as string)
-            .then(() => setLoadedState(true))
-    }, [scheduleStore, userStore.user?.id]);
 
-    const buildRowCells = () => {
+        const fetchSettings = async () => {
+            await tenantSettingsStore.getTenantScheduleTimes(userStore.user?.tenantId as string);
+        } 
+        
+        const fetchSchedules = async () => {
+            await scheduleStore.getScheduleForTeacher(userStore.user?.id as string)
+                    .then(() => setLoadedState(true));
+        }
+
+        fetchSettings();
+        fetchSchedules();
+    }, [scheduleStore, tenantSettingsStore, userStore.user?.id, userStore.user?.tenantId]);
+
+    const buildRowCells = (timeRange: ScheduleStartEndTime) => {
             if(!schedules || schedules.length === 0) {
                 return;
             }
 
-            const schedule = schedules?.shift();
-            const rowItems = schedules?.filter(sc => sc.startTime.getTime() === schedule?.startTime.getTime());
-            rowItems?.push(schedule as ScheduleModel);
+            const rowItems = schedules?.filter(x => x.startTime.getTime() === timeRange.startTime.getTime());
             const result: ReactNode[] = [];
 
             for(let i = 0; i < daysOfWeek.length; i++) {
@@ -48,7 +58,9 @@ export const ScheduleTable = observer(() => {
     }
 
     const buildRows = () => {
-        const rows: ReactNode[] = [];        
+        const rows: ReactNode[] = [];    
+        
+        timeTable = tenantSettingsStore.timeTableList?.slice();
 
         schedules = scheduleStore.schedules?.slice()
                             .sort((sc1, sc2) => 
@@ -56,10 +68,10 @@ export const ScheduleTable = observer(() => {
                                         sc2.startTime.getTime()
                                     );
 
-        for(let i = timeTableScope.start; i <= timeTableScope.end; i++) {
+        for(let j = 0, i = timeTableScope.start; i <= timeTableScope.end; i++, j++) {
             rows.push(
                 <TableRow key={i} sx={ScheduleRowStyle}>
-                    {schedules ? buildRowCells() : undefined}
+                    {schedules ? buildRowCells(timeTable![j]) : undefined}
                 </TableRow>
             );
         }
@@ -69,19 +81,17 @@ export const ScheduleTable = observer(() => {
 
     return( 
         <Box>
+            <TimeTableMarkup/>
             { 
                 !isLoaded
             ?
                 <LoadingComponent/>
             :
-                <Box>
-                    <TimeTableMarkup/>
-                    <Table sx={ScheduleTableHeadStyle}>
-                        <TableBody sx={TimeTableBodyStyles}>
-                            { buildRows() }
-                        </TableBody>
-                    </Table>
-                </Box>
+                <Table sx={ScheduleTableHeadStyle}>
+                    <TableBody sx={TimeTableBodyStyles}>
+                        { buildRows() }
+                    </TableBody>
+                </Table>
             }
         </Box>
     );

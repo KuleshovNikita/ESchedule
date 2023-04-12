@@ -35,3 +35,8 @@ export interface TenantSettingsModel extends BaseEntity {
     tenantId: string;
 }
 
+export interface ScheduleStartEndTime {
+    startTime: Date;
+    endTime: Date;
+}
+

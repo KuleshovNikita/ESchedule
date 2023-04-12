@@ -1,11 +1,7 @@
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import { loadingSpinnerStyle } from './LoadingComponentStyles';
+import LinearProgress from '@mui/material/LinearProgress';
 
 export default function LoadingComponent() {
   return (
-    <Box sx={loadingSpinnerStyle}>
-      <CircularProgress />
-    </Box>
+      <LinearProgress/>
   );
 }
