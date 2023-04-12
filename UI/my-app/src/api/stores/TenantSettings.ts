@@ -31,6 +31,10 @@ export default class TenantSettingsStore {
     }
 
     getTenantScheduleTimes = async (tenantId: string) => {
+        if(this.timeTableList) {
+            return this.timeTableList;
+        }
+
         const response = await this.client.getTenantScheduleTimes(tenantId);
 
         this.base.handleErrors(response);

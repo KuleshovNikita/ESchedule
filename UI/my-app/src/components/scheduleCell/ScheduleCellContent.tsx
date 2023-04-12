@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import { ScheduleModel } from "../../models/Schedules";
-import { ScheduleCellMainBox } from "./ScheduleCellStyles";
 
 interface Props {
     item: ScheduleModel
@@ -9,7 +8,7 @@ interface Props {
 export default function ScheduleCellContent({ item }: Props) {
 
     return(
-        <Box sx={ScheduleCellMainBox}>
+        <>
             <Box>
                 { item.studyGroup.title }
             </Box>
@@ -19,6 +18,6 @@ export default function ScheduleCellContent({ item }: Props) {
             <Box>
                 { item.startTime.toLocaleTimeString([], { hour12: false }) } - { item.endTime.toLocaleTimeString([], { hour12: false }) }
             </Box>
-        </Box>
+        </>
     );
 }

@@ -48,6 +48,10 @@ export default class ScheduleStore {
     }
 
     getScheduleForTeacher = async (teacherId: string) => {
+        if(this.schedules) {
+            return this.schedules;
+        }
+
         const response = await this.client.getScheduleForTeacher(teacherId);
 
         this.base.handleErrors(response);
