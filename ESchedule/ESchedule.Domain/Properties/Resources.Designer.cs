@@ -79,7 +79,7 @@ namespace ESchedule.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hi! Your email was used for registration in PetHelper! Follow this link to confirm your email address and finish registration {0}.
+        ///   Looks up a localized string similar to Hi! Your email was used for registration in ESchedule! Follow this link to confirm your email address and finish registration {0}.
         /// </summary>
         public static string EmailMessageTemplate {
             get {

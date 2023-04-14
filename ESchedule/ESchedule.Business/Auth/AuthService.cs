@@ -65,9 +65,9 @@ namespace ESchedule.Business.Auth
             return serviceResult.CatchAny();
         }
 
-        public async Task<ServiceResult<string>> Register(UserCreateModel userModel)
+        public async Task<ServiceResult<Empty>> Register(UserCreateModel userModel)
         {
-            var serviceResult = new ServiceResult<string>();
+            var serviceResult = new ServiceResult<Empty>();
 
             if (userModel is null)
             {
@@ -80,8 +80,6 @@ namespace ESchedule.Business.Auth
 
             await _userService.AddUser(userDomainModel);
             await _emailService.SendEmailConfirmMessage(userDomainModel);
-
-            serviceResult.Value = BuildInitialClaims(userDomainModel);
 
             return serviceResult.CatchAny();
         }
@@ -107,18 +105,12 @@ namespace ESchedule.Business.Auth
             return serviceResult.CatchAny();
         }
 
-        private void ValidateEmail(string login, ServiceResult<string> serviceResult)
+        private void ValidateEmail<TType>(string login, ServiceResult<TType> serviceResult)
         {
             if (!MailAddress.TryCreate(login, out _))
             {
                 serviceResult.FailAndThrow(Resources.InvalidEmailAddressFormatSpecified);
             }
-        }
-
-        private string BuildInitialClaims(UserModel userModel)
-        {
-            var claims = ClaimsSets.GetInitialClaims(userModel);
-            return BuildClaims(claims);
         }
 
         private string BuildClaimsWithEmail(UserModel userModel)

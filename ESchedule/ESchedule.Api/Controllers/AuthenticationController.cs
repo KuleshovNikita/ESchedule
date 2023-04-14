@@ -5,7 +5,6 @@ using ESchedule.Domain;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
 namespace ESchedule.Api.Controllers
@@ -18,7 +17,7 @@ namespace ESchedule.Api.Controllers
             => _authService = authService;
 
         [HttpPost("register")]
-        public async Task<ServiceResult<string>> Register([FromBody] UserCreateModel registerModel)
+        public async Task<ServiceResult<Empty>> Register([FromBody] UserCreateModel registerModel)
             => await RunWithServiceResult(async () => await _authService.Register(registerModel));
 
         [HttpPost("login")]
