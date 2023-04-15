@@ -20,7 +20,7 @@ export const TimeTableHeadStyles = {
         mr: 0.1,
         ml: 0.1
     },
-    '&:first-child': {
+    '&:first-of-type': {
         borderLeft: 'solid gray 1px',
     },
     "& th": { 
@@ -29,7 +29,7 @@ export const TimeTableHeadStyles = {
 }
 
 export const TimeTableRowStyle = {
-    '&:first-child td': {
+    '&:first-of-type td': {
         pt: 5
     }
 }

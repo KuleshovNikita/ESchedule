@@ -20,7 +20,7 @@ import { getEnumKey } from "../../utils/Utils";
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
 
-export default function UserProfile() {
+export default function UserPage() {
     const passwordSecret = "**********";
     const { userStore } = useStore();
     const currentUser = userStore.user;

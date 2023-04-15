@@ -3,10 +3,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import { headerBox, headerNavButtonStyle,
          navigationButtonsStyle, 
          profileNavButtonStyle, 
          titleTextStyle } from "./HeaderStyles";
+import { Role } from "../../../models/Users";
 
 export default function Header() {
     const { userStore } = useStore();
@@ -23,6 +25,10 @@ export default function Header() {
 
     const schedules = () => {
         navigate('/schedule', { replace: true });
+    }
+
+    const scheduleBuilder = () => {
+        navigate('/scheduleBuilder', { replace: true });
     }
 
     return( 
@@ -42,11 +48,27 @@ export default function Header() {
                             {userStore.user?.lastName[0].toUpperCase()}
                         </Avatar>
 
-                        <Button sx={[headerNavButtonStyle]}
-                                onClick={schedules}
-                        >
-                            <CalendarMonthIcon fontSize="large"/>
-                        </Button>
+                        {
+                            (
+                                userStore.user?.role === Role.Dispatcher
+                            &&
+                                <Button sx={[headerNavButtonStyle]}
+                                        onClick={scheduleBuilder}
+                                >
+                                    <EditCalendarIcon fontSize="large"/>
+                                </Button>
+                            )
+                        || 
+                            (
+                                userStore.user?.role === Role.Teacher
+                            &&
+                                <Button sx={[headerNavButtonStyle]}
+                                    onClick={schedules}
+                                >
+                                    <CalendarMonthIcon fontSize="large"/>
+                                </Button>
+                            )
+                        }
 
                         <Button sx={[headerNavButtonStyle]}
                                 onClick={logout}

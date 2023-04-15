@@ -81,13 +81,13 @@ namespace ESchedule.Business.ScheduleBuilding
             return (await _repository.InsertMany(schedulesSet)).Success();
         }
 
-        public override async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetItems(Expression<Func<ScheduleModel, bool>> predicate)
+        public override async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetItems(Expression<Func<ScheduleModel, bool>> predicate, bool includeNavs = false)
         {
             var schedules = (await base.GetItems(predicate)).Value;
 
             return new ServiceResult<IEnumerable<ScheduleModel>>
             {
-                Value = SimplifySchedulesSet(schedules)
+                Value = includeNavs ? schedules : SimplifySchedulesSet(schedules)
             }.Success();
         }
 

@@ -9,7 +9,7 @@ import { Role, UserCreateModel } from "../../models/Users";
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>;
 
-export default function Registration() {
+export default function RegistrationPage() {
     const [name, setName] = useState('');
     const [nameErrors, setNameErrors] = useState('');
 

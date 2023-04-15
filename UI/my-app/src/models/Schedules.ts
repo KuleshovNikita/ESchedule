@@ -1,4 +1,8 @@
 import BaseEntity from "./Base";
+import { GroupModel } from "./Groups";
+import { LessonModel } from "./Lessons";
+import { TenantModel } from "./Tenants";
+import { UserModel } from "./Users";
 
 export interface RuleInputModel {
     ruleName: string;
@@ -16,9 +20,13 @@ export interface ScheduleModel extends BaseEntity {
     endTime: Date;
     dayOfWeek: DayOfWeek;
     studyGroupId: string;
+    studyGroup: GroupModel;
     teacherId: string;
+    teacher: UserModel;
     lessonId: string;
+    lesson: LessonModel;
     tenantId: string;
+    tenant: TenantModel;
 }
 
 export enum DayOfWeek {

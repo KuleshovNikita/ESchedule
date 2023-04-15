@@ -5,15 +5,19 @@ import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { UserLoginModel } from "../../models/Users";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from "react-toastify";
+import { InputFormStyle, RegisterButtonStyle } from "./LoginStyles";
+import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
 
-export function Login() {
+export function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
 
     const fromPage = location.state?.form?.pathname || "/";
+
+    const [isWaitingForAuth, setAuthWaiter] = useState(false);
 
     const [email, setEmail] = useState("");
     const [emailErrors, setEmailErrors] = useState("");
@@ -72,6 +76,7 @@ export function Login() {
             password: password 
         };
 
+        setAuthWaiter(true);
         const isSuccessful = await userStore.login(user);
 
         if(isSuccessful) {
@@ -86,69 +91,61 @@ export function Login() {
 
     return (
         <>
-            <Typography variant="h1" 
-                        component="h1"
-                        align="center">
-                ESchedule
-            </Typography>
-            <Box
-                component="form"
-                sx={{
-                    "&": {
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    },
-                    "& .MuiTextField-root": { m: 1, width: "25ch" },
-                    "& button": { my: 1 },
-                    "& .MuiLink-root": { fontSize: "1.2rem" },
-                }}
-                noValidate
-                autoComplete="off"
-            >
-                <TextField
-                    label="Email"
-                    variant="filled"
-                    value={email}
-                    required={true}
-                    helperText= {emailErrors}
-                    error={emailErrors.length !== 0}
-                    inputRef={emailRef}
-                    onFocus={(e) => handleEmailChange(e)}
-                    onChange={handleEmailChange}
-                />
-                <TextField
-                    label="Password"
-                    variant="filled"
-                    type="password"
-                    value={password}
-                    required={true}
-                    helperText= {passwordErrors}
-                    error={passwordErrors.length !== 0}
-                    inputRef={passwordRef}
-                    onFocus={(e) => handlePasswordChange(e)}
-                    onChange={handlePasswordChange}
-                />
-                <Button variant="contained" size="large" onClick={submit}>
-                    Login
-                </Button>
-                <Typography>
-                    Or
+            {
+                isWaitingForAuth === true
+            ?
+                <LoadingComponent/>
+            :
+            <>
+                <Typography variant="h1" 
+                            component="h1"
+                            align="center">
+                    ESchedule
                 </Typography>
-                <Button sx={{
-                            "&": {
-                                backgroundColor: "brown"
-                            },
-                            "&:hover": {
-                                backgroundColor: "red"
-                            }
-                        }} 
-                        variant="contained" 
-                        size="large" 
-                        onClick={redirectToRegistration}>
-                    Register
-                </Button>
-            </Box>
+                <Box
+                    component="form"
+                    sx={InputFormStyle}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <TextField
+                        label="Email"
+                        variant="filled"
+                        value={email}
+                        required={true}
+                        helperText= {emailErrors}
+                        error={emailErrors.length !== 0}
+                        inputRef={emailRef}
+                        onFocus={(e) => handleEmailChange(e)}
+                        onChange={handleEmailChange}
+                    />
+                    <TextField
+                        label="Password"
+                        variant="filled"
+                        type="password"
+                        value={password}
+                        required={true}
+                        helperText= {passwordErrors}
+                        error={passwordErrors.length !== 0}
+                        inputRef={passwordRef}
+                        onFocus={(e) => handlePasswordChange(e)}
+                        onChange={handlePasswordChange}
+                    />
+                    <Button variant="contained" size="large" onClick={submit}>
+                        Login
+                    </Button>
+                    <Typography>
+                        Or
+                    </Typography>
+                    <Button sx={RegisterButtonStyle} 
+                            variant="contained" 
+                            size="large" 
+                            onClick={redirectToRegistration}>
+                        Register
+                    </Button>
+                </Box>
+            </>
+            }
         </>
     );
 }

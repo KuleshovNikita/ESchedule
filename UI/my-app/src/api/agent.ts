@@ -8,7 +8,7 @@ import { LessonCreateModel, LessonModel, LessonUpdateModel } from "../models/Les
 import { EmptyResult, Result } from "../models/Result";
 import { GroupsLessonsCreateModel, GroupsLessonsModel, TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel, TeachersLessonsCreateModel, TeachersLessonsModel } from "../models/ManyToMany";
 import { RuleInputModel, RuleModel, ScheduleModel } from "../models/Schedules";
-import { TenantCreateModel, TenantModel, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel, TenantUpdateModel } from "../models/Tenants";
+import { ScheduleStartEndTime, TenantCreateModel, TenantModel, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel, TenantUpdateModel } from "../models/Tenants";
 
 interface ErrorResponse {
     errors: { detail: string }[];
@@ -123,6 +123,7 @@ const TenantSettings = {
     createTenantSettings: (body: TenantSettingsCreateModel) => requests.post<EmptyResult>(`/tenantSettings`, body),
     updateTenantSettings: (body: TenantSettingsUpdateModel) => requests.put<EmptyResult>(`/tenantSettings`, body),
     getTenantSettings: (tenantId: string) => requests.get<Result<TenantSettingsModel>>(`/tenantSettings/${tenantId}`),
+    getTenantScheduleTimes: (tenantId: string) => requests.get<Result<ScheduleStartEndTime[]>>(`/tenantSettings/time/${tenantId}`),
     removeTenantSettings: (tenantId: string) => requests.delete<EmptyResult>(`/tenantSettings/${tenantId}`),
 }
 

@@ -21,6 +21,13 @@ export const ScheduleItemStyle = {
     },
     pb: 0,
     pt: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    '*:last-child': {
+        marginTop: 'auto',
+        mb: 1
+    },
+    fontSize: '17px'
 }
 
 export const ScheduleRowStyle = {

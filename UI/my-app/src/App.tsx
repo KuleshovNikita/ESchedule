@@ -29,7 +29,10 @@ function App() {
         <main className="main">
           <AppRoutes />
         </main>
-        <ToastContainer position={"bottom-right"} hideProgressBar={true}/>
+        <ToastContainer position={"bottom-right"} 
+                        limit={3} 
+                        autoClose={5000} 
+                        hideProgressBar={false}/>
       </React.StrictMode>
     </BrowserRouter>
   );

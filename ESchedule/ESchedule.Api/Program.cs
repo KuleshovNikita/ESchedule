@@ -19,6 +19,7 @@ builder.Services.AddCors(x => x.AllowAnyOriginPolicy());
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureAuthentication(builder.Configuration.GetSection("Jwt").Get<JwtSettings>()!);
+builder.Services.ConfigureAuthorization();
 builder.Services.ConfigureDbConnection(builder.Configuration);
 
 var app = builder.Build();
