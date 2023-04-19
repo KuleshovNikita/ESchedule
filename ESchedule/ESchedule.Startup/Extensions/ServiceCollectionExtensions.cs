@@ -16,6 +16,7 @@ using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,6 +46,9 @@ namespace ESchedule.Startup.Extensions
 
         public static void ConfigureAuthorization(this IServiceCollection services)
         {
+            services.AddSingleton<IAuthorizationRequirement, DispatcherRoleRequirement>();
+            services.AddSingleton<IAuthorizationRequirement, TeacherRoleRequirement>();
+
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy(Policies.TeacherOnly, p => p.Requirements.Add(new TeacherRoleRequirement()));
