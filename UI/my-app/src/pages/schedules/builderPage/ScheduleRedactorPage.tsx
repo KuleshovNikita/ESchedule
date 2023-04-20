@@ -1,3 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 export default function ScheduleRedactorPage() {
-    return (<>Schedule builder placeholder</>);
+    const { t } = useTranslation('common');
+
+    return (<>{t('ScheduleBuilderPlaceholder')}</>);
 }

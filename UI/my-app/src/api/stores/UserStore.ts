@@ -4,7 +4,7 @@ import { UserModel, UserLoginModel, UserCreateModel, UserUpdateModel, Role } fro
 import { store } from "./StoresManager";
 import BaseStore from "./BaseStore";
 import { toast } from "react-toastify";
-
+import { t } from "i18next";
 
 export default class UserStore {
     base: BaseStore = new BaseStore();
@@ -58,11 +58,13 @@ export default class UserStore {
     register = async (creds: UserCreateModel) => 
         await agent.Auth.register(creds);
 
-    getAutenticatedUserInfo = async () => {
+    getAutenticatedUserInfo = async () => {    
         if(this.isLoggedIn) {
             return this.user;
         } else {
             const response = await agent.Auth.getAuthenticatedUserInfo();
+
+            toast.error(t('ERR0011'));
 
             this.base.handleErrors(response);
             
