@@ -1,19 +1,22 @@
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, MenuItem, Select, Typography } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import { headerBox, headerNavButtonStyle,
+import { cultureSelectStyle, headerBox, headerLeftSideBoxStyle, headerNavButtonStyle,
          navigationButtonsStyle, 
          profileNavButtonStyle, 
          titleTextStyle } from "./HeaderStyles";
 import { Role } from "../../../models/Users";
+import { getDefLang, locales, updateLang } from "../../../translations/Localization";
+import { useTranslation } from "react-i18next";
 
 export default function Header() {
     const { userStore } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
+    const { i18n } = useTranslation('common');
 
     const logout = () => {
         navigate('/logout', { replace: true });
@@ -39,9 +42,22 @@ export default function Header() {
              && !location.pathname.startsWith('/confirmEmail') 
              &&
                 <Box sx={headerBox}>
-                    <Typography variant="h2" component="h2" sx={titleTextStyle}>
-                        Eschedule
-                    </Typography>
+                    <Box sx={headerLeftSideBoxStyle}>
+                        <Typography variant="h2" component="h2" sx={titleTextStyle}>
+                            Eschedule
+                        </Typography>
+                        <Select defaultValue={getDefLang} sx={cultureSelectStyle}>
+                        {
+                            Object.keys(locales).map((key) => {
+                                return  <MenuItem value={key} 
+                                                  key={key} 
+                                                  onClick={() => updateLang(key)}>
+                                            {locales[key as keyof typeof locales]}
+                                        </MenuItem>
+                            })
+                        }
+                        </Select>
+                    </Box>
                     <Box sx={navigationButtonsStyle}>
                         <Avatar sx={[headerNavButtonStyle, profileNavButtonStyle]} onClick={userProfile}>
                             {userStore.user?.name[0].toUpperCase()}
@@ -63,7 +79,7 @@ export default function Header() {
                                 userStore.user?.role === Role.Teacher
                             &&
                                 <Button sx={[headerNavButtonStyle]}
-                                    onClick={schedules}
+                                        onClick={schedules}
                                 >
                                     <CalendarMonthIcon fontSize="large"/>
                                 </Button>

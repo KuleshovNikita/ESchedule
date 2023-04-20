@@ -1,7 +1,19 @@
+export const headerLeftSideBoxStyle = {
+    display: 'flex',
+    frexDirection: 'raw',
+    '*': {
+        margin: 0.7,
+    },
+}
+
+export const cultureSelectStyle = {
+    mt: 1,
+    mb: 1,
+    pr: 1
+}
+
 export const titleTextStyle = {
     display: "inline-block",
-    ml: 2,
-    pt: 0.5,
     color: 'white'
 }
 

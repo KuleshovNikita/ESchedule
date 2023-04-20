@@ -1,0 +1,15 @@
+{
+    "ScheduleBuilderPlaceholder": "Schedule builder placeholder",
+    "ERR0002": "Email confirmation needed",
+    "ERR0004": "Invalid data found",
+    "ERR0005": "Invalid data found, can't authenticate user",
+    "ERR0006": "Invalid data found, can't register user",
+    "ERR0007": "Invalid email address format specified",
+    "ERR0008": "No users for specified key were found",
+    "ERR0009": "The item doesn't exist",
+    "ERR0010": "The login is already registered",
+    "ERR0011": "The email is already confirmed",
+    "ERR0012": "This walk is already finished",
+    "ERR0013": "User with the provided login doesn't exist",
+    "ERR0014": "Wrong password or login"
+}
