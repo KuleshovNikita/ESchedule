@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import React from "react";
 import { Role, UserUpdateModel } from "../../models/Users";
 import { getEnumKey } from "../../utils/Utils";
+import { useCult } from "../../hooks/Translator";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -23,6 +24,7 @@ type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>;
 export default function UserPage() {
     const passwordSecret = "**********";
     const { userStore } = useStore();
+    const { translator } = useCult();
     const currentUser = userStore.user;
 
     const [name, setName] = useState(currentUser!.name);
@@ -64,7 +66,7 @@ export default function UserPage() {
         const firstName = e.target.value;
 
         if (firstName.length === 0) {
-            setNameErrors('First name is required');
+            setNameErrors(translator('first-name-required'));
         } else {
             setNameErrors('');
         }
@@ -76,7 +78,7 @@ export default function UserPage() {
         const lastName = e.target.value;
 
         if (lastName.length === 0) {
-            setLastNameErrors('Last name is required');
+            setLastNameErrors(translator('last-name-required'));
         } else {
             setLastNameErrors('');
         }
@@ -88,7 +90,7 @@ export default function UserPage() {
         const fatherName = e.target.value;
 
         if (fatherName.length === 0) {
-            setFatherNameErrors('Father name is required');
+            setFatherNameErrors(translator('father-name-required'));
         } else {
             setFatherNameErrors('');
         }
@@ -102,9 +104,9 @@ export default function UserPage() {
         if(!age) {
             return;
         } else if (age < 5) {
-            setAgeErrors('The minimal allowed age is 5');
+            setAgeErrors(translator('minimal-age-5'));
         } else if (age > 99) {
-            setAgeErrors('The maximal allowed age is 99');
+            setAgeErrors(translator('maximal-age-99'));
         } else {
             setAgeErrors('');
         }
@@ -116,9 +118,9 @@ export default function UserPage() {
         const email = e.target.value;
 
         if (email.length === 0) {
-            setEmailErrors('Email is required');
+            setEmailErrors(translator('email-required'));
         } else if (!email.match(EMAIL_REGEX)) {
-            setEmailErrors('Email should be in correct format');
+            setEmailErrors(translator('email-should-be-correct'));
         } else {
             setEmailErrors('');
         }
@@ -130,7 +132,7 @@ export default function UserPage() {
         const password = e.target.value;
 
         if (password.length === 0) {
-            setPasswordErrors('Please enter password');
+            setPasswordErrors(translator('please-enter-password'));
         } else {
             setPasswordErrors('');
         }
@@ -171,8 +173,19 @@ export default function UserPage() {
         const result = await userStore.updateUserInfo(user);
         
         if(result.isSuccessful) {
-            toast.success('Profile was updated');
+            toast.success(translator('profile-updated'));
         } 
+    }
+
+    function getGroupLabelName(): React.ReactNode {
+        return userStore.user?.role === Role.Teacher 
+            ? translator('underlying-group-label') 
+            : translator('group-label'); 
+    }
+
+    function getGroupFieldValue(): unknown {
+        return userStore.user?.group?.title 
+            ?? translator('none-word');
     }
 
     return(
@@ -190,7 +203,7 @@ export default function UserPage() {
                         onClick={setProfileChanging}
                         disabled={!changeMode}             
                     >
-                        Change
+                        {translator('change-button')}
                         <Avatar sx={buttonImageIconStyles}>
                             <EditIcon />
                         </Avatar>
@@ -202,7 +215,7 @@ export default function UserPage() {
                         onClick={submit} 
                         disabled={changeMode}          
                     >
-                        Save
+                        {translator('save-button')}
                         <Avatar sx={buttonImageIconStyles}>
                             <SaveIcon/>
                         </Avatar>
@@ -211,9 +224,11 @@ export default function UserPage() {
             </Box>
             <Box sx={userInfoBlocks}>
                 <Box sx={userInfoSubSetBlock}>
-                    <Typography variant='h5'> Personal Info: </Typography>
+                    <Typography variant='h5'> 
+                        {translator('personal-info-header')}
+                    </Typography>
                     <TextField 
-                        label="First Name"
+                        label={translator('first-name-label')}
                         variant="filled"
                         size="small"
                         helperText={firstNameErrors}
@@ -227,7 +242,7 @@ export default function UserPage() {
                         onChange={handleFirstNameChange}
                     />
                     <TextField 
-                        label="Last Name"
+                        label={translator('last-name-label')}
                         variant="filled"
                         size="small"
                         helperText={lastNameErrors}
@@ -241,7 +256,7 @@ export default function UserPage() {
                         onChange={handleLastNameChange}
                     />
                     <TextField 
-                        label="Father Name"
+                        label={translator('father-name-label')}
                         variant="filled"
                         size="small"
                         helperText={fatherNameErrors}
@@ -255,7 +270,7 @@ export default function UserPage() {
                         onChange={handleFatherNameChange}
                     />
                     <TextField 
-                        label="Age"
+                        label={translator('age-label')}
                         variant="filled"
                         size="small"
                         helperText={ageErrors}
@@ -271,9 +286,11 @@ export default function UserPage() {
                     <hr/>
                 </Box>
                 <Box sx={userInfoSubSetBlock}>
-                    <Typography variant='h5'> Credentials: </Typography>
+                    <Typography variant='h5'> 
+                        {translator('credentials-header')}
+                    </Typography>
                     <TextField 
-                        label="Email"
+                        label={translator('email-label')}
                         variant="filled"
                         size="small"
                         helperText={emailErrors}
@@ -287,7 +304,7 @@ export default function UserPage() {
                         onChange={handleEmailChange}
                     />
                     <TextField 
-                        label="Password"
+                        label={translator('password-label')}
                         variant="filled"
                         size="small"
                         helperText={passwordErrors}
@@ -304,18 +321,20 @@ export default function UserPage() {
                     <hr/>
                 </Box>
                 <Box sx={userInfoSubSetBlock}>
-                    <Typography variant='h5'> Tenant Info: </Typography>
+                    <Typography variant='h5'> 
+                        {translator('tenant-info-header')}
+                    </Typography>
                     <TextField 
-                        label="Role"
+                        label={translator('role-label')}
                         variant="filled"
                         size="small"
-                        value={getEnumKey(Role, userStore.user?.role)}
+                        value={translator(getEnumKey(Role, userStore.user?.role))}
                         required={false}
                         disabled
                         margin="dense"
                     />
                     <TextField 
-                        label="Tenant"
+                        label={translator('tenant-label')}
                         variant="filled"
                         size="small"
                         value={userStore.user?.tenant.tenantName}
@@ -324,10 +343,10 @@ export default function UserPage() {
                         margin="dense"
                     />
                     <TextField 
-                        label={userStore.user?.role === Role.Teacher ? "Underlying Group" : "Group"}
+                        label={getGroupLabelName()}
                         variant="filled"
                         size="small"
-                        value={userStore.user?.group?.title ?? 'None'}
+                        value={getGroupFieldValue()}
                         required={false}
                         disabled
                         margin="dense"

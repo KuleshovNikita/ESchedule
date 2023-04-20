@@ -1,7 +1,7 @@
-import { useTranslation } from "react-i18next";
+import { useCult } from "../../../hooks/Translator";
 
 export default function ScheduleRedactorPage() {
-    const { t } = useTranslation('common');
+    const { translator } = useCult();
 
-    return (<>{t('ScheduleBuilderPlaceholder')}</>);
+    return (<>{translator('schedule-builder-placeholder')}</>);
 }

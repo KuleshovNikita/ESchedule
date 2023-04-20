@@ -209,7 +209,7 @@ export default function RegistrationPage() {
     const getRolesItems = () => {
         const values = Object.values(Role).filter(x => typeof x !== 'string') as Role[];
         const result = values.map((vk, key) => <MenuItem key={key} value={vk}>
-                                                    {Role[vk]}
+                                                    {translator(Role[vk])}
                                                 </MenuItem>
                                 );
 

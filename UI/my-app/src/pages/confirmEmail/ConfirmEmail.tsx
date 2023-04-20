@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useEffect, useState } from "react";
 import { loginButtonStyle } from "../registration/RegistrationStyles";
+import { useCult } from "../../hooks/Translator";
 
 export default function ConfirmEmailPage() {
     const navigate = useNavigate();
+    const { translator } = useCult();
 
     const [finished, setFinishState] = useState(false);
     const { userStore } = useStore();
@@ -37,13 +39,13 @@ export default function ConfirmEmailPage() {
                 ? 
                     <Box sx={{textAlign: 'center'}}>
                         <Typography variant="h2">
-                            Email is successfully confirmed
+                            {translator('email-successfully-confirmed')}
                         </Typography>
                         <Button sx={loginButtonStyle} 
                                 variant="contained" 
                                 size="large" 
                                 onClick={redirectToLogin}>
-                            Login
+                            {translator('login-button')}
                         </Button>
                     </Box>
                 : 

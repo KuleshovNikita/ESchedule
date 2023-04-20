@@ -32,7 +32,7 @@ namespace ESchedule.DataAccess.Repos.User
             }
             catch (Exception ex)
             {
-                return result.Fail(Resources.SuchLoginIsNotRegistered);
+                return result.Fail(Resources.UserWithTheProvidedLoginDoesntExist);
             }
         }
 

@@ -64,8 +64,6 @@ export default class UserStore {
         } else {
             const response = await agent.Auth.getAuthenticatedUserInfo();
 
-            toast.error(t('ERR0011'));
-
             this.base.handleErrors(response);
             
             if(response.value !== null) {

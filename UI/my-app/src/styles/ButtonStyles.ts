@@ -1,6 +1,6 @@
 export const buttonBoxStyles = { 
     display: "flex", 
-    justifyContent: "space-between"
+    flexDirection: "column"
 }
 
 export const buttonHoverStyles = { 

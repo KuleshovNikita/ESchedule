@@ -7,6 +7,7 @@ import { useStore } from "../../api/stores/StoresManager";
 import { toast } from "react-toastify";
 import { InputFormStyle, RegisterButtonStyle } from "./LoginStyles";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
+import { useCult } from "../../hooks/Translator";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -14,6 +15,7 @@ type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>;
 export function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { translator } = useCult();
 
     const fromPage = location.state?.form?.pathname || "/";
 
@@ -33,9 +35,9 @@ export function LoginPage() {
         const email = e.target.value;
 
         if(email.length === 0) {
-            setEmailErrors('Email is required');
+            setEmailErrors(translator('email-required'));
         } else if(!email.match(EMAIL_REGEX)) {
-            setEmailErrors('Email should be in the correct format');
+            setEmailErrors(translator('email-should-be-correct'));
         } else {
             setEmailErrors('');
         }
@@ -47,7 +49,7 @@ export function LoginPage() {
         const password = e.target.value;
 
         if (password.length === 0) {
-            setPasswordErrors('Please enter password');
+            setPasswordErrors(translator('please-enter-password'));
         } else {
             setPasswordErrors('');
         }
@@ -80,7 +82,7 @@ export function LoginPage() {
         const isSuccessful = await userStore.login(user);
 
         if(isSuccessful) {
-            toast.success(`Welcome, ${userStore.user?.name}`);
+            toast.success(translator('welcome-toast') + userStore.user?.name);
             navigate(fromPage, { replace: true });
         }
     };
@@ -104,7 +106,7 @@ export function LoginPage() {
                     autoComplete="off"
                 >
                     <TextField
-                        label="Email"
+                        label={translator('email-label')}
                         variant="filled"
                         value={email}
                         required={true}
@@ -115,7 +117,7 @@ export function LoginPage() {
                         onChange={handleEmailChange}
                     />
                     <TextField
-                        label="Password"
+                        label={translator('password-label')}
                         variant="filled"
                         type="password"
                         value={password}
@@ -127,16 +129,16 @@ export function LoginPage() {
                         onChange={handlePasswordChange}
                     />
                     <Button variant="contained" size="large" onClick={submit}>
-                        Login
+                        {translator('login-button')}
                     </Button>
                     <Typography>
-                        Or
+                        {translator('or-word')}
                     </Typography>
                     <Button sx={RegisterButtonStyle} 
                             variant="contained" 
                             size="large" 
                             onClick={redirectToRegistration}>
-                        Register
+                        {translator('register-button')}
                     </Button>
                 </Box>
             </>

@@ -1,5 +1,5 @@
 {
-    "ScheduleBuilderPlaceholder": "Schedule builder placeholder",
+    "schedule-builder-placeholder": "Schedule builder placeholder",
     
     "ERR0002": "Email confirmation needed",
     "ERR0004": "Invalid data found",
@@ -28,7 +28,7 @@
     "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
     
     "first-name-label": "First Name",
-    "second-name-label": "Second Name",
+    "last-name-label": "Second Name",
     "father-name-label": "Father Name",
     "age-label": "Age",
     "role-label": "Role",
@@ -38,5 +38,35 @@
 
     "register-button": "Register",
     "login-button": "Login",
-    "or-word": "Or"
+    "or-word": "Or",
+
+    "email-successfully-confirmed": "Email is successfully confirmed",
+    "welcome-toast": "Welcome, ",
+    "page-not-found": "Page not found",
+    "profile-updated": "Profile was updated",
+
+    "change-button": "Change",
+    "save-button": "Save",
+
+    "personal-info-header": "Personal Info:",
+    "tenant-info-header": "Tenant Info:",
+    "credentials-header": "Credentials:",
+
+    "tenant-label": "Tenant",
+    "underlying-group-label": "Underlying Group",
+    "group-label": "Group",
+
+    "none-word": "None",
+
+    "Sunday": "Sunday",
+    "Monday": "Monday",
+    "Tuesday": "Tuesday",
+    "Wednesday": "Wednesday",
+    "Thursday": "Thursday",
+    "Friday": "Friday",
+    "Saturday": "Saturday",
+
+    "Pupil": "Pupil",
+    "Teacher": "Teacher",
+    "Dispatcher": "Dispatcher"
 }

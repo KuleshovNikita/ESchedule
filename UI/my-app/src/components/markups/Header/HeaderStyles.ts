@@ -1,20 +1,21 @@
 export const headerLeftSideBoxStyle = {
     display: 'flex',
-    frexDirection: 'raw',
+    frexDirection: 'row',
     ml: 2,
-    '*': {
-        mt: 0.7,
-        mr: 2,
-    },
+    mr: 2,
 }
 
 export const cultureSelectStyle = {
-    mt: 1,
-    mb: 1,
-    pr: 1
+    mt: 1.8,
+    mb: 1.8,
+    width: "150px",
+    '& .MuiInputBase-input': {
+        backgroundColor: 'white',
+    },
 }
 
 export const titleTextStyle = {
+    mr: 2,
     display: "inline-block",
     color: 'white'
 }

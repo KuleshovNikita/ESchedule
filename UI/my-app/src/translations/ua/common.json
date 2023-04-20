@@ -27,7 +27,7 @@
     "verification-email-sent": "Ми надіслали на вказану пошту лист для підтвердження реєстрації, будь ласка, перевірте пошту",
     
     "first-name-label": "Ім'я",
-    "second-name-label": "Прізвище",
+    "last-name-label": "Прізвище",
     "father-name-label": "По батькові",
     "age-label": "Вік",
     "role-label": "Роль",
@@ -37,5 +37,35 @@
 
     "register-button": "Зареєструватись",
     "login-button": "Увійти",
-    "or-word": "Або"
+    "or-word": "Або",
+
+    "email-successfully-confirmed": "Електрону пошту успішно підтверджено",
+    "welcome-toast": "Вітаємо, ",
+    "page-not-found": "Сторінку не знайдено",
+    "profile-updated": "Профіль успішно оновлено",
+
+    "change-button": "Змінити",
+    "save-button": "Зберегти",
+
+    "personal-info-header": "Персональна дані:",
+    "tenant-info-header": "Організація:",
+    "credentials-header": "Облікові дані:",
+
+    "tenant-label": "Організація",
+    "underlying-group-label": "Підпорядкована група",
+    "group-label": "Група",
+
+    "none-word": "Відсутня",
+
+    "Sunday": "Неділя",
+    "Monday": "Понеділок",
+    "Tuesday": "Вівторок",
+    "Wednesday": "Середа",
+    "Thursday": "Четвер",
+    "Friday": "П'ятниця",
+    "Saturday": "Субота",
+
+    "Pupil": "Учень",
+    "Teacher": "Вчитель",
+    "Dispatcher": "Диспетчер"
 }
