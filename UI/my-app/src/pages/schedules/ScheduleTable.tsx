@@ -37,10 +37,8 @@ export const ScheduleTablePage = () => {
             <TimeTableMarkup/>
             { 
                 !isLoaded
-            ?
-                <LoadingComponent/>
-            :
-                <ScheduleTableBuilder schedules={schedules} timeTable={timeTable} />
+                    ? <LoadingComponent/>
+                    : <ScheduleTableBuilder schedules={schedules} timeTable={timeTable} />
             }
         </Box>
     );
