@@ -5,11 +5,13 @@ import { useStore } from "../../api/stores/StoresManager";
 import { toast } from 'react-toastify';
 import { loginButtonStyle, registrationFormStyle } from "./RegistrationStyles";
 import { Role, UserCreateModel } from "../../models/Users";
+import { useCult } from "../../hooks/Translator";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>;
 
 export default function RegistrationPage() {
+    const { translator } = useCult();
     const [name, setName] = useState('');
     const [nameErrors, setNameErrors] = useState('');
 
@@ -50,7 +52,7 @@ export default function RegistrationPage() {
         const firstName = e.target.value;
 
         if (firstName.length === 0) {
-            setNameErrors('First name is required');
+            setNameErrors(translator('first-name-required'));
         } else {
             setNameErrors('');
         }
@@ -62,7 +64,7 @@ export default function RegistrationPage() {
         const lastName = e.target.value;
 
         if (lastName.length === 0) {
-            setLastNameErrors('Last name is required');
+            setLastNameErrors(translator('last-name-required'));
         } else {
             setLastNameErrors('');
         }
@@ -74,7 +76,7 @@ export default function RegistrationPage() {
         const fatherName = e.target.value;
 
         if (fatherName.length === 0) {
-            setFatherNameErrors('Father name is required');
+            setFatherNameErrors(translator('father-name-required'));
         } else {
             setFatherNameErrors('');
         }
@@ -84,7 +86,7 @@ export default function RegistrationPage() {
 
     const handleAgeChange = (e: Focus) => {
         if(e.target.value === '') {
-            setAgeErrors('The minimal allowed age is 5');
+            setAgeErrors(translator('minimal-age-5'));
             setAge(undefined);
             return;
         } 
@@ -92,9 +94,9 @@ export default function RegistrationPage() {
         const age = Number(e.target.value);
 
         if (age < 5) {
-            setAgeErrors('The minimal allowed age is 5');
+            setAgeErrors(translator('minimal-age-5'));
         } else if (age > 99) {
-            setAgeErrors('The maximal allowed age is 99');
+            setAgeErrors(translator('maximal-age-99'));
         } else {
             setAgeErrors('');
         }
@@ -111,9 +113,9 @@ export default function RegistrationPage() {
         const email = e.target.value;
 
         if (email.length === 0) {
-            setEmailErrors('Email is required');
+            setEmailErrors(translator('email-required'));
         } else if (!email.match(EMAIL_REGEX)) {
-            setEmailErrors('Email should be in correct format');
+            setEmailErrors(translator('email-should-be-correct'));
         } else {
             setEmailErrors('');
         }
@@ -125,7 +127,7 @@ export default function RegistrationPage() {
         const password = e.target.value;
 
         if (password.length === 0) {
-            setPasswordErrors('Please enter password');
+            setPasswordErrors(translator('please-enter-password'));
         } else {
             setPasswordErrors('');
         }
@@ -137,9 +139,9 @@ export default function RegistrationPage() {
         const repeatPassword = e.target.value;
 
         if (repeatPassword.length === 0) {
-            setRepeatPasswordErrors('Please enter repeat password');
+            setRepeatPasswordErrors(translator('please-repeat-password'));
         } else if (repeatPassword !== password) {
-            setRepeatPasswordErrors('Passwords don\'t match');
+            setRepeatPasswordErrors(translator('passwords-do-not-match'));
         } else {
             setRepeatPasswordErrors('');
         }
@@ -196,7 +198,7 @@ export default function RegistrationPage() {
         
         if(!result.isSuccessful) {
             navigate("/login");
-            toast.success('We have sent a verification list to your email, please, follow the instructions there');
+            toast.success(translator('verification-email-sent'));
         } 
     }
 
@@ -216,18 +218,13 @@ export default function RegistrationPage() {
 
     return (
         <>
-            <Typography variant="h1" 
-                        component="h1"
-                        align="center">
-                ESchedule
-            </Typography>
             <Box
                 component="form"
                 sx={registrationFormStyle}
                 autoComplete="off"
             >
                 <TextField
-                    label="First Name"
+                    label={translator('first-name-label')}
                     variant="filled"
                     value={name}
                     required={true}
@@ -238,7 +235,7 @@ export default function RegistrationPage() {
                     onChange={handleFirstNameChange}
                 />
                 <TextField
-                    label="Last Name"
+                    label={translator('second-name-label')}
                     variant="filled"
                     value={lastName}
                     required={true}
@@ -249,7 +246,7 @@ export default function RegistrationPage() {
                     onChange={handleLastNameChange}
                 />
                 <TextField 
-                    label="Father Name"
+                    label={translator('father-name-label')}
                     variant="filled"
                     size="small"
                     helperText={fatherNameErrors}
@@ -262,7 +259,7 @@ export default function RegistrationPage() {
                     onChange={handleFatherNameChange}
                 />
                 <TextField
-                    label="Age"
+                    label={translator('age-label')}
                     variant="filled"
                     value={age}
                     type="number"
@@ -275,9 +272,9 @@ export default function RegistrationPage() {
                     onChange={handleAgeChange}
                 />
                 <FormControl>
-                    <InputLabel id="role-registration-select-label">Role</InputLabel>
+                    <InputLabel id="role-registration-select-label">{translator('role-label')}</InputLabel>
                     <Select
-                        label="Role"
+                        label={translator('role-label')}
                         id="role-registration-select"
                         labelId="role-registration-select-label"
                         variant="filled"
@@ -292,7 +289,7 @@ export default function RegistrationPage() {
                     <FormHelperText sx={{color: '#d32f2f'}}>{roleErrors}</FormHelperText>
                 </FormControl>
                 <TextField
-                    label="Email"
+                    label={translator('email-label')}
                     variant="filled"
                     value={email}
                     required={true}
@@ -303,7 +300,7 @@ export default function RegistrationPage() {
                     onChange={handleEmailChange}
                 />
                 <TextField
-                    label="Password"
+                    label={translator('password-label')}
                     variant="filled"
                     type="password"
                     value={password}
@@ -315,7 +312,7 @@ export default function RegistrationPage() {
                     onChange={handlePasswordChange}
                 />
                 <TextField
-                    label="Repeat password"
+                    label={translator('repeat-password-label')}
                     variant="filled"
                     type="password"
                     value={repeatPassword}
@@ -327,15 +324,17 @@ export default function RegistrationPage() {
                     onChange={handleRepeatPasswordChange}
                 />
                 
-                <Button variant="contained" size="large" onClick={submit}>Register</Button>
+                <Button variant="contained" size="large" onClick={submit}>
+                    {translator('register-button')}
+                </Button>
                 <Typography>
-                    Or
+                    {translator('or-word')}
                 </Typography>
                 <Button sx={loginButtonStyle} 
                         variant="contained" 
                         size="large" 
                         onClick={redirectToLogin}>
-                    Login
+                    {translator('login-button')}
                 </Button>
             </Box>
         </>

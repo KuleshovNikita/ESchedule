@@ -1,5 +1,6 @@
 {
     "ScheduleBuilderPlaceholder": "Schedule builder placeholder",
+    
     "ERR0002": "Email confirmation needed",
     "ERR0004": "Invalid data found",
     "ERR0005": "Invalid data found, can't authenticate user",
@@ -11,5 +12,31 @@
     "ERR0011": "The email is already confirmed",
     "ERR0012": "This walk is already finished",
     "ERR0013": "User with the provided login doesn't exist",
-    "ERR0014": "Wrong password or login"
+    "ERR0014": "Wrong password or login",
+    
+    "first-name-required": "First name is required",
+    "last-name-required": "Last name is required",
+    "father-name-required": "Father name is required",
+    "minimal-age-5": "The minimal allowed age is 5",
+    "maximal-age-99": "The maximal allowed age is 99",
+    "email-required": "Email is required",
+    "email-should-be-correct": "Email should be in correct format",
+    "please-enter-password": "Please enter password",
+    "please-repeat-password": "Please repeat password",
+    "passwords-do-not-match": "Passwords don't match",
+    
+    "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
+    
+    "first-name-label": "First Name",
+    "second-name-label": "Second Name",
+    "father-name-label": "Father Name",
+    "age-label": "Age",
+    "role-label": "Role",
+    "email-label": "Email",
+    "password-label": "Password",
+    "repeat-password-label": "Repeat password",
+
+    "register-button": "Register",
+    "login-button": "Login",
+    "or-word": "Or"
 }

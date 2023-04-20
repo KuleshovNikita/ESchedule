@@ -97,11 +97,6 @@ export function LoginPage() {
                 <LoadingComponent/>
             :
             <>
-                <Typography variant="h1" 
-                            component="h1"
-                            align="center">
-                    ESchedule
-                </Typography>
                 <Box
                     component="form"
                     sx={InputFormStyle}

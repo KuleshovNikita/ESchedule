@@ -1,8 +1,10 @@
 export const headerLeftSideBoxStyle = {
     display: 'flex',
     frexDirection: 'raw',
+    ml: 2,
     '*': {
-        margin: 0.7,
+        mt: 0.7,
+        mr: 2,
     },
 }
 

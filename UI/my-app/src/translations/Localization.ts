@@ -2,7 +2,7 @@ import i18n from 'i18next';
 
 export const locales = {
     'en': 'English',
-    'ua': 'Ukraine',
+    'ua': 'Українська',
 }
 
 export const updateLang = (key: string) => {
