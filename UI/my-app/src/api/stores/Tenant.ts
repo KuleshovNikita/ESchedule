@@ -22,9 +22,17 @@ export default class TenantStore {
         await this.base.simpleRequest(async () => await this.client.removeTenant(id)); 
 
     getTenant = async (id: string) => {
+        if(this.tenant && this.tenant.id === id) {
+            return this.tenant;
+        }
+
         const response = await this.client.getTenant(id);
 
         this.base.handleErrors(response);
+
+        if(response.isSuccessful) {
+            this.tenant = response.value;
+        }
 
         return response.value;
     }

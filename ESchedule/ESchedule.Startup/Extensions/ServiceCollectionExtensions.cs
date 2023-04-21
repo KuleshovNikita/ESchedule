@@ -46,8 +46,8 @@ namespace ESchedule.Startup.Extensions
 
         public static void ConfigureAuthorization(this IServiceCollection services)
         {
-            services.AddSingleton<IAuthorizationRequirement, DispatcherRoleRequirement>();
-            services.AddSingleton<IAuthorizationRequirement, TeacherRoleRequirement>();
+            services.AddSingleton<IAuthorizationHandler, DispatcherRoleHandler>();
+            services.AddSingleton<IAuthorizationHandler, TeacherRoleHandler>();
 
             services.AddAuthorization(opt =>
             {

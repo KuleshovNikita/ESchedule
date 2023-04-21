@@ -11,7 +11,7 @@ export interface RuleInputModel {
 
 export interface RuleModel extends BaseEntity {
     ruleName: string;
-    jsonBody: string;
+    ruleJson: string;
     tenantId: string;
 }
 

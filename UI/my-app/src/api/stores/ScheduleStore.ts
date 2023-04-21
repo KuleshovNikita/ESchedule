@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { RuleInputModel, ScheduleModel } from "../../models/Schedules";
+import { RuleInputModel, RuleModel, ScheduleModel } from "../../models/Schedules";
 import { agent } from "../agent";
 import BaseStore from "./BaseStore";
 
@@ -7,6 +7,7 @@ export default class ScheduleStore {
     base: BaseStore = new BaseStore();
     client = agent.Schedule;
     schedules: ScheduleModel[] | null = null;
+    rules: RuleModel[] | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -40,9 +41,17 @@ export default class ScheduleStore {
     }
 
     getScheduleRules = async (tenantId: string) => {
+        if(this.rules) {
+            return this.rules;
+        }
+
         const response = await this.client.getScheduleRules(tenantId);
 
         this.base.handleErrors(response);
+
+        if(response.isSuccessful) {
+            this.rules = response.value;
+        }
 
         return response.value;
     }

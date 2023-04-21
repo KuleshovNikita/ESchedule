@@ -1,5 +1,7 @@
 using ESchedule.Domain.Auth;
+using ESchedule.Domain.Policy.Requirements;
 using ESchedule.Startup.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
