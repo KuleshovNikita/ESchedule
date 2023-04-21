@@ -1,29 +1,14 @@
-import { useEffect } from 'react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
-import { useStore } from './api/stores/StoresManager';
-import LoadingComponent from './components/hoc/loading/LoadingComponent';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { observer } from 'mobx-react-lite';
 import AppRoutes from './components/AppRoutes';
 import Header from './components/markups/Header/Header';
-import AppLoader from './AppLoader';
 import {I18nextProvider} from "react-i18next";
 import i18next from "i18next";
 
 function App() {
-  const stores = useStore();
-  
-  useEffect(() => {
-    AppLoader(stores);
-  }, [stores]);
-
-  if (!stores.commonStore.appLoaded) {
-    return <LoadingComponent />;
-  }
-
   return (
     <BrowserRouter>
       <React.StrictMode>
@@ -42,4 +27,4 @@ function App() {
   );
 }
 
-export default observer(App);
+export default App;

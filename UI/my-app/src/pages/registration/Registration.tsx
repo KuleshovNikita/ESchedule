@@ -1,5 +1,5 @@
-import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from 'react-toastify';
@@ -8,7 +8,6 @@ import { Role, UserCreateModel } from "../../models/Users";
 import { useCult } from "../../hooks/Translator";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>;
 
 export default function RegistrationPage() {
     const { translator } = useCult();
@@ -21,11 +20,10 @@ export default function RegistrationPage() {
     const [fatherName, setFatherName] = useState('');
     const [fatherNameErrors, setFatherNameErrors] = useState('');
 
-    const [age, setAge] = useState<number>();
+    const [age, setAge] = useState('');
     const [ageErrors, setAgeErrors] = useState('');
 
     const [role, setRole] = useState(Role.Pupil);
-    const [roleErrors, setRoleErrors] = useState("");
 
     const [email, setEmail] = useState('');
     const [emailErrors, setEmailErrors] = useState("");
@@ -36,82 +34,68 @@ export default function RegistrationPage() {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [repeatPasswordErrors, setRepeatPasswordErrors] = useState('');
 
-    const nameRef = useRef<HTMLInputElement>();
-    const lastNameRef = useRef<HTMLInputElement>();
-    const fatherNameRef = useRef<HTMLInputElement>();
-    const ageRef = useRef<HTMLInputElement>();
-    const roleRef = useRef<HTMLInputElement>();
-    const emailRef = useRef<HTMLInputElement>();
-    const passwordRef = useRef<HTMLInputElement>();
-    const repeatPasswordRef = useRef<HTMLInputElement>();
-
     const { userStore } = useStore();
     const navigate = useNavigate();
 
-    const handleFirstNameChange = (e: Focus) => {
-        const firstName = e.target.value;
+    const firstRender = useRef(true);
 
-        if (firstName.length === 0) {
+    useEffect(() => {
+        console.log('effect');
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
+        }
+
+        validateForm();
+    }, [name, lastName, fatherName, age, role, email, password, repeatPassword]);
+
+    const validateForm = () => {
+        validateFirstName();
+        validateLastName();
+        validateFatherName();
+        validateAge();
+        validateEmail();
+        validatePassword();
+        validateRepeatPassword();
+    }
+
+    const validateFirstName = () => {
+        if (name.length === 0) {
             setNameErrors(translator('first-name-required'));
         } else {
             setNameErrors('');
         }
-
-        setName(firstName);
     }
 
-    const handleLastNameChange = (e: Focus) => {
-        const lastName = e.target.value;
-
+    const validateLastName = () => {
         if (lastName.length === 0) {
             setLastNameErrors(translator('last-name-required'));
         } else {
             setLastNameErrors('');
         }
-
-        setLastName(lastName);
     }
 
-    const handleFatherNameChange = (e: Focus) => {
-        const fatherName = e.target.value;
-
+    const validateFatherName = () => {
         if (fatherName.length === 0) {
             setFatherNameErrors(translator('father-name-required'));
         } else {
             setFatherNameErrors('');
         }
-
-        setFatherName(fatherName);
     }
 
-    const handleAgeChange = (e: Focus) => {
-        if(e.target.value === '') {
-            setAgeErrors(translator('minimal-age-5'));
-            setAge(undefined);
-            return;
-        } 
+    const validateAge = () => {
+        const num = Number(age);
 
-        const age = Number(e.target.value);
-
-        if (age < 5) {
+        if (!num || num < 5) {
             setAgeErrors(translator('minimal-age-5'));
-        } else if (age > 99) {
+        } else if (num > 99) {
             setAgeErrors(translator('maximal-age-99'));
         } else {
             setAgeErrors('');
         }
-
-        setAge(age);
     }
 
-    const handleRoleChange = (e: SelectChangeEvent<number>) => {
-        const role = e.target.value;
-        setRole(role as Role);
-    }
-
-    const handleEmailChange = (e: Focus) => {
-        const email = e.target.value;
-
+    const validateEmail = () => {
         if (email.length === 0) {
             setEmailErrors(translator('email-required'));
         } else if (!email.match(EMAIL_REGEX)) {
@@ -119,25 +103,17 @@ export default function RegistrationPage() {
         } else {
             setEmailErrors('');
         }
-
-        setEmail(email);
     }
 
-    const handlePasswordChange = (e: Focus) => {
-        const password = e.target.value;
-
+    const validatePassword = () => {
         if (password.length === 0) {
             setPasswordErrors(translator('please-enter-password'));
         } else {
             setPasswordErrors('');
         }
-
-        setPassword(password);
     }
 
-    const handleRepeatPasswordChange = (e: Focus) => {
-        const repeatPassword = e.target.value;
-
+    const validateRepeatPassword = () => {
         if (repeatPassword.length === 0) {
             setRepeatPasswordErrors(translator('please-repeat-password'));
         } else if (repeatPassword !== password) {
@@ -145,38 +121,16 @@ export default function RegistrationPage() {
         } else {
             setRepeatPasswordErrors('');
         }
-
-        setRepeatPassword(repeatPassword);
     }
 
-    const hasErrors = () => {
-        nameRef.current?.focus();
-        lastNameRef.current?.focus();
-        fatherNameRef.current?.focus();
-        ageRef.current?.focus();
-        emailRef.current?.focus();
-        passwordRef.current?.focus();
-        repeatPasswordRef.current?.focus();
-
-        const isTouched =  name.length 
-                        && lastName.length
-                        && fatherName.length
-                        && age
-                        && email.length
-                        && password.length
-                        && repeatPassword.length;
-
-        const hasAnyErrors = nameErrors.length 
-                         || lastNameErrors.length 
-                         || fatherNameErrors.length 
-                         || ageErrors.length 
-                         || roleErrors.length 
-                         || emailErrors.length 
-                         || passwordErrors.length 
-                         || repeatPasswordErrors.length;
-
-        return !isTouched || (isTouched && hasAnyErrors);
-    }
+    const hasErrors = () => 
+        nameErrors.length 
+        || lastNameErrors.length 
+        || fatherNameErrors.length 
+        || ageErrors.length 
+        || emailErrors.length 
+        || passwordErrors.length 
+        || repeatPasswordErrors.length;
 
     const submit = async () => {
         if (hasErrors()) {
@@ -188,7 +142,7 @@ export default function RegistrationPage() {
             name: name,
             lastName: lastName, 
             fatherName: fatherName, 
-            age: age as number,
+            age: Number(age),
             password: password,
             role: role as Role,
             tenantId: '00000000-0000-0000-0000-000000000001'
@@ -230,20 +184,16 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={nameErrors}
                     error={nameErrors.length !== 0}
-                    inputRef={nameRef}
-                    onFocus={(e) => handleFirstNameChange(e)}
-                    onChange={handleFirstNameChange}
+                    onChange={e => setName(e.target.value)}
                 />
                 <TextField
-                    label={translator('second-name-label')}
+                    label={translator('last-name-label')}
                     variant="filled"
                     value={lastName}
                     required={true}
                     helperText={lastNameErrors}
                     error={lastNameErrors.length !== 0}
-                    inputRef={lastNameRef}
-                    onFocus={(e) => handleLastNameChange(e)}
-                    onChange={handleLastNameChange}
+                    onChange={e => setLastName(e.target.value)}
                 />
                 <TextField 
                     label={translator('father-name-label')}
@@ -252,11 +202,9 @@ export default function RegistrationPage() {
                     helperText={fatherNameErrors}
                     value={fatherName}
                     required={true}
-                    inputRef={fatherNameRef}
                     error={fatherNameErrors.length !== 0}
                     margin="dense"
-                    onFocus={(e) => handleFatherNameChange(e)}
-                    onChange={handleFatherNameChange}
+                    onChange={e => setFatherName(e.target.value)}
                 />
                 <TextField
                     label={translator('age-label')}
@@ -266,10 +214,8 @@ export default function RegistrationPage() {
                     required
                     helperText={ageErrors}
                     error={ageErrors.length !== 0}
-                    inputRef={ageRef}
                     margin="dense"
-                    onFocus={(e) => handleAgeChange(e)}
-                    onChange={handleAgeChange}
+                    onChange={e => setAge(e.target.value)}
                 />
                 <FormControl>
                     <InputLabel id="role-registration-select-label">{translator('role-label')}</InputLabel>
@@ -280,13 +226,10 @@ export default function RegistrationPage() {
                         variant="filled"
                         required
                         value={role}
-                        inputRef={roleRef}
-                        error={roleErrors.length !== 0}
-                        onChange={handleRoleChange}
+                        onChange={e => setRole(e.target.value as Role)}
                     >
                         { getRolesItems() }
                     </Select>
-                    <FormHelperText sx={{color: '#d32f2f'}}>{roleErrors}</FormHelperText>
                 </FormControl>
                 <TextField
                     label={translator('email-label')}
@@ -295,9 +238,7 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={emailErrors}
                     error={emailErrors.length !== 0}
-                    inputRef={emailRef}
-                    onFocus={(e) => handleEmailChange(e)}
-                    onChange={handleEmailChange}
+                    onChange={e => setEmail(e.target.value)}
                 />
                 <TextField
                     label={translator('password-label')}
@@ -307,9 +248,7 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={passwordErrors}
                     error={passwordErrors.length !== 0}
-                    inputRef={passwordRef}
-                    onFocus={(e) => handlePasswordChange(e)}
-                    onChange={handlePasswordChange}
+                    onChange={e => setPassword(e.target.value)}
                 />
                 <TextField
                     label={translator('repeat-password-label')}
@@ -319,9 +258,7 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={repeatPasswordErrors}
                     error={repeatPasswordErrors.length !== 0}
-                    inputRef={repeatPasswordRef}
-                    onFocus={(e) => handleRepeatPasswordChange(e)}
-                    onChange={handleRepeatPasswordChange}
+                    onChange={e => setRepeatPassword(e.target.value)}
                 />
                 
                 <Button variant="contained" size="large" onClick={submit}>
@@ -340,3 +277,4 @@ export default function RegistrationPage() {
         </>
     )
 }
+
