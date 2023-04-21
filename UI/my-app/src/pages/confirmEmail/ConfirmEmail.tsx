@@ -39,13 +39,13 @@ export default function ConfirmEmailPage() {
                 ? 
                     <Box sx={{textAlign: 'center'}}>
                         <Typography variant="h2">
-                            {translator('email-successfully-confirmed')}
+                            {translator('messages.email-confirmed')}
                         </Typography>
                         <Button sx={loginButtonStyle} 
                                 variant="contained" 
                                 size="large" 
                                 onClick={redirectToLogin}>
-                            {translator('login-button')}
+                            {translator('buttons.login')}
                         </Button>
                     </Box>
                 : 

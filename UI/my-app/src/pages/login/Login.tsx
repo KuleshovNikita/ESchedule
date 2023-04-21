@@ -35,9 +35,9 @@ export function LoginPage() {
         const email = e.target.value;
 
         if(email.length === 0) {
-            setEmailErrors(translator('email-required'));
+            setEmailErrors(translator('input-helpers.email-required'));
         } else if(!email.match(EMAIL_REGEX)) {
-            setEmailErrors(translator('email-should-be-correct'));
+            setEmailErrors(translator('input-helpers.email-should-be-correct'));
         } else {
             setEmailErrors('');
         }
@@ -49,7 +49,7 @@ export function LoginPage() {
         const password = e.target.value;
 
         if (password.length === 0) {
-            setPasswordErrors(translator('please-enter-password'));
+            setPasswordErrors(translator('input-helpers.please-enter-password'));
         } else {
             setPasswordErrors('');
         }
@@ -82,7 +82,7 @@ export function LoginPage() {
         const isSuccessful = await userStore.login(user);
 
         if(isSuccessful) {
-            toast.success(translator('welcome-toast') + userStore.user?.name);
+            toast.success(translator('toasts.welcome') + userStore.user?.name);
             navigate(fromPage, { replace: true });
         }
     };
@@ -106,7 +106,7 @@ export function LoginPage() {
                     autoComplete="off"
                 >
                     <TextField
-                        label={translator('email-label')}
+                        label={translator('labels.email')}
                         variant="filled"
                         value={email}
                         required={true}
@@ -117,7 +117,7 @@ export function LoginPage() {
                         onChange={handleEmailChange}
                     />
                     <TextField
-                        label={translator('password-label')}
+                        label={translator('labels.password')}
                         variant="filled"
                         type="password"
                         value={password}
@@ -129,16 +129,16 @@ export function LoginPage() {
                         onChange={handlePasswordChange}
                     />
                     <Button variant="contained" size="large" onClick={submit}>
-                        {translator('login-button')}
+                        {translator('buttons.login')}
                     </Button>
                     <Typography>
-                        {translator('or-word')}
+                        {translator('words.or')}
                     </Typography>
                     <Button sx={RegisterButtonStyle} 
                             variant="contained" 
                             size="large" 
                             onClick={redirectToRegistration}>
-                        {translator('register-button')}
+                        {translator('buttons.register')}
                     </Button>
                 </Box>
             </>

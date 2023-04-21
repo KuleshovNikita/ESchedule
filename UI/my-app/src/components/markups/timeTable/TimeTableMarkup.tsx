@@ -13,7 +13,7 @@ export default function TimeTableMarkup() {
         for(let i = 0; i < daysOfWeek.length; i++) {
             rows.push(
                 <TableCell key={i} sx={TableHeadCellStyle}>
-                    {translator(daysOfWeek[i])}
+                    {translator('days-of-week.' + daysOfWeek[i])}
                 </TableCell>
             );
         }

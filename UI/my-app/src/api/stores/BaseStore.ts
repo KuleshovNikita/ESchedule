@@ -7,7 +7,7 @@ export default class BaseStore {
 
     handleErrors = (response: EmptyResult) => {
         if(!response.isSuccessful) {
-            toast.error(i18n.t(response.clientErrorMessage));
+            toast.error(i18n.t('server-errors.' + response.clientErrorMessage));
         }
     }
 

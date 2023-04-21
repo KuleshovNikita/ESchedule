@@ -7,7 +7,7 @@ export default function NotFound() {
 
     return(
         <div className={styles.textStyle}>
-            {translator('page-not-found')}
+            {translator('messages.page-not-found')}
         </div>
     );
 }

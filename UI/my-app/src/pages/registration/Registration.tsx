@@ -61,7 +61,7 @@ export default function RegistrationPage() {
 
     const validateFirstName = () => {
         if (name.length === 0) {
-            setNameErrors(translator('first-name-required'));
+            setNameErrors(translator('input-helpers.first-name-required'));
         } else {
             setNameErrors('');
         }
@@ -69,7 +69,7 @@ export default function RegistrationPage() {
 
     const validateLastName = () => {
         if (lastName.length === 0) {
-            setLastNameErrors(translator('last-name-required'));
+            setLastNameErrors(translator('input-helpers.last-name-required'));
         } else {
             setLastNameErrors('');
         }
@@ -77,7 +77,7 @@ export default function RegistrationPage() {
 
     const validateFatherName = () => {
         if (fatherName.length === 0) {
-            setFatherNameErrors(translator('father-name-required'));
+            setFatherNameErrors(translator('input-helpers.father-name-required'));
         } else {
             setFatherNameErrors('');
         }
@@ -87,9 +87,9 @@ export default function RegistrationPage() {
         const num = Number(age);
 
         if (!num || num < 5) {
-            setAgeErrors(translator('minimal-age-5'));
+            setAgeErrors(translator('input-helpers.minimal-age-5'));
         } else if (num > 99) {
-            setAgeErrors(translator('maximal-age-99'));
+            setAgeErrors(translator('input-helpers.maximal-age-99'));
         } else {
             setAgeErrors('');
         }
@@ -97,9 +97,9 @@ export default function RegistrationPage() {
 
     const validateEmail = () => {
         if (email.length === 0) {
-            setEmailErrors(translator('email-required'));
+            setEmailErrors(translator('input-helpers.email-required'));
         } else if (!email.match(EMAIL_REGEX)) {
-            setEmailErrors(translator('email-should-be-correct'));
+            setEmailErrors(translator('input-helpers.email-should-be-correct'));
         } else {
             setEmailErrors('');
         }
@@ -107,7 +107,7 @@ export default function RegistrationPage() {
 
     const validatePassword = () => {
         if (password.length === 0) {
-            setPasswordErrors(translator('please-enter-password'));
+            setPasswordErrors(translator('input-helpers.please-enter-password'));
         } else {
             setPasswordErrors('');
         }
@@ -115,9 +115,9 @@ export default function RegistrationPage() {
 
     const validateRepeatPassword = () => {
         if (repeatPassword.length === 0) {
-            setRepeatPasswordErrors(translator('please-repeat-password'));
+            setRepeatPasswordErrors(translator('input-helpers.please-repeat-password'));
         } else if (repeatPassword !== password) {
-            setRepeatPasswordErrors(translator('passwords-do-not-match'));
+            setRepeatPasswordErrors(translator('input-helpers.passwords-do-not-match'));
         } else {
             setRepeatPasswordErrors('');
         }
@@ -152,7 +152,7 @@ export default function RegistrationPage() {
         
         if(!result.isSuccessful) {
             navigate("/login");
-            toast.success(translator('verification-email-sent'));
+            toast.success(translator('toasts.verification-email-sent'));
         } 
     }
 
@@ -163,7 +163,7 @@ export default function RegistrationPage() {
     const getRolesItems = () => {
         const values = Object.values(Role).filter(x => typeof x !== 'string') as Role[];
         const result = values.map((vk, key) => <MenuItem key={key} value={vk}>
-                                                    {translator(Role[vk])}
+                                                    {translator('roles.' + Role[vk])}
                                                 </MenuItem>
                                 );
 
@@ -178,7 +178,7 @@ export default function RegistrationPage() {
                 autoComplete="off"
             >
                 <TextField
-                    label={translator('first-name-label')}
+                    label={translator('labels.first-name')}
                     variant="filled"
                     value={name}
                     required={true}
@@ -187,7 +187,7 @@ export default function RegistrationPage() {
                     onChange={e => setName(e.target.value)}
                 />
                 <TextField
-                    label={translator('last-name-label')}
+                    label={translator('labels.last-name')}
                     variant="filled"
                     value={lastName}
                     required={true}
@@ -196,7 +196,7 @@ export default function RegistrationPage() {
                     onChange={e => setLastName(e.target.value)}
                 />
                 <TextField 
-                    label={translator('father-name-label')}
+                    label={translator('labels.father-name')}
                     variant="filled"
                     size="small"
                     helperText={fatherNameErrors}
@@ -207,7 +207,7 @@ export default function RegistrationPage() {
                     onChange={e => setFatherName(e.target.value)}
                 />
                 <TextField
-                    label={translator('age-label')}
+                    label={translator('labels.age')}
                     variant="filled"
                     value={age}
                     type="number"
@@ -218,9 +218,9 @@ export default function RegistrationPage() {
                     onChange={e => setAge(e.target.value)}
                 />
                 <FormControl>
-                    <InputLabel id="role-registration-select-label">{translator('role-label')}</InputLabel>
+                    <InputLabel id="role-registration-select-label">{translator('labels.role')}</InputLabel>
                     <Select
-                        label={translator('role-label')}
+                        label={translator('labels.role')}
                         id="role-registration-select"
                         labelId="role-registration-select-label"
                         variant="filled"
@@ -232,7 +232,7 @@ export default function RegistrationPage() {
                     </Select>
                 </FormControl>
                 <TextField
-                    label={translator('email-label')}
+                    label={translator('labels.email')}
                     variant="filled"
                     value={email}
                     required={true}
@@ -241,7 +241,7 @@ export default function RegistrationPage() {
                     onChange={e => setEmail(e.target.value)}
                 />
                 <TextField
-                    label={translator('password-label')}
+                    label={translator('labels.password')}
                     variant="filled"
                     type="password"
                     value={password}
@@ -251,7 +251,7 @@ export default function RegistrationPage() {
                     onChange={e => setPassword(e.target.value)}
                 />
                 <TextField
-                    label={translator('repeat-password-label')}
+                    label={translator('labels.repeat-password')}
                     variant="filled"
                     type="password"
                     value={repeatPassword}
@@ -262,16 +262,16 @@ export default function RegistrationPage() {
                 />
                 
                 <Button variant="contained" size="large" onClick={submit}>
-                    {translator('register-button')}
+                    {translator('buttons.register')}
                 </Button>
                 <Typography>
-                    {translator('or-word')}
+                    {translator('words.or')}
                 </Typography>
                 <Button sx={loginButtonStyle} 
                         variant="contained" 
                         size="large" 
                         onClick={redirectToLogin}>
-                    {translator('login-button')}
+                    {translator('buttons.login')}
                 </Button>
             </Box>
         </>

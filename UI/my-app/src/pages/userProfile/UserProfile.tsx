@@ -66,7 +66,7 @@ export default function UserPage() {
         const firstName = e.target.value;
 
         if (firstName.length === 0) {
-            setNameErrors(translator('first-name-required'));
+            setNameErrors(translator('input-helpers.first-name-required'));
         } else {
             setNameErrors('');
         }
@@ -78,7 +78,7 @@ export default function UserPage() {
         const lastName = e.target.value;
 
         if (lastName.length === 0) {
-            setLastNameErrors(translator('last-name-required'));
+            setLastNameErrors(translator('input-helpers.last-name-required'));
         } else {
             setLastNameErrors('');
         }
@@ -90,7 +90,7 @@ export default function UserPage() {
         const fatherName = e.target.value;
 
         if (fatherName.length === 0) {
-            setFatherNameErrors(translator('father-name-required'));
+            setFatherNameErrors(translator('input-helpers.father-name-required'));
         } else {
             setFatherNameErrors('');
         }
@@ -104,9 +104,9 @@ export default function UserPage() {
         if(!age) {
             return;
         } else if (age < 5) {
-            setAgeErrors(translator('minimal-age-5'));
+            setAgeErrors(translator('input-helpers.minimal-age-5'));
         } else if (age > 99) {
-            setAgeErrors(translator('maximal-age-99'));
+            setAgeErrors(translator('input-helpers.maximal-age-99'));
         } else {
             setAgeErrors('');
         }
@@ -118,9 +118,9 @@ export default function UserPage() {
         const email = e.target.value;
 
         if (email.length === 0) {
-            setEmailErrors(translator('email-required'));
+            setEmailErrors(translator('input-helpers.email-required'));
         } else if (!email.match(EMAIL_REGEX)) {
-            setEmailErrors(translator('email-should-be-correct'));
+            setEmailErrors(translator('input-helpers.email-should-be-correct'));
         } else {
             setEmailErrors('');
         }
@@ -132,7 +132,7 @@ export default function UserPage() {
         const password = e.target.value;
 
         if (password.length === 0) {
-            setPasswordErrors(translator('please-enter-password'));
+            setPasswordErrors(translator('input-helpers.please-enter-password'));
         } else {
             setPasswordErrors('');
         }
@@ -173,19 +173,19 @@ export default function UserPage() {
         const result = await userStore.updateUserInfo(user);
         
         if(result.isSuccessful) {
-            toast.success(translator('profile-updated'));
+            toast.success(translator('toast.profile-updated'));
         } 
     }
 
     function getGroupLabelName(): React.ReactNode {
         return userStore.user?.role === Role.Teacher 
-            ? translator('underlying-group-label') 
-            : translator('group-label'); 
+            ? translator('labels.underlying-group') 
+            : translator('labels.group'); 
     }
 
     function getGroupFieldValue(): unknown {
         return userStore.user?.group?.title 
-            ?? translator('none-word');
+            ?? translator('words.none');
     }
 
     return(
@@ -203,7 +203,7 @@ export default function UserPage() {
                         onClick={setProfileChanging}
                         disabled={!changeMode}             
                     >
-                        {translator('change-button')}
+                        {translator('buttons.change')}
                         <Avatar sx={buttonImageIconStyles}>
                             <EditIcon />
                         </Avatar>
@@ -215,7 +215,7 @@ export default function UserPage() {
                         onClick={submit} 
                         disabled={changeMode}          
                     >
-                        {translator('save-button')}
+                        {translator('buttons.save')}
                         <Avatar sx={buttonImageIconStyles}>
                             <SaveIcon/>
                         </Avatar>
@@ -225,10 +225,10 @@ export default function UserPage() {
             <Box sx={userInfoBlocks}>
                 <Box sx={userInfoSubSetBlock}>
                     <Typography variant='h5'> 
-                        {translator('personal-info-header')}
+                        {translator('headers.personal-info')}
                     </Typography>
                     <TextField 
-                        label={translator('first-name-label')}
+                        label={translator('labels.first-name')}
                         variant="filled"
                         size="small"
                         helperText={firstNameErrors}
@@ -242,7 +242,7 @@ export default function UserPage() {
                         onChange={handleFirstNameChange}
                     />
                     <TextField 
-                        label={translator('last-name-label')}
+                        label={translator('labels.last-name')}
                         variant="filled"
                         size="small"
                         helperText={lastNameErrors}
@@ -256,7 +256,7 @@ export default function UserPage() {
                         onChange={handleLastNameChange}
                     />
                     <TextField 
-                        label={translator('father-name-label')}
+                        label={translator('labels.father-name')}
                         variant="filled"
                         size="small"
                         helperText={fatherNameErrors}
@@ -270,7 +270,7 @@ export default function UserPage() {
                         onChange={handleFatherNameChange}
                     />
                     <TextField 
-                        label={translator('age-label')}
+                        label={translator('labels.age')}
                         variant="filled"
                         size="small"
                         helperText={ageErrors}
@@ -287,10 +287,10 @@ export default function UserPage() {
                 </Box>
                 <Box sx={userInfoSubSetBlock}>
                     <Typography variant='h5'> 
-                        {translator('credentials-header')}
+                        {translator('headers.credentials')}
                     </Typography>
                     <TextField 
-                        label={translator('email-label')}
+                        label={translator('labels.email')}
                         variant="filled"
                         size="small"
                         helperText={emailErrors}
@@ -304,7 +304,7 @@ export default function UserPage() {
                         onChange={handleEmailChange}
                     />
                     <TextField 
-                        label={translator('password-label')}
+                        label={translator('labels.password')}
                         variant="filled"
                         size="small"
                         helperText={passwordErrors}
@@ -322,10 +322,10 @@ export default function UserPage() {
                 </Box>
                 <Box sx={userInfoSubSetBlock}>
                     <Typography variant='h5'> 
-                        {translator('tenant-info-header')}
+                        {translator('headers.tenant-info')}
                     </Typography>
                     <TextField 
-                        label={translator('role-label')}
+                        label={translator('labels.role')}
                         variant="filled"
                         size="small"
                         value={translator(getEnumKey(Role, userStore.user?.role))}
@@ -334,7 +334,7 @@ export default function UserPage() {
                         margin="dense"
                     />
                     <TextField 
-                        label={translator('tenant-label')}
+                        label={translator('labels.tenant')}
                         variant="filled"
                         size="small"
                         value={userStore.user?.tenant.tenantName}
