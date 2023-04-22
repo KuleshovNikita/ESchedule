@@ -57,7 +57,7 @@ namespace ESchedule.ServiceResulting
 
         private void BuildException(string? errorMessage = null)
         {
-            ClientErrorMessage = errorMessage ?? Exception?.Message ?? "An error occured";
+            ClientErrorMessage = errorMessage ?? ClientErrorMessage ?? Exception?.Message ?? "An error occured";
             throw new FailedServiceResultException(ClientErrorMessage, Exception ?? new Exception(errorMessage));
         }
 

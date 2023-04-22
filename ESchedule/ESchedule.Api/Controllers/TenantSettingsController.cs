@@ -1,6 +1,7 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
+using ESchedule.Business.Tenant;
 using ESchedule.Domain.Tenant;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
@@ -10,8 +11,12 @@ namespace ESchedule.Api.Controllers
 {
     public class TenantSettingsController : ResultingController<TenantSettingsModel>
     {
-        public TenantSettingsController(IBaseService<TenantSettingsModel> service) : base(service)
+        private readonly ITenantSettingsService _tenantSettingsService;
+
+        public TenantSettingsController(IBaseService<TenantSettingsModel> service, ITenantSettingsService tenantSettingsService) 
+            : base(service)
         {
+            _tenantSettingsService = tenantSettingsService;
         }
 
         [Authorize]
@@ -23,6 +28,11 @@ namespace ESchedule.Api.Controllers
         [HttpPut]
         public async Task<ServiceResult<Empty>> UpdateTenantSettings([FromBody] TenantSettingsUpdateModel tenantModel)
             => await RunWithServiceResult(async () => await _service.UpdateItem(tenantModel));
+
+        [Authorize]
+        [HttpGet("time/{tenantId}")]
+        public async Task<ServiceResult<List<object>>> GetTenantScheduleTimes(Guid tenantId)
+            => await RunWithServiceResult(async () => await _tenantSettingsService.BuildSchedulesTimeTable(tenantId));
 
         [Authorize]
         [HttpGet("{tenantId}")]

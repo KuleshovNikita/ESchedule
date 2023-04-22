@@ -11,7 +11,9 @@ namespace ESchedule.Business
 
         Task<ServiceResult<Empty>> InsertMany(IEnumerable<T> itemsSet);
 
-        Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate);
+        Task<ServiceResult<Empty>> InsertMany<K>(IEnumerable<K> itemsSet);
+
+        Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate, bool includeNavs = false);
 
         Task<ServiceResult<T>> First(Expression<Func<T, bool>> predicate);
 

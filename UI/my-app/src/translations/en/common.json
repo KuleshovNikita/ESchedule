@@ -1,0 +1,79 @@
+{
+    "server-errors": {
+        "ERR0002": "Email confirmation needed",
+        "ERR0004": "Invalid data found",
+        "ERR0005": "Invalid data found, can't authenticate user",
+        "ERR0006": "Invalid data found, can't register user",
+        "ERR0007": "Invalid email address format specified",
+        "ERR0008": "No users for specified key were found",
+        "ERR0009": "The item doesn't exist",
+        "ERR0010": "The login is already registered",
+        "ERR0011": "The email is already confirmed",
+        "ERR0012": "This walk is already finished",
+        "ERR0013": "User with the provided login doesn't exist",
+        "ERR0014": "Wrong password or login"
+    },
+    "input-helpers": {
+        "first-name-required": "First name is required",
+        "last-name-required": "Last name is required",
+        "father-name-required": "Father name is required",
+        "minimal-age-5": "The minimal allowed age is 5",
+        "maximal-age-99": "The maximal allowed age is 99",
+        "email-required": "Email is required",
+        "email-should-be-correct": "Email should be in correct format",
+        "please-enter-password": "Please enter password",
+        "please-repeat-password": "Please repeat password",
+        "passwords-do-not-match": "Passwords don't match"
+    },
+    "toasts": {
+        "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
+        "welcome": "Welcome, ",
+        "profile-updated": "Profile was updated"
+    },
+    "messages": {
+        "page-not-found": "Page not found",
+        "email-confirmed": "Email is successfully confirmed"
+    },
+    "labels": {
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "father-name": "Father Name",
+        "age": "Age",
+        "role": "Role",
+        "email": "Email",
+        "password": "Password",
+        "repeat-password": "Repeat password",
+        "tenant": "Tenant",
+        "underlying-group": "Underlying Group",
+        "group": "Group"
+    },
+    "buttons": {
+        "register": "Register",
+        "login": "Login",
+        "change": "Change",
+        "save": "Save"
+    },    
+    "headers": {
+        "personal-info": "Personal Info:",
+        "tenant-info": "Tenant Info:",
+        "credentials": "Credentials:"
+    },
+    "days-of-week": {
+        "Sunday": "Sunday",
+        "Monday": "Monday",
+        "Tuesday": "Tuesday",
+        "Wednesday": "Wednesday",
+        "Thursday": "Thursday",
+        "Friday": "Friday",
+        "Saturday": "Saturday"
+    },
+    "roles": {
+        "Pupil": "Pupil",
+        "Teacher": "Teacher",
+        "Dispatcher": "Dispatcher"
+    },    
+    "words": {
+        "or": "Or",
+        "none": "None"
+    }
+}

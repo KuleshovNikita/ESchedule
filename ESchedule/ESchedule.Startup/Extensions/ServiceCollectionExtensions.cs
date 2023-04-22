@@ -2,19 +2,21 @@
 using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Modules;
-using ESchedule.Business.ScheduleRules;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Modules;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
+using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Modules;
-using ESchedule.Domain.Schedule.Rules;
+using ESchedule.Domain.Policy;
+using ESchedule.Domain.Policy.Requirements;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +44,18 @@ namespace ESchedule.Startup.Extensions
                     opt => opt.UseSqlServer(config.GetConnectionString("SqlServer")!)
                 );
 
+        public static void ConfigureAuthorization(this IServiceCollection services)
+        {
+            services.AddSingleton<IAuthorizationHandler, DispatcherRoleHandler>();
+            services.AddSingleton<IAuthorizationHandler, TeacherRoleHandler>();
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy(Policies.TeacherOnly, p => p.Requirements.Add(new TeacherRoleRequirement()));
+                opt.AddPolicy(Policies.DispatcherOnly, p => p.Requirements.Add(new DispatcherRoleRequirement()));
+            });
+        }
+
         public static AuthenticationBuilder ConfigureAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
             => services
                 .AddAuthentication("OAuth")
@@ -63,7 +77,20 @@ namespace ESchedule.Startup.Extensions
                         {
                             context.HandleResponse();
                             context.Response.StatusCode = 401;
-                            await context.Response.WriteAsJsonAsync(new ServiceResult<Empty>().Fail("Unauthorized"));
+                            await context.Response.WriteAsJsonAsync(
+                                new ServiceResult<Empty>().Fail("Unauthorized")
+                            );
+                        }
+                    };
+
+                    cfg.Events = new JwtBearerEvents
+                    {
+                        OnForbidden = async context =>
+                        {
+                            context.Response.StatusCode = 403;
+                            await context.Response.WriteAsJsonAsync(
+                                new ServiceResult<Empty>().Fail("You don't have permissions for this action")
+                            );
                         }
                     };
                 });
@@ -98,6 +125,10 @@ namespace ESchedule.Startup.Extensions
 
                 cfg.CreateMap<ScheduleUpdateModel, ScheduleModel>();
                 cfg.CreateMap<ScheduleCreateModel, ScheduleModel>();
+
+                cfg.CreateMap<TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel>();
+                cfg.CreateMap<TeachersLessonsCreateModel, TeachersLessonsModel>();
+                cfg.CreateMap<GroupsLessonsCreateModel, GroupsLessonsModel>();
             };
     }
 }

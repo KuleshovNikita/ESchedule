@@ -1,5 +1,6 @@
 ﻿using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
+using ESchedule.Business.Users;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
@@ -9,12 +10,17 @@ namespace ESchedule.Api.Controllers
 {
     public class UserController : ResultingController<UserModel>
     {
-        public UserController(IBaseService<UserModel> userService) : base(userService) { }
+        private readonly IUserService _userService;
+
+        public UserController(IBaseService<UserModel> baseService, IUserService userService) : base(baseService) 
+        {
+            _userService = userService;
+        }
 
         [Authorize]
         [HttpPut]
         public async Task<ServiceResult<Empty>> UpdateUser([FromBody] UserUpdateModel userModel)
-            => await RunWithServiceResult(async () => await _service.UpdateItem(userModel));
+            => await RunWithServiceResult(async () => await _userService.UpdateUser(userModel));
 
         [Authorize]
         [HttpGet("{userId}")]

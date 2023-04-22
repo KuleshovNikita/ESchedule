@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using ESchedule.Api.Models.Requests;
+using ESchedule.Business;
 using ESchedule.Business.Auth;
 using ESchedule.Domain;
-using ESchedule.ServiceResulting;
-using ESchedule.Api.Models.Requests;
 using ESchedule.Domain.Users;
-using ESchedule.Business;
-using Microsoft.AspNetCore.Authentication;
+using ESchedule.ServiceResulting;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ESchedule.Api.Controllers
 {
@@ -18,12 +17,32 @@ namespace ESchedule.Api.Controllers
             => _authService = authService;
 
         [HttpPost("register")]
-        public async Task<ServiceResult<string>> Register([FromBody] UserCreateModel registerModel)
+        public async Task<ServiceResult<Empty>> Register([FromBody] UserCreateModel registerModel)
             => await RunWithServiceResult(async () => await _authService.Register(registerModel));
 
         [HttpPost("login")]
         public async Task<ServiceResult<string>> Login([FromBody] AuthModel authModel)
             => await RunWithServiceResult(async () => await _authService.Login(authModel));
+
+        [HttpGet]
+        public async Task<ServiceResult<UserModel>> GetAuthenticatedUserInfo()
+        {
+            var claims = HttpContext.User.Claims;
+
+            if(!claims.Any())
+            {
+                return new ServiceResult<UserModel>();
+            }
+
+            var userId = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+
+            if(!Guid.TryParse(userId, out var id))
+            {
+                return new ServiceResult<UserModel>().Fail("Invalid token provided");
+            }
+
+            return await RunWithServiceResult(async () => await _service.First(x => x.Id == id));
+        }
 
         [HttpPatch("confirmEmail/{key}")]
         public async Task<ServiceResult<string>> ConfirmEmail(string key)

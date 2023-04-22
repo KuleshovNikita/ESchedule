@@ -1,5 +1,7 @@
 using ESchedule.Domain.Auth;
+using ESchedule.Domain.Policy.Requirements;
 using ESchedule.Startup.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,7 @@ builder.Services.AddCors(x => x.AllowAnyOriginPolicy());
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureAuthentication(builder.Configuration.GetSection("Jwt").Get<JwtSettings>()!);
+builder.Services.ConfigureAuthorization();
 builder.Services.ConfigureDbConnection(builder.Configuration);
 
 var app = builder.Build();

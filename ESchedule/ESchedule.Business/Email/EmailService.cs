@@ -8,11 +8,11 @@ namespace ESchedule.Business.Email
 {
     public class EmailService : IEmailService
     {
-        private readonly IConfiguration _emailConfig;
+        private readonly IConfiguration _config;
 
-        public EmailService(IConfiguration emailConfig)
+        public EmailService(IConfiguration config)
         {
-            _emailConfig = emailConfig;
+            _config = config;
         }
 
         public async Task SendEmailConfirmMessage(UserModel userModel)
@@ -24,10 +24,10 @@ namespace ESchedule.Business.Email
 
         private string BuildConfirmUrl(UserModel userModel)
         {
-            var serverUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")?.Split(";").First();
+            var serverUrl = _config.GetSection("ClientUrl").Value;
 
             var encodedHashKey = Uri.EscapeDataString(userModel.Password);
-            var confirmEndpoint = $"/api/authentication/confirmEmail/{encodedHashKey}";
+            var confirmEndpoint = $"/confirmEmail/{encodedHashKey}";
 
             return serverUrl + confirmEndpoint;
         }
@@ -42,9 +42,9 @@ namespace ESchedule.Business.Email
 
         private async Task SendEmail(string message, string consumer)
         {
-            var host = _emailConfig.GetSection("EmailBotData:Host").Value;
-            var sender = _emailConfig.GetSection("EmailBotData:BotMail").Value;
-            var password = _emailConfig.GetSection("EmailBotData:Password").Value;
+            var host = _config.GetSection("EmailBotData:Host").Value;
+            var sender = _config.GetSection("EmailBotData:BotMail").Value;
+            var password = _config.GetSection("EmailBotData:Password").Value;
 
             var client = new SmtpClient
             {
