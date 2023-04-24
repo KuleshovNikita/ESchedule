@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../../api/stores/StoresManager";
 import { useCult } from "../../../hooks/Translator";
-import { Box, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import LoadingComponent from "../../../components/hoc/loading/LoadingComponent";
 import RulesList from "../../../components/schedule/RulesList";
 import TimeTableMarkup from "../../../components/markups/timeTable/TimeTableMarkup";
+import { buttonAddRuleStyle, buttonHoverStyles, buttonImageIconStyles } from "../../../styles/ButtonStyles";
+import { Avatar, Box, Button } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function ScheduleRedactorPage() {
     const { translator } = useCult();
@@ -38,6 +41,13 @@ export default function ScheduleRedactorPage() {
                             {translator('label.rules-list')}
                         </Typography>
                         <RulesList tenantId={tenantStore.tenant?.id as string}/>
+                        <Button 
+                            sx={buttonHoverStyles} 
+                            variant="contained"
+                        >
+                            {translator('buttons.add-new-rule')}
+                            <AddCircleIcon sx={buttonAddRuleStyle} />
+                        </Button>
                     </Box>
                 </Box>
                 <Box>

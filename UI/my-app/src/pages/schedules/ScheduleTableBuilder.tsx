@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ScheduleStartEndTime } from "../../models/Tenants";
 import { ScheduleItemPlaceholderStyle, ScheduleItemStyle, ScheduleRowStyle, ScheduleTableHeadStyle } from "./ScheduleTableStyles";
-import ScheduleCellContent from "../../components/scheduleCell/ScheduleCellContent";
+import ScheduleCellContent from "../../components/schedule/ScheduleCellContent";
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { DayOfWeek, ScheduleModel } from "../../models/Schedules";
 import { daysOfWeek, timeTableScope } from "../../utils/Utils";

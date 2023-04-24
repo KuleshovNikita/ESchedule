@@ -16,6 +16,11 @@ export const buttonImageIconStyles = {
     color: "blue" 
 }
 
+export const buttonAddRuleStyle = {
+    ml: 1, 
+    color: "white" 
+}
+
 export const listItemButton = {
     bgcolor: "white",
     color: "orange",
