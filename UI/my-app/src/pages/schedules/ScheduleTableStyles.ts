@@ -26,6 +26,43 @@ export const rulesListStyle = {
     margin: "0px 10px",
 }
 
+export const newRuleFormStyle = {
+    position: 'absolute',
+    left: '30%',
+    top: '20%',
+    width: "600px",
+    height: '300px',
+    backgroundColor: 'white',
+    borderRadius: '15px',
+    padding: '10px',
+
+}
+
+export const ruleFormCloseButtonStyle = {
+    position: 'absolute', 
+    right: 5, 
+    backgroundColor: 'blue',
+    padding: '5px',
+    color: 'white',
+    '&:hover': {
+        backgroundColor: 'orange',
+    }
+}
+
+export const outerTransperancyStyle = {
+    position: 'fixed',
+    left: 0,
+    top: 0,
+    backgroundColor: 'rgb(0, 0, 0, 0.8)',
+    width: '100%',
+    height: '100%'
+}
+
+export const createRuleFormMainBoxStyle = {
+    display: 'grid',
+    gridTemplateRows: '1fr 6fr'
+}
+
 export const ScheduleItemStyle = {
     ...ScheduleItemPlaceholderStyle,
     backgroundColor: 'rgb(255, 186, 94)',
