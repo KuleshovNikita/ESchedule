@@ -8,6 +8,7 @@ using ESchedule.Domain.Schedule.Rules;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ESchedule.Business.ScheduleRules;
 
 namespace ESchedule.Api.Controllers
 {

@@ -29,7 +29,7 @@ export default function ScheduleRedactorPage() {
         ?   
             <LoadingComponent/>
         :   
-            <Box>
+            <Box sx={{ml: 1}}>
                 <Typography variant="h2">
                     {tenantStore.tenant?.tenantName}
                 </Typography>

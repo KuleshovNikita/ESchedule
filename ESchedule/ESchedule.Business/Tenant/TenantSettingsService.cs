@@ -2,11 +2,6 @@
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Tenant;
 using ESchedule.ServiceResulting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESchedule.Business.Tenant
 {

@@ -1,4 +1,5 @@
-﻿using ESchedule.Domain.Lessons.Schedule;
+﻿using ESchedule.Domain;
+using ESchedule.Domain.Lessons.Schedule;
 using System.Text.Json;
 
 namespace ESchedule.Business.ScheduleRules
@@ -11,6 +12,6 @@ namespace ESchedule.Business.ScheduleRules
 
         public virtual bool Verify(ScheduleModel schedule) => throw new NotImplementedException();
 
-        public string GetJson() => JsonSerializer.Serialize(this, GetType());
+        public virtual string GetJson() => JsonSerializer.Serialize(this, GetType());
     }
 }

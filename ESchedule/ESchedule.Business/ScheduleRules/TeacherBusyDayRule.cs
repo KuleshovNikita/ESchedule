@@ -1,4 +1,5 @@
 ﻿using ESchedule.Domain.Lessons.Schedule;
+using ESchedule.Domain.Users;
 
 namespace ESchedule.Business.ScheduleRules
 {
@@ -10,5 +11,7 @@ namespace ESchedule.Business.ScheduleRules
 
         public override bool Verify(ScheduleModel schedule)
             => schedule.TeacherId != ActorId && Target != schedule.DayOfWeek;
+
+        //public override string GetJson() => "j";//$"{((UserModel)Actor).Name}";
     }
 }

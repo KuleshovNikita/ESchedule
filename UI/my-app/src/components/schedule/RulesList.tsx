@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
-import { Box, MenuItem, Select } from "@mui/material";
+import { Box, MenuItem, Select, TextField } from "@mui/material";
 import LoadingComponent from "../hoc/loading/LoadingComponent";
 import { pascalToDashCase } from "../../utils/Utils";
 import { useCult } from "../../hooks/Translator";
@@ -31,12 +31,9 @@ export default function RulesList({ tenantId }: Props) {
             <LoadingComponent type='circle'/>
         :
             scheduleStore.rules?.map((v, k) => {
-                return <Box key={k} sx={{border: "1px solid black"}}>
-                            <Select defaultValue={0}>
-                                <MenuItem value={0}>
-                                    {translator(pascalToDashCase(v.RuleName))}
-                                </MenuItem>
-                            </Select> - {v.Actor.Name}
+                return <Box key={k}>
+                            <TextField value={translator(pascalToDashCase(v.ruleName))}/>
+                            <TextField sx={{ml: 1, width: "600px"}} value={v.ruleJson} />
                         </Box>
             })
         }
