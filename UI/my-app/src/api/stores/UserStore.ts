@@ -4,7 +4,6 @@ import { UserModel, UserLoginModel, UserCreateModel, UserUpdateModel, Role } fro
 import { store } from "./StoresManager";
 import BaseStore from "./BaseStore";
 import { toast } from "react-toastify";
-import { t } from "i18next";
 
 export default class UserStore {
     base: BaseStore = new BaseStore();

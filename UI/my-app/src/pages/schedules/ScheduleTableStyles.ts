@@ -13,6 +13,19 @@ export const ScheduleItemPlaceholderStyle = {
     pb: 4,
 }
 
+export const scheduleRedactorStyle = {
+    display: "grid", 
+    gridTemplateColumns: "1fr 4fr"
+}
+
+export const verticalBorder = {
+    borderLeft: '1px solid black'
+}
+
+export const rulesListStyle = {
+    margin: "0px 10px",
+}
+
 export const ScheduleItemStyle = {
     ...ScheduleItemPlaceholderStyle,
     backgroundColor: 'rgb(255, 186, 94)',
