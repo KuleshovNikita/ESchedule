@@ -9,7 +9,7 @@ import { mainBoxStyle,
          avatarStyle, 
          userInfoBlocks,
          userInfoSubSetBlock} from "./UserProfileStyles";
-import { buttonImageIconStyles,
+import { buttonImageIconStyle,
          buttonHoverStyles, 
          buttonBoxStyles } from "../../styles/ButtonStyles";
 import { toast } from "react-toastify";
@@ -204,9 +204,7 @@ export default function UserPage() {
                         disabled={!changeMode}             
                     >
                         {translator('buttons.change')}
-                        <Avatar sx={buttonImageIconStyles}>
-                            <EditIcon />
-                        </Avatar>
+                        <EditIcon sx={buttonImageIconStyle}/>
                     </Button>
 
                     <Button
@@ -216,9 +214,7 @@ export default function UserPage() {
                         disabled={changeMode}          
                     >
                         {translator('buttons.save')}
-                        <Avatar sx={buttonImageIconStyles}>
-                            <SaveIcon/>
-                        </Avatar>
+                        <SaveIcon sx={buttonImageIconStyle}/>
                     </Button>
                 </Box>
             </Box>

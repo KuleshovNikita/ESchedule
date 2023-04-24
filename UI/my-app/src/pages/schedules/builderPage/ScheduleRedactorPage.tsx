@@ -4,9 +4,11 @@ import { useCult } from "../../../hooks/Translator";
 import { Typography } from "@material-ui/core";
 import LoadingComponent from "../../../components/hoc/loading/LoadingComponent";
 import RulesList from "../../../components/schedule/RulesList";
-import { buttonAddRuleStyle, buttonHoverStyles } from "../../../styles/ButtonStyles";
+import { buttonHoverStyles, buttonImageIconStyle } from "../../../styles/ButtonStyles";
 import { Box, Button } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SaveIcon from '@mui/icons-material/Save';
+import { rulesListButtonsStyle } from "../ScheduleTableStyles";
 
 export default function ScheduleRedactorPage() {
     const { translator } = useCult();
@@ -39,13 +41,22 @@ export default function ScheduleRedactorPage() {
                         {translator('label.rules-list')}
                     </Typography>
                     <RulesList tenantId={tenantStore.tenant?.id as string}/>
-                    <Button 
-                        sx={buttonHoverStyles} 
-                        variant="contained"
-                    >
-                        {translator('buttons.add-new-rule')}
-                        <AddCircleIcon sx={buttonAddRuleStyle} />
-                    </Button>
+                    <Box sx={rulesListButtonsStyle}>
+                        <Button 
+                            sx={buttonHoverStyles} 
+                            variant="contained"
+                        >
+                            {translator('buttons.add-new-rule')}
+                            <AddCircleIcon sx={buttonImageIconStyle} />
+                        </Button>
+                        <Button
+                            sx={buttonHoverStyles}   
+                            variant="contained"         
+                        >
+                            {translator('buttons.save')}
+                            <SaveIcon sx={buttonImageIconStyle}/>
+                        </Button>
+                    </Box>
                 </Box>
             </Box>
         }

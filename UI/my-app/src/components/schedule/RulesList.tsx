@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
-import { Box, MenuItem, Select, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import LoadingComponent from "../hoc/loading/LoadingComponent";
 import { pascalToDashCase } from "../../utils/Utils";
 import { useCult } from "../../hooks/Translator";
+import RuleBody from "./RuleBody";
 
 interface Props {
     tenantId: string
@@ -33,7 +34,7 @@ export default function RulesList({ tenantId }: Props) {
             scheduleStore.rules?.map((v, k) => {
                 return <Box key={k}>
                             <TextField value={translator(pascalToDashCase(v.ruleName))}/>
-                            <TextField sx={{ml: 1, width: "600px"}} value={v.ruleJson} />
+                            <RuleBody rule={v}/>
                         </Box>
             })
         }

@@ -9,6 +9,7 @@ export default class UserStore {
     base: BaseStore = new BaseStore();
     client: any = null;
     user: UserModel | null = null;
+    otherUsers: UserModel[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -71,5 +72,18 @@ export default class UserStore {
 
             return response.value;
         }
+    }
+
+    getUserInfo = async (userId: string) => {
+        const response = await agent.User.getUser(userId);
+        console.log("hit")
+
+        this.base.handleErrors(response);
+
+        if(response.isSuccessful && !this.otherUsers.includes(response.value)) {
+            this.otherUsers.push(response.value);
+        }
+
+        return response.value;
     }
 }

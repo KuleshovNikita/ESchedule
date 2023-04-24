@@ -10,13 +10,7 @@ export const buttonHoverStyles = {
     mt: 1 
 }
 
-export const buttonImageIconStyles = { 
-    ml: 1, 
-    bgcolor: "white", 
-    color: "blue" 
-}
-
-export const buttonAddRuleStyle = {
+export const buttonImageIconStyle = { 
     ml: 1, 
     color: "white" 
 }

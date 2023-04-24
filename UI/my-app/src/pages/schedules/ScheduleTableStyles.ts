@@ -43,6 +43,12 @@ export const ScheduleItemStyle = {
     fontSize: '17px'
 }
 
+export const rulesListButtonsStyle = {
+    display: 'flex', 
+    flexDirection: 'column',
+    width: "300px"
+}
+
 export const ScheduleRowStyle = {
     ...RowAlignStyle,
     height: '130px',

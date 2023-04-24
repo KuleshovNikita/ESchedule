@@ -12,6 +12,6 @@ namespace ESchedule.Business.ScheduleRules
 
         public virtual bool Verify(ScheduleModel schedule) => throw new NotImplementedException();
 
-        public virtual string GetJson() => JsonSerializer.Serialize(this, GetType());
+        public string GetJson() => JsonSerializer.Serialize(this, GetType());
     }
 }
