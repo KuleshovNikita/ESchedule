@@ -62,7 +62,7 @@ namespace ESchedule.Business.ScheduleBuilding
                     Id = Guid.NewGuid(),
                     TenantId = tenantId,
                     RuleName = r.RuleName,
-                    RuleJson = r.JsonBody,
+                    RuleJson = r.RuleJson,
                 }
             );
 

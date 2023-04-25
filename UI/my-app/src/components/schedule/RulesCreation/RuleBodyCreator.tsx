@@ -5,8 +5,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../../styles/ButtonStyles";
 import { useState } from "react";
 import { useStore } from "../../../api/stores/StoresManager";
-import { RuleModel } from "../../../models/Schedules";
+import { RuleInputModel } from "../../../models/Schedules";
 import { availableRules } from "../../../utils/ruleUtils";
+import { noneWord } from "../../../utils/Utils";
+import { toast } from "react-toastify";
 
 interface Props {
     ruleName: string,
@@ -32,20 +34,24 @@ export default function RuleBodyCreator({ruleName, bodyData, onConfirm}: Props) 
         );
     }
 
-    const saveRule = () => {
-        const newRule: RuleModel = {
-            id: "",
+    const saveRule = async () => {
+        const newRule: RuleInputModel = {
             ruleName: ruleName,
             ruleJson: JSON.stringify(bodyData),
             tenantId: userStore.user?.tenantId!
         }
 
-        scheduleStore.rules?.push(newRule);
+        const res = await scheduleStore.createRule(newRule);
+
+        if(res.isSuccessful) {
+            toast.success(translator('toast.rules-added-successfully'));
+        }
+
         onConfirm();
     }
 
     switch(ruleName) {
-        case "words.none": {
+        case noneWord: {
             return <></>;
         }
 

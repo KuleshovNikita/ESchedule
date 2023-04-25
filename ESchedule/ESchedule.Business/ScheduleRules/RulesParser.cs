@@ -32,7 +32,7 @@ namespace ESchedule.Business.ScheduleRules
                     throw new NoSuchRuleException($"The rule with name {rule.RuleName} doesn't exist");
                 }
 
-                var ruleInstance = (BaseScheduleRule)JsonSerializer.Deserialize(rule.JsonBody, targetRuleType)!;
+                var ruleInstance = (BaseScheduleRule)JsonSerializer.Deserialize(rule.RuleJson, targetRuleType)!;
                 rulesList.Add(ruleInstance);
             }
 

@@ -4,6 +4,6 @@
     {
         public string RuleName { get; set; } = null!;
 
-        public string JsonBody { get; set; } = null!;
+        public string RuleJson { get; set; } = null!;
     }
 }

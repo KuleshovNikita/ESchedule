@@ -110,6 +110,7 @@ const Schedule = {
     getScheduleForGroup: (groupId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/group/${groupId}`), 
     getScheduleForTeacher: (teacherId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/teacher/${teacherId}`), 
     removeSchedule: (tenantId: string) => requests.delete<EmptyResult>(`/schedule/${tenantId}`), 
+    createRule: (rule: RuleInputModel) => requests.post<EmptyResult>(`/schedule/rule`, rule)
 }
 
 const Tenant = {

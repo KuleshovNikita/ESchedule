@@ -9,6 +9,7 @@ using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ESchedule.Business.ScheduleRules;
+using ESchedule.Domain.Users;
 
 namespace ESchedule.Api.Controllers
 {
@@ -58,5 +59,10 @@ namespace ESchedule.Api.Controllers
         [HttpDelete("{tenantId}")]
         public async Task<ServiceResult<Empty>> RemoveSchedule(Guid tenantId)
             => await RunWithServiceResult(async () => await _scheduleService.RemoveWhere(x => x.TenantId == tenantId));
+
+        [Authorize(Policies.DispatcherOnly)]
+        [HttpPost("rule")]
+        public async Task<ServiceResult<Empty>> CreateRule([FromBody] RuleInputModel ruleModel)
+           => await RunWithServiceResult(async () => await _rulesService.CreateItem(ruleModel));
     }
 }

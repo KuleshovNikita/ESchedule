@@ -50,7 +50,7 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
             setBusyTeacherError(translator('errors.invalid-value'));
             setHasErrors(true);
         } else {
-            bodyData.busyTeacher = busyTeacher;
+            bodyData.ActorId = busyTeacher;
             setBusyTeacherError('');
         }
 
@@ -58,7 +58,7 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
             setDayError(translator('errors.invalid-value'));
             setHasErrors(true);
         } else {
-            bodyData.day = day;
+            bodyData.Target = day;
             setDayError('');
         }
 
@@ -84,9 +84,11 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
                         onChange={e => setBusyTeacher(e.target.value)}
                 >
                     <MenuItem key={-1} value={noneWord}>{translator(noneWord)}</MenuItem>
-                    {teachersInfo?.map((v, k) => {
-                        return <MenuItem key={k} value={v.id}>{normalizeName(v)}</MenuItem>
-                    })}
+                    {
+                        teachersInfo?.map((v, k) => {
+                            return <MenuItem key={k} value={v.id}>{normalizeName(v)}</MenuItem>
+                        })
+                    }
                 </Select>
                 { 
                     busyTeacherError && <FormHelperText sx={{color: 'red'}}>
@@ -99,9 +101,11 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
                         onChange={e => setDay(e.target.value)}
                 >
                     <MenuItem key={-1} value={noneWord}>{translator(noneWord)}</MenuItem>
-                    {daysOfWeek?.map((v, k) => {
-                        return <MenuItem key={k} value={k}>{translator(`days-of-week.${v}`)}</MenuItem>
-                    })}
+                    {
+                        daysOfWeek?.map((v, k) => {
+                            return <MenuItem key={k} value={k}>{translator(`days-of-week.${v}`)}</MenuItem>
+                        })
+                    }
                 </Select>
                 { 
                     dayError && <FormHelperText sx={{color: 'red'}}>

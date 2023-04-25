@@ -6,7 +6,8 @@ import { UserModel } from "./Users";
 
 export interface RuleInputModel {
     ruleName: string;
-    jsonBody: string;
+    ruleJson: string;
+    tenantId: string;
 }
 
 export interface RuleModel extends BaseEntity {

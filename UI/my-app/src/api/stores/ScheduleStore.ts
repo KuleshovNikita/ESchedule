@@ -86,4 +86,7 @@ export default class ScheduleStore {
 
         return schedules;
     }
+
+    createRule = async (rule: RuleInputModel) => 
+        await this.base.simpleRequest(async () => await this.client.createRule(rule)); 
 }
