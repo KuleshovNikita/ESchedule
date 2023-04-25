@@ -20,7 +20,7 @@ export default function CreateRuleForm({closeAction}: Props) {
                     </Button>
                 </Box>
                 <Box sx={ruleBodyFormStyle}>
-                    <RuleSelect/>
+                    <RuleSelect onConfirm={() => closeAction()}/>
                 </Box>
             </Box>
         </Box>

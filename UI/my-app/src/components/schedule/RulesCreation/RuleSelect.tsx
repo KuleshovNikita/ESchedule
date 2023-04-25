@@ -5,7 +5,11 @@ import { useState } from "react";
 import RuleBodyCreator from "./RuleBodyCreator";
 import { noneWord } from "../../../utils/Utils";
 
-export default function RuleSelect() {
+interface Props {
+    onConfirm: any
+}
+
+export default function RuleSelect({onConfirm}: Props) {
     const { translator } = useCult();
     const [ruleName, setRuleName] = useState<string>();
     let bodyData: any = {};
@@ -33,6 +37,7 @@ export default function RuleSelect() {
         </Select>
 
         { ruleName && <RuleBodyCreator ruleName={ruleName} 
-                                       bodyData={bodyData} /> }
+                                       bodyData={bodyData}
+                                       onConfirm={onConfirm} /> }
     </>);
 }

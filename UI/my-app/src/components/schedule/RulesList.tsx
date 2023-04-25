@@ -8,7 +8,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SaveIcon from '@mui/icons-material/Save';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
-import { pascalToDashCase } from "../../utils/ruleUtils";
 import CreateRuleForm from "./RulesCreation/CreateRuleForm";
 
 interface Props {
@@ -45,7 +44,7 @@ export default function RulesList({ tenantId }: Props) {
                 {
                     scheduleStore.rules?.map((v, k) => {
                         return <Box key={k}>
-                                    <TextField value={translator(pascalToDashCase(v.ruleName))}/>
+                                    <TextField value={translator(v.ruleName)}/>
                                     <RuleBodyViewer rule={v}/>
                                 </Box>
                     })
@@ -72,7 +71,7 @@ export default function RulesList({ tenantId }: Props) {
                 { 
                     isCreatingNewRule
                 &&
-                    <CreateRuleForm closeAction={setCreatingNewRuleFlag}/>
+                    <CreateRuleForm closeAction={showNewRuleForm}/>
                 }
             </>
         }
