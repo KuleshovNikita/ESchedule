@@ -5,13 +5,6 @@ export const getEnumKey = (targetEnum: any, value: any) => {
 
 export const timeTableScope = { start: 8, end: 18 };
 
-export const pascalToDashCase = (str: string) => 
-    str.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`).substring(1);
-
-export const availableRules = [
-    'rule.teacher-busy-day'
-]
-
 export const daysOfWeek = [ 
     'Sunday',
     'Monday', 
@@ -21,5 +14,7 @@ export const daysOfWeek = [
     'Friday', 
     'Saturday'
 ]
+
+export const noneWord = 'words.none';
 
 export const hourInPixels = 148;

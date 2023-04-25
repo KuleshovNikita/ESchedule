@@ -27,15 +27,16 @@ export const rulesListStyle = {
 }
 
 export const newRuleFormStyle = {
+    display: 'flex',
+    flexDirection: 'column',
     position: 'absolute',
     left: '30%',
     top: '20%',
     width: "600px",
-    height: '300px',
     backgroundColor: 'white',
     borderRadius: '15px',
     padding: '10px',
-
+    pb: 2
 }
 
 export const ruleFormCloseButtonStyle = {
@@ -49,6 +50,11 @@ export const ruleFormCloseButtonStyle = {
     }
 }
 
+export const ruleBodyFormStyle = {
+    display: 'flex', 
+    flexDirection: 'column'
+}
+
 export const outerTransperancyStyle = {
     position: 'fixed',
     left: 0,
@@ -56,11 +62,6 @@ export const outerTransperancyStyle = {
     backgroundColor: 'rgb(0, 0, 0, 0.8)',
     width: '100%',
     height: '100%'
-}
-
-export const createRuleFormMainBoxStyle = {
-    display: 'grid',
-    gridTemplateRows: '1fr 6fr'
 }
 
 export const ScheduleItemStyle = {

@@ -117,6 +117,7 @@ const Tenant = {
     updateTenant: (body: TenantUpdateModel) => requests.put<EmptyResult>(`/tenant`, body),
     getTenant: (id: string) => requests.get<Result<TenantModel>>(`/tenant/${id}`),
     removeTenant: (id: string) => requests.delete<EmptyResult>(`/tenant/${id}`),
+    getTeachers: (id: string) => requests.get<Result<UserModel[]>>(`/tenant/teachers/${id}`),
 }
 
 const TenantSettings = {

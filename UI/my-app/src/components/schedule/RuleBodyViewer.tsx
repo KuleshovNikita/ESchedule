@@ -16,7 +16,7 @@ const style = {
     width: "600px"
 }
 
-export default function RuleBody({rule}: Props) {
+export default function RuleBodyViewer({rule}: Props) {
     const { translator } = useCult();
     const { userStore } = useStore();
     const [teacherInfo, setTeacherInfo] = useState<UserModel>();
@@ -31,7 +31,8 @@ export default function RuleBody({rule}: Props) {
 
             return <TextField 
                         sx={style} 
-                        value={`Teacher ${teacherInfo?.name} is busy on ${daysOfWeek[result.Target]}`} />;
+                        value={`Teacher ${teacherInfo?.name} is busy on ${daysOfWeek[result.Target]}`} 
+                    />;
         }
         
         default: 

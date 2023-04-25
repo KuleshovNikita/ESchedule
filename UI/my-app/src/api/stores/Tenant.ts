@@ -36,4 +36,12 @@ export default class TenantStore {
 
         return response.value;
     }
+
+    getTeachers = async (id: string) => {
+        const response = await this.client.getTeachers(id);
+
+        this.base.handleErrors(response);
+
+        return response.value;
+    }
 }

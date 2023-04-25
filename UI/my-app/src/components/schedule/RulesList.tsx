@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
-import { Box, Button, InputLabel, Select, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import LoadingComponent from "../hoc/loading/LoadingComponent";
-import { availableRules, pascalToDashCase } from "../../utils/Utils";
 import { useCult } from "../../hooks/Translator";
-import RuleBody from "./RuleBody";
+import RuleBodyViewer from "./RuleBodyViewer";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SaveIcon from '@mui/icons-material/Save';
-import CloseIcon from '@mui/icons-material/Close';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
-import { createRuleFormMainBoxStyle, newRuleFormStyle, outerTransperancyStyle, ruleFormCloseButtonStyle, rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
-import { MenuItem } from "@material-ui/core";
+import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
+import { pascalToDashCase } from "../../utils/ruleUtils";
+import CreateRuleForm from "./RulesCreation/CreateRuleForm";
 
 interface Props {
     tenantId: string
@@ -29,7 +28,7 @@ export default function RulesList({ tenantId }: Props) {
         }
 
         fetchRules();
-    }, [scheduleStore.rules]);
+    }, [scheduleStore, scheduleStore.rules, tenantId]);
 
     const showNewRuleForm = () => {
         setCreatingNewRuleFlag(!isCreatingNewRule);
@@ -47,7 +46,7 @@ export default function RulesList({ tenantId }: Props) {
                     scheduleStore.rules?.map((v, k) => {
                         return <Box key={k}>
                                     <TextField value={translator(pascalToDashCase(v.ruleName))}/>
-                                    <RuleBody rule={v}/>
+                                    <RuleBodyViewer rule={v}/>
                                 </Box>
                     })
                 }
@@ -73,23 +72,7 @@ export default function RulesList({ tenantId }: Props) {
                 { 
                     isCreatingNewRule
                 &&
-                    <Box sx={outerTransperancyStyle}>
-                        <Box sx={[newRuleFormStyle, createRuleFormMainBoxStyle]}>
-                            <Box>
-                                <Button sx={ruleFormCloseButtonStyle} onClick={showNewRuleForm} >
-                                    <CloseIcon />
-                                </Button>
-                            </Box>
-                            <Box>
-                                <InputLabel>{translator('labels.rule')}</InputLabel>
-                                <Select sx={{width: "300px"}}>
-                                    {availableRules.map((value, key) => {
-                                        return <MenuItem key={key}>{value}</MenuItem>
-                                    })}
-                                </Select>
-                            </Box>
-                        </Box>
-                    </Box>
+                    <CreateRuleForm closeAction={setCreatingNewRuleFlag}/>
                 }
             </>
         }
