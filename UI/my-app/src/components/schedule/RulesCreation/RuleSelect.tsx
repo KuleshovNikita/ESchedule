@@ -28,7 +28,7 @@ export default function RuleSelect({onConfirm}: Props) {
         >
             <MenuItem key={-1} value={noneWord}>{translator(noneWord)}</MenuItem>
             {
-                availableRules.map((value, k) => {
+                Object.values(availableRules).map((value, k) => {
                     return <MenuItem key={k} value={value}>
                                 {translator(value)}
                             </MenuItem>

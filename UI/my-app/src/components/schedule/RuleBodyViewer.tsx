@@ -6,6 +6,7 @@ import { useStore } from "../../api/stores/StoresManager";
 import { useState } from "react";
 import { UserModel } from "../../models/Users";
 import { useCult } from "../../hooks/Translator";
+import { availableRules } from "../../utils/ruleUtils";
 
 interface Props {
     rule: RuleModel
@@ -22,7 +23,7 @@ export default function RuleBodyViewer({rule}: Props) {
     const [teacherInfo, setTeacherInfo] = useState<UserModel>();
 
     switch(rule.ruleName) {
-        case "TeacherBusyDayRule": {
+        case availableRules.teacherBusyDayRule: {
             const result = JSON.parse(rule.ruleJson) as TeacherBusyDayRule;
 
             if(!teacherInfo) {

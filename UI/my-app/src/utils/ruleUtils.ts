@@ -1,3 +1,3 @@
-export const availableRules = [
-    'TeacherBusyDayRule'
-]
+export const availableRules = {
+    teacherBusyDayRule: 'TeacherBusyDayRule'
+}

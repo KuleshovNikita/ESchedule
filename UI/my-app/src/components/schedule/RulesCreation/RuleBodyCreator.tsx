@@ -6,6 +6,7 @@ import { buttonHoverStyles, buttonImageIconStyle } from "../../../styles/ButtonS
 import { useState } from "react";
 import { useStore } from "../../../api/stores/StoresManager";
 import { RuleModel } from "../../../models/Schedules";
+import { availableRules } from "../../../utils/ruleUtils";
 
 interface Props {
     ruleName: string,
@@ -48,7 +49,7 @@ export default function RuleBodyCreator({ruleName, bodyData, onConfirm}: Props) 
             return <></>;
         }
 
-        case "TeacherBusyDayRule": {
+        case availableRules.teacherBusyDayRule: {
             return (
                 <>
                     <CreateTeacherBodyDayRuleComp setHasErrors={setHasErrors}
