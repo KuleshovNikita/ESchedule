@@ -13,7 +13,7 @@ interface Props {
 }
 
 const style = {
-    ml: 1, 
+    ml: 0.5, 
     width: "600px"
 }
 

@@ -5,7 +5,7 @@ import LoadingComponent from "../hoc/loading/LoadingComponent";
 import { useCult } from "../../hooks/Translator";
 import RuleBodyViewer from "./RuleBodyViewer";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import SaveIcon from '@mui/icons-material/Save';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
 import CreateRuleForm from "./RulesCreation/CreateRuleForm";
@@ -43,7 +43,7 @@ export default function RulesList({ tenantId }: Props) {
             <>
                 {
                     scheduleStore.rules?.map((v, k) => {
-                        return <Box key={k}>
+                        return <Box key={k} sx={{mt: 1}}>
                                     <TextField value={translator(v.ruleName)}/>
                                     <RuleBodyViewer rule={v}/>
                                 </Box>
@@ -63,8 +63,8 @@ export default function RulesList({ tenantId }: Props) {
                         sx={buttonHoverStyles}   
                         variant="contained"         
                     >
-                        {translator('buttons.save')}
-                        <SaveIcon sx={buttonImageIconStyle}/>
+                        {translator('buttons.build-schedule')}
+                        <ConstructionIcon sx={buttonImageIconStyle}/>
                     </Button>
                 </Box>
 

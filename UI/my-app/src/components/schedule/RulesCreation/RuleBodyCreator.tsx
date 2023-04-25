@@ -1,7 +1,7 @@
 import { useCult } from "../../../hooks/Translator";
 import CreateTeacherBodyDayRuleComp from "./CreateTeacherBudyDayRuleComp";
 import { Button } from "@mui/material";
-import SaveIcon from '@mui/icons-material/Save';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../../styles/ButtonStyles";
 import { useState } from "react";
 import { useStore } from "../../../api/stores/StoresManager";
@@ -28,8 +28,8 @@ export default function RuleBodyCreator({ruleName, bodyData, onConfirm}: Props) 
                     disabled={hasErrors}
                     onClick={saveRule}   
             >
-                {translator('buttons.save')}
-                <SaveIcon sx={buttonImageIconStyle}/>
+                {translator('buttons.create')}
+                <AddCircleIcon sx={buttonImageIconStyle}/>
             </Button>
         );
     }
