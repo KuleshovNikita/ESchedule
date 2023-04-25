@@ -5,16 +5,12 @@ import { useState } from "react";
 import RuleBodyCreator from "./RuleBodyCreator";
 import { noneWord } from "../../../utils/Utils";
 
-interface Props {
-    switchSaveButton: any
-}
-
-export default function RuleSelect({switchSaveButton}: Props) {
+export default function RuleSelect() {
     const { translator } = useCult();
     const [ruleName, setRuleName] = useState<string>();
+    let bodyData: any = {};
 
     const showBody = (value: string) => {
-        switchSaveButton(value === noneWord);
         setRuleName(value);
     }
 
@@ -36,10 +32,7 @@ export default function RuleSelect({switchSaveButton}: Props) {
             }
         </Select>
 
-        {
-            ruleName
-        &&
-            <RuleBodyCreator ruleName={ruleName} />
-        }
+        { ruleName && <RuleBodyCreator ruleName={ruleName} 
+                                       bodyData={bodyData} /> }
     </>);
 }

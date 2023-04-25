@@ -11,10 +11,11 @@ const style = {
 }
 
 interface Props {
-    setHasErrors: any
+    setHasErrors: any,
+    bodyData: any
 }
 
-export default function CreateTeacherBudyDayRuleComp({setHasErrors}: Props) {
+export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: Props) {
     const { tenantStore, userStore } = useStore();
     const { translator } = useCult();
     const [teachersInfo, setTeachersInfo] = useState<UserModel[]>([]);
@@ -47,17 +48,25 @@ export default function CreateTeacherBudyDayRuleComp({setHasErrors}: Props) {
     useEffect(() => {
         if(busyTeacher === noneWord) {
             setBusyTeacherError(translator('errors.invalid-value'));
+            setHasErrors(true);
         } else {
+            bodyData.busyTeacher = busyTeacher;
             setBusyTeacherError('');
         }
 
         if(day === noneWord) {
             setDayError(translator('errors.invalid-value'));
+            setHasErrors(true);
         } else {
+            bodyData.day = day;
             setDayError('');
         }
 
-    }, [busyTeacher, day, translator]);
+        if(!dayError && !busyTeacherError) {
+            setHasErrors(false);
+        }
+
+    }, [bodyData, busyTeacher, busyTeacherError, day, dayError, setHasErrors, translator]);
 
     const normalizeName = (user: UserModel) => 
         `${user.lastName} ${user.lastName[0]}. ${user.fatherName[0]}.`;
