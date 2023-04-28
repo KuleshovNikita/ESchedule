@@ -34,7 +34,7 @@ export default function ViewSchedulesList() {
 
     useEffect(() => {
         if(targetSchedule.id === noneWord) {
-            setTargetScheduleError(translator('errors.schedule-not-selected'));
+            setTargetScheduleError(translator('input-helpers.schedule-not-selected'));
         } else if (targetSchedule.id !== noneWord && targetScheduleError === '') {
             //do nothing
         } else {

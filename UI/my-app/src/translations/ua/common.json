@@ -23,7 +23,9 @@
         "email-should-be-correct": "Улуктрона адреса повинна буди у правильному форматі",
         "please-enter-password": "Введіть пароль",
         "please-repeat-password": "Підтвердіть введений пароль",
-        "passwords-do-not-match": "Паролі не співпадають"
+        "passwords-do-not-match": "Паролі не співпадають",
+        "invalid-value": "Некоректне значення",
+        "schedule-not-selected": "Розклад не обрано"
     },
     "toasts": {
         "verification-email-sent": "Ми надіслали на вказану пошту лист для підтвердження реєстрації, будь ласка, перевірте пошту",
@@ -45,13 +47,24 @@
         "repeat-password": "Підтвердіть пароль",
         "tenant": "Організація",
         "underlying-group": "Підпорядкована група",
-        "group": "Група"
+        "group": "Група",
+        "rules-list": "Список правил:",
+        "schedule-viewer": "Оглядач розкладів:",
+        "rule": "Правило:",
+        "busy-teacher": "Зайнятий вчитель:",
+        "day-of-week": "День неділі, коли вчитель зайнятий:",
+        "target-schedule": "Розклад:"
     },
     "buttons": {
         "register": "Зареєструватись",
         "login": "Увійти",
         "change": "Змінити",
-        "save": "Зберегти"
+        "save": "Зберегти",
+        "create-new-rule": "Створити нове правило",
+        "build-schedule": "Побудувати новий розклад",
+        "view-schedules": "Переглянути розклади",
+        "create": "Створити",
+        "open": "Відкрити"
     },
     "headers": {
         "personal-info": "Персональна дані:",
@@ -74,6 +87,11 @@
     },
     "words": {
         "or": "Або",
-        "none": "Відсутня"
+        "none": "Відсутня",
+        "teacher": "Вчитель",
+        "is-busy-on": "зайнятий у"
+    },
+    "rules": {
+        "teacher-busy-day": "Зайнятий День Вчителя"
     }
 }

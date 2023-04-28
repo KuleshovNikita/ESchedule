@@ -32,7 +32,7 @@ export default function RuleBodyViewer({rule}: Props) {
 
             return <TextField 
                         sx={style} 
-                        value={`Teacher ${teacherInfo?.name} is busy on ${daysOfWeek[result.Target]}`} 
+                        value={`${translator('words.teacher')} ${teacherInfo?.name} ${translator('words.is-busy-on')} ${translator('days-of-week.' + daysOfWeek[result.Target])}`} 
                     />;
         }
         

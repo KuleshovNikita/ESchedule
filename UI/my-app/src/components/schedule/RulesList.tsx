@@ -66,7 +66,7 @@ export default function RulesList({ tenantId }: Props) {
                         variant="contained"
                         onClick={showNewRuleForm}
                     >
-                        {translator('buttons.create-new-schedule')}
+                        {translator('buttons.create-new-rule')}
                         <AddCircleIcon sx={buttonImageIconStyle} />
                     </Button>
                     <Button

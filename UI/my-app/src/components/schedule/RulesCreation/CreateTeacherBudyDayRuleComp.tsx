@@ -44,7 +44,7 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
 
     useEffect(() => {
         if(busyTeacher === noneWord) {
-            setBusyTeacherError(translator('errors.invalid-value'));
+            setBusyTeacherError(translator('input-helpers.invalid-value'));
             setHasErrors(true);
         } else {
             bodyData.ActorId = busyTeacher;
@@ -52,7 +52,7 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
         }
 
         if(day === noneWord) {
-            setDayError(translator('errors.invalid-value'));
+            setDayError(translator('input-helpers.invalid-value'));
             setHasErrors(true);
         } else {
             bodyData.Target = day;

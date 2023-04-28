@@ -36,7 +36,7 @@ export default function ScheduleRedactorPage() {
                 <hr/>
                 <Box>
                     <Typography variant="h4">
-                        {translator('label.rules-list')}
+                        {translator('labels.rules-list')}
                     </Typography>
                     <RulesList tenantId={tenantStore.tenant?.id as string}/>
                 </Box>
@@ -44,7 +44,7 @@ export default function ScheduleRedactorPage() {
                 <hr/>
                 <Box>
                     <Typography variant="h4">
-                        {translator('label.schedule-viewer')}
+                        {translator('labels.schedule-viewer')}
                     </Typography>
                     <ScheduleViewer/>
                 </Box>
