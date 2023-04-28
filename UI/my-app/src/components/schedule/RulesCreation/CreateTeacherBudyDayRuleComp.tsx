@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { UserModel } from "../../../models/Users";
 import { useStore } from "../../../api/stores/StoresManager";
-import { FormHelperText, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormHelperText } from "@mui/material";
 import LoadingComponent from "../../hoc/loading/LoadingComponent";
 import { useCult } from "../../../hooks/Translator";
 import { daysOfWeek, noneWord, normalizeUserName } from "../../../utils/Utils";
-
-const style = {
-    mt: 1, 
-}
+import CustomSelect from "../../CustomSelect";
 
 interface Props {
     setHasErrors: any,
@@ -67,6 +64,50 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
         }
 
     }, [bodyData, busyTeacher, busyTeacherError, day, dayError, setHasErrors, translator]);
+
+    const busyTeacherErrorHandler = () => {
+        return (
+            busyTeacherError && <FormHelperText sx={{color: 'red'}}>
+                                    {busyTeacherError}
+                                </FormHelperText> 
+        );
+    }
+
+    const dayErrorHandler = () => {
+        return (
+            dayError && <FormHelperText sx={{color: 'red'}}>
+                            {dayError}
+                        </FormHelperText> 
+        );
+    }
+
+    const normalizeDaysList = () => {
+        return daysOfWeek.map((x, k) => { 
+            return {
+                id: k.toString(), 
+                value: translator(`days-of-week.${x}`), 
+                type: 'day'
+            } 
+        });
+    }
+
+    const normalizeTeacherList = () => {
+        return teachersInfo.map(x => { 
+            return {
+                id: x.id, 
+                value: normalizeUserName(x), 
+                type: 'teacher'
+            } 
+        });
+    }
+
+    const getId = (item: string) => {
+        if(item === noneWord) {
+            return noneWord;
+        }
+
+        return JSON.parse(item).id as string;
+    }
    
     return (
         <>
@@ -76,39 +117,17 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
             <LoadingComponent type='circle'/>
         :
             <>
-                <InputLabel sx={style}>{translator('labels.busy-teacher')}</InputLabel>
-                <Select defaultValue={noneWord}
-                        onChange={e => setBusyTeacher(e.target.value)}
-                >
-                    <MenuItem key={-1} value={noneWord}>{translator(noneWord)}</MenuItem>
-                    {
-                        teachersInfo?.map((v, k) => {
-                            return <MenuItem key={k} value={v.id}>{normalizeUserName(v)}</MenuItem>
-                        })
-                    }
-                </Select>
-                { 
-                    busyTeacherError && <FormHelperText sx={{color: 'red'}}>
-                                            {busyTeacherError}
-                                        </FormHelperText> 
-                }
+                <CustomSelect 
+                    label={translator('labels.busy-teacher')} 
+                    onChange={e => setBusyTeacher(getId(e.target.value))} 
+                    collection={normalizeTeacherList()} 
+                    errorHandler={busyTeacherErrorHandler} />
 
-                <InputLabel sx={style}>{translator('labels.day-of-week')}</InputLabel>
-                <Select defaultValue={noneWord}
-                        onChange={e => setDay(e.target.value)}
-                >
-                    <MenuItem key={-1} value={noneWord}>{translator(noneWord)}</MenuItem>
-                    {
-                        daysOfWeek?.map((v, k) => {
-                            return <MenuItem key={k} value={k}>{translator(`days-of-week.${v}`)}</MenuItem>
-                        })
-                    }
-                </Select>
-                { 
-                    dayError && <FormHelperText sx={{color: 'red'}}>
-                                            {dayError}
-                                </FormHelperText> 
-                }
+                <CustomSelect 
+                    label={translator('labels.day-of-week')} 
+                    onChange={e => setDay(getId(e.target.value))} 
+                    collection={normalizeDaysList()} 
+                    errorHandler={dayErrorHandler} />
             </>
         }
         </>
