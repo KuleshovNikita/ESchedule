@@ -103,7 +103,7 @@ const Lesson = {
 }
 
 const Schedule = {
-    buildSchedule: (tenantId: string, rules: RuleInputModel[]) => requests.post<EmptyResult>(`/schedule/${tenantId}`, rules), 
+    buildSchedule: (tenantId: string) => requests.post<EmptyResult>(`/schedule/${tenantId}`, {}), 
     //TODO ---> updateSchedule: (rules: RuleInputModel[]) => requests.post<EmptyResult>(`/schedule/${tenantId}`, rules), 
     getScheduleForTenant: (tenantId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/tenant/${tenantId}`), 
     getScheduleRules: (tenantId: string) => requests.get<Result<RuleModel[]>>(`/schedule/rules/${tenantId}`), 

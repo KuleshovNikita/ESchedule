@@ -9,6 +9,7 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
 import CreateRuleForm from "./RulesCreation/CreateRuleForm";
+import { toast } from "react-toastify";
 
 interface Props {
     tenantId: string
@@ -31,6 +32,14 @@ export default function RulesList({ tenantId }: Props) {
 
     const showNewRuleForm = () => {
         setCreatingNewRuleFlag(!isCreatingNewRule);
+    }
+
+    const createSchedule = async () => {
+        const result = await scheduleStore.buildSchedule(tenantId);
+
+        if(result.isSuccessful) {
+            toast.success(translator('toast.schedule-created-successfully'))
+        }
     }
 
     return(
@@ -61,7 +70,8 @@ export default function RulesList({ tenantId }: Props) {
                     </Button>
                     <Button
                         sx={buttonHoverStyles}   
-                        variant="contained"         
+                        variant="contained"
+                        onClick={createSchedule}         
                     >
                         {translator('buttons.build-schedule')}
                         <ConstructionIcon sx={buttonImageIconStyle}/>

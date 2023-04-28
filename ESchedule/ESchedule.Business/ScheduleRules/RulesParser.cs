@@ -19,7 +19,7 @@ namespace ESchedule.Business.ScheduleRules
                             .Where(x => typeof(BaseScheduleRule).IsAssignableFrom(x));
         }
 
-        public IEnumerable<BaseScheduleRule> ParseToRules(IEnumerable<RuleInputModel> rules)
+        public IEnumerable<BaseScheduleRule> ParseToRules(IEnumerable<RuleModel> rules)
         {
             var rulesList = new List<BaseScheduleRule>();
 

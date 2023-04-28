@@ -1,15 +1,13 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
-using ESchedule.Domain.Policy;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Domain.Lessons.Schedule;
+using ESchedule.Domain.Policy;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ESchedule.Business.ScheduleRules;
-using ESchedule.Domain.Users;
 
 namespace ESchedule.Api.Controllers
 {
@@ -27,8 +25,8 @@ namespace ESchedule.Api.Controllers
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPost("{tenantId}")]
-        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, [FromBody] IEnumerable<RuleInputModel> rules)
-            => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId, rules));
+        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId)
+            => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId));
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPut]

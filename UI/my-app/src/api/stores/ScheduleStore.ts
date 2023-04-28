@@ -13,8 +13,8 @@ export default class ScheduleStore {
         makeAutoObservable(this);
     }
 
-    buildSchedule = async (tenantId: string, rules: RuleInputModel[]) => 
-        await this.base.simpleRequest(async () => await this.client.buildSchedule(tenantId, rules)); 
+    buildSchedule = async (tenantId: string) => 
+        await this.base.simpleRequest(async () => await this.client.buildSchedule(tenantId)); 
 
     getScheduleForTenant = async (tenantId: string) => {
         const response = await this.client.getScheduleForGroup(tenantId);

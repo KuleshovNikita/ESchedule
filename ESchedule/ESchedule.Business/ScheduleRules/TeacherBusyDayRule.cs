@@ -10,6 +10,6 @@ namespace ESchedule.Business.ScheduleRules
         public DayOfWeek Target { get; set; }
 
         public override bool Verify(ScheduleModel schedule)
-            => schedule.TeacherId != ActorId && Target != schedule.DayOfWeek;
+            => schedule.TeacherId != ActorId || schedule.TeacherId == ActorId && Target != schedule.DayOfWeek;
     }
 }
