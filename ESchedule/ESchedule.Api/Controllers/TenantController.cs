@@ -14,10 +14,13 @@ namespace ESchedule.Api.Controllers
     public class TenantController : ResultingController<TenantModel>
     {
         private readonly IUserService _userService;
+        private readonly IBaseService<GroupModel> _groupService;
 
-        public TenantController(IBaseService<TenantModel> service, IUserService userService) : base(service)
+        public TenantController(IBaseService<TenantModel> service, IUserService userService,
+            IBaseService<GroupModel> groupService) : base(service)
         {
             _userService = userService;
+            _groupService = groupService;
         }
 
         [Authorize]
@@ -35,6 +38,11 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<IEnumerable<UserModel>>> GetTeachers(Guid tenantId)
             => await RunWithServiceResult(async () => await _userService.Where(x => x.TenantId == tenantId 
                                                                                  && x.Role == Domain.Enums.Role.Teacher));
+
+        [Authorize]
+        [HttpGet("groups/{tenantId}")]
+        public async Task<ServiceResult<IEnumerable<GroupModel>>> GetTenantGroups(Guid tenantId)
+            => await RunWithServiceResult(async () => await _groupService.Where(x => x.TenantId == tenantId));
 
         [Authorize]
         [HttpGet("{tenantId}")]

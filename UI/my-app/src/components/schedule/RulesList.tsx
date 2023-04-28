@@ -8,8 +8,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
-import CreateRuleForm from "./RulesCreation/CreateRuleForm";
+import PopupForm from "./RulesCreation/PopupForm";
 import { toast } from "react-toastify";
+import RuleSelect from "./RulesCreation/RuleSelect";
 
 interface Props {
     tenantId: string
@@ -81,7 +82,9 @@ export default function RulesList({ tenantId }: Props) {
                 { 
                     isCreatingNewRule
                 &&
-                    <CreateRuleForm closeAction={showNewRuleForm}/>
+                    <PopupForm closeButtonHandler={showNewRuleForm}>
+                        <RuleSelect onConfirm={showNewRuleForm}/>
+                    </PopupForm>
                 }
             </>
         }

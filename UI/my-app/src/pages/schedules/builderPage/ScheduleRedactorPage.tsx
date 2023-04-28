@@ -5,6 +5,7 @@ import { Typography } from "@material-ui/core";
 import LoadingComponent from "../../../components/hoc/loading/LoadingComponent";
 import RulesList from "../../../components/schedule/RulesList";
 import { Box } from "@mui/material";
+import ScheduleViewer from "../../../components/schedule/ScheduleViewer";
 
 export default function ScheduleRedactorPage() {
     const { translator } = useCult();
@@ -31,12 +32,21 @@ export default function ScheduleRedactorPage() {
                 <Typography variant="h2">
                     {tenantStore.tenant?.tenantName}
                 </Typography>
+                
                 <hr/>
                 <Box>
                     <Typography variant="h4">
                         {translator('label.rules-list')}
                     </Typography>
                     <RulesList tenantId={tenantStore.tenant?.id as string}/>
+                </Box>
+
+                <hr/>
+                <Box>
+                    <Typography variant="h4">
+                        {translator('label.schedule-viewer')}
+                    </Typography>
+                    <ScheduleViewer/>
                 </Box>
             </Box>
         }

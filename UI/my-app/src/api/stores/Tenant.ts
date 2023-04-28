@@ -2,11 +2,15 @@ import { makeAutoObservable } from "mobx";
 import { TenantCreateModel, TenantModel, TenantUpdateModel } from "../../models/Tenants";
 import { agent } from "../agent";
 import BaseStore from "./BaseStore";
+import { UserModel } from "../../models/Users";
+import { GroupModel } from "../../models/Groups";
 
 export default class TenantStore {
     base: BaseStore = new BaseStore();
     client = agent.Tenant;
     tenant: TenantModel | null = null;
+    tenantGroups: GroupModel[] = [];
+    tenantTeachers: UserModel[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -41,6 +45,22 @@ export default class TenantStore {
         const response = await this.client.getTeachers(id);
 
         this.base.handleErrors(response);
+
+        if(response.isSuccessful) {
+            this.tenantTeachers = response.value;
+        }
+
+        return response.value;
+    }
+
+    getGroups = async (tenantId: string) => {
+        const response = await this.client.getGroups(tenantId);
+
+        this.base.handleErrors(response);
+
+        if(response.isSuccessful) {
+            this.tenantGroups = response.value;
+        }
 
         return response.value;
     }

@@ -6,9 +6,11 @@ import { ScheduleModel } from "../../models/Schedules";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { ScheduleStartEndTime } from "../../models/Tenants";
 import ScheduleTableBuilder from "./ScheduleTableBuilder";
+import { useParams } from "react-router-dom";
 
 export const ScheduleTablePage = () => {
     const { scheduleStore, userStore, tenantSettingsStore } = useStore();
+    const { isTeacherScope, targetId } = useParams();
     const [ isLoaded, setLoadedState ] = useState(false);
     const [ schedules, setSchedules ] = useState<ScheduleModel[]>([]);
     const [ timeTable, setTimeTable ] = useState<ScheduleStartEndTime[]>([]);
@@ -23,14 +25,23 @@ export const ScheduleTablePage = () => {
     }, [tenantSettingsStore, userStore.user?.tenantId])
 
     useEffect(() => {
+        const lowerScope = isTeacherScope?.toLocaleLowerCase();
+        const normalizedScope = lowerScope && lowerScope === 'true';
+
+        const fetchFromNecessarySource = async () => 
+            normalizedScope
+                ? await scheduleStore.getScheduleForTeacher(targetId as string)
+                : await scheduleStore.getScheduleForGroup(targetId as string);
+        
+
         const fetchSchedules = async () => {
-            var res = await scheduleStore.getScheduleForTeacher(userStore.user?.id as string);
+            var res = await fetchFromNecessarySource();
             setSchedules(res);
             setLoadedState(true);
         }
 
         fetchSchedules();
-    }, [scheduleStore, userStore.user?.id]);
+    }, [isTeacherScope, scheduleStore, targetId, userStore.user?.id]);
 
     return( 
         <Box>

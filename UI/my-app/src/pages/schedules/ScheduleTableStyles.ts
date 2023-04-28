@@ -57,6 +57,7 @@ export const ruleBodyFormStyle = {
 
 export const outerTransperancyStyle = {
     position: 'fixed',
+    zIndex: 1,
     left: 0,
     top: 0,
     backgroundColor: 'rgb(0, 0, 0, 0.8)',

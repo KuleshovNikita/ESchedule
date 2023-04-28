@@ -76,7 +76,6 @@ export default class UserStore {
 
     getUserInfo = async (userId: string) => {
         const response = await agent.User.getUser(userId);
-        console.log("hit")
 
         this.base.handleErrors(response);
 

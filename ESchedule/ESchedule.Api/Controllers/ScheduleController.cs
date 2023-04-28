@@ -53,6 +53,11 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForGroup(Guid groupId)
             => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.StudyGroupId == groupId));
 
+        [Authorize]
+        [HttpGet("item/{scheduleId}")]
+        public async Task<ServiceResult<ScheduleModel>> GetScheduleItem(Guid scheduleId)
+            => await RunWithServiceResult(async () => await _scheduleService.First(x => x.Id == scheduleId));
+
         [Authorize(Policies.DispatcherOnly)]
         [HttpDelete("{tenantId}")]
         public async Task<ServiceResult<Empty>> RemoveSchedule(Guid tenantId)

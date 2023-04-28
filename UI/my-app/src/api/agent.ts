@@ -110,7 +110,8 @@ const Schedule = {
     getScheduleForGroup: (groupId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/group/${groupId}`), 
     getScheduleForTeacher: (teacherId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/teacher/${teacherId}`), 
     removeSchedule: (tenantId: string) => requests.delete<EmptyResult>(`/schedule/${tenantId}`), 
-    createRule: (rule: RuleInputModel) => requests.post<EmptyResult>(`/schedule/rule`, rule)
+    createRule: (rule: RuleInputModel) => requests.post<EmptyResult>(`/schedule/rule`, rule),
+    getScheduleItem: (id: string) => requests.get<Result<ScheduleModel>>(`/schedule/item/${id}`)
 }
 
 const Tenant = {
@@ -119,6 +120,7 @@ const Tenant = {
     getTenant: (id: string) => requests.get<Result<TenantModel>>(`/tenant/${id}`),
     removeTenant: (id: string) => requests.delete<EmptyResult>(`/tenant/${id}`),
     getTeachers: (id: string) => requests.get<Result<UserModel[]>>(`/tenant/teachers/${id}`),
+    getGroups: (tenantId: string) => requests.get<Result<GroupModel[]>>(`/tenant/groups/${tenantId}`),
 }
 
 const TenantSettings = {

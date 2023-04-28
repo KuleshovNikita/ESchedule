@@ -29,6 +29,7 @@ export default class ScheduleStore {
     }
  
     getScheduleForGroup = async (groupId: string) => {
+        console.log('group');
         const response = await this.client.getScheduleForGroup(groupId);
 
         this.base.handleErrors(response);
@@ -70,6 +71,14 @@ export default class ScheduleStore {
         }
 
         return response.value;
+    }
+
+    getScheduleItem = async (id: string) => {
+        const response = await this.client.getScheduleItem(id);
+
+        this.base.handleErrors(response);
+
+        return this.parseDate([response.value])[0];
     }
 
     removeSchedule = async (tenantId: string) =>
