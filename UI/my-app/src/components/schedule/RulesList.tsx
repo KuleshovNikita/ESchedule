@@ -11,6 +11,7 @@ import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles
 import PopupForm from "./RulesCreation/PopupForm";
 import { toast } from "react-toastify";
 import RuleSelect from "./RulesCreation/RuleSelect";
+import { RuleModel } from "../../models/Schedules";
 
 interface Props {
     tenantId: string
@@ -19,17 +20,19 @@ interface Props {
 export default function RulesList({ tenantId }: Props) {
     const { scheduleStore } = useStore();
     const [isLoaded, setLoaded] = useState(false);
+    const [rules, setRules] = useState<RuleModel[]>([]);
     const [isCreatingNewRule, setCreatingNewRuleFlag] = useState(false);
     const { translator } = useCult();
 
     useEffect(() => {
         const fetchRules = async () => {
-            await scheduleStore.getScheduleRules(tenantId);
+            const res = await scheduleStore.getScheduleRules(tenantId);
+            setRules(res);
             setLoaded(true);
         }
 
         fetchRules();
-    }, [scheduleStore, scheduleStore.rules, tenantId]);
+    }, [scheduleStore, tenantId]);
 
     const showNewRuleForm = () => {
         setCreatingNewRuleFlag(!isCreatingNewRule);
@@ -43,6 +46,11 @@ export default function RulesList({ tenantId }: Props) {
         }
     }
 
+    const removeRule = async (ruleId: string) => {
+        await scheduleStore.removeRule(ruleId);
+        setRules(rules.filter(x => x.id !== ruleId));
+    }
+
     return(
         <>
         {
@@ -52,10 +60,16 @@ export default function RulesList({ tenantId }: Props) {
         :
             <>
                 {
-                    scheduleStore.rules?.map((v, k) => {
+                    rules?.map((v, k) => {
                         return <Box key={k} sx={{mt: 1}}>
                                     <TextField value={translator(v.ruleName)}/>
                                     <RuleBodyViewer rule={v}/>
+                                    <Button sx={{...buttonHoverStyles, ml: 3}} 
+                                            variant="contained"
+                                            onClick={() => removeRule(v.id)}
+                                    >
+                                        Delete
+                                    </Button>
                                 </Box>
                     })
                 }

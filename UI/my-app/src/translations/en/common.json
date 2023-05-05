@@ -31,7 +31,8 @@
         "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
         "welcome": "Welcome, ",
         "profile-updated": "Profile was updated",
-        "schedule-created-successfully": "Schedule created successfully"
+        "schedule-created-successfully": "Schedule created successfully",
+        "rules-added-successfully": "Rules added successfully"
     },
     "messages": {
         "page-not-found": "Page not found",

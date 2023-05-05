@@ -67,5 +67,10 @@ namespace ESchedule.Api.Controllers
         [HttpPost("rule")]
         public async Task<ServiceResult<Empty>> CreateRule([FromBody] RuleInputModel ruleModel)
            => await RunWithServiceResult(async () => await _rulesService.CreateItem(ruleModel));
+
+        [Authorize(Policies.DispatcherOnly)]
+        [HttpDelete("rule/{ruleId}")]
+        public async Task<ServiceResult<Empty>> CreateRule(Guid ruleId)
+           => await RunWithServiceResult(async () => await _rulesService.RemoveItem(ruleId));
     }
 }
