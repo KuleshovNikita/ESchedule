@@ -66,7 +66,8 @@
         "build-schedule": "Build new schedule",
         "view-schedules": "View schedules",
         "create": "Create",
-        "open": "Open"
+        "open": "Open",
+        "cancel": "Cancel"
     },    
     "headers": {
         "personal-info": "Personal Info:",

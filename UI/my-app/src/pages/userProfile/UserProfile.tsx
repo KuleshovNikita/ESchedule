@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useStore } from "../../api/stores/StoresManager";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { mainBoxStyle, 
          profileBoxStyle, 
          avatarStyle, 
@@ -53,6 +54,10 @@ export default function UserPage() {
     
     const setProfileChanging = () => {
         setChangeMode(!changeMode);
+    }
+
+    const resetChanges = () => {
+        window.location.reload();
     }
 
     const firstNameRef = useRef<HTMLInputElement>();
@@ -197,15 +202,27 @@ export default function UserPage() {
                 </Avatar>
 
                 <Box sx={buttonBoxStyles}>
-                    <Button
-                        sx={buttonHoverStyles}   
-                        variant="contained"   
-                        onClick={setProfileChanging}
-                        disabled={!changeMode}             
-                    >
-                        {translator('buttons.change')}
-                        <EditIcon sx={buttonImageIconStyle}/>
-                    </Button>
+                    {
+                        !changeMode
+                    ?
+                        <Button
+                            sx={buttonHoverStyles}   
+                            variant="contained"   
+                            onClick={resetChanges}          
+                        >
+                            {translator('buttons.cancel')}
+                            <CancelIcon sx={buttonImageIconStyle}/>
+                        </Button>
+                    :
+                        <Button
+                            sx={buttonHoverStyles}   
+                            variant="contained"   
+                            onClick={setProfileChanging}         
+                        >
+                            {translator('buttons.change')}
+                            <EditIcon sx={buttonImageIconStyle}/>
+                        </Button>
+                    }
 
                     <Button
                         sx={buttonHoverStyles}   
@@ -271,7 +288,7 @@ export default function UserPage() {
                         size="small"
                         helperText={ageErrors}
                         value={age}
-                        required={false}
+                        required={true}
                         disabled={changeMode}
                         inputRef={ageRef}
                         error={ageErrors.length !== 0}
