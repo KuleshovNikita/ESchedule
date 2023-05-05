@@ -1,15 +1,14 @@
 ﻿using ESchedule.Domain.Lessons.Schedule;
-using ESchedule.Domain.Users;
 
 namespace ESchedule.Business.ScheduleRules
 {
     public class TeacherBusyDayRule : BaseScheduleRule
     {
-        public override string Name => nameof(TeacherBusyDayRule);
+        public override string Name => "rules.teacher-busy-day";
 
-        public DayOfWeek Target { get; set; }
+        public string Target { get; set; } = null!;
 
         public override bool Verify(ScheduleModel schedule)
-            => schedule.TeacherId != ActorId || schedule.TeacherId == ActorId && Target != schedule.DayOfWeek;
+            => schedule.TeacherId != ActorId || schedule.TeacherId == ActorId && (DayOfWeek)int.Parse(Target) != schedule.DayOfWeek;
     }
 }

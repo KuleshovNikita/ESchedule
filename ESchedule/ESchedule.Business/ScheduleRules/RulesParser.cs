@@ -4,6 +4,7 @@ using ESchedule.Domain.Schedule.Rules;
 using System.Data;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ESchedule.Business.ScheduleRules
 {
@@ -25,7 +26,7 @@ namespace ESchedule.Business.ScheduleRules
 
             foreach (var rule in rules)
             {
-                var targetRuleType = _ruleTypes.FirstOrDefault(r => r.Name.ToLowerInvariant() == rule.RuleName.ToLowerInvariant());
+                var targetRuleType = _ruleTypes.FirstOrDefault(r => GetRuleName(r) == rule.RuleName.ToLowerInvariant());
 
                 if(targetRuleType == null)
                 {
@@ -38,5 +39,8 @@ namespace ESchedule.Business.ScheduleRules
 
             return rulesList;
         }
+
+        private string GetRuleName(Type ruleType)
+            => (string)ruleType.GetProperty("Name")!.GetValue(Activator.CreateInstance(ruleType))!;
     }
 }
