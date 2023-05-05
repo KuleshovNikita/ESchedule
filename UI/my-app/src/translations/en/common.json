@@ -30,7 +30,8 @@
     "toasts": {
         "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
         "welcome": "Welcome, ",
-        "profile-updated": "Profile was updated"
+        "profile-updated": "Profile was updated",
+        "schedule-created-successfully": "Schedule created successfully"
     },
     "messages": {
         "page-not-found": "Page not found",

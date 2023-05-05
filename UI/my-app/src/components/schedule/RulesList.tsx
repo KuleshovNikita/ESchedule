@@ -39,7 +39,7 @@ export default function RulesList({ tenantId }: Props) {
         const result = await scheduleStore.buildSchedule(tenantId);
 
         if(result.isSuccessful) {
-            toast.success(translator('toast.schedule-created-successfully'))
+            toast.success(translator('toasts.schedule-created-successfully'))
         }
     }
 
