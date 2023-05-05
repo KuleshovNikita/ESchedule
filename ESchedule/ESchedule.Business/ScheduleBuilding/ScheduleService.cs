@@ -46,6 +46,8 @@ namespace ESchedule.Business.ScheduleBuilding
             var parsedRules = new RulesParser().ParseToRules(rules);
             var schedules = _scheduleBuilder.BuildSchedules(builderData, parsedRules);
 
+            await RemoveWhere(x => x.TenantId == tenantId);
+
             var result = (await InsertMany(schedules)).Success();
 
             return result;
