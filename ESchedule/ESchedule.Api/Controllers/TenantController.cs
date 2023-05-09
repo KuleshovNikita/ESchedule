@@ -2,6 +2,7 @@
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.Users;
+using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
@@ -15,12 +16,14 @@ namespace ESchedule.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly IBaseService<GroupModel> _groupService;
+        private readonly IBaseService<LessonModel> _lessonService;
 
         public TenantController(IBaseService<TenantModel> service, IUserService userService,
-            IBaseService<GroupModel> groupService) : base(service)
+            IBaseService<GroupModel> groupService, IBaseService<LessonModel> lessonService) : base(service)
         {
             _userService = userService;
-            _groupService = groupService;
+            _groupService = groupService;       
+            _lessonService = lessonService;
         }
 
         [Authorize]
@@ -43,6 +46,11 @@ namespace ESchedule.Api.Controllers
         [HttpGet("groups/{tenantId}")]
         public async Task<ServiceResult<IEnumerable<GroupModel>>> GetTenantGroups(Guid tenantId)
             => await RunWithServiceResult(async () => await _groupService.Where(x => x.TenantId == tenantId));
+
+        [Authorize]
+        [HttpGet("lessons/{tenantId}")]
+        public async Task<ServiceResult<IEnumerable<LessonModel>>> GetTenantLessons(Guid tenantId)
+            => await RunWithServiceResult(async () => await _lessonService.Where(x => x.TenantId == tenantId));
 
         [Authorize]
         [HttpGet("{tenantId}")]

@@ -1,6 +1,7 @@
 ﻿using ESchedule.Business.Auth;
 using ESchedule.Business.Email;
 using ESchedule.Business.Hashing;
+using ESchedule.Business.Lessons;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Business.ScheduleRules;
 using ESchedule.Business.Tenant;
@@ -27,6 +28,8 @@ namespace ESchedule.Business.Modules
             services.AddScoped<IScheduleBuilder, ScheduleBuilder>();
 
             services.AddScoped<ITenantSettingsService, TenantSettingsService>();
+
+            services.AddScoped<ILessonService, LessonService>();
 
             return services;
         }

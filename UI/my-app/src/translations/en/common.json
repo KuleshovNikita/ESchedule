@@ -67,7 +67,8 @@
         "view-schedules": "View schedules",
         "create": "Create",
         "open": "Open",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "remove": "Remove"
     },    
     "headers": {
         "personal-info": "Personal Info:",

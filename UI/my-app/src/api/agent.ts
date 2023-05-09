@@ -97,6 +97,7 @@ const Group = {
 
 const Lesson = {
     createLesson: (body: LessonCreateModel) => requests.post<EmptyResult>(`/lesson`, body),
+    updateLessonsList: (body: string[], tenantId: string) => requests.put<EmptyResult>(`/lesson/many/${tenantId}`, body),
     updateLesson: (body: LessonUpdateModel) => requests.put<EmptyResult>(`/lesson`, body),
     getLesson: (id: string) => requests.get<Result<LessonModel>>(`/lesson/${id}`),
     removeLesson: (id: string) => requests.delete<EmptyResult>(`/lesson/${id}`),
@@ -122,6 +123,7 @@ const Tenant = {
     removeTenant: (id: string) => requests.delete<EmptyResult>(`/tenant/${id}`),
     getTeachers: (id: string) => requests.get<Result<UserModel[]>>(`/tenant/teachers/${id}`),
     getGroups: (tenantId: string) => requests.get<Result<GroupModel[]>>(`/tenant/groups/${tenantId}`),
+    getLessons: (tenantId: string) => requests.get<Result<LessonModel[]>>(`/tenant/lessons/${tenantId}`),
 }
 
 const TenantSettings = {

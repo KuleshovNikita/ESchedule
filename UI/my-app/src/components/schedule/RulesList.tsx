@@ -68,7 +68,7 @@ export default function RulesList({ tenantId }: Props) {
                                             variant="contained"
                                             onClick={() => removeRule(v.id)}
                                     >
-                                        Delete
+                                        {translator("buttons.remove")}
                                     </Button>
                                 </Box>
                     })

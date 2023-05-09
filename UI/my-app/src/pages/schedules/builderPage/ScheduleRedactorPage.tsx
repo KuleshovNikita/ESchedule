@@ -6,6 +6,7 @@ import LoadingComponent from "../../../components/hoc/loading/LoadingComponent";
 import RulesList from "../../../components/schedule/RulesList";
 import { Box } from "@mui/material";
 import ScheduleViewer from "../../../components/schedule/ScheduleViewer";
+import LessonsViewer from "../../../components/lessons/LessonsViewer";
 
 export default function ScheduleRedactorPage() {
     const { translator } = useCult();
@@ -47,6 +48,14 @@ export default function ScheduleRedactorPage() {
                         {translator('labels.schedule-viewer')}
                     </Typography>
                     <ScheduleViewer/>
+                </Box>
+
+                <hr/>
+                <Box>
+                    <Typography variant="h4">
+                        {translator('labels.lessons-viewer')}
+                    </Typography>
+                    <LessonsViewer/>
                 </Box>
             </Box>
         }
