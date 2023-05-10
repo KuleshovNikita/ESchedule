@@ -42,7 +42,7 @@ export const newRuleFormStyle = {
 export const ruleFormCloseButtonStyle = {
     position: 'absolute', 
     right: 5, 
-    backgroundColor: 'blue',
+    backgroundColor: 'rgb(25, 118, 210, 1)',
     padding: '5px',
     color: 'white',
     '&:hover': {

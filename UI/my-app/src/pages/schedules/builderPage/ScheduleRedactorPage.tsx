@@ -7,6 +7,7 @@ import RulesList from "../../../components/schedule/RulesList";
 import { Box } from "@mui/material";
 import ScheduleViewer from "../../../components/schedule/ScheduleViewer";
 import LessonsViewer from "../../../components/lessons/LessonsViewer";
+import CustomAccordion from "../../../components/CustomAccordion";
 
 export default function ScheduleRedactorPage() {
     const { translator } = useCult();
@@ -34,29 +35,19 @@ export default function ScheduleRedactorPage() {
                     {tenantStore.tenant?.tenantName}
                 </Typography>
                 
-                <hr/>
-                <Box>
-                    <Typography variant="h4">
-                        {translator('labels.rules-list')}
-                    </Typography>
+                <CustomAccordion title={translator('labels.rules-list')}>
                     <RulesList tenantId={tenantStore.tenant?.id as string}/>
-                </Box>
-
+                </CustomAccordion>
                 <hr/>
-                <Box>
-                    <Typography variant="h4">
-                        {translator('labels.schedule-viewer')}
-                    </Typography>
+
+                <CustomAccordion title={translator('labels.schedule-viewer')}>
                     <ScheduleViewer/>
-                </Box>
-
+                </CustomAccordion>
                 <hr/>
-                <Box>
-                    <Typography variant="h4">
-                        {translator('labels.lessons-viewer')}
-                    </Typography>
+
+                <CustomAccordion title={translator('labels.lessons-viewer')}>
                     <LessonsViewer/>
-                </Box>
+                </CustomAccordion>
             </Box>
         }
     </Box>);
