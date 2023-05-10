@@ -3,7 +3,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { cultureSelectStyle, headerBox, headerLeftSideBoxStyle, headerNavButtonStyle,
          navigationButtonsStyle, 
          profileNavButtonStyle, 
@@ -76,7 +76,7 @@ export default function Header() {
                                     <Button sx={[headerNavButtonStyle]}
                                             onClick={scheduleBuilder}
                                     >
-                                        <EditCalendarIcon fontSize="large"/>
+                                        <ManageAccountsIcon fontSize="large"/>
                                     </Button>
                                 )
                             || 

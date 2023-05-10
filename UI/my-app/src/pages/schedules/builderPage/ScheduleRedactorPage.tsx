@@ -8,6 +8,7 @@ import { Box } from "@mui/material";
 import ScheduleViewer from "../../../components/schedule/ScheduleViewer";
 import LessonsViewer from "../../../components/lessons/LessonsViewer";
 import CustomAccordion from "../../../components/CustomAccordion";
+import AddUserToTenant from "../../../components/AddUserToTenant";
 
 export default function ScheduleRedactorPage() {
     const { translator } = useCult();
@@ -47,6 +48,11 @@ export default function ScheduleRedactorPage() {
 
                 <CustomAccordion title={translator('labels.lessons-viewer')}>
                     <LessonsViewer/>
+                </CustomAccordion>
+                <hr/>
+
+                <CustomAccordion title={translator('labels.add-user-to-tenant')}>
+                    <AddUserToTenant/>
                 </CustomAccordion>
             </Box>
         }
