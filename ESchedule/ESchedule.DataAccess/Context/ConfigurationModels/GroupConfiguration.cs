@@ -20,7 +20,8 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
 
             builder.HasOne(x => x.Tenant)
                 .WithMany()
-                .HasForeignKey(x => x.TenantId);
+                .HasForeignKey(x => x.TenantId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
