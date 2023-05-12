@@ -18,12 +18,12 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
             builder.HasOne(x => x.Tenant)
                 .WithMany()
                 .HasForeignKey(x => x.TenantId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.Pupil)
                 .WithMany()
                 .HasForeignKey(x => x.PupilId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(x => x.Date)
                 .IsRequired();
