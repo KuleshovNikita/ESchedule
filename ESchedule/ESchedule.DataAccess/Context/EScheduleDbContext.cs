@@ -24,6 +24,7 @@ namespace ESchedule.DataAccess.Context
         public DbSet<GroupsLessonsModel> GroupsLessons { get; set; }
         public DbSet<TeachersGroupsLessonsModel> TeachersGroupsLessons { get; set; }
         public DbSet<TeachersLessonsModel> TeachersLessons { get; set; }
+        public DbSet<AttendanceModel> Attendances { get; set; }
 
         public EScheduleDbContext(DbContextOptions options, IPasswordHasher passwordHasher) : base(options)
         {
@@ -42,6 +43,7 @@ namespace ESchedule.DataAccess.Context
             modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
             modelBuilder.ApplyConfiguration(new TenantConfiguration());
             modelBuilder.ApplyConfiguration(new ScheduleRulesConfiguration());
+            modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
 
             Seeds.ApplySeeds(modelBuilder, _passwordHasher);
         }
