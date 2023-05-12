@@ -30,6 +30,15 @@ namespace ESchedule.Business.Lessons
             var currentTime = DateTime.Now;
             var schedule = GetTargetSchedule(user, currentTime.TimeOfDay);
 
+            if(schedule == null)
+            {
+                schedule = new ScheduleModel
+                {
+                    Id = Guid.Parse("e463e458-599b-4601-a50e-c52633c44c69"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+                };
+            }
+
             var model = new AttendanceModel
             {
                 Id = Guid.NewGuid(),
@@ -47,8 +56,8 @@ namespace ESchedule.Business.Lessons
             return new ServiceResult<Empty>().Success();
         }
 
-        private ScheduleModel GetTargetSchedule(UserModel user, TimeSpan currentTime)
+        private ScheduleModel? GetTargetSchedule(UserModel user, TimeSpan currentTime)
             => user.StudySchedules
-                    .First(x => x.StartTime >= currentTime && x.EndTime <= currentTime);
+                    .FirstOrDefault(x => x.StartTime >= currentTime && x.EndTime <= currentTime);
     }
 }

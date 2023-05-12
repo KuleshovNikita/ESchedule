@@ -1,6 +1,7 @@
 ﻿using ESchedule.Core.Interfaces;
 using ESchedule.Domain.Enums;
 using ESchedule.Domain.Lessons;
+using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
@@ -26,6 +27,24 @@ namespace ESchedule.DataAccess.Context
             ApplyTeachersGroupsLessons();
             ApplyTeachersLessons();
             ApplyGroupsLessons();
+            ApplySchedules();
+        }
+
+        private static void ApplySchedules()
+        {
+            var schedules = new ScheduleModel
+            {
+                Id = Guid.Parse("e463e458-599b-4601-a50e-c52633c44c69"),
+                StartTime = new TimeSpan(0, 0, 1),
+                EndTime = new TimeSpan(23, 59, 59),
+                DayOfWeek = DayOfWeek.Monday,
+                StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                LessonId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            };
+
+            _builder.Entity<ScheduleModel>().HasData(schedules);
         }
 
         private static void ApplyTenant()
