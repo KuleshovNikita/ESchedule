@@ -3,7 +3,6 @@ using ESchedule.Business.Email;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Lessons;
 using ESchedule.Business.ScheduleBuilding;
-using ESchedule.Business.ScheduleRules;
 using ESchedule.Business.Tenant;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
@@ -30,6 +29,7 @@ namespace ESchedule.Business.Modules
             services.AddScoped<ITenantSettingsService, TenantSettingsService>();
 
             services.AddScoped<ILessonService, LessonService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
 
             return services;
         }

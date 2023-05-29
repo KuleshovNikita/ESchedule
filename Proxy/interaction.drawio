@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" modified="2023-05-26T14:07:32.888Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="YZQeOiNYkqrkqSPikLS6" version="21.2.9" type="device">
+  <diagram name="Page-1" id="Wm6Eib8rUBzDpW2-uzyh">
+    <mxGraphModel dx="842" dy="428" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-1" value="" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=160;tabHeight=50;tabPosition=left;html=1;whiteSpace=wrap;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="170" width="430" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-2" value="Arduino" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="210" y="170" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-3" value="Proxy" style="rounded=0;whiteSpace=wrap;html=1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="210" y="440" width="430" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-4" value="Server" style="rounded=0;whiteSpace=wrap;html=1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="210" y="510" width="430" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.01;entryY=0.426;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="nE8BdllRXcN75FFYgtZ8-7" target="nE8BdllRXcN75FFYgtZ8-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-7" value="RFID Scanner" style="rounded=0;whiteSpace=wrap;html=1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="150" y="260" width="120" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="nE8BdllRXcN75FFYgtZ8-8" target="nE8BdllRXcN75FFYgtZ8-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-8" value="RFID chip" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="10" y="270" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-10" value="Scan" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="88" y="284" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.768;entryY=-0.033;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="nE8BdllRXcN75FFYgtZ8-13" target="nE8BdllRXcN75FFYgtZ8-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-13" value="HTTP Client" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="284" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-16" value="Read chip data and pass to the client" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="330" y="275" width="116" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nE8BdllRXcN75FFYgtZ8-17" value="Send data to the server" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="430" y="370" width="116" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

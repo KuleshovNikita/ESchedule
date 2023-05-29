@@ -12,10 +12,13 @@ namespace ESchedule.Api.Controllers
     public class LessonController : ResultingController<LessonModel>
     {
         private readonly ILessonService _lessonService;
+        private readonly IAttendanceService _attendanceService;
 
-        public LessonController(IBaseService<LessonModel> baseLessonService, ILessonService lessonService) : base(baseLessonService) 
+        public LessonController(IBaseService<LessonModel> baseLessonService, ILessonService lessonService,
+            IAttendanceService attendanceService) : base(baseLessonService)
         {
             _lessonService = lessonService;
+            _attendanceService = attendanceService;
         }
 
         [Authorize]
@@ -42,5 +45,10 @@ namespace ESchedule.Api.Controllers
         [HttpDelete("{lessonId}")]
         public async Task<ServiceResult<Empty>> RemoveLesson(Guid lessonId)
             => await RunWithServiceResult(async () => await _service.RemoveItem(lessonId));
+
+        //[Authorize]
+        [HttpPost("attendance/{pupilId}")]
+        public async Task<ServiceResult<Empty>> TickPupilAttendance(Guid pupilId)
+            => await RunWithServiceResult(async () => await _attendanceService.TickPupilAttendance(pupilId));
     }
 }
