@@ -13,8 +13,8 @@ export default class ScheduleStore {
         makeAutoObservable(this);
     }
 
-    buildSchedule = async (tenantId: string, rules: RuleInputModel[]) => 
-        await this.base.simpleRequest(async () => await this.client.buildSchedule(tenantId, rules)); 
+    buildSchedule = async (tenantId: string) => 
+        await this.base.simpleRequest(async () => await this.client.buildSchedule(tenantId)); 
 
     getScheduleForTenant = async (tenantId: string) => {
         const response = await this.client.getScheduleForGroup(tenantId);
@@ -29,6 +29,7 @@ export default class ScheduleStore {
     }
  
     getScheduleForGroup = async (groupId: string) => {
+        console.log('group');
         const response = await this.client.getScheduleForGroup(groupId);
 
         this.base.handleErrors(response);
@@ -72,6 +73,14 @@ export default class ScheduleStore {
         return response.value;
     }
 
+    getScheduleItem = async (id: string) => {
+        const response = await this.client.getScheduleItem(id);
+
+        this.base.handleErrors(response);
+
+        return this.parseDate([response.value])[0];
+    }
+
     removeSchedule = async (tenantId: string) =>
         await this.base.simpleRequest(async () => await this.client.removeSchedule(tenantId)); 
 
@@ -86,4 +95,10 @@ export default class ScheduleStore {
 
         return schedules;
     }
+
+    createRule = async (rule: RuleInputModel) => 
+        await this.base.simpleRequest(async () => await this.client.createRule(rule)); 
+
+    removeRule = async (ruleId: string) => 
+        await this.base.simpleRequest(async () => await this.client.removeRule(ruleId)); 
 }

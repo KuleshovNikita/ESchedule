@@ -1,0 +1,77 @@
+<mxfile host="app.diagrams.net" modified="2023-05-26T13:55:18.114Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="poQcUKQ7UwGo4VoZcSoV" version="21.2.9" type="device">
+  <diagram name="Page-1" id="ccM8DbuqwZ2j4QVfqlu4">
+    <mxGraphModel dx="1221" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sbkh32EcNPpHOLAflQKV-24" value="" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="245" width="160" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-25" value="Proxy server" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="510" y="265" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.999;entryY=0.579;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="sbkh32EcNPpHOLAflQKV-1" target="sbkh32EcNPpHOLAflQKV-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-1" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;Server&lt;/font&gt;" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="280" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.001;entryY=0.34;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="sbkh32EcNPpHOLAflQKV-2" target="sbkh32EcNPpHOLAflQKV-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-2" value="" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;" vertex="1" parent="1">
+          <mxGeometry x="275" y="210" width="180" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-3" value="Smart Device" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="295" y="230" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-5" value="WI-FI (ESP8266)" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="305" y="270" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-8" value="Scanner (RFID)" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="225" y="70" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-10" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;endSize=6;strokeWidth=1;sketch=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="365" y="210" as="sourcePoint" />
+            <mxPoint x="365" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-12" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=0;exitY=0;exitDx=140;exitDy=90;exitPerimeter=0;" edge="1" parent="1" source="sbkh32EcNPpHOLAflQKV-8" target="sbkh32EcNPpHOLAflQKV-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="160" as="sourcePoint" />
+            <mxPoint x="370" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-11" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;" vertex="1" parent="1">
+          <mxGeometry x="360" y="175" width="10" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-14" value="" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="100" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-15" value="Scanner trinket&lt;br style=&quot;border-color: var(--border-color); font-size: 13px;&quot;&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;(RFID)&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="60" y="35" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-16" value="pupil guid in server DB" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="65" y="95" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-17" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=0;exitY=0;exitDx=100;exitDy=90;exitPerimeter=0;" edge="1" target="sbkh32EcNPpHOLAflQKV-19" parent="1" source="sbkh32EcNPpHOLAflQKV-14">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="115" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-18" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;entryX=0.5;entryY=0.5;endSize=6;strokeWidth=1;sketch=0;exitX=0;exitY=0;exitDx=0;exitDy=35;exitPerimeter=0;" edge="1" target="sbkh32EcNPpHOLAflQKV-19" parent="1" source="sbkh32EcNPpHOLAflQKV-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="115" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-19" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;" vertex="1" parent="1">
+          <mxGeometry x="185" y="100" width="10" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="sbkh32EcNPpHOLAflQKV-21" value="Server http client" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="305" y="340" width="140" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

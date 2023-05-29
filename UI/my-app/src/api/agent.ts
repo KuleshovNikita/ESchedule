@@ -97,19 +97,23 @@ const Group = {
 
 const Lesson = {
     createLesson: (body: LessonCreateModel) => requests.post<EmptyResult>(`/lesson`, body),
+    updateLessonsList: (body: string[], tenantId: string) => requests.put<EmptyResult>(`/lesson/many/${tenantId}`, body),
     updateLesson: (body: LessonUpdateModel) => requests.put<EmptyResult>(`/lesson`, body),
     getLesson: (id: string) => requests.get<Result<LessonModel>>(`/lesson/${id}`),
     removeLesson: (id: string) => requests.delete<EmptyResult>(`/lesson/${id}`),
 }
 
 const Schedule = {
-    buildSchedule: (tenantId: string, rules: RuleInputModel[]) => requests.post<EmptyResult>(`/schedule/${tenantId}`, rules), 
+    buildSchedule: (tenantId: string) => requests.post<EmptyResult>(`/schedule/${tenantId}`, {}), 
     //TODO ---> updateSchedule: (rules: RuleInputModel[]) => requests.post<EmptyResult>(`/schedule/${tenantId}`, rules), 
     getScheduleForTenant: (tenantId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/tenant/${tenantId}`), 
     getScheduleRules: (tenantId: string) => requests.get<Result<RuleModel[]>>(`/schedule/rules/${tenantId}`), 
     getScheduleForGroup: (groupId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/group/${groupId}`), 
     getScheduleForTeacher: (teacherId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/teacher/${teacherId}`), 
     removeSchedule: (tenantId: string) => requests.delete<EmptyResult>(`/schedule/${tenantId}`), 
+    createRule: (rule: RuleInputModel) => requests.post<EmptyResult>(`/schedule/rule`, rule),
+    removeRule: (ruleId: string) => requests.delete<EmptyResult>(`/schedule/rule/${ruleId}`),
+    getScheduleItem: (id: string) => requests.get<Result<ScheduleModel>>(`/schedule/item/${id}`)
 }
 
 const Tenant = {
@@ -117,6 +121,9 @@ const Tenant = {
     updateTenant: (body: TenantUpdateModel) => requests.put<EmptyResult>(`/tenant`, body),
     getTenant: (id: string) => requests.get<Result<TenantModel>>(`/tenant/${id}`),
     removeTenant: (id: string) => requests.delete<EmptyResult>(`/tenant/${id}`),
+    getTeachers: (id: string) => requests.get<Result<UserModel[]>>(`/tenant/teachers/${id}`),
+    getGroups: (tenantId: string) => requests.get<Result<GroupModel[]>>(`/tenant/groups/${tenantId}`),
+    getLessons: (tenantId: string) => requests.get<Result<LessonModel[]>>(`/tenant/lessons/${tenantId}`),
 }
 
 const TenantSettings = {

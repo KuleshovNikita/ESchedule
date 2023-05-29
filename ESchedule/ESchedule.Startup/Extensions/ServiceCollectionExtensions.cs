@@ -11,6 +11,7 @@ using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Modules;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Policy.Requirements;
+using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
@@ -125,6 +126,8 @@ namespace ESchedule.Startup.Extensions
 
                 cfg.CreateMap<ScheduleUpdateModel, ScheduleModel>();
                 cfg.CreateMap<ScheduleCreateModel, ScheduleModel>();
+
+                cfg.CreateMap<RuleInputModel, RuleModel>();
 
                 cfg.CreateMap<TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel>();
                 cfg.CreateMap<TeachersLessonsCreateModel, TeachersLessonsModel>();

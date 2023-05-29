@@ -1,4 +1,5 @@
-﻿using ESchedule.Domain.Lessons.Schedule;
+﻿using ESchedule.Domain;
+using ESchedule.Domain.Lessons.Schedule;
 using System.Text.Json;
 
 namespace ESchedule.Business.ScheduleRules

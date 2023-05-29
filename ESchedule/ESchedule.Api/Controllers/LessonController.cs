@@ -1,6 +1,7 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
+using ESchedule.Business.Lessons;
 using ESchedule.Domain.Lessons;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
@@ -10,12 +11,25 @@ namespace ESchedule.Api.Controllers
 {
     public class LessonController : ResultingController<LessonModel>
     {
-        public LessonController(IBaseService<LessonModel> lessonService) : base(lessonService) { }
+        private readonly ILessonService _lessonService;
+        private readonly IAttendanceService _attendanceService;
+
+        public LessonController(IBaseService<LessonModel> baseLessonService, ILessonService lessonService,
+            IAttendanceService attendanceService) : base(baseLessonService)
+        {
+            _lessonService = lessonService;
+            _attendanceService = attendanceService;
+        }
 
         [Authorize]
         [HttpPost]
         public async Task<ServiceResult<Empty>> CreateLesson([FromBody] LessonCreateModel lessonModel) 
             => await RunWithServiceResult(async () => await _service.CreateItem(lessonModel));
+
+        [Authorize]
+        [HttpPut("many/{tenantId}")]
+        public async Task<ServiceResult<Empty>> UpdateLessonsList([FromBody] IEnumerable<Guid> newLessonsList, Guid tenantId)
+            => await RunWithServiceResult(async () => await _lessonService.UpdateLessonsList(newLessonsList, tenantId));
 
         [Authorize]
         [HttpPut]
@@ -31,5 +45,10 @@ namespace ESchedule.Api.Controllers
         [HttpDelete("{lessonId}")]
         public async Task<ServiceResult<Empty>> RemoveLesson(Guid lessonId)
             => await RunWithServiceResult(async () => await _service.RemoveItem(lessonId));
+
+        //[Authorize]
+        [HttpPost("attendance/{pupilId}")]
+        public async Task<ServiceResult<Empty>> TickPupilAttendance(Guid pupilId)
+            => await RunWithServiceResult(async () => await _attendanceService.TickPupilAttendance(pupilId));
     }
 }

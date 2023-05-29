@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../../api/stores/StoresManager";
 import { useCult } from "../../../hooks/Translator";
-import { Box, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import LoadingComponent from "../../../components/hoc/loading/LoadingComponent";
 import RulesList from "../../../components/schedule/RulesList";
-import TimeTableMarkup from "../../../components/markups/timeTable/TimeTableMarkup";
+import { Box } from "@mui/material";
+import ScheduleViewer from "../../../components/schedule/ScheduleViewer";
+import LessonsViewer from "../../../components/lessons/LessonsViewer";
+import CustomAccordion from "../../../components/CustomAccordion";
+import AddUserToTenant from "../../../components/AddUserToTenant";
 
 export default function ScheduleRedactorPage() {
     const { translator } = useCult();
@@ -27,22 +31,29 @@ export default function ScheduleRedactorPage() {
         ?   
             <LoadingComponent/>
         :   
-            <Box sx={{display: "grid", gridTemplateColumns: "1fr 4fr"}}>
-                <Box>
-                    <Typography variant="h2">
-                        {tenantStore.tenant?.tenantName}
-                    </Typography>
-                    <hr/>
-                    <Box>
-                        <Typography variant="h4">
-                            {translator('label.rules-list')}
-                        </Typography>
-                        <RulesList tenantId={tenantStore.tenant?.id as string}/>
-                    </Box>
-                </Box>
-                <Box>
-                    <TimeTableMarkup/>
-                </Box>
+            <Box sx={{ml: 1}}>
+                <Typography variant="h2">
+                    {tenantStore.tenant?.tenantName}
+                </Typography>
+                
+                <CustomAccordion title={translator('labels.rules-list')}>
+                    <RulesList tenantId={tenantStore.tenant?.id as string}/>
+                </CustomAccordion>
+                <hr/>
+
+                <CustomAccordion title={translator('labels.schedule-viewer')}>
+                    <ScheduleViewer/>
+                </CustomAccordion>
+                <hr/>
+
+                <CustomAccordion title={translator('labels.lessons-viewer')}>
+                    <LessonsViewer/>
+                </CustomAccordion>
+                <hr/>
+
+                <CustomAccordion title={translator('labels.add-user-to-tenant')}>
+                    <AddUserToTenant/>
+                </CustomAccordion>
             </Box>
         }
     </Box>);

@@ -33,7 +33,7 @@ export default function AppRoutes() {
             <Route path="/profile" 
                    element={ <Auth><UserPage /></Auth> } 
             />
-            <Route path="/schedule" 
+            <Route path="/schedule/:isTeacherScope/:targetId" 
                    element={ <Auth><ScheduleTablePage /></Auth> } 
             />
             <Route path="/scheduleBuilder" 

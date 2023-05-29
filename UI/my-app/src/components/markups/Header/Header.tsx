@@ -3,7 +3,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { cultureSelectStyle, headerBox, headerLeftSideBoxStyle, headerNavButtonStyle,
          navigationButtonsStyle, 
          profileNavButtonStyle, 
@@ -11,25 +11,29 @@ import { cultureSelectStyle, headerBox, headerLeftSideBoxStyle, headerNavButtonS
 import { Role } from "../../../models/Users";
 import { getDefLang, locales, updateLang } from "../../../translations/Localization";
 
+const navOptions = { 
+    replace: false
+}
+
 export default function Header() {
     const { userStore } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
 
     const logout = () => {
-        navigate('/logout', { replace: true });
+        navigate('/logout', navOptions);
     }
 
     const userProfile = () => {
-        navigate('/profile', { replace: true });
+        navigate('/profile', navOptions);
     }
 
     const schedules = () => {
-        navigate('/schedule', { replace: true });
+        navigate(`/schedule/${true}/${userStore.user?.id}`, navOptions);
     }
 
     const scheduleBuilder = () => {
-        navigate('/scheduleBuilder', { replace: true });
+        navigate('/scheduleBuilder', navOptions);
     }
 
     return( 
@@ -72,7 +76,7 @@ export default function Header() {
                                     <Button sx={[headerNavButtonStyle]}
                                             onClick={scheduleBuilder}
                                     >
-                                        <EditCalendarIcon fontSize="large"/>
+                                        <ManageAccountsIcon fontSize="large"/>
                                     </Button>
                                 )
                             || 

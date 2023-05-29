@@ -22,6 +22,35 @@ namespace ESchedule.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("ESchedule.Domain.Lessons.AttendanceModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PupilId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ScheduleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PupilId");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("Attendances");
+                });
+
             modelBuilder.Entity("ESchedule.Domain.Lessons.LessonModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -40,7 +69,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Lessons", (string)null);
+                    b.ToTable("Lessons");
 
                     b.HasData(
                         new
@@ -112,7 +141,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Schedules", (string)null);
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.ManyToManyModels.GroupsLessonsModel", b =>
@@ -133,7 +162,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("StudyGroupId");
 
-                    b.ToTable("GroupsLessons", (string)null);
+                    b.ToTable("GroupsLessons");
 
                     b.HasData(
                         new
@@ -221,7 +250,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeachersGroupsLessons", (string)null);
+                    b.ToTable("TeachersGroupsLessons");
 
                     b.HasData(
                         new
@@ -233,31 +262,10 @@ namespace ESchedule.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("00000000-0000-0000-0000-000000000008"),
-                            LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
-                        },
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0000-000000000009"),
-                            LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
-                        },
-                        new
-                        {
                             Id = new Guid("00000000-0000-0000-0000-000000000002"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000005"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
                             TeacherId = new Guid("00000000-0000-0000-0000-000000000007")
-                        },
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0000-000000000010"),
-                            LessonId = new Guid("00000000-0000-0000-0000-000000000003"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006")
                         },
                         new
                         {
@@ -293,6 +301,27 @@ namespace ESchedule.DataAccess.Migrations
                             LessonId = new Guid("00000000-0000-0000-0000-000000000001"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
                             TeacherId = new Guid("00000000-0000-0000-0000-000000000006")
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000008"),
+                            LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000009"),
+                            LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000010"),
+                            LessonId = new Guid("00000000-0000-0000-0000-000000000003"),
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006")
                         });
                 });
 
@@ -314,7 +343,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeachersLessons", (string)null);
+                    b.ToTable("TeachersLessons");
 
                     b.HasData(
                         new
@@ -376,7 +405,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("ScheduleRules", (string)null);
+                    b.ToTable("ScheduleRules");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.Tenant.TenantModel", b =>
@@ -394,7 +423,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasIndex("TenantName")
                         .IsUnique();
 
-                    b.ToTable("Tenant", (string)null);
+                    b.ToTable("Tenant");
 
                     b.HasData(
                         new
@@ -427,7 +456,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasIndex("TenantId")
                         .IsUnique();
 
-                    b.ToTable("TenantSettings", (string)null);
+                    b.ToTable("TenantSettings");
 
                     b.HasData(
                         new
@@ -461,7 +490,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Groups", (string)null);
+                    b.ToTable("Groups");
 
                     b.HasData(
                         new
@@ -532,7 +561,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -545,7 +574,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Kuleshov",
                             Login = "admin@admin.com",
                             Name = "Mykyta",
-                            Password = "y8VZmuHG1n8AtQjmkTIfo9XqzKF8lGxIMyD3yo8+fCSD7wJG",
+                            Password = "yBLcueWAWrHTVXfS5mHXmrfqIyDq6VzU+kRxzEcs3gTQgGvn",
                             Role = 0,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -559,7 +588,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Kuleshov2",
                             Login = "admin2@admin.com",
                             Name = "Mykyta2",
-                            Password = "nAAhHoGAVLcBd3TS9wtMR25qYeuHXK5ZFqxysDjUKgZai3Sf",
+                            Password = "N14GxEVYEbzE4qzGHEdfoh+YNO+AF94kb4Rh+zZe0/L4e8Kb",
                             Role = 0,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -573,7 +602,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Kuleshov3",
                             Login = "admin3@admin.com",
                             Name = "Mykyta3",
-                            Password = "LDV4sVHqm0cW9DOyB4s2bid2hBUGZ7YIXpG8zr+AUADPfxQX",
+                            Password = "ulWkPu/2UMN6wYd2vhqFY5FmzkKtW4i51E5zrbULvtZdHL6I",
                             Role = 0,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -587,7 +616,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Kuleshov4",
                             Login = "admin4@admin.com",
                             Name = "Mykyta4",
-                            Password = "shUespHSIRERoj2kQUX5fcVnmqf5NCdxTZgSEdUanfDBl7YB",
+                            Password = "rHQGiPlMHBLqR4N+LQlTiszEOCxFzPWSWRBRfdnRI3okFl96",
                             Role = 0,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -600,7 +629,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Teacher1",
                             Login = "teacher1@admin.com",
                             Name = "Teacher1",
-                            Password = "32B+k2TO8V0mRFYGCZUPK6usIYFVYZzIO9zHIOnpkjyIeQg+",
+                            Password = "c6zJgewMydlTk/vCc7ZuVswxWS3BV0O6u887sr440IQajQ1i",
                             Role = 1,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -613,7 +642,7 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Teacher2",
                             Login = "teacher2@admin.com",
                             Name = "Teacher2",
-                            Password = "vlCnIhDKDKA5CXiuUt4amYZE30o6CxUH46UZQ/mG5U74usw4",
+                            Password = "7yX1mkezFXGq3SWUliBe12wc0+oIbpAcNLv6kdbFoCS2j9tp",
                             Role = 1,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
@@ -626,10 +655,37 @@ namespace ESchedule.DataAccess.Migrations
                             LastName = "Teacher3",
                             Login = "teacher3@admin.com",
                             Name = "Teacher3",
-                            Password = "U0HASmOMw5nc0QegRgJzk+WDM6djk8swjA/ze2viKGVy3dX9",
+                            Password = "mG2TDurtgzAW3VXOh9Z+fPvqa2b4tgazercELudO6h9hfpja",
                             Role = 1,
                             TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         });
+                });
+
+            modelBuilder.Entity("ESchedule.Domain.Lessons.AttendanceModel", b =>
+                {
+                    b.HasOne("ESchedule.Domain.Users.UserModel", "Pupil")
+                        .WithMany()
+                        .HasForeignKey("PupilId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ESchedule.Domain.Lessons.Schedule.ScheduleModel", "Schedule")
+                        .WithMany()
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Pupil");
+
+                    b.Navigation("Schedule");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.Lessons.LessonModel", b =>
@@ -648,19 +704,19 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasOne("ESchedule.Domain.Lessons.LessonModel", "Lesson")
                         .WithMany("RelatedSchedules")
                         .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ESchedule.Domain.Users.GroupModel", "StudyGroup")
                         .WithMany("StudySchedules")
                         .HasForeignKey("StudyGroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ESchedule.Domain.Users.UserModel", "Teacher")
                         .WithMany("StudySchedules")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
@@ -683,13 +739,13 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasOne("ESchedule.Domain.Lessons.LessonModel", "Lesson")
                         .WithMany("StudingGroups")
                         .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ESchedule.Domain.Users.GroupModel", "StudyGroup")
                         .WithMany("StudingLessons")
                         .HasForeignKey("StudyGroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Lesson");
@@ -702,19 +758,19 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasOne("ESchedule.Domain.Lessons.LessonModel", "Lesson")
                         .WithMany()
                         .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ESchedule.Domain.Users.GroupModel", "StudyGroup")
                         .WithMany("GroupTeachersLessons")
                         .HasForeignKey("StudyGroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ESchedule.Domain.Users.UserModel", "Teacher")
                         .WithMany("StudyGroups")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Lesson");
@@ -729,13 +785,13 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasOne("ESchedule.Domain.Lessons.LessonModel", "Lesson")
                         .WithMany("ResponsibleTeachers")
                         .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ESchedule.Domain.Users.UserModel", "Teacher")
                         .WithMany("TaughtLessons")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Lesson");
@@ -748,7 +804,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
                         .WithMany()
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Tenant");
@@ -770,7 +826,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasOne("ESchedule.Domain.Tenant.TenantModel", "Tenant")
                         .WithMany()
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Tenant");

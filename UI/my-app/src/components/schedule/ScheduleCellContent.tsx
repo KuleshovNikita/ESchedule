@@ -1,23 +1,53 @@
 import { Box } from "@mui/material";
 import { ScheduleModel } from "../../models/Schedules";
+import { useEffect, useState } from "react";
+import { useStore } from "../../api/stores/StoresManager";
+import LoadingComponent from "../hoc/loading/LoadingComponent";
+import { normalizeUserName } from "../../utils/Utils";
 
 interface Props {
     item: ScheduleModel
 }
 
 export default function ScheduleCellContent({ item }: Props) {
+    const {scheduleStore} = useStore();
+    const [itemState, setItemState] = useState(item);
+    const [isLoaded, setLoaded] = useState(false);
 
-    return(
-        <>
-            <Box>
-                { item.studyGroup.title }
-            </Box>
-            <Box>
-                { item.lesson.title }
-            </Box>
-            <Box>
-                { item.startTime.toLocaleTimeString([], { hour12: false }) } - { item.endTime.toLocaleTimeString([], { hour12: false }) }
-            </Box>
-        </>
-    );
+    useEffect(() => {
+        const fecthItem = async () => {
+            const res = await scheduleStore.getScheduleItem(item.id);
+            setItemState(res);
+            setLoaded(true);
+        }
+
+        fecthItem();
+    })
+
+    const normalizeTime = () => {
+        const startTime = itemState.startTime.toLocaleTimeString([], { hour12: false });
+        const endTime = itemState.endTime.toLocaleTimeString([], { hour12: false });
+
+        return `${startTime} - ${endTime}`; 
+    }
+
+    return(<>
+        {
+            !isLoaded
+        ?
+            <LoadingComponent type="circle"/>
+        :
+            <>
+                <Box>
+                    { itemState.studyGroup.title }
+                </Box>
+                <Box>
+                    { `${itemState.lesson.title} - ${normalizeUserName(itemState.teacher)}` }
+                </Box>
+                <Box>
+                    { normalizeTime() }
+                </Box>
+            </>
+        }
+    </>);
 }

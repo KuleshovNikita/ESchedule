@@ -28,4 +28,7 @@ export default class LessonStore {
 
         return response.value;
     }
+
+    updateLessonsList = async (lessons: string[], tenantId: string) =>
+        await this.base.simpleRequest(async () => await this.client.updateLessonsList(lessons, tenantId));
 }

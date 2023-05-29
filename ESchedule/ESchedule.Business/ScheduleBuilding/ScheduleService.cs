@@ -38,20 +38,19 @@ namespace ESchedule.Business.ScheduleBuilding
             _rulesService = ruleService;
         }
 
-        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, IEnumerable<RuleInputModel> jsonRules)
+        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId)
         {
-            if(jsonRules == null)
-            {
-                throw new ArgumentNullException(nameof(jsonRules));
-            }
+            var rules = (await _rulesService.Where(x => x.TenantId == tenantId)).Value;
 
             var builderData = await GetNecessaryBuilderData(tenantId);
-            var parsedRules = new RulesParser().ParseToRules(jsonRules);
+            var parsedRules = new RulesParser().ParseToRules(rules);
             var schedules = _scheduleBuilder.BuildSchedules(builderData, parsedRules);
 
-            (await InsertMany(schedules)).Success();
+            await RemoveWhere(x => x.TenantId == tenantId);
 
-            return await InsertRules(jsonRules, tenantId);
+            var result = (await InsertMany(schedules)).Success();
+
+            return result;
         }
 
         private async Task<ServiceResult<Empty>> InsertRules(IEnumerable<RuleInputModel> rules, Guid tenantId)
@@ -62,7 +61,7 @@ namespace ESchedule.Business.ScheduleBuilding
                     Id = Guid.NewGuid(),
                     TenantId = tenantId,
                     RuleName = r.RuleName,
-                    RuleJson = r.JsonBody,
+                    RuleJson = r.RuleJson,
                 }
             );
 

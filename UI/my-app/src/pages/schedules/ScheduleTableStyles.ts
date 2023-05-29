@@ -13,6 +13,58 @@ export const ScheduleItemPlaceholderStyle = {
     pb: 4,
 }
 
+export const scheduleRedactorStyle = {
+    display: "grid", 
+    gridTemplateColumns: "1fr 4fr"
+}
+
+export const verticalBorder = {
+    borderLeft: '1px solid black'
+}
+
+export const rulesListStyle = {
+    margin: "0px 10px",
+}
+
+export const newRuleFormStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    left: '30%',
+    top: '20%',
+    width: "600px",
+    backgroundColor: 'white',
+    borderRadius: '15px',
+    padding: '10px',
+    pb: 2
+}
+
+export const ruleFormCloseButtonStyle = {
+    position: 'absolute', 
+    right: 5, 
+    backgroundColor: 'rgb(25, 118, 210, 1)',
+    padding: '5px',
+    color: 'white',
+    '&:hover': {
+        backgroundColor: 'orange',
+    }
+}
+
+export const ruleBodyFormStyle = {
+    display: 'flex', 
+    flexDirection: 'column'
+}
+
+export const outerTransperancyStyle = {
+    position: 'fixed',
+    zIndex: 1,
+    left: 0,
+    top: 0,
+    backgroundColor: 'rgb(0, 0, 0, 0.8)',
+    width: '100%',
+    height: '100%'
+}
+
 export const ScheduleItemStyle = {
     ...ScheduleItemPlaceholderStyle,
     backgroundColor: 'rgb(255, 186, 94)',
@@ -28,6 +80,12 @@ export const ScheduleItemStyle = {
         mb: 1
     },
     fontSize: '17px'
+}
+
+export const rulesListButtonsStyle = {
+    display: 'flex', 
+    flexDirection: 'column',
+    width: "300px"
 }
 
 export const ScheduleRowStyle = {

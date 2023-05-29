@@ -39,7 +39,13 @@ export default function ConfirmEmailPage() {
                 ? 
                     <Box sx={{textAlign: 'center'}}>
                         <Typography variant="h2">
-                            {translator('messages.email-confirmed')}
+                            {translator('messages.email-confirmed')}<br/>
+                        </Typography>
+                        <Typography>
+                            {translator('messages.send-code-to-dispatcher')}
+                        </Typography>
+                        <Typography>
+                            {userStore.user?.id}
                         </Typography>
                         <Button sx={loginButtonStyle} 
                                 variant="contained" 

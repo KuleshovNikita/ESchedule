@@ -145,7 +145,7 @@ export default function RegistrationPage() {
             age: Number(age),
             password: password,
             role: role as Role,
-            tenantId: '00000000-0000-0000-0000-000000000001'
+            tenantId: null
         };
 
         const result = await userStore.register(user);

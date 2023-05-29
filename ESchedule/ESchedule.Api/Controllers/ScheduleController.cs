@@ -1,9 +1,9 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
-using ESchedule.Domain.Policy;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Domain.Lessons.Schedule;
+using ESchedule.Domain.Policy;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
@@ -25,8 +25,8 @@ namespace ESchedule.Api.Controllers
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPost("{tenantId}")]
-        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId, [FromBody] IEnumerable<RuleInputModel> rules)
-            => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId, rules));
+        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId)
+            => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId));
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPut]
@@ -53,9 +53,24 @@ namespace ESchedule.Api.Controllers
         public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForGroup(Guid groupId)
             => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.StudyGroupId == groupId));
 
+        [Authorize]
+        [HttpGet("item/{scheduleId}")]
+        public async Task<ServiceResult<ScheduleModel>> GetScheduleItem(Guid scheduleId)
+            => await RunWithServiceResult(async () => await _scheduleService.First(x => x.Id == scheduleId));
+
         [Authorize(Policies.DispatcherOnly)]
         [HttpDelete("{tenantId}")]
         public async Task<ServiceResult<Empty>> RemoveSchedule(Guid tenantId)
             => await RunWithServiceResult(async () => await _scheduleService.RemoveWhere(x => x.TenantId == tenantId));
+
+        [Authorize(Policies.DispatcherOnly)]
+        [HttpPost("rule")]
+        public async Task<ServiceResult<Empty>> CreateRule([FromBody] RuleInputModel ruleModel)
+           => await RunWithServiceResult(async () => await _rulesService.CreateItem(ruleModel));
+
+        [Authorize(Policies.DispatcherOnly)]
+        [HttpDelete("rule/{ruleId}")]
+        public async Task<ServiceResult<Empty>> CreateRule(Guid ruleId)
+           => await RunWithServiceResult(async () => await _rulesService.RemoveItem(ruleId));
     }
 }

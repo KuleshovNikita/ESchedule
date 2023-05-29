@@ -23,12 +23,16 @@
         "email-should-be-correct": "Email should be in correct format",
         "please-enter-password": "Please enter password",
         "please-repeat-password": "Please repeat password",
-        "passwords-do-not-match": "Passwords don't match"
+        "passwords-do-not-match": "Passwords don't match",
+        "invalid-value": "Invalid value",
+        "schedule-not-selected": "Schedule not selected"
     },
     "toasts": {
         "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
         "welcome": "Welcome, ",
-        "profile-updated": "Profile was updated"
+        "profile-updated": "Profile was updated",
+        "schedule-created-successfully": "Schedule created successfully",
+        "rules-added-successfully": "Rules added successfully"
     },
     "messages": {
         "page-not-found": "Page not found",
@@ -45,13 +49,26 @@
         "repeat-password": "Repeat password",
         "tenant": "Tenant",
         "underlying-group": "Underlying Group",
-        "group": "Group"
+        "group": "Group",
+        "rules-list": "Rules list:",
+        "schedule-viewer": "Schedules browser:",
+        "rule": "Rule name:",
+        "busy-teacher": "Teacher which is busy:",
+        "day-of-week": "The day when the teacher is busy:",
+        "target-schedule": "Schedule to profile:"
     },
     "buttons": {
         "register": "Register",
         "login": "Login",
         "change": "Change",
-        "save": "Save"
+        "save": "Save",
+        "create-new-rule": "Create new rule",
+        "build-schedule": "Build new schedule",
+        "view-schedules": "View schedules",
+        "create": "Create",
+        "open": "Open",
+        "cancel": "Cancel",
+        "remove": "Remove"
     },    
     "headers": {
         "personal-info": "Personal Info:",
@@ -74,6 +91,11 @@
     },    
     "words": {
         "or": "Or",
-        "none": "None"
+        "none": "None",
+        "teacher": "Teacher",
+        "is-busy-on": "is busy on"
+    },
+    "rules": {
+        "teacher-busy-day": "Teacher Busy Day"
     }
 }

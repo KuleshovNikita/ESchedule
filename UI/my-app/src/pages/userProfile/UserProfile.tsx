@@ -4,12 +4,13 @@ import { useEffect, useState, useRef } from "react";
 import { useStore } from "../../api/stores/StoresManager";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { mainBoxStyle, 
          profileBoxStyle, 
          avatarStyle, 
          userInfoBlocks,
          userInfoSubSetBlock} from "./UserProfileStyles";
-import { buttonImageIconStyles,
+import { buttonImageIconStyle,
          buttonHoverStyles, 
          buttonBoxStyles } from "../../styles/ButtonStyles";
 import { toast } from "react-toastify";
@@ -53,6 +54,10 @@ export default function UserPage() {
     
     const setProfileChanging = () => {
         setChangeMode(!changeMode);
+    }
+
+    const resetChanges = () => {
+        window.location.reload();
     }
 
     const firstNameRef = useRef<HTMLInputElement>();
@@ -173,7 +178,7 @@ export default function UserPage() {
         const result = await userStore.updateUserInfo(user);
         
         if(result.isSuccessful) {
-            toast.success(translator('toast.profile-updated'));
+            toast.success(translator('toasts.profile-updated'));
         } 
     }
 
@@ -197,17 +202,27 @@ export default function UserPage() {
                 </Avatar>
 
                 <Box sx={buttonBoxStyles}>
-                    <Button
-                        sx={buttonHoverStyles}   
-                        variant="contained"   
-                        onClick={setProfileChanging}
-                        disabled={!changeMode}             
-                    >
-                        {translator('buttons.change')}
-                        <Avatar sx={buttonImageIconStyles}>
-                            <EditIcon />
-                        </Avatar>
-                    </Button>
+                    {
+                        !changeMode
+                    ?
+                        <Button
+                            sx={buttonHoverStyles}   
+                            variant="contained"   
+                            onClick={resetChanges}          
+                        >
+                            {translator('buttons.cancel')}
+                            <CancelIcon sx={buttonImageIconStyle}/>
+                        </Button>
+                    :
+                        <Button
+                            sx={buttonHoverStyles}   
+                            variant="contained"   
+                            onClick={setProfileChanging}         
+                        >
+                            {translator('buttons.change')}
+                            <EditIcon sx={buttonImageIconStyle}/>
+                        </Button>
+                    }
 
                     <Button
                         sx={buttonHoverStyles}   
@@ -216,9 +231,7 @@ export default function UserPage() {
                         disabled={changeMode}          
                     >
                         {translator('buttons.save')}
-                        <Avatar sx={buttonImageIconStyles}>
-                            <SaveIcon/>
-                        </Avatar>
+                        <SaveIcon sx={buttonImageIconStyle}/>
                     </Button>
                 </Box>
             </Box>
@@ -275,7 +288,7 @@ export default function UserPage() {
                         size="small"
                         helperText={ageErrors}
                         value={age}
-                        required={false}
+                        required={true}
                         disabled={changeMode}
                         inputRef={ageRef}
                         error={ageErrors.length !== 0}
