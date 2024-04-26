@@ -13,48 +13,23 @@ namespace ESchedule.DataAccess.Repos.Lessons
         {
         }
 
-        public override async Task<ServiceResult<ScheduleModel>> First(Expression<Func<ScheduleModel, bool>> command)
-        {
-            var result = new ServiceResult<ScheduleModel>();
-
-            try
-            {
-                result.Value = await _context.Set<ScheduleModel>()
+        public override async Task<ScheduleModel> First(Expression<Func<ScheduleModel, bool>> command)
+            => await _context.Set<ScheduleModel>()
                     .Include(x => x.Tenant)
                     .Include(x => x.Lesson)
                     .Include(x => x.Teacher)
                     .Include(x => x.StudyGroup)
-                    .FirstOrDefaultAsync(command) 
+                    .FirstOrDefaultAsync(command)
                         ?? throw new EntityNotFoundException();
 
-                return result.Success();
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(ex);
-            }
-        }
-
-        public override Task<ServiceResult<IEnumerable<ScheduleModel>>> Where(Expression<Func<ScheduleModel, bool>> command)
-        {
-            var result = new ServiceResult<IEnumerable<ScheduleModel>>();
-
-            try
-            {
-                result.Value = _context.Set<ScheduleModel>()
+        public override async Task<IEnumerable<ScheduleModel>> Where(Expression<Func<ScheduleModel, bool>> command)
+            => await _context.Set<ScheduleModel>()
                     .Include(x => x.Tenant)
                     .Include(x => x.Lesson)
                     .Include(x => x.Teacher)
                     .Include(x => x.StudyGroup)
                     .Where(command)
+                    .ToListAsync()
                         ?? throw new EntityNotFoundException();
-
-                return Task.FromResult(result.Success());
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(result.Fail(ex));
-            }
-        }
     }
 }

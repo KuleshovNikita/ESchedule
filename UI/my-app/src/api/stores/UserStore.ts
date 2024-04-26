@@ -19,18 +19,14 @@ export default class UserStore {
     }
 
     login = async (creds: UserLoginModel) => {
-        try {
-            const response = await agent.Auth.login(creds);
-            store.commonStore.setToken(response);
-    
-            const userInfo = await this.getAutenticatedUserInfo();
-    
-            this.user = userInfo;
-            
-            return true;
-        } catch {
-            return false;
-        }
+        const response = await agent.Auth.login(creds);
+        store.commonStore.setToken(response);
+
+        const userInfo = await this.getAutenticatedUserInfo();
+
+        this.user = userInfo;
+
+        return response;
     };
 
     logout = () => {
@@ -39,48 +35,36 @@ export default class UserStore {
         this.user = null;
     };
 
-    updateUserInfo = async (user: UserUpdateModel) =>
-        await this.base.simpleRequest(async () => await agent.User.updateUser(user));
+    updateUserInfo = async (user: UserUpdateModel) => 
+        await agent.User.updateUser(user);
 
-    confirmEmail = async (key: string) => {
-        const response = await agent.Auth.confirmEmail(key);
+    confirmEmail = async (key: string) => 
+        await agent.Auth.confirmEmail(key);
 
-        this.base.handleErrors(response);
-
-        return response;
-    }
-
-    register = async (creds: UserCreateModel) => {
-        const response = await agent.Auth.register(creds);
-
-        return this.base.handleErrors(response);
-    }
+    register = async (creds: UserCreateModel) => 
+        await agent.Auth.register(creds);
 
     getAutenticatedUserInfo = async () => {    
         if(this.isLoggedIn) {
             return this.user;
         } else {
             const response = await agent.Auth.getAuthenticatedUserInfo();
-
-            this.base.handleErrors(response);
             
-            if(response.value !== null) {
-                this.user = response.value;
+            if(response) {
+                this.user = response;
             }
 
-            return response.value;
+            return response;
         }
     }
 
     getUserInfo = async (userId: string) => {
         const response = await agent.User.getUser(userId);
 
-        this.base.handleErrors(response);
-
-        if(response.isSuccessful && !this.otherUsers.includes(response.value)) {
-            this.otherUsers.push(response.value);
+        if(response && !this.otherUsers.includes(response)) {
+            this.otherUsers.push(response);
         }
 
-        return response.value;
+        return response;
     }
 }

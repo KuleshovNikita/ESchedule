@@ -38,22 +38,19 @@ namespace ESchedule.Business.ScheduleBuilding
             _rulesService = ruleService;
         }
 
-        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId)
+        public async Task BuildSchedule(Guid tenantId)
         {
-            var rules = (await _rulesService.Where(x => x.TenantId == tenantId)).Value;
+            var rules = await _rulesService.Where(x => x.TenantId == tenantId);
 
             var builderData = await GetNecessaryBuilderData(tenantId);
             var parsedRules = new RulesParser().ParseToRules(rules);
             var schedules = _scheduleBuilder.BuildSchedules(builderData, parsedRules);
 
             await RemoveWhere(x => x.TenantId == tenantId);
-
-            var result = (await InsertMany(schedules)).Success();
-
-            return result;
+            await InsertMany(schedules);
         }
 
-        private async Task<ServiceResult<Empty>> InsertRules(IEnumerable<RuleInputModel> rules, Guid tenantId)
+        private async Task InsertRules(IEnumerable<RuleInputModel> rules, Guid tenantId)
         {
             var ruleModels = rules.Select(r => 
                 new RuleModel
@@ -65,29 +62,27 @@ namespace ESchedule.Business.ScheduleBuilding
                 }
             );
 
-            return (await _rulesService.InsertMany(ruleModels)).Success();
+            await _rulesService.InsertMany(ruleModels);
         }
 
-        public async Task<ServiceResult<Empty>> RemoveWhere(Expression<Func<ScheduleModel, bool>> predicate)
+        public async Task RemoveWhere(Expression<Func<ScheduleModel, bool>> predicate)
         {
             var items = await GetItems(predicate);
-            return (await _repository.RemoveRange(items.Value)).Success();
+            await _repository.RemoveRange(items);
         }
 
-        public override async Task<ServiceResult<Empty>> InsertMany(IEnumerable<ScheduleModel> schedulesSet)
+        public override async Task InsertMany(IEnumerable<ScheduleModel> schedulesSet)
         {
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
-            return (await _repository.InsertMany(schedulesSet)).Success();
+            await _repository.InsertMany(schedulesSet);
         }
 
-        public override async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetItems(Expression<Func<ScheduleModel, bool>> predicate, bool includeNavs = false)
+        public override async Task<IEnumerable<ScheduleModel>> GetItems(Expression<Func<ScheduleModel, bool>> predicate, bool includeNavs = false)
         {
-            var schedules = (await base.GetItems(predicate)).Value;
+            var schedules = await base.GetItems(predicate);
+            var result = includeNavs ? schedules : SimplifySchedulesSet(schedules);
 
-            return new ServiceResult<IEnumerable<ScheduleModel>>
-            {
-                Value = includeNavs ? schedules : SimplifySchedulesSet(schedules)
-            }.Success();
+            return result;
         }
 
         private IEnumerable<ScheduleModel> SimplifySchedulesSet(IEnumerable<ScheduleModel> schedulesSet)
@@ -105,10 +100,10 @@ namespace ESchedule.Business.ScheduleBuilding
 
         private async Task<ScheduleBuilderHelpData> GetNecessaryBuilderData(Guid tenantId)
         {
-            var groups = (await _groupService.GetItems(x => x.TenantId == tenantId)).Value;
-            var teachers = (await _teacherService.GetItems(x => x.Role == Role.Teacher && x.TenantId == tenantId)).Value;
-            var tenant = (await _tenantService.First(x => x.Id == tenantId)).Value;
-            var lessons = (await _lessonService.GetItems(x => x.TenantId == tenantId)).Value;
+            var groups = await _groupService.GetItems(x => x.TenantId == tenantId);
+            var teachers = await _teacherService.GetItems(x => x.Role == Role.Teacher && x.TenantId == tenantId);
+            var tenant = await _tenantService.First(x => x.Id == tenantId);
+            var lessons = await _lessonService.GetItems(x => x.TenantId == tenantId);
 
             var scheduleBuilderData = new ScheduleBuilderHelpData
             {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESchedule.Api.Controllers
 {
-    public class UserController : ResultingController<UserModel>
+    public class UserController : BaseController<UserModel>
     {
         private readonly IUserService _userService;
 
@@ -19,17 +19,17 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPut]
-        public async Task<ServiceResult<Empty>> UpdateUser([FromBody] UserUpdateModel userModel)
-            => await RunWithServiceResult(async () => await _userService.UpdateUser(userModel));
+        public async Task UpdateUser([FromBody] UserUpdateModel userModel)
+            => await _userService.UpdateUser(userModel);
 
         [Authorize]
         [HttpGet("{userId}")]
-        public async Task<ServiceResult<UserModel>> GetUsers(Guid userId)
-            => await RunWithServiceResult(async () => await _service.First(x => x.Id == userId));
+        public async Task<UserModel> GetUsers(Guid userId)
+            => await _service.First(x => x.Id == userId);
 
         [Authorize]
         [HttpDelete("{userId}")]
-        public async Task<ServiceResult<Empty>> RemoveUser(Guid userId)
-            => await RunWithServiceResult(async () => await _service.RemoveItem(userId));
+        public async Task RemoveUser(Guid userId)
+            => await _service.RemoveItem(userId);
     }
 }

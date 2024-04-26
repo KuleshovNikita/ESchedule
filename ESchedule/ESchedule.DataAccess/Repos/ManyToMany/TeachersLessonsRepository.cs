@@ -13,43 +13,19 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
         {
         }
 
-        public override async Task<ServiceResult<TeachersLessonsModel>> First(Expression<Func<TeachersLessonsModel, bool>> command)
-        {
-            var result = new ServiceResult<TeachersLessonsModel>();
-
-            try
-            {
-                result.Value = await _context.Set<TeachersLessonsModel>()
+        public override async Task<TeachersLessonsModel> First(Expression<Func<TeachersLessonsModel, bool>> command)
+            => await _context.Set<TeachersLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+                    .FirstOrDefaultAsync(command) 
+                        ?? throw new EntityNotFoundException();
 
-                return result.Success();
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(ex);
-            }
-        }
-
-        public override Task<ServiceResult<IEnumerable<TeachersLessonsModel>>> Where(Expression<Func<TeachersLessonsModel, bool>> command)
-        {
-            var result = new ServiceResult<IEnumerable<TeachersLessonsModel>>();
-
-            try
-            {
-                result.Value = _context.Set<TeachersLessonsModel>()
+        public override async Task<IEnumerable<TeachersLessonsModel>> Where(Expression<Func<TeachersLessonsModel, bool>> command)
+            => await _context.Set<TeachersLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)
                     .Where(command)
+                    .ToListAsync()
                         ?? throw new EntityNotFoundException();
-
-                return Task.FromResult(result.Success());
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(result.Fail(ex));
-            }
-        }
     }
 }

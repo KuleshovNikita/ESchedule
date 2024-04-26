@@ -47,8 +47,6 @@ axios.interceptors.response.use(async (response) => response,
                 toast.error(i18n.t('server-errors.' + data.detail));             
                 break;
         }
-
-        throw Error(data.detail);
     }
 );
 
@@ -64,15 +62,14 @@ const requests = {
 
 const Auth = {
     login: (body: UserLoginModel) => requests.post<string>("/authentication/login", body),
-    register: (body: UserCreateModel) => requests.post<Result<string>>("/authentication/register", body),
-    getAuthenticatedUserInfo: () => requests.get<Result<UserModel>>("/authentication"),
-    confirmEmail: (key: string) => requests.patch<Result<string>>(`/authentication/confirmEmail/${key}`)
+    register: (body: UserCreateModel) => requests.post<string>("/authentication/register", body),
+    getAuthenticatedUserInfo: () => requests.get<UserModel>("/authentication"),
+    confirmEmail: (key: string) => requests.patch<string>(`/authentication/confirmEmail/${key}`)
 }
 
 const User = {
-    updateUser: (body: UserUpdateModel) => requests.put<EmptyResult>("/user", body),
-    getUser: (id: string) => requests.get<Result<UserModel>>(`/user/${id}`),
-    removeUser: (id: string) => requests.delete<EmptyResult>(`/user/${id}`),
+    updateUser: (body: UserUpdateModel) => requests.put("/user", body),
+    getUser: (id: string) => requests.get<UserModel>(`/user/${id}`),
 }
 
 const Group = {

@@ -7,8 +7,8 @@ namespace ESchedule.Business.ScheduleBuilding
 {
     public interface IScheduleService : IBaseService<ScheduleModel>
     {
-        Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId);
+        Task BuildSchedule(Guid tenantId);
 
-        Task<ServiceResult<Empty>> RemoveWhere(Expression<Func<ScheduleModel, bool>> predicate);
+        Task RemoveWhere(Expression<Func<ScheduleModel, bool>> predicate);
     }
 }

@@ -11,9 +11,9 @@ namespace ESchedule.Business.Tenant
         {
         }
 
-        public async Task<ServiceResult<List<object>>> BuildSchedulesTimeTable(Guid tenantId)
+        public async Task<List<object>> BuildSchedulesTimeTable(Guid tenantId)
         {
-            var tenantSettings = (await _repository.First(x => x.TenantId == tenantId)).Success().Value;
+            var tenantSettings = await _repository.First(x => x.TenantId == tenantId);
 
             var currentTime = tenantSettings.StudyDayStartTime;
             var resultList = new List<object>();
@@ -25,11 +25,7 @@ namespace ESchedule.Business.Tenant
                 currentTime = endTime + tenantSettings.BreaksDurationTime;
             }
 
-
-            return new ServiceResult<List<object>>
-            {
-                Value = resultList
-            }.Success();
+            return resultList;
         }
     }
 }

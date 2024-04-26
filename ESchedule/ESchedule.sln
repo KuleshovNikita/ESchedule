@@ -11,11 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.DataAccess", "ESc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Startup", "ESchedule.Startup\ESchedule.Startup.csproj", "{A81719E5-3463-4A81-8492-A4D104691747}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESchedule.Api.Models", "ESchedule.Api.Models\ESchedule.Api.Models.csproj", "{C4464C43-DFAE-4D2B-9A6F-F32D2B4AE404}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Api.Models", "ESchedule.Api.Models\ESchedule.Api.Models.csproj", "{C4464C43-DFAE-4D2B-9A6F-F32D2B4AE404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESchedule.Business", "ESchedule.Business\ESchedule.Business.csproj", "{26C09738-9F8D-4311-9555-BFFB9643C2C0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.ServiceResulting", "ESchedule.ServiceResulting\ESchedule.ServiceResulting.csproj", "{50C173C9-2720-4F05-81C7-BDA81C345F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Business", "ESchedule.Business\ESchedule.Business.csproj", "{26C09738-9F8D-4311-9555-BFFB9643C2C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +45,6 @@ Global
 		{26C09738-9F8D-4311-9555-BFFB9643C2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26C09738-9F8D-4311-9555-BFFB9643C2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26C09738-9F8D-4311-9555-BFFB9643C2C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50C173C9-2720-4F05-81C7-BDA81C345F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50C173C9-2720-4F05-81C7-BDA81C345F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50C173C9-2720-4F05-81C7-BDA81C345F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50C173C9-2720-4F05-81C7-BDA81C345F88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

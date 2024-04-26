@@ -177,7 +177,7 @@ export default function UserPage() {
 
         const result = await userStore.updateUserInfo(user);
         
-        if(result.isSuccessful) {
+        if(result) {
             toast.success(translator('toasts.profile-updated'));
         } 
     }

@@ -3,13 +3,12 @@ using ESchedule.Business;
 using ESchedule.Business.Auth;
 using ESchedule.Domain;
 using ESchedule.Domain.Users;
-using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace ESchedule.Api.Controllers
 {
-    public class AuthenticationController : ResultingController<UserModel>
+    public class AuthenticationController : BaseController<UserModel>
     {
         private readonly IAuthService _authService;
 
@@ -17,39 +16,38 @@ namespace ESchedule.Api.Controllers
             => _authService = authService;
 
         [HttpPost("register")]
-        public async Task<ServiceResult<Empty>> Register([FromBody] UserCreateModel registerModel)
-            => await RunWithServiceResult(async () => await _authService.Register(registerModel));
+        public async Task Register([FromBody] UserCreateModel registerModel)
+            => await _authService.Register(registerModel);
 
         [HttpPost("login")]
         public async Task<string> Login([FromBody] AuthModel authModel)
             => await _authService.Login(authModel);
 
         [HttpGet]
-        public async Task<ServiceResult<UserModel>> GetAuthenticatedUserInfo()
+        public async Task<UserModel> GetAuthenticatedUserInfo()
         {
             var claims = HttpContext.User.Claims;
 
             if(!claims.Any())
             {
-                return new ServiceResult<UserModel>();
+                return new UserModel();
             }
 
             var userId = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
             if(!Guid.TryParse(userId, out var id))
             {
-                return new ServiceResult<UserModel>().Fail("Invalid token provided");
+                throw new InvalidOperationException("Invalid token provided");
             }
 
-            return await RunWithServiceResult(async () => await _service.First(x => x.Id == id));
+            return await _service.First(x => x.Id == id);
         }
 
         [HttpPatch("confirmEmail/{key}")]
-        public async Task<ServiceResult<Guid>> ConfirmEmail(string key)
-            => await RunWithServiceResult(async () =>
-            {
-                key = Uri.UnescapeDataString(key);
-                return await _authService.ConfirmEmail(key);
-            });
+        public async Task<Guid> ConfirmEmail(string key)
+        {
+            key = Uri.UnescapeDataString(key);
+            return await _authService.ConfirmEmail(key);
+        }
     }
 }

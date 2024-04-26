@@ -14,67 +14,25 @@ namespace ESchedule.DataAccess.Repos.User
         {
         }
 
-        public override async Task<ServiceResult<UserModel>> First(Expression<Func<UserModel, bool>> command)
-        {
-            var result = new ServiceResult<UserModel>();
-
-            try
-            {
-                result.Value = await _context.Set<UserModel>()
+        public override async Task<UserModel> First(Expression<Func<UserModel, bool>> command)
+            => await _context.Set<UserModel>()
                     .Include(x => x.Group)
                     .Include(x => x.Tenant)
                     .Include(x => x.StudyGroups)
                     .Include(x => x.StudySchedules)
                     .Include(x => x.TaughtLessons)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+                    .FirstOrDefaultAsync(command)
+                        ?? throw new EntityNotFoundException();
 
-                return result.Success();
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(Resources.UserWithTheProvidedLoginDoesntExist);
-            }
-        }
-
-        public override async Task<UserModel> FirstNew(Expression<Func<UserModel, bool>> command)
-        {
-
-            try
-            {
-                return await _context.Set<UserModel>()
+        public override async Task<IEnumerable<UserModel>> Where(Expression<Func<UserModel, bool>> command)
+            => await _context.Set<UserModel>()
                     .Include(x => x.Group)
                     .Include(x => x.Tenant)
                     .Include(x => x.StudyGroups)
                     .Include(x => x.StudySchedules)
                     .Include(x => x.TaughtLessons)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
-            }
-            catch (Exception)
-            {
-                throw new Exception(Resources.UserWithTheProvidedLoginDoesntExist);
-            }
-        }
-
-        public override Task<ServiceResult<IEnumerable<UserModel>>> Where(Expression<Func<UserModel, bool>> command)
-        {
-            var result = new ServiceResult<IEnumerable<UserModel>>();
-
-            try
-            {
-                result.Value = _context.Set<UserModel>()
-                    .Include(x => x.Group)
-                    .Include(x => x.Tenant)
-                    .Include(x => x.StudyGroups)
-                    .Include(x => x.StudySchedules)
-                    .Include(x => x.TaughtLessons)
-                    .Where(command) ?? throw new EntityNotFoundException();
-
-                return Task.FromResult(result.Success());
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(result.Fail(ex));
-            }
-        }
+                    .Where(command)
+                    .ToListAsync()
+                        ?? throw new EntityNotFoundException();
     }
 }

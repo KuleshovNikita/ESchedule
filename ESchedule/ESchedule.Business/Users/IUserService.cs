@@ -6,8 +6,8 @@ namespace ESchedule.Business.Users
 {
     public interface IUserService : IBaseService<UserModel>
     {
-        Task<ServiceResult<Empty>> AddUser(UserModel userModel);
+        Task AddUser(UserModel userModel);
 
-        Task<ServiceResult<Empty>> UpdateUser(UserUpdateModel updateModel);
+        Task UpdateUser(UserUpdateModel updateModel);
     }
 }

@@ -39,16 +39,14 @@ namespace ESchedule.Business.Auth
 
         public async Task<string> Login(AuthModel authModel)
         {
-            var serviceResult = new ServiceResult<string>();
-
             if (authModel is null)
             {
                 throw new Exception(Resources.InvalidDataFoundCantAuthenticateUser);
             }
 
-            ValidateEmail(authModel.Login, serviceResult);
+            ValidateEmail(authModel.Login);
 
-            var user = await _userService.FirstNew(x => x.Login == authModel.Login);
+            var user = await _userService.First(x => x.Login == authModel.Login);
 
             if (!user.IsEmailConfirmed)
             {
@@ -63,58 +61,50 @@ namespace ESchedule.Business.Auth
             return BuildClaimsWithEmail(user);
         }
 
-        public async Task<ServiceResult<Empty>> Register(UserCreateModel userModel)
+        public async Task Register(UserCreateModel userModel)
         {
-            var serviceResult = new ServiceResult<Empty>();
-
             if (userModel is null)
             {
-                return serviceResult.FailAndThrow(Resources.InvalidDataFoundCantRegisterUser);
+                throw new ArgumentNullException(Resources.InvalidDataFoundCantRegisterUser);
             }
 
             var logins = await _userService.GetItems(x => x.Login == userModel.Login);
 
-            if (logins.Value.Any())
+            if (logins.Any())
             {
-                return serviceResult.FailAndThrow(Resources.UserWithSuchEmailAlreadyRegistered);
+                throw new InvalidOperationException(Resources.UserWithSuchEmailAlreadyRegistered);
             }
 
             var userDomainModel = _mapper.Map<UserModel>(userModel);
 
-            ValidateEmail(userModel.Login, serviceResult);
+            ValidateEmail(userModel.Login);
 
             await _userService.AddUser(userDomainModel);
             await _emailService.SendEmailConfirmMessage(userDomainModel);
-
-            return serviceResult.CatchAny();
         }
 
-        public async Task<ServiceResult<Guid>> ConfirmEmail(string key)
+        public async Task<Guid> ConfirmEmail(string key)
         {
-            var serviceResult = new ServiceResult<Guid>();
-
             var userResult = await _userService.First(x => x.Password.ToLower() == key.ToLower());
-            var userDomainModel = userResult.Value;
 
-            if (userDomainModel.IsEmailConfirmed)
+            if (userResult.IsEmailConfirmed)
             {
-                return serviceResult.FailAndThrow(Resources.TheUsersEmailIsAlreadyConfirmed);
+                throw new Exception(Resources.TheUsersEmailIsAlreadyConfirmed);
             }
 
-            userDomainModel.IsEmailConfirmed = true;
-            var userUpdateModel = _mapper.Map<UserUpdateModel>(userDomainModel);
+            userResult.IsEmailConfirmed = true;
+            var userUpdateModel = _mapper.Map<UserUpdateModel>(userResult);
 
             await _userService.UpdateItem(userUpdateModel);
 
-            serviceResult.Value = userDomainModel.Id;// BuildClaimsWithEmail(userDomainModel);
-            return serviceResult.CatchAny();
+            return userResult.Id;
         }
 
-        private void ValidateEmail<TType>(string login, ServiceResult<TType> serviceResult)
+        private void ValidateEmail(string login)
         {
             if (!MailAddress.TryCreate(login, out _))
             {
-                serviceResult.FailAndThrow(Resources.InvalidEmailAddressFormatSpecified);
+                throw new FormatException(Resources.InvalidEmailAddressFormatSpecified);
             }
         }
 
