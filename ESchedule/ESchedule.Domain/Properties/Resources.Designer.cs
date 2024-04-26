@@ -169,6 +169,15 @@ namespace ESchedule.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERR0015.
+        /// </summary>
+        public static string UserWithSuchEmailAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("UserWithSuchEmailAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ERR0013.
         /// </summary>
         public static string UserWithTheProvidedLoginDoesntExist {

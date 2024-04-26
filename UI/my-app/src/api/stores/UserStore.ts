@@ -22,14 +22,15 @@ export default class UserStore {
     login = async (creds: UserLoginModel) => {
         const response = await agent.Auth.login(creds);
 
-        this.base.handleErrors(response);
+        if (this.base.handleErrors(response)) {
+            console.debug("login successful, token - " + response.value);
+            store.commonStore.setToken(response.value);
 
-        console.debug("login successful, token - " + response.value);
-        store.commonStore.setToken(response.value);
+            const userInfo = await this.getAutenticatedUserInfo();
 
-        const userInfo = await this.getAutenticatedUserInfo();
-
-        this.user = userInfo;
+            this.user = userInfo;
+        }
+        
         return response.isSuccessful;
     };
 
@@ -50,8 +51,11 @@ export default class UserStore {
         return response;
     }
 
-    register = async (creds: UserCreateModel) => 
-        await agent.Auth.register(creds);
+    register = async (creds: UserCreateModel) => {
+        const response = await agent.Auth.register(creds);
+
+        return this.base.handleErrors(response);
+    }
 
     getAutenticatedUserInfo = async () => {    
         if(this.isLoggedIn) {

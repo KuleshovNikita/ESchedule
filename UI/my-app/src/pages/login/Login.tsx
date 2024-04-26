@@ -83,8 +83,9 @@ export function LoginPage() {
 
         if(isSuccessful) {
             toast.success(translator('toasts.welcome') + userStore.user?.name);
-            navigate(fromPage, { replace: true });
-        }
+        } 
+
+        navigate(fromPage, { replace: true });
     };
 
     const redirectToRegistration = () => {

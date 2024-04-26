@@ -150,10 +150,12 @@ export default function RegistrationPage() {
 
         const result = await userStore.register(user);
         
-        if(!result.isSuccessful) {
+        if(result) {
             navigate("/login");
             toast.success(translator('toasts.verification-email-sent'));
-        } 
+        } else {
+            navigate("/register");
+        }
     }
 
     const redirectToLogin = () => {

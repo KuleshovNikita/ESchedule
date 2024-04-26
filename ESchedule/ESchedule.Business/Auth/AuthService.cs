@@ -74,6 +74,13 @@ namespace ESchedule.Business.Auth
                 return serviceResult.FailAndThrow(Resources.InvalidDataFoundCantRegisterUser);
             }
 
+            var logins = await _userService.GetItems(x => x.Login == userModel.Login);
+
+            if (logins.Value.Any())
+            {
+                return serviceResult.FailAndThrow(Resources.UserWithSuchEmailAlreadyRegistered);
+            }
+
             var userDomainModel = _mapper.Map<UserModel>(userModel);
 
             ValidateEmail(userModel.Login, serviceResult);

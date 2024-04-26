@@ -153,6 +153,9 @@
   <data name="TheWalkIsAlreadyFinished" xml:space="preserve">
     <value>ERR0012</value>
   </data>
+  <data name="UserWithSuchEmailAlreadyRegistered" xml:space="preserve">
+    <value>ERR0015</value>
+  </data>
   <data name="UserWithTheProvidedLoginDoesntExist" xml:space="preserve">
     <value>ERR0013</value>
   </data>
