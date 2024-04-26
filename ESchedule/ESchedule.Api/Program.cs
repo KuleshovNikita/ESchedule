@@ -2,6 +2,7 @@ using ESchedule.Domain.Auth;
 using ESchedule.Domain.Policy.Requirements;
 using ESchedule.Startup.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,31 @@ builder.Services.AddControllers()
                     opt.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(cfg =>
+{
+    cfg.ResolveConflictingActions(api => api.First());
+    cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Name = "Authorization",
+        In = ParameterLocation.Header
+    });
+    cfg.AddSecurityRequirement(new OpenApiSecurityRequirement 
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+            },
+            new string[] { }
+        }
+    });
+});
 builder.Services.RegisterDependencies();
 builder.Services.AddCors(x => x.AllowAnyOriginPolicy());
 

@@ -13,7 +13,7 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
             builder.HasOne(x => x.Schedule)
                 .WithMany()
                 .HasForeignKey(x => x.ScheduleId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.Tenant)
                 .WithMany()

@@ -6,7 +6,7 @@ namespace ESchedule.Business.Auth
 {
     public interface IAuthService
     {
-        Task<ServiceResult<string>> ConfirmEmail(string key);
+        Task<ServiceResult<Guid>> ConfirmEmail(string key);
 
         Task<ServiceResult<string>> Login(AuthModel authModel);
 

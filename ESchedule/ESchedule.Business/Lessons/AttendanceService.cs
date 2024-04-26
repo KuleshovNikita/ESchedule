@@ -28,15 +28,24 @@ namespace ESchedule.Business.Lessons
             }
 
             var currentTime = DateTime.Now;
-            var schedule = GetTargetSchedule(user, currentTime.TimeOfDay);
+            ScheduleModel schedule = null;//GetTargetSchedule(user, currentTime.TimeOfDay);
 
             if(schedule == null)
             {
                 schedule = new ScheduleModel
                 {
-                    Id = Guid.Parse("e463e458-599b-4601-a50e-c52633c44c69"),
+                    Id = Guid.NewGuid(),
+                    StartTime = currentTime.TimeOfDay,
+                    EndTime = currentTime.TimeOfDay,
+                    DayOfWeek = DateTime.Today.DayOfWeek,
+                    StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                    LessonId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 };
+
+                _context.Schedules.Add(schedule);
+                _context.SaveChanges();
             }
 
             var model = new AttendanceModel
@@ -57,7 +66,12 @@ namespace ESchedule.Business.Lessons
         }
 
         private ScheduleModel? GetTargetSchedule(UserModel user, TimeSpan currentTime)
-            => user.StudySchedules
-                    .FirstOrDefault(x => x.StartTime >= currentTime && x.EndTime <= currentTime);
+        {
+            var groupId = user.GroupId;
+
+            return _context.Schedules
+                .AsEnumerable()
+                .FirstOrDefault(x => x.StartTime <= currentTime && x.EndTime >= currentTime && groupId == x.StudyGroupId && x.DayOfWeek == DateTime.Today.DayOfWeek);
+        }
     }
 }
