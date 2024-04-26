@@ -1,6 +1,8 @@
-﻿using ESchedule.Domain.Users;
+﻿using ESchedule.Domain.Enums;
+using ESchedule.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESchedule.DataAccess.Context.ConfigurationModels
 {
@@ -37,7 +39,8 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
                 .IsRequired();
 
             builder.Property(x => x.Role)
-                .IsRequired();
+                .IsRequired()
+                .HasConversion(new EnumToStringConverter<Role>());
 
             builder.HasOne(x => x.Group)
                 .WithMany(x => x.Members)

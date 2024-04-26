@@ -12,11 +12,9 @@ namespace ESchedule.DataAccess.Context
     public static class Seeds
     {
         private static ModelBuilder _builder = null!;
-        private static IPasswordHasher _passwordHasher = null!;
 
-        public static void ApplySeeds(ModelBuilder builder, IPasswordHasher passwordHasher)
+        public static void ApplySeeds(ModelBuilder builder)
         {
-            _passwordHasher = passwordHasher;
             _builder = builder;
 
             ApplyUsers();
@@ -339,7 +337,7 @@ namespace ESchedule.DataAccess.Context
                     LastName = "Kuleshov",
                     FatherName = "Igorovich",
                     Login = "admin@admin.com",
-                    Password = _passwordHasher.HashPassword("admin"),
+                    Password = "h8TRaqXaxa7ST8aFyCQL3lbR09uexQ5ECgx6wWgJPHtlBp6W",
                     Role = Role.Pupil,
                     IsEmailConfirmed = true,
                     TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
@@ -353,7 +351,7 @@ namespace ESchedule.DataAccess.Context
                     LastName = "Kuleshov2",
                     FatherName = "Igorovich2",
                     Login = "admin2@admin.com",
-                    Password = _passwordHasher.HashPassword("admin"),
+                    Password = "h8TRaqXaxa7ST8aFyCQL3lbR09uexQ5ECgx6wWgJPHtlBp6W",
                     Role = Role.Pupil,
                     IsEmailConfirmed = true,
                     TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
@@ -367,7 +365,7 @@ namespace ESchedule.DataAccess.Context
                     LastName = "Kuleshov3",
                     FatherName = "Igorovich3",
                     Login = "admin3@admin.com",
-                    Password = _passwordHasher.HashPassword("admin"),
+                    Password = "h8TRaqXaxa7ST8aFyCQL3lbR09uexQ5ECgx6wWgJPHtlBp6W",
                     Role = Role.Pupil,
                     IsEmailConfirmed = true,
                     TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
@@ -381,7 +379,7 @@ namespace ESchedule.DataAccess.Context
                     LastName = "Kuleshov4",
                     FatherName = "Igorovich4",
                     Login = "admin4@admin.com",
-                    Password = _passwordHasher.HashPassword("admin"),
+                    Password = "h8TRaqXaxa7ST8aFyCQL3lbR09uexQ5ECgx6wWgJPHtlBp6W",
                     Role = Role.Pupil,
                     IsEmailConfirmed = true,
                     TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
@@ -396,7 +394,7 @@ namespace ESchedule.DataAccess.Context
                     LastName = "Teacher1",
                     FatherName = "Teacher1",
                     Login = "teacher1@admin.com",
-                    Password = _passwordHasher.HashPassword("admin"),
+                    Password = "h8TRaqXaxa7ST8aFyCQL3lbR09uexQ5ECgx6wWgJPHtlBp6W",
                     Role = Role.Teacher,
                     IsEmailConfirmed = true,
                     TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
@@ -409,7 +407,7 @@ namespace ESchedule.DataAccess.Context
                     LastName = "Teacher2",
                     FatherName = "Teacher2",
                     Login = "teacher2@admin.com",
-                    Password = _passwordHasher.HashPassword("admin"),
+                    Password = "h8TRaqXaxa7ST8aFyCQL3lbR09uexQ5ECgx6wWgJPHtlBp6W",
                     Role = Role.Teacher,
                     IsEmailConfirmed = true,
                     TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
@@ -422,7 +420,7 @@ namespace ESchedule.DataAccess.Context
                     LastName = "Teacher3",
                     FatherName = "Teacher3",
                     Login = "teacher3@admin.com",
-                    Password = _passwordHasher.HashPassword("admin"),
+                    Password = "h8TRaqXaxa7ST8aFyCQL3lbR09uexQ5ECgx6wWgJPHtlBp6W",
                     Role = Role.Teacher,
                     IsEmailConfirmed = true,
                     TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
