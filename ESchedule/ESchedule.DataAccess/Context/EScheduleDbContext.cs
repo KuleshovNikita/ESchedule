@@ -12,8 +12,6 @@ namespace ESchedule.DataAccess.Context
 {
     public class EScheduleDbContext : DbContext
     {
-        private readonly IPasswordHasher _passwordHasher;
-
         public DbSet<UserModel> Users { get; set; }
         public DbSet<LessonModel> Lessons { get; set; }
         public DbSet<ScheduleModel> Schedules { get; set; }
@@ -26,9 +24,8 @@ namespace ESchedule.DataAccess.Context
         public DbSet<TeachersLessonsModel> TeachersLessons { get; set; }
         public DbSet<AttendanceModel> Attendances { get; set; }
 
-        public EScheduleDbContext(DbContextOptions options, IPasswordHasher passwordHasher) : base(options)
+        public EScheduleDbContext(DbContextOptions options) : base(options)
         {
-            _passwordHasher = passwordHasher;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,7 +42,7 @@ namespace ESchedule.DataAccess.Context
             modelBuilder.ApplyConfiguration(new ScheduleRulesConfiguration());
             modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
 
-            Seeds.ApplySeeds(modelBuilder, _passwordHasher);
+            Seeds.ApplySeeds(modelBuilder);
         }
     }
 }

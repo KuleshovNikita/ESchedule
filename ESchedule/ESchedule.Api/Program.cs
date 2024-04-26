@@ -1,11 +1,14 @@
+using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Policy.Requirements;
 using ESchedule.Startup.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 builder.Services.AddControllers()
                 .AddJsonOptions(opt =>
@@ -30,11 +33,11 @@ builder.Services.AddSwaggerGen(cfg =>
         {
             new OpenApiSecurityScheme
             {
-            Reference = new OpenApiReference
-            {
-                Type = ReferenceType.SecurityScheme,
-                Id = "Bearer"
-            }
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
             },
             new string[] { }
         }
@@ -45,9 +48,9 @@ builder.Services.AddCors(x => x.AllowAnyOriginPolicy());
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.ConfigureAuthentication(builder.Configuration.GetSection("Jwt").Get<JwtSettings>()!);
+builder.Services.ConfigureAuthentication(configuration.GetSection("Jwt").Get<JwtSettings>()!);
 builder.Services.ConfigureAuthorization();
-builder.Services.ConfigureDbConnection(builder.Configuration);
+builder.Services.ConfigureDbConnection(configuration);
 
 var app = builder.Build();
 
@@ -65,5 +68,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var options = new DbContextOptionsBuilder<EScheduleDbContext>().UseSqlServer(configuration.GetConnectionString("SqlServer")!);
+using var context = new EScheduleDbContext(options.Options);
+context.Database.Migrate();
 
 app.Run();

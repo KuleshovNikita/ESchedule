@@ -4,6 +4,7 @@ using ESchedule.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ESchedule.DataAccess.Migrations
 {
     [DbContext(typeof(EScheduleDbContext))]
-    partial class EScheduleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240426171605_ConvertUserRoleColumnToString")]
+    partial class ConvertUserRoleColumnToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +50,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Attendances", (string)null);
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.Lessons.LessonModel", b =>
@@ -69,7 +71,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Lessons", (string)null);
+                    b.ToTable("Lessons");
 
                     b.HasData(
                         new
@@ -141,7 +143,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Schedules", (string)null);
+                    b.ToTable("Schedules");
 
                     b.HasData(
                         new
@@ -175,7 +177,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("StudyGroupId");
 
-                    b.ToTable("GroupsLessons", (string)null);
+                    b.ToTable("GroupsLessons");
 
                     b.HasData(
                         new
@@ -263,7 +265,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeachersGroupsLessons", (string)null);
+                    b.ToTable("TeachersGroupsLessons");
 
                     b.HasData(
                         new
@@ -356,7 +358,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeachersLessons", (string)null);
+                    b.ToTable("TeachersLessons");
 
                     b.HasData(
                         new
@@ -418,7 +420,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("ScheduleRules", (string)null);
+                    b.ToTable("ScheduleRules");
                 });
 
             modelBuilder.Entity("ESchedule.Domain.Tenant.TenantModel", b =>
@@ -436,7 +438,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasIndex("TenantName")
                         .IsUnique();
 
-                    b.ToTable("Tenant", (string)null);
+                    b.ToTable("Tenant");
 
                     b.HasData(
                         new
@@ -469,7 +471,7 @@ namespace ESchedule.DataAccess.Migrations
                     b.HasIndex("TenantId")
                         .IsUnique();
 
-                    b.ToTable("TenantSettings", (string)null);
+                    b.ToTable("TenantSettings");
 
                     b.HasData(
                         new
@@ -503,7 +505,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Groups", (string)null);
+                    b.ToTable("Groups");
 
                     b.HasData(
                         new
@@ -575,7 +577,7 @@ namespace ESchedule.DataAccess.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
