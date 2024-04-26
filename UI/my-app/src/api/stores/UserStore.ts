@@ -2,10 +2,8 @@ import { makeAutoObservable } from "mobx";
 import { agent } from "../agent";
 import { UserModel, UserLoginModel, UserCreateModel, UserUpdateModel, Role } from "../../models/Users";
 import { store } from "./StoresManager";
-import BaseStore from "./BaseStore";
 
 export default class UserStore {
-    base: BaseStore = new BaseStore();
     client: any = null;
     user: UserModel | null = null;
     otherUsers: UserModel[] = [];

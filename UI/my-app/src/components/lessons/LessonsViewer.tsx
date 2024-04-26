@@ -39,7 +39,7 @@ export default function LessonViewer() {
     const updateLessonsList = async () => {
         var response = await lessonStore.updateLessonsList(lessons.map(x => x.id), tenantStore.tenant?.id as string);
 
-        if(response.isSuccessful) {
+        if(response) {
             toast.success("toasts.lessons-list-updated");
         }
     }
@@ -52,7 +52,7 @@ export default function LessonViewer() {
 
         const response = await lessonStore.createLesson(lessonModel);
 
-        if(response.isSuccessful) {
+        if(response) {
             toast.success(translator('toasts.lesson-added'));
         }
 

@@ -1,10 +1,8 @@
 import { makeAutoObservable } from "mobx";
 import { RuleInputModel, RuleModel, ScheduleModel } from "../../models/Schedules";
 import { agent } from "../agent";
-import BaseStore from "./BaseStore";
 
 export default class ScheduleStore {
-    base: BaseStore = new BaseStore();
     client = agent.Schedule;
     schedules: ScheduleModel[] | null = null;
     rules: RuleModel[] | null = null;
@@ -14,31 +12,27 @@ export default class ScheduleStore {
     }
 
     buildSchedule = async (tenantId: string) => 
-        await this.base.simpleRequest(async () => await this.client.buildSchedule(tenantId)); 
+        await this.client.buildSchedule(tenantId); 
 
     getScheduleForTenant = async (tenantId: string) => {
         const response = await this.client.getScheduleForGroup(tenantId);
 
-        this.base.handleErrors(response);
-
-        if(response.isSuccessful) {
-            this.schedules = this.parseDate(response.value);
+        if(response) {
+            this.schedules = this.parseDate(response);
         }
 
-        return response.value;
+        return response;
     }
  
     getScheduleForGroup = async (groupId: string) => {
         console.log('group');
         const response = await this.client.getScheduleForGroup(groupId);
 
-        this.base.handleErrors(response);
-
-        if(response.isSuccessful) {
-            this.schedules = this.parseDate(response.value);
+        if(response) {
+            this.schedules = this.parseDate(response);
         }
 
-        return response.value;
+        return response;
     }
 
     getScheduleRules = async (tenantId: string) => {
@@ -48,13 +42,11 @@ export default class ScheduleStore {
 
         const response = await this.client.getScheduleRules(tenantId);
 
-        this.base.handleErrors(response);
-
-        if(response.isSuccessful) {
-            this.rules = response.value;
+        if(response) {
+            this.rules = response;
         }
 
-        return response.value;
+        return response;
     }
 
     getScheduleForTeacher = async (teacherId: string) => {
@@ -64,25 +56,20 @@ export default class ScheduleStore {
 
         const response = await this.client.getScheduleForTeacher(teacherId);
 
-        this.base.handleErrors(response);
-
-        if(response.isSuccessful) {
-            this.schedules = this.parseDate(response.value);
+        if(response) {
+            this.schedules = this.parseDate(response);
         }
 
-        return response.value;
+        return response;
     }
 
     getScheduleItem = async (id: string) => {
         const response = await this.client.getScheduleItem(id);
-
-        this.base.handleErrors(response);
-
-        return this.parseDate([response.value])[0];
+        return this.parseDate([response])[0];
     }
 
     removeSchedule = async (tenantId: string) =>
-        await this.base.simpleRequest(async () => await this.client.removeSchedule(tenantId)); 
+        await this.client.removeSchedule(tenantId); 
 
     parseDate = (schedules: ScheduleModel[]) => {
         schedules.forEach(el => {
@@ -97,8 +84,8 @@ export default class ScheduleStore {
     }
 
     createRule = async (rule: RuleInputModel) => 
-        await this.base.simpleRequest(async () => await this.client.createRule(rule)); 
+        await this.client.createRule(rule); 
 
     removeRule = async (ruleId: string) => 
-        await this.base.simpleRequest(async () => await this.client.removeRule(ruleId)); 
+        await this.client.removeRule(ruleId); 
 }

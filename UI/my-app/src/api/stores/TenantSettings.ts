@@ -1,10 +1,8 @@
 import { makeAutoObservable } from "mobx";
 import { ScheduleStartEndTime, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel } from "../../models/Tenants";
 import { agent } from "../agent";
-import BaseStore from "./BaseStore";
 
 export default class TenantSettingsStore {
-    base: BaseStore = new BaseStore();
     client = agent.TenantSettings;
     settings: TenantSettingsModel | null = null;
     timeTableList: ScheduleStartEndTime[] | null = null;
@@ -14,21 +12,16 @@ export default class TenantSettingsStore {
     }
 
     createTenantSettings = async (settings: TenantSettingsCreateModel) => 
-        await this.base.simpleRequest(async () => await this.client.createTenantSettings(settings));
+        await this.client.createTenantSettings(settings);
 
     updateTenantSettings = async (settings: TenantSettingsUpdateModel) =>
-        await this.base.simpleRequest(async () => await this.client.updateTenantSettings(settings));
+        await this.client.updateTenantSettings(settings);
 
     removeTenantSettings = async (id: string) =>
-        await this.base.simpleRequest(async () => await this.client.removeTenantSettings(id));
+        await this.client.removeTenantSettings(id);
 
-    getTenantSettings = async (tenantId: string) => {
-        const response = await this.client.getTenantSettings(tenantId);
-
-        this.base.handleErrors(response);
-
-        return response.value;
-    }
+    getTenantSettings = async (tenantId: string) =>
+        await this.client.getTenantSettings(tenantId);
 
     getTenantScheduleTimes = async (tenantId: string) => {
         if(this.timeTableList) {
@@ -37,13 +30,11 @@ export default class TenantSettingsStore {
 
         const response = await this.client.getTenantScheduleTimes(tenantId);
 
-        this.base.handleErrors(response);
-
-        if(response.isSuccessful) {
-            this.timeTableList = this.parseDate(response.value);
+        if(response) {
+            this.timeTableList = this.parseDate(response);
         }
 
-        return response.value;
+        return response;
     }
 
     parseDate = (schedules: ScheduleStartEndTime[]) => {

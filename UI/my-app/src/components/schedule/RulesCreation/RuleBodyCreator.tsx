@@ -43,7 +43,7 @@ export default function RuleBodyCreator({ruleName, bodyData, onConfirm}: Props) 
 
         const res = await scheduleStore.createRule(newRule);
 
-        if(res.isSuccessful) {
+        if(res) {
             toast.success(translator('toasts.rules-added-successfully'));
         }
 
