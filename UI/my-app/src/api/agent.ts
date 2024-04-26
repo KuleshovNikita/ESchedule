@@ -9,9 +9,10 @@ import { EmptyResult, Result } from "../models/Result";
 import { GroupsLessonsCreateModel, GroupsLessonsModel, TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel, TeachersLessonsCreateModel, TeachersLessonsModel } from "../models/ManyToMany";
 import { RuleInputModel, RuleModel, ScheduleModel } from "../models/Schedules";
 import { ScheduleStartEndTime, TenantCreateModel, TenantModel, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel, TenantUpdateModel } from "../models/Tenants";
+import i18n from "i18next";
 
 interface ErrorResponse {
-    errors: { detail: string }[];
+    detail: string
 }
 
 axios.defaults.baseURL = "https://localhost:20000/api";
@@ -31,37 +32,23 @@ axios.interceptors.response.use(async (response) => response,
         const { data, status, headers } = error.response!;
         switch (status) {
             case 400:
-                if (data.errors) {
-                    console.log(data);
-                    const modalStateErrors = [];
-
-                    for (const key in data.errors) {
-                        if (data.errors[key]) {
-                            toast.error((data.errors[key] as unknown as Array<string>)[0]);
-                            modalStateErrors.push(data.errors[key]);
-                        }
-                    }
-                    throw modalStateErrors.flat();
-                } else {
-                    toast.error(data.errors);
-                }
+                toast.error('Bad request');
                 break;
             case 401:
-                console.log(401)
                 if (headers['www-authenticate']?.startsWith('Bearer error="invalid_token"')) {
                     store.userStore.logout();
-                    toast.error('Session has expired - please login again');
+                    toast.error('The session has expired - please login again');
                 }
                 break;
             case 404:
                 redirect("/notFound");
                 break;
             case 500:
-                data.errors.map(e => toast.error(e.detail));                
+                toast.error(i18n.t('server-errors.' + data.detail));             
                 break;
         }
 
-        return Promise.reject(error);
+        throw Error(data.detail);
     }
 );
 
@@ -76,7 +63,7 @@ const requests = {
 };
 
 const Auth = {
-    login: (body: UserLoginModel) => requests.post<Result<string>>("/authentication/login", body),
+    login: (body: UserLoginModel) => requests.post<string>("/authentication/login", body),
     register: (body: UserCreateModel) => requests.post<Result<string>>("/authentication/register", body),
     getAuthenticatedUserInfo: () => requests.get<Result<UserModel>>("/authentication"),
     confirmEmail: (key: string) => requests.patch<Result<string>>(`/authentication/confirmEmail/${key}`)

@@ -3,7 +3,6 @@ import { agent } from "../agent";
 import { UserModel, UserLoginModel, UserCreateModel, UserUpdateModel, Role } from "../../models/Users";
 import { store } from "./StoresManager";
 import BaseStore from "./BaseStore";
-import { toast } from "react-toastify";
 
 export default class UserStore {
     base: BaseStore = new BaseStore();
@@ -20,18 +19,18 @@ export default class UserStore {
     }
 
     login = async (creds: UserLoginModel) => {
-        const response = await agent.Auth.login(creds);
-
-        if (this.base.handleErrors(response)) {
-            console.debug("login successful, token - " + response.value);
-            store.commonStore.setToken(response.value);
-
+        try {
+            const response = await agent.Auth.login(creds);
+            store.commonStore.setToken(response);
+    
             const userInfo = await this.getAutenticatedUserInfo();
-
+    
             this.user = userInfo;
+            
+            return true;
+        } catch {
+            return false;
         }
-        
-        return response.isSuccessful;
     };
 
     logout = () => {

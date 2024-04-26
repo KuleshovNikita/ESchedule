@@ -7,6 +7,8 @@ namespace ESchedule.DataAccess.Repos
     {
         Task<ServiceResult<TModel>> First(Expression<Func<TModel, bool>> command);
 
+        Task<TModel> FirstNew(Expression<Func<TModel, bool>> command) => throw new Exception();
+
         Task<ServiceResult<IEnumerable<TModel>>> Where(Expression<Func<TModel, bool>> command);
 
         Task<ServiceResult<bool>> Any(Expression<Func<TModel, bool>> command);

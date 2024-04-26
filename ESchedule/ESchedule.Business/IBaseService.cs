@@ -16,6 +16,7 @@ namespace ESchedule.Business
         Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate, bool includeNavs = false);
 
         Task<ServiceResult<T>> First(Expression<Func<T, bool>> predicate);
+        Task<T> FirstNew(Expression<Func<T, bool>> predicate) => throw new Exception();
 
         Task<ServiceResult<IEnumerable<T>>> Where(Expression<Func<T, bool>> predicate);
 

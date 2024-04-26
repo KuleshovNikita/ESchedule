@@ -36,6 +36,25 @@ namespace ESchedule.DataAccess.Repos.User
             }
         }
 
+        public override async Task<UserModel> FirstNew(Expression<Func<UserModel, bool>> command)
+        {
+
+            try
+            {
+                return await _context.Set<UserModel>()
+                    .Include(x => x.Group)
+                    .Include(x => x.Tenant)
+                    .Include(x => x.StudyGroups)
+                    .Include(x => x.StudySchedules)
+                    .Include(x => x.TaughtLessons)
+                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+            }
+            catch (Exception)
+            {
+                throw new Exception(Resources.UserWithTheProvidedLoginDoesntExist);
+            }
+        }
+
         public override Task<ServiceResult<IEnumerable<UserModel>>> Where(Expression<Func<UserModel, bool>> command)
         {
             var result = new ServiceResult<IEnumerable<UserModel>>();

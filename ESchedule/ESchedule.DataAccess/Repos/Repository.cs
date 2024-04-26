@@ -28,6 +28,8 @@ namespace ESchedule.DataAccess.Repos
             }
         }
 
+        public virtual async Task<TModel> FirstNew(Expression<Func<TModel, bool>> command) => throw new Exception();
+
         public virtual Task<ServiceResult<IEnumerable<TModel>>> Where(Expression<Func<TModel, bool>> command)
         {
             var result = new ServiceResult<IEnumerable<TModel>>();

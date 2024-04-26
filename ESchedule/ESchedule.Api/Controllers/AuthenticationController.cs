@@ -21,8 +21,8 @@ namespace ESchedule.Api.Controllers
             => await RunWithServiceResult(async () => await _authService.Register(registerModel));
 
         [HttpPost("login")]
-        public async Task<ServiceResult<string>> Login([FromBody] AuthModel authModel)
-            => await RunWithServiceResult(async () => await _authService.Login(authModel));
+        public async Task<string> Login([FromBody] AuthModel authModel)
+            => await _authService.Login(authModel);
 
         [HttpGet]
         public async Task<ServiceResult<UserModel>> GetAuthenticatedUserInfo()

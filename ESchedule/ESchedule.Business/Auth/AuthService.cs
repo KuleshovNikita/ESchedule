@@ -37,32 +37,30 @@ namespace ESchedule.Business.Auth
             _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>()!;
         }
 
-        public async Task<ServiceResult<string>> Login(AuthModel authModel)
+        public async Task<string> Login(AuthModel authModel)
         {
             var serviceResult = new ServiceResult<string>();
 
             if (authModel is null)
             {
-                return serviceResult.FailAndThrow(Resources.InvalidDataFoundCantAuthenticateUser);
+                throw new Exception(Resources.InvalidDataFoundCantAuthenticateUser);
             }
 
             ValidateEmail(authModel.Login, serviceResult);
 
-            var userResult = await _userService.First(x => x.Login == authModel.Login);
+            var user = await _userService.FirstNew(x => x.Login == authModel.Login);
 
-            if (!userResult.Value.IsEmailConfirmed)
+            if (!user.IsEmailConfirmed)
             {
-                return serviceResult.FailAndThrow(Resources.EmailConfirmationIsNeeded);
+                throw new Exception(Resources.EmailConfirmationIsNeeded);
             }
 
-            if (!_passwordHasher.ComparePasswords(authModel.Password, userResult.Value.Password))
+            if (!_passwordHasher.ComparePasswords(authModel.Password, user.Password))
             {
-                return serviceResult.FailAndThrow(Resources.WrongPasswordOrLogin);
+                throw new Exception(Resources.WrongPasswordOrLogin);
             }
 
-            serviceResult.Value = BuildClaimsWithEmail(userResult.Value);
-
-            return serviceResult.CatchAny();
+            return BuildClaimsWithEmail(user);
         }
 
         public async Task<ServiceResult<Empty>> Register(UserCreateModel userModel)

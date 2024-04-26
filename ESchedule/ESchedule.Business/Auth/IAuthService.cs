@@ -8,7 +8,7 @@ namespace ESchedule.Business.Auth
     {
         Task<ServiceResult<Guid>> ConfirmEmail(string key);
 
-        Task<ServiceResult<string>> Login(AuthModel authModel);
+        Task<string> Login(AuthModel authModel);
 
         Task<ServiceResult<Empty>> Register(UserCreateModel userModel);
     }
