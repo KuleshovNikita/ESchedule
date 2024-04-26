@@ -28,11 +28,6 @@ export default class UserStore {
         store.commonStore.setToken(response.value);
 
         const userInfo = await this.getAutenticatedUserInfo();
-        if(userInfo?.role === Role.Pupil) {
-            this.logout();
-            toast.error("Pupils are not allowed to access the web system");
-            return false;
-        } 
 
         this.user = userInfo;
         return response.isSuccessful;
