@@ -45,7 +45,7 @@ namespace ESchedule.Api.Controllers
         }
 
         [HttpPatch("confirmEmail/{key}")]
-        public async Task<ServiceResult<string>> ConfirmEmail(string key)
+        public async Task<ServiceResult<Guid>> ConfirmEmail(string key)
             => await RunWithServiceResult(async () =>
             {
                 key = Uri.UnescapeDataString(key);

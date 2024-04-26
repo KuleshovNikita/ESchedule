@@ -84,9 +84,9 @@ namespace ESchedule.Business.Auth
             return serviceResult.CatchAny();
         }
 
-        public async Task<ServiceResult<string>> ConfirmEmail(string key)
+        public async Task<ServiceResult<Guid>> ConfirmEmail(string key)
         {
-            var serviceResult = new ServiceResult<string>();
+            var serviceResult = new ServiceResult<Guid>();
 
             var userResult = await _userService.First(x => x.Password.ToLower() == key.ToLower());
             var userDomainModel = userResult.Value;
@@ -101,7 +101,7 @@ namespace ESchedule.Business.Auth
 
             await _userService.UpdateItem(userUpdateModel);
 
-            serviceResult.Value = BuildClaimsWithEmail(userDomainModel);
+            serviceResult.Value = userDomainModel.Id;// BuildClaimsWithEmail(userDomainModel);
             return serviceResult.CatchAny();
         }
 

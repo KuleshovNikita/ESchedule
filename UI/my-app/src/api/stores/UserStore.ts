@@ -52,7 +52,7 @@ export default class UserStore {
 
         this.base.handleErrors(response);
 
-        return response.isSuccessful;
+        return response;
     }
 
     register = async (creds: UserCreateModel) => 

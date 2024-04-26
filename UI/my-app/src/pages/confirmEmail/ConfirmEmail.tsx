@@ -6,6 +6,7 @@ import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useEffect, useState } from "react";
 import { loginButtonStyle } from "../registration/RegistrationStyles";
 import { useCult } from "../../hooks/Translator";
+import { toast } from "react-toastify";
 
 export default function ConfirmEmailPage() {
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ export default function ConfirmEmailPage() {
 
     const [finished, setFinishState] = useState(false);
     const { userStore } = useStore();
+    const [ userId, setUserId ] = useState('');
     const { key } = useParams();
 
     useEffect(() => { 
@@ -24,7 +26,12 @@ export default function ConfirmEmailPage() {
             navigate('/notFound', { replace: true })
         }
 
-        await userStore.confirmEmail(encodeURIComponent(key as string));
+        const response = await userStore.confirmEmail(encodeURIComponent(key as string));
+        if(response.isSuccessful) {
+            setUserId(response.value);
+        } else {
+            toast.error(response.clientErrorMessage);
+        }
         setFinishState(true);
     }
 
@@ -45,7 +52,7 @@ export default function ConfirmEmailPage() {
                             {translator('messages.send-code-to-dispatcher')}
                         </Typography>
                         <Typography>
-                            {userStore.user?.id}
+                            {userId}
                         </Typography>
                         <Button sx={loginButtonStyle} 
                                 variant="contained" 

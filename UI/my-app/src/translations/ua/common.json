@@ -25,7 +25,8 @@
         "please-repeat-password": "Підтвердіть введений пароль",
         "passwords-do-not-match": "Паролі не співпадають",
         "invalid-value": "Некоректне значення",
-        "schedule-not-selected": "Розклад не обрано"
+        "schedule-not-selected": "Розклад не обрано",
+        "invalid-user-code-inserted": "Введено некоректний користувача"
     },
     "toasts": {
         "verification-email-sent": "Ми надіслали на вказану пошту лист для підтвердження реєстрації, будь ласка, перевірте пошту",
@@ -36,7 +37,8 @@
     },
     "messages": {
         "page-not-found": "Сторінку не знайдено",
-        "email-confirmed": "Електрону пошту успішно підтверджено"
+        "email-confirmed": "Електрону пошту успішно підтверджено",
+        "send-code-to-dispatcher": "Це ваш персональний код, надішліть його вашому диспетчеру"
     },
     "labels": {
         "first-name": "Ім'я",
@@ -55,7 +57,10 @@
         "rule": "Правило:",
         "busy-teacher": "Зайнятий вчитель:",
         "day-of-week": "День неділі, коли вчитель зайнятий:",
-        "target-schedule": "Розклад:"
+        "target-schedule": "Розклад:",
+        "lessons-viewer": "Оглядач уроків:",
+        "add-user-to-tenant": "Додати користувача до організації:",
+        "user-code": "Персональний код користувача"
     },
     "buttons": {
         "register": "Зареєструватись",
@@ -68,7 +73,8 @@
         "create": "Створити",
         "open": "Відкрити",
         "cancel": "Скасувати",
-        "remove": "Видалити"
+        "remove": "Видалити",
+        "add": "Додати"
     },
     "headers": {
         "personal-info": "Персональна дані:",

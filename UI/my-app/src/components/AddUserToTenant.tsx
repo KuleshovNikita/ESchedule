@@ -17,7 +17,7 @@ export default function AddUserToTenant() {
         if(isGuid() && error !== '') {
             setError('');
         } else {
-            setError(translator('helpers.invalid-user-code-inserted'));
+            setError(translator('input-helpers.invalid-user-code-inserted'));
         }
     }, [userCode])
 

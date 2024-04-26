@@ -123,7 +123,7 @@ export default function LessonViewer() {
             onClick={() => setPopup(true)}
             variant='contained' 
             sx={{...buttonHoverStyles, ml: 1}}>
-            {translator('buttons.add-lesson')}
+            {translator('buttons.add')}
         </Button>
     </Box>);
 }

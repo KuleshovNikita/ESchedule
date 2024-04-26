@@ -25,7 +25,8 @@
         "please-repeat-password": "Please repeat password",
         "passwords-do-not-match": "Passwords don't match",
         "invalid-value": "Invalid value",
-        "schedule-not-selected": "Schedule not selected"
+        "schedule-not-selected": "Schedule not selected",
+        "invalid-user-code-inserted": "Invalid user code inserted"
     },
     "toasts": {
         "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
@@ -36,7 +37,8 @@
     },
     "messages": {
         "page-not-found": "Page not found",
-        "email-confirmed": "Email is successfully confirmed"
+        "email-confirmed": "Email is successfully confirmed",
+        "send-code-to-dispatcher": "This is your personal code, send it to your dispatcher"
     },
     "labels": {
         "first-name": "First Name",
@@ -55,7 +57,10 @@
         "rule": "Rule name:",
         "busy-teacher": "Teacher which is busy:",
         "day-of-week": "The day when the teacher is busy:",
-        "target-schedule": "Schedule to profile:"
+        "target-schedule": "Schedule to profile:",
+        "lessons-viewer": "Lessons browser:",
+        "add-user-to-tenant": "Add user to tenant:",
+        "user-code": "User personal code"
     },
     "buttons": {
         "register": "Register",
@@ -68,7 +73,8 @@
         "create": "Create",
         "open": "Open",
         "cancel": "Cancel",
-        "remove": "Remove"
+        "remove": "Remove",
+        "add": "Add"
     },    
     "headers": {
         "personal-info": "Personal Info:",
