@@ -4,6 +4,6 @@ namespace ESchedule.Business.Lessons
 {
     public interface ILessonService
     {
-        Task UpdateLessonsList(IEnumerable<Guid> newLessonsList, Guid tenantId);
+        Task RemoveLessons(IEnumerable<Guid> newLessonsList, Guid tenantId);
     }
 }

@@ -9,35 +9,37 @@ import { toast } from "react-toastify";
 import PopupForm from "../schedule/RulesCreation/PopupForm";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from "@material-ui/core";
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
+import Checkbox from '@mui/material/Checkbox';
+import { observer } from "mobx-react-lite";
 
 const cellStyle = {
-    borderBottom: '1px solid black'
+    border: '1px solid black'
 }
 
-const removeBtnStyle = {
-    ...cellStyle, 
-    width: "20%",
-    borderLeft: "1px solid black"
+const checkboxStyle = {
+    '& .MuiSvgIcon-root': { fontSize: 40 }
 }
 
-export default function LessonViewer() {
+const LessonViewer = observer(() => {
     const { tenantStore, lessonStore } = useStore();
     const { translator } = useCult();
-    const [lessons, setLessons] = useState<LessonModel[]>([]);
-    const [popup, setPopup] = useState(false);
+    const [lessonsToRemove, setLessonsToRemove] = useState<LessonModel[]>([]);
+    const [isModalActive, setModalActive] = useState(false);
     const [lessonName, setLessonName] = useState('');
     
     useEffect(() => {
         const fetchLessons = async () => 
             await tenantStore.getLessons(tenantStore.tenant?.id as string)
-                .then(res => setLessons(res));
+                .then(res => lessonStore.lessons = res);
 
         fetchLessons();
-    }, [tenantStore])
+    }, [tenantStore, lessonStore])
 
-    const updateLessonsList = async () => {
-        await lessonStore.updateLessonsList(lessons.map(x => x.id), tenantStore.tenant?.id as string)
-                         .then(() => toast.success("toasts.lessons-list-updated"));
+    const removeLessons = async () => {
+        await lessonStore.removeLessons(lessonsToRemove.map(x => x.id), tenantStore.tenant?.id as string)
+            .then(() => toast.success("toasts.lessons-list-updated"));
     }
 
     const saveLesson = async () => {
@@ -49,52 +51,52 @@ export default function LessonViewer() {
         await lessonStore.createLesson(lessonModel)
             .then(() => toast.success(translator('toasts.lesson-added')));
 
-        setPopup(false);
+        setModalActive(false);
     }
 
-    const addSaveButton = () => {
+    const showModalWindow = () => {
         return (
-            <Button sx={buttonHoverStyles}   
-                    variant="contained"
-                    disabled={lessonName === ''}
-                    onClick={saveLesson}   
-            >
-                {translator('buttons.create')}
-                <AddCircleIcon sx={buttonImageIconStyle}/>
-            </Button>
-        );
-    }
-
-    const showPopUp = () => {
-        return (
-            <PopupForm closeButtonHandler={() => setPopup(false)}>
+            <PopupForm closeButtonHandler={() => setModalActive(false)}>
                 <TextField 
                     label={translator('labels.lesson-name')}
                     onChange={(e) => setLessonName(e.target.value)}
                 />
-                {addSaveButton()}
+                <Button sx={buttonHoverStyles}   
+                    variant="contained"
+                    disabled={lessonName === ''}
+                    onClick={saveLesson}   
+                >
+                    {translator('buttons.create')}
+                    <SaveIcon/>
+                    <AddCircleIcon sx={buttonImageIconStyle}/>
+                </Button>
             </PopupForm>
         );
     }
 
+    const handleCheck = (event: React.ChangeEvent<HTMLInputElement>, lesson: LessonModel) => {
+        if(event.target.checked) {
+            setLessonsToRemove([...lessonsToRemove, lesson]);
+        } else {
+            setLessonsToRemove(lessonsToRemove.filter(l => l.id !== lesson.id));
+        }
+    }
+
     const renderLessonsTable = () => {
-        return  <Table sx={{width: '30%'}}>
+        return  <Table sx={{display: 'inline-block'}}>
                     <TableBody>
                         {
-                            lessons.map((l, k) => {
+                            lessonStore.lessons!.map((l, k) => {
                                 return <TableRow key={k}>
+                                    <TableCell sx={{...cellStyle, padding: '5px', width: '0%'}}>
+                                        <Checkbox 
+                                            sx={checkboxStyle}
+                                            onChange={(e) => handleCheck(e, l)}/>                                        
+                                    </TableCell>
                                     <TableCell sx={cellStyle}>
                                         <Typography variant="h6">
                                             {l.title}
                                         </Typography>
-                                    </TableCell>
-                                    <TableCell sx={removeBtnStyle}>
-                                        <Button 
-                                            onClick={() => setLessons(lessons.filter(les => les.id !== l.id))}
-                                            variant='contained' 
-                                            sx={buttonHoverStyles}>
-                                                {translator('buttons.remove')}
-                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             })
@@ -104,19 +106,24 @@ export default function LessonViewer() {
     }
 
     return(<Box>
-        {popup && showPopUp()}
-        {lessons.length !== 0 ? renderLessonsTable() : <LoadingComponent type="circle"/>}
+        {isModalActive && showModalWindow()}
+        {lessonStore.lessons !== null ? renderLessonsTable() : <LoadingComponent type="circle"/>}
         <Button
-            onClick={updateLessonsList}
+            disabled={lessonsToRemove.length === 0}
+            onClick={removeLessons}
             variant='contained' 
             sx={buttonHoverStyles}>
-            {translator('buttons.save')}
+            {translator('buttons.remove')}
+            <DeleteIcon sx={buttonImageIconStyle}/>
         </Button>
         <Button
-            onClick={() => setPopup(true)}
+            onClick={() => setModalActive(true)}
             variant='contained' 
             sx={{...buttonHoverStyles, ml: 1}}>
             {translator('buttons.add')}
+            <AddCircleIcon sx={buttonImageIconStyle}/>
         </Button>
     </Box>);
-}
+});
+
+export default LessonViewer;

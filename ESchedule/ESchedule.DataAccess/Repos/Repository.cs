@@ -22,10 +22,12 @@ namespace ESchedule.DataAccess.Repos
         public virtual async Task<bool> Any(Expression<Func<TModel, bool>> command)
             => await _context.Set<TModel>().AnyAsync(command);
 
-        public virtual async Task Insert(TModel entity)
+        public virtual async Task<TModel> Insert(TModel entity)
         {
-            await _context.Set<TModel>().AddAsync(entity);
+            var result = await _context.Set<TModel>().AddAsync(entity);
             await _context.SaveChangesAsync();
+
+            return result.Entity;
         }
 
         public virtual async Task InsertMany(IEnumerable<TModel> entities)

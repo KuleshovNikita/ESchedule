@@ -11,7 +11,7 @@ namespace ESchedule.DataAccess.Repos
 
         Task<bool> Any(Expression<Func<TModel, bool>> command);
 
-        Task Insert(TModel entity);
+        Task<TModel> Insert(TModel entity);
 
         Task InsertMany(IEnumerable<TModel> entities);
 

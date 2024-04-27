@@ -3,7 +3,6 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.Lessons;
 using ESchedule.Domain.Lessons;
-using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,13 +22,13 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task CreateLesson([FromBody] LessonCreateModel lessonModel) 
+        public async Task<LessonModel> CreateLesson([FromBody] LessonCreateModel lessonModel) 
             => await _service.CreateItem(lessonModel);
 
         [Authorize]
         [HttpPut("many/{tenantId}")]
-        public async Task UpdateLessonsList([FromBody] IEnumerable<Guid> newLessonsList, Guid tenantId)
-            => await _lessonService.UpdateLessonsList(newLessonsList, tenantId);
+        public async Task RemoveLessons([FromBody] IEnumerable<Guid> lessonsToRemove, Guid tenantId)
+            => await _lessonService.RemoveLessons(lessonsToRemove, tenantId);
 
         [Authorize]
         [HttpPut]
