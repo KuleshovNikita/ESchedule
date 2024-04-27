@@ -3,7 +3,7 @@ import { LessonCreateModel, LessonModel, LessonUpdateModel } from "../../models/
 import { agent } from "../agent";
 
 export default class LessonStore {
-    lesson: LessonModel | null = null;
+    lessons: LessonModel[] | null = null;
     client = agent.Lesson;
 
     constructor() {
@@ -11,7 +11,8 @@ export default class LessonStore {
     }
 
     createLesson = async (lesson: LessonCreateModel) =>
-        await this.client.createLesson(lesson);
+        await this.client.createLesson(lesson)
+            .then((item) => this.lessons?.push(item));
 
     updateLesson = async (lesson: LessonUpdateModel) => 
         await this.client.updateLesson(lesson);
@@ -23,5 +24,7 @@ export default class LessonStore {
         await this.client.getLesson(id);
 
     removeLessons = async (lessons: string[], tenantId: string) =>
-        await this.client.removeLessons(lessons, tenantId);
+        await this.client.removeLessons(lessons, tenantId)
+            .then(() => this.lessons!.filter(l => !lessons.includes(l.id)))
+            .then(res => this.lessons = res);
 }

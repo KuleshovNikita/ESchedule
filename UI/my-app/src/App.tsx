@@ -36,7 +36,7 @@ function App() {
           </ForbiddenErrorBoundary>  
           <ToastContainer position={"bottom-right"} 
                           limit={3} 
-                          autoClose={5000} 
+                          autoClose={3000} 
                           hideProgressBar={false}/>
         </I18nextProvider>
       </React.StrictMode>

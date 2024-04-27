@@ -12,6 +12,7 @@ import { Typography } from "@material-ui/core";
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import Checkbox from '@mui/material/Checkbox';
+import { observer } from "mobx-react-lite";
 
 const cellStyle = {
     border: '1px solid black'
@@ -21,15 +22,9 @@ const checkboxStyle = {
     '& .MuiSvgIcon-root': { fontSize: 40 }
 }
 
-const removeBtnStyle = {
-    ...cellStyle, 
-    width: "20%"
-}
-
-export default function LessonViewer() {
+const LessonViewer = observer(() => {
     const { tenantStore, lessonStore } = useStore();
     const { translator } = useCult();
-    const [lessons, setLessons] = useState<LessonModel[]>([]);
     const [lessonsToRemove, setLessonsToRemove] = useState<LessonModel[]>([]);
     const [isModalActive, setModalActive] = useState(false);
     const [lessonName, setLessonName] = useState('');
@@ -37,14 +32,14 @@ export default function LessonViewer() {
     useEffect(() => {
         const fetchLessons = async () => 
             await tenantStore.getLessons(tenantStore.tenant?.id as string)
-                .then(res => setLessons(res));
+                .then(res => lessonStore.lessons = res);
 
         fetchLessons();
-    }, [tenantStore])
+    }, [tenantStore, lessonStore])
 
     const removeLessons = async () => {
         await lessonStore.removeLessons(lessonsToRemove.map(x => x.id), tenantStore.tenant?.id as string)
-                         .then(() => toast.success("toasts.lessons-list-updated"));
+            .then(() => toast.success("toasts.lessons-list-updated"));
     }
 
     const saveLesson = async () => {
@@ -91,7 +86,7 @@ export default function LessonViewer() {
         return  <Table sx={{display: 'inline-block'}}>
                     <TableBody>
                         {
-                            lessons.map((l, k) => {
+                            lessonStore.lessons!.map((l, k) => {
                                 return <TableRow key={k}>
                                     <TableCell sx={{...cellStyle, padding: '5px', width: '0%'}}>
                                         <Checkbox 
@@ -112,7 +107,7 @@ export default function LessonViewer() {
 
     return(<Box>
         {isModalActive && showModalWindow()}
-        {lessons.length !== 0 ? renderLessonsTable() : <LoadingComponent type="circle"/>}
+        {lessonStore.lessons !== null ? renderLessonsTable() : <LoadingComponent type="circle"/>}
         <Button
             disabled={lessonsToRemove.length === 0}
             onClick={removeLessons}
@@ -129,4 +124,6 @@ export default function LessonViewer() {
             <AddCircleIcon sx={buttonImageIconStyle}/>
         </Button>
     </Box>);
-}
+});
+
+export default LessonViewer;
