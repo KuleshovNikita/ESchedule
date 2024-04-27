@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import PopupForm from "../schedule/RulesCreation/PopupForm";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from "@material-ui/core";
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
 
 const cellStyle = {
     borderBottom: '1px solid black'
@@ -24,7 +26,7 @@ export default function LessonViewer() {
     const { tenantStore, lessonStore } = useStore();
     const { translator } = useCult();
     const [lessons, setLessons] = useState<LessonModel[]>([]);
-    const [popup, setPopup] = useState(false);
+    const [isModalActive, setModalActive] = useState(false);
     const [lessonName, setLessonName] = useState('');
     
     useEffect(() => {
@@ -49,30 +51,25 @@ export default function LessonViewer() {
         await lessonStore.createLesson(lessonModel)
             .then(() => toast.success(translator('toasts.lesson-added')));
 
-        setPopup(false);
+        setModalActive(false);
     }
 
-    const addSaveButton = () => {
+    const showModalWindow = () => {
         return (
-            <Button sx={buttonHoverStyles}   
-                    variant="contained"
-                    disabled={lessonName === ''}
-                    onClick={saveLesson}   
-            >
-                {translator('buttons.create')}
-                <AddCircleIcon sx={buttonImageIconStyle}/>
-            </Button>
-        );
-    }
-
-    const showPopUp = () => {
-        return (
-            <PopupForm closeButtonHandler={() => setPopup(false)}>
+            <PopupForm closeButtonHandler={() => setModalActive(false)}>
                 <TextField 
                     label={translator('labels.lesson-name')}
                     onChange={(e) => setLessonName(e.target.value)}
                 />
-                {addSaveButton()}
+                <Button sx={buttonHoverStyles}   
+                    variant="contained"
+                    disabled={lessonName === ''}
+                    onClick={saveLesson}   
+                >
+                    {translator('buttons.create')}
+                    <SaveIcon/>
+                    <AddCircleIcon sx={buttonImageIconStyle}/>
+                </Button>
             </PopupForm>
         );
     }
@@ -94,6 +91,7 @@ export default function LessonViewer() {
                                             variant='contained' 
                                             sx={buttonHoverStyles}>
                                                 {translator('buttons.remove')}
+                                                <DeleteIcon sx={buttonImageIconStyle}/>
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -104,19 +102,21 @@ export default function LessonViewer() {
     }
 
     return(<Box>
-        {popup && showPopUp()}
+        {isModalActive && showModalWindow()}
         {lessons.length !== 0 ? renderLessonsTable() : <LoadingComponent type="circle"/>}
         <Button
             onClick={updateLessonsList}
             variant='contained' 
             sx={buttonHoverStyles}>
             {translator('buttons.save')}
+            <SaveIcon sx={buttonImageIconStyle}/>
         </Button>
         <Button
-            onClick={() => setPopup(true)}
+            onClick={() => setModalActive(true)}
             variant='contained' 
             sx={{...buttonHoverStyles, ml: 1}}>
             {translator('buttons.add')}
+            <AddCircleIcon sx={buttonImageIconStyle}/>
         </Button>
     </Box>);
 }
