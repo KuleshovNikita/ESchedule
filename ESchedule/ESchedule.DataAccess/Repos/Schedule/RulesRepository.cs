@@ -13,41 +13,17 @@ namespace ESchedule.DataAccess.Repos.Schedule
         {
         }
 
-        public override async Task<ServiceResult<RuleModel>> First(Expression<Func<RuleModel, bool>> command)
-        {
-            var result = new ServiceResult<RuleModel>();
-
-            try
-            {
-                result.Value = await _context.Set<RuleModel>()
+        public override async Task<RuleModel> First(Expression<Func<RuleModel, bool>> command)
+            => await _context.Set<RuleModel>()
                     .Include(x => x.Tenant)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
-
-                return result.Success();
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(ex);
-            }
-        }
-
-        public override Task<ServiceResult<IEnumerable<RuleModel>>> Where(Expression<Func<RuleModel, bool>> command)
-        {
-            var result = new ServiceResult<IEnumerable<RuleModel>>();
-
-            try
-            {
-                result.Value = _context.Set<RuleModel>()
-                    .Include(x => x.Tenant)
-                    .Where(command)
+                    .FirstOrDefaultAsync(command) 
                         ?? throw new EntityNotFoundException();
 
-                return Task.FromResult(result.Success());
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(result.Fail(ex));
-            }
-        }
+        public override async Task<IEnumerable<RuleModel>> Where(Expression<Func<RuleModel, bool>> command) 
+            => await _context.Set<RuleModel>()
+                    .Include(x => x.Tenant)
+                    .Where(command)
+                    .ToListAsync() 
+                        ?? throw new EntityNotFoundException();
     }
 }

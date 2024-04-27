@@ -1,8 +1,10 @@
-﻿namespace ESchedule.Domain.Exceptions
+﻿using ESchedule.Domain.Properties;
+
+namespace ESchedule.Domain.Exceptions
 {
     public class EntityNotFoundException : Exception
     {
-        public EntityNotFoundException() : base()
+        public EntityNotFoundException() : base(Resources.TheItemDoesntExist)
         {
 
         }

@@ -28,20 +28,16 @@ export default function LessonViewer() {
     const [lessonName, setLessonName] = useState('');
     
     useEffect(() => {
-        const fetchLessons = async () => {
-            var res = await tenantStore.getLessons(tenantStore.tenant?.id as string);
-            setLessons(res);
-        }
+        const fetchLessons = async () => 
+            await tenantStore.getLessons(tenantStore.tenant?.id as string)
+                .then(res => setLessons(res));
 
         fetchLessons();
     }, [tenantStore])
 
     const updateLessonsList = async () => {
-        var response = await lessonStore.updateLessonsList(lessons.map(x => x.id), tenantStore.tenant?.id as string);
-
-        if(response.isSuccessful) {
-            toast.success("toasts.lessons-list-updated");
-        }
+        await lessonStore.updateLessonsList(lessons.map(x => x.id), tenantStore.tenant?.id as string)
+                         .then(() => toast.success("toasts.lessons-list-updated"));
     }
 
     const saveLesson = async () => {
@@ -50,11 +46,8 @@ export default function LessonViewer() {
             tenantId: tenantStore.tenant?.id as string
         }
 
-        const response = await lessonStore.createLesson(lessonModel);
-
-        if(response.isSuccessful) {
-            toast.success(translator('toasts.lesson-added'));
-        }
+        await lessonStore.createLesson(lessonModel)
+            .then(() => toast.success(translator('toasts.lesson-added')));
 
         setPopup(false);
     }

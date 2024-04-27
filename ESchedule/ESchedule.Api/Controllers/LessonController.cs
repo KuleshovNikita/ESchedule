@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESchedule.Api.Controllers
 {
-    public class LessonController : ResultingController<LessonModel>
+    public class LessonController : BaseController<LessonModel>
     {
         private readonly ILessonService _lessonService;
         private readonly IAttendanceService _attendanceService;
@@ -23,32 +23,32 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ServiceResult<Empty>> CreateLesson([FromBody] LessonCreateModel lessonModel) 
-            => await RunWithServiceResult(async () => await _service.CreateItem(lessonModel));
+        public async Task CreateLesson([FromBody] LessonCreateModel lessonModel) 
+            => await _service.CreateItem(lessonModel);
 
         [Authorize]
         [HttpPut("many/{tenantId}")]
-        public async Task<ServiceResult<Empty>> UpdateLessonsList([FromBody] IEnumerable<Guid> newLessonsList, Guid tenantId)
-            => await RunWithServiceResult(async () => await _lessonService.UpdateLessonsList(newLessonsList, tenantId));
+        public async Task UpdateLessonsList([FromBody] IEnumerable<Guid> newLessonsList, Guid tenantId)
+            => await _lessonService.UpdateLessonsList(newLessonsList, tenantId);
 
         [Authorize]
         [HttpPut]
-        public async Task<ServiceResult<Empty>> UpdateLesson([FromBody] LessonUpdateModel lessonModel)
-            => await RunWithServiceResult(async () => await _service.UpdateItem(lessonModel));
+        public async Task UpdateLesson([FromBody] LessonUpdateModel lessonModel)
+            => await _service.UpdateItem(lessonModel);
 
         [Authorize]
         [HttpGet("{lessonId}")]
-        public async Task<ServiceResult<LessonModel>> GetLesson(Guid lessonId)
-            => await RunWithServiceResult(async () => await _service.First(x => x.Id == lessonId));
+        public async Task<LessonModel> GetLesson(Guid lessonId)
+            => await _service.First(x => x.Id == lessonId);
 
         [Authorize]
         [HttpDelete("{lessonId}")]
-        public async Task<ServiceResult<Empty>> RemoveLesson(Guid lessonId)
-            => await RunWithServiceResult(async () => await _service.RemoveItem(lessonId));
+        public async Task RemoveLesson(Guid lessonId)
+            => await _service.RemoveItem(lessonId);
 
         //[Authorize]
         [HttpPost("attendance/{pupilId}")]
-        public async Task<ServiceResult<Empty>> TickPupilAttendance(Guid pupilId)
-            => await RunWithServiceResult(async () => await _attendanceService.TickPupilAttendance(pupilId));
+        public async Task TickPupilAttendance(Guid pupilId)
+            => await _attendanceService.TickPupilAttendance(pupilId);
     }
 }

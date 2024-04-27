@@ -6,7 +6,6 @@ import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useEffect, useState } from "react";
 import { loginButtonStyle } from "../registration/RegistrationStyles";
 import { useCult } from "../../hooks/Translator";
-import { toast } from "react-toastify";
 
 export default function ConfirmEmailPage() {
     const navigate = useNavigate();
@@ -27,11 +26,10 @@ export default function ConfirmEmailPage() {
         }
 
         const response = await userStore.confirmEmail(encodeURIComponent(key as string));
-        if(response.isSuccessful) {
-            setUserId(response.value);
-        } else {
-            toast.error(response.clientErrorMessage);
-        }
+        if(response) {
+            setUserId(response);
+        } 
+        
         setFinishState(true);
     }
 

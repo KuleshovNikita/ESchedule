@@ -3,9 +3,9 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Extensions;
 using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
+using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
-using ESchedule.ServiceResulting;
 
 namespace ESchedule.Business.Users
 {
@@ -19,46 +19,36 @@ namespace ESchedule.Business.Users
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<ServiceResult<Empty>> AddUser(UserModel userModel)
+        public async Task AddUser(UserModel userModel)
         {
-            var serviceResult = new ServiceResult<Empty>();
-
             if (await IsLoginAlreadyRegistered(userModel.Login))
             {
-                return serviceResult.FailAndThrow(Resources.TheLoginIsAlreadyRegistered);
+                throw new InvalidOperationException(Resources.TheLoginIsAlreadyRegistered);
             }
 
             var hashedPassword = _passwordHasher.HashPassword(userModel.Password);
             userModel.Password = hashedPassword;
             userModel.Id = Guid.NewGuid();
 
-            (await _repository.Insert(userModel)).CatchAny();
-
-            return serviceResult.Success();
+            await _repository.Insert(userModel);
         }
 
-        public async Task<ServiceResult<Empty>> UpdateUser(UserUpdateModel updateModel)
+        public async Task UpdateUser(UserUpdateModel updateModel)
         {
-            var serviceResult = new ServiceResult<Empty>();
-
             if (!await ItemExists(updateModel.Id))
             {
-                return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);
+                throw new EntityNotFoundException();
             }
 
             var user = await First(x => x.Id == updateModel.Id);
-            user.Value = _mapper.MapOnlyUpdatedProperties(updateModel, user.Value);
+            user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
 
-            user.Value.Password = _passwordHasher.HashPassword(user.Value.Password);
+            user.Password = _passwordHasher.HashPassword(user.Password);
 
-            var result = await _repository.Update(user.Value);
-            return result.Success();
+            await _repository.Update(user);
         }
 
         private async Task<bool> IsLoginAlreadyRegistered(string login)
-        {
-            var result = await _repository.Any(x => x.Login == login);
-            return result.CatchAny().Value;
-        }
+            => await _repository.Any(x => x.Login == login);
     }
 }

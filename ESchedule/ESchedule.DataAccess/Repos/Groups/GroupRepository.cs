@@ -14,47 +14,23 @@ namespace ESchedule.DataAccess.Repos.Groups
         {
         }
 
-        public override async Task<ServiceResult<GroupModel>> First(Expression<Func<GroupModel, bool>> command)
-        {
-            var result = new ServiceResult<GroupModel>();
-
-            try
-            {
-                result.Value = await _context.Set<GroupModel>()
+        public override async Task<GroupModel> First(Expression<Func<GroupModel, bool>> command)
+            => await _context.Set<GroupModel>()
                     .Include(x => x.StudingLessons)
                     .Include(x => x.Members)
                     .Include(x => x.GroupTeachersLessons)
                     .Include(x => x.StudySchedules)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+                    .FirstOrDefaultAsync(command) 
+                        ?? throw new EntityNotFoundException();
 
-                return result.Success();
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(ex);
-            }
-        }
-
-        public override Task<ServiceResult<IEnumerable<GroupModel>>> Where(Expression<Func<GroupModel, bool>> command)
-        {
-            var result = new ServiceResult<IEnumerable<GroupModel>>();
-
-            try
-            {
-                result.Value = _context.Set<GroupModel>()
+        public override async Task<IEnumerable<GroupModel>> Where(Expression<Func<GroupModel, bool>> command)
+            => await _context.Set<GroupModel>()
                     .Include(x => x.StudingLessons)
                     .Include(x => x.Members)
                     .Include(x => x.GroupTeachersLessons)
                     .Include(x => x.StudySchedules)
                     .Where(command)
+                    .ToListAsync()
                         ?? throw new EntityNotFoundException();
-
-                return Task.FromResult(result.Success());
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(result.Fail(ex));
-            }
-        }
     }
 }

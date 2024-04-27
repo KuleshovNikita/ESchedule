@@ -11,13 +11,14 @@ import LoadingComponent from './components/hoc/loading/LoadingComponent';
 import { useStore } from './api/stores/StoresManager';
 import AppLoader from './AppLoader';
 import { observer } from 'mobx-react-lite';
+import ForbiddenErrorBoundary from './components/errorBoundaries/ForbiddenBoundary';
 
 function App() {
   const stores = useStore();
   
   useEffect(() => {
     AppLoader(stores);
-  }, [stores]);
+  }, []);
 
   if (!stores.commonStore.appLoaded) {
     return <LoadingComponent />;
@@ -27,10 +28,12 @@ function App() {
     <BrowserRouter>
       <React.StrictMode>
         <I18nextProvider i18n={i18next}>
-          <Header />        
-          <main className="main">
-            <AppRoutes />
-          </main>
+          <Header />     
+          <ForbiddenErrorBoundary> 
+            <main className="main">
+              <AppRoutes />
+            </main>
+          </ForbiddenErrorBoundary>  
           <ToastContainer position={"bottom-right"} 
                           limit={3} 
                           autoClose={5000} 

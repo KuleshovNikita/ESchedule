@@ -1,6 +1,6 @@
 export const headerLeftSideBoxStyle = {
     display: 'flex',
-    frexDirection: 'row',
+    flexDirection: 'row',
     ml: 2,
     mr: 2,
 }

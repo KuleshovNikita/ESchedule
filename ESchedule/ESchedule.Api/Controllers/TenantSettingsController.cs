@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESchedule.Api.Controllers
 {
-    public class TenantSettingsController : ResultingController<TenantSettingsModel>
+    public class TenantSettingsController : BaseController<TenantSettingsModel>
     {
         private readonly ITenantSettingsService _tenantSettingsService;
 
@@ -21,27 +21,27 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ServiceResult<Empty>> CreateTenantSettings([FromBody] TenantSettingsCreateModel tenantModel)
-            => await RunWithServiceResult(async () => await _service.CreateItem(tenantModel));
+        public async Task CreateTenantSettings([FromBody] TenantSettingsCreateModel tenantModel)
+            => await _service.CreateItem(tenantModel);
 
         [Authorize]
         [HttpPut]
-        public async Task<ServiceResult<Empty>> UpdateTenantSettings([FromBody] TenantSettingsUpdateModel tenantModel)
-            => await RunWithServiceResult(async () => await _service.UpdateItem(tenantModel));
+        public async Task UpdateTenantSettings([FromBody] TenantSettingsUpdateModel tenantModel)
+            => await _service.UpdateItem(tenantModel);
 
         [Authorize]
         [HttpGet("time/{tenantId}")]
-        public async Task<ServiceResult<List<object>>> GetTenantScheduleTimes(Guid tenantId)
-            => await RunWithServiceResult(async () => await _tenantSettingsService.BuildSchedulesTimeTable(tenantId));
+        public async Task<List<object>> GetTenantScheduleTimes(Guid tenantId)
+            => await _tenantSettingsService.BuildSchedulesTimeTable(tenantId);
 
         [Authorize]
         [HttpGet("{tenantId}")]
-        public async Task<ServiceResult<TenantSettingsModel>> GetTenantSettings(Guid tenantId)
-            => await RunWithServiceResult(async () => await _service.First(x => x.Id == tenantId));
+        public async Task<TenantSettingsModel> GetTenantSettings(Guid tenantId)
+            => await _service.First(x => x.Id == tenantId);
 
         [Authorize]
         [HttpDelete("{tenantId}")]
-        public async Task<ServiceResult<Empty>> RemoveTenantSettings(Guid tenantId)
-            => await RunWithServiceResult(async () => await _service.RemoveItem(tenantId));
+        public async Task RemoveTenantSettings(Guid tenantId)
+            => await _service.RemoveItem(tenantId);
     }
 }

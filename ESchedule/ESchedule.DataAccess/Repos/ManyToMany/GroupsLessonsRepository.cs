@@ -13,43 +13,17 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
         {
         }
 
-        public override async Task<ServiceResult<GroupsLessonsModel>> First(Expression<Func<GroupsLessonsModel, bool>> command)
-        {
-            var result = new ServiceResult<GroupsLessonsModel>();
-
-            try
-            {
-                result.Value = await _context.Set<GroupsLessonsModel>()
+        public override async Task<GroupsLessonsModel> First(Expression<Func<GroupsLessonsModel, bool>> command)
+            => await _context.Set<GroupsLessonsModel>()
                     .Include(x => x.StudyGroup)
                     .Include(x => x.Lesson)
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
-
-                return result.Success();
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(ex);
-            }
-        }
-
-        public override Task<ServiceResult<IEnumerable<GroupsLessonsModel>>> Where(Expression<Func<GroupsLessonsModel, bool>> command)
-        {
-            var result = new ServiceResult<IEnumerable<GroupsLessonsModel>>();
-
-            try
-            {
-                result.Value = _context.Set<GroupsLessonsModel>()
+        public override async Task<IEnumerable<GroupsLessonsModel>> Where(Expression<Func<GroupsLessonsModel, bool>> command)
+            => await _context.Set<GroupsLessonsModel>()
                     .Include(x => x.StudyGroup)
                     .Include(x => x.Lesson)
                     .Where(command)
+                    .ToListAsync()
                         ?? throw new EntityNotFoundException();
-
-                return Task.FromResult(result.Success());
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(result.Fail(ex));
-            }
-        }
     }
 }

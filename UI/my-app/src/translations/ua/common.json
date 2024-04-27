@@ -34,7 +34,9 @@
         "welcome": "Вітаємо, ",
         "profile-updated": "Профіль успішно оновлено",
         "schedule-created-successfully": "Розклад успішно побудовано",
-        "rules-added-successfully": "правила успішно додано"
+        "rules-added-successfully": "Правила успішно додано",
+        "lessons-list-updated": "Список занять успішно оновлено",
+        "lesson-added": "Додано новий урок"
     },
     "messages": {
         "page-not-found": "Сторінку не знайдено",
@@ -61,7 +63,8 @@
         "target-schedule": "Розклад:",
         "lessons-viewer": "Оглядач уроків:",
         "add-user-to-tenant": "Додати користувача до організації:",
-        "user-code": "Персональний код користувача"
+        "user-code": "Персональний код користувача",
+        "lesson-name": "Назва уроку"
     },
     "buttons": {
         "register": "Зареєструватись",

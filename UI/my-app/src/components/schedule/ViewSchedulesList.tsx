@@ -19,14 +19,12 @@ export default function ViewSchedulesList() {
     const [targetScheduleError, setTargetScheduleError] = useState('');
 
     useEffect(() => {
-        const fetchGroups = async () => {
+        const fetchGroups = async () => 
             await tenantStore.getGroups(userStore.user?.tenantId as string);
-        }
 
-        const fetchTeachers = async () => {
-            await tenantStore.getTeachers(userStore.user?.tenantId as string);
-            setLoaded(true);
-        }
+        const fetchTeachers = async () => 
+            await tenantStore.getTeachers(userStore.user?.tenantId as string)
+                .then(() => setLoaded(true));
 
         fetchGroups();
         fetchTeachers();

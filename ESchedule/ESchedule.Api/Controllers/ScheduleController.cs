@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESchedule.Api.Controllers
 {
-    public class ScheduleController : ResultingController<ScheduleModel>
+    public class ScheduleController : BaseController<ScheduleModel>
     {
         private readonly IScheduleService _scheduleService; 
         private readonly IBaseService<RuleModel> _rulesService; 
@@ -25,52 +25,52 @@ namespace ESchedule.Api.Controllers
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPost("{tenantId}")]
-        public async Task<ServiceResult<Empty>> BuildSchedule(Guid tenantId)
-            => await RunWithServiceResult(async () => await _scheduleService.BuildSchedule(tenantId));
+        public async Task BuildSchedule(Guid tenantId)
+            => await _scheduleService.BuildSchedule(tenantId);
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPut]
-        public async Task<ServiceResult<Empty>> UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel) //TODO сделать позже, подумать как должно работать
-            => await RunWithServiceResult(async () => await _service.UpdateItem(scheduleModel));
+        public async Task UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel) //TODO сделать позже, подумать как должно работать
+            => await _service.UpdateItem(scheduleModel);
 
         [Authorize]
         [HttpGet("tenant/{tenantId}")]
-        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForTenant(Guid tenantId)
-            => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TenantId == tenantId));
+        public async Task<IEnumerable<ScheduleModel>> GetSchedulesForTenant(Guid tenantId)
+            => await _scheduleService.GetItems(x => x.TenantId == tenantId);
 
         [Authorize]
         [HttpGet("teacher/{teacherId}")]
-        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForTeacher(Guid teacherId)
-            => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.TeacherId == teacherId, includeNavs: true));
+        public async Task<IEnumerable<ScheduleModel>> GetSchedulesForTeacher(Guid teacherId)
+            => await _scheduleService.GetItems(x => x.TeacherId == teacherId, includeNavs: true);
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpGet("rules/{tenantId}")]
-        public async Task<ServiceResult<IEnumerable<RuleModel>>> GetScheduleRules(Guid tenantId)
-            => await RunWithServiceResult(async () => await _rulesService.GetItems(x => x.TenantId == tenantId));
+        public async Task<IEnumerable<RuleModel>> GetScheduleRules(Guid tenantId)
+            => await _rulesService.GetItems(x => x.TenantId == tenantId);
 
         [Authorize]
         [HttpGet("group/{groupId}")]
-        public async Task<ServiceResult<IEnumerable<ScheduleModel>>> GetSchedulesForGroup(Guid groupId)
-            => await RunWithServiceResult(async () => await _scheduleService.GetItems(x => x.StudyGroupId == groupId));
+        public async Task<IEnumerable<ScheduleModel>> GetSchedulesForGroup(Guid groupId)
+            => await _scheduleService.GetItems(x => x.StudyGroupId == groupId);
 
         [Authorize]
         [HttpGet("item/{scheduleId}")]
-        public async Task<ServiceResult<ScheduleModel>> GetScheduleItem(Guid scheduleId)
-            => await RunWithServiceResult(async () => await _scheduleService.First(x => x.Id == scheduleId));
+        public async Task<ScheduleModel> GetScheduleItem(Guid scheduleId)
+            => await _scheduleService.First(x => x.Id == scheduleId);
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpDelete("{tenantId}")]
-        public async Task<ServiceResult<Empty>> RemoveSchedule(Guid tenantId)
-            => await RunWithServiceResult(async () => await _scheduleService.RemoveWhere(x => x.TenantId == tenantId));
+        public async Task RemoveSchedule(Guid tenantId)
+            => await _scheduleService.RemoveWhere(x => x.TenantId == tenantId);
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPost("rule")]
-        public async Task<ServiceResult<Empty>> CreateRule([FromBody] RuleInputModel ruleModel)
-           => await RunWithServiceResult(async () => await _rulesService.CreateItem(ruleModel));
+        public async Task CreateRule([FromBody] RuleInputModel ruleModel)
+           => await _rulesService.CreateItem(ruleModel);
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpDelete("rule/{ruleId}")]
-        public async Task<ServiceResult<Empty>> CreateRule(Guid ruleId)
-           => await RunWithServiceResult(async () => await _rulesService.RemoveItem(ruleId));
+        public async Task CreateRule(Guid ruleId)
+           => await _rulesService.RemoveItem(ruleId);
     }
 }

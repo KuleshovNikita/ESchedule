@@ -5,13 +5,13 @@ import { redirect } from "react-router";
 import { UserLoginModel, UserCreateModel, UserUpdateModel, UserModel } from "../models/Users";
 import { GroupCreateModel, GroupModel, GroupUpdateModel } from "../models/Groups";
 import { LessonCreateModel, LessonModel, LessonUpdateModel } from "../models/Lessons";
-import { EmptyResult, Result } from "../models/Result";
 import { GroupsLessonsCreateModel, GroupsLessonsModel, TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel, TeachersLessonsCreateModel, TeachersLessonsModel } from "../models/ManyToMany";
 import { RuleInputModel, RuleModel, ScheduleModel } from "../models/Schedules";
 import { ScheduleStartEndTime, TenantCreateModel, TenantModel, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel, TenantUpdateModel } from "../models/Tenants";
+import i18n from "i18next";
 
 interface ErrorResponse {
-    errors: { detail: string }[];
+    detail: string
 }
 
 axios.defaults.baseURL = "https://localhost:20000/api";
@@ -31,33 +31,19 @@ axios.interceptors.response.use(async (response) => response,
         const { data, status, headers } = error.response!;
         switch (status) {
             case 400:
-                if (data.errors) {
-                    console.log(data);
-                    const modalStateErrors = [];
-
-                    for (const key in data.errors) {
-                        if (data.errors[key]) {
-                            toast.error((data.errors[key] as unknown as Array<string>)[0]);
-                            modalStateErrors.push(data.errors[key]);
-                        }
-                    }
-                    throw modalStateErrors.flat();
-                } else {
-                    toast.error(data.errors);
-                }
+                toast.error('Bad request');
                 break;
             case 401:
-                console.log(401)
                 if (headers['www-authenticate']?.startsWith('Bearer error="invalid_token"')) {
                     store.userStore.logout();
-                    toast.error('Session has expired - please login again');
+                    toast.error('The session has expired - please login again');
                 }
                 break;
             case 404:
                 redirect("/notFound");
-                break;
+                break;              
             case 500:
-                data.errors.map(e => toast.error(e.detail));                
+                toast.error(i18n.t('server-errors.' + data.detail));             
                 break;
         }
 
@@ -76,80 +62,79 @@ const requests = {
 };
 
 const Auth = {
-    login: (body: UserLoginModel) => requests.post<Result<string>>("/authentication/login", body),
-    register: (body: UserCreateModel) => requests.post<Result<string>>("/authentication/register", body),
-    getAuthenticatedUserInfo: () => requests.get<Result<UserModel>>("/authentication"),
-    confirmEmail: (key: string) => requests.patch<Result<string>>(`/authentication/confirmEmail/${key}`)
+    login: (body: UserLoginModel) => requests.post<string>("/authentication/login", body),
+    register: (body: UserCreateModel) => requests.post("/authentication/register", body),
+    getAuthenticatedUserInfo: () => requests.get<UserModel>("/authentication"),
+    confirmEmail: (key: string) => requests.patch<string>(`/authentication/confirmEmail/${key}`)
 }
 
 const User = {
-    updateUser: (body: UserUpdateModel) => requests.put<EmptyResult>("/user", body),
-    getUser: (id: string) => requests.get<Result<UserModel>>(`/user/${id}`),
-    removeUser: (id: string) => requests.delete<EmptyResult>(`/user/${id}`),
+    updateUser: (body: UserUpdateModel) => requests.put("/user", body),
+    getUser: (id: string) => requests.get<UserModel>(`/user/${id}`),
 }
 
 const Group = {
-    createGroup: (body: GroupCreateModel) => requests.post<EmptyResult>(`/group`, body),
-    updateGroup: (body: GroupUpdateModel) => requests.put<EmptyResult>(`/group`, body),
-    getGroup: (id: string) => requests.get<Result<GroupModel>>(`/group/${id}`),
-    removeGroup: (id: string) => requests.delete<EmptyResult>(`/group/${id}`),
+    createGroup: (body: GroupCreateModel) => requests.post(`/group`, body),
+    updateGroup: (body: GroupUpdateModel) => requests.put(`/group`, body),
+    getGroup: (id: string) => requests.get<GroupModel>(`/group/${id}`),
+    removeGroup: (id: string) => requests.delete(`/group/${id}`),
 }
 
 const Lesson = {
-    createLesson: (body: LessonCreateModel) => requests.post<EmptyResult>(`/lesson`, body),
-    updateLessonsList: (body: string[], tenantId: string) => requests.put<EmptyResult>(`/lesson/many/${tenantId}`, body),
-    updateLesson: (body: LessonUpdateModel) => requests.put<EmptyResult>(`/lesson`, body),
-    getLesson: (id: string) => requests.get<Result<LessonModel>>(`/lesson/${id}`),
-    removeLesson: (id: string) => requests.delete<EmptyResult>(`/lesson/${id}`),
+    createLesson: (body: LessonCreateModel) => requests.post(`/lesson`, body),
+    updateLessonsList: (body: string[], tenantId: string) => requests.put(`/lesson/many/${tenantId}`, body),
+    updateLesson: (body: LessonUpdateModel) => requests.put(`/lesson`, body),
+    getLesson: (id: string) => requests.get<LessonModel>(`/lesson/${id}`),
+    removeLesson: (id: string) => requests.delete(`/lesson/${id}`),
 }
 
 const Schedule = {
-    buildSchedule: (tenantId: string) => requests.post<EmptyResult>(`/schedule/${tenantId}`, {}), 
-    //TODO ---> updateSchedule: (rules: RuleInputModel[]) => requests.post<EmptyResult>(`/schedule/${tenantId}`, rules), 
-    getScheduleForTenant: (tenantId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/tenant/${tenantId}`), 
-    getScheduleRules: (tenantId: string) => requests.get<Result<RuleModel[]>>(`/schedule/rules/${tenantId}`), 
-    getScheduleForGroup: (groupId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/group/${groupId}`), 
-    getScheduleForTeacher: (teacherId: string) => requests.get<Result<ScheduleModel[]>>(`/schedule/teacher/${teacherId}`), 
-    removeSchedule: (tenantId: string) => requests.delete<EmptyResult>(`/schedule/${tenantId}`), 
-    createRule: (rule: RuleInputModel) => requests.post<EmptyResult>(`/schedule/rule`, rule),
-    removeRule: (ruleId: string) => requests.delete<EmptyResult>(`/schedule/rule/${ruleId}`),
-    getScheduleItem: (id: string) => requests.get<Result<ScheduleModel>>(`/schedule/item/${id}`)
+    buildSchedule: (tenantId: string) => requests.post(`/schedule/${tenantId}`, {}), 
+    //TODO ---> updateSchedule: (rules: RuleInputModel[]) => requests.post(`/schedule/${tenantId}`, rules), 
+    getScheduleForTenant: (tenantId: string) => requests.get<ScheduleModel[]>(`/schedule/tenant/${tenantId}`), 
+    getScheduleRules: (tenantId: string) => requests.get<RuleModel[]>(`/schedule/rules/${tenantId}`), 
+    getScheduleForGroup: (groupId: string) => requests.get<ScheduleModel[]>(`/schedule/group/${groupId}`), 
+    getScheduleForTeacher: (teacherId: string) => requests.get<ScheduleModel[]>(`/schedule/teacher/${teacherId}`), 
+    removeSchedule: (tenantId: string) => requests.delete(`/schedule/${tenantId}`), 
+    createRule: (rule: RuleInputModel) => requests.post(`/schedule/rule`, rule),
+    removeRule: (ruleId: string) => requests.delete(`/schedule/rule/${ruleId}`),
+    getScheduleItem: (id: string) => requests.get<ScheduleModel>(`/schedule/item/${id}`)
 }
 
 const Tenant = {
-    createTenant: (body: TenantCreateModel) => requests.post<EmptyResult>(`/tenant`, body),
-    updateTenant: (body: TenantUpdateModel) => requests.put<EmptyResult>(`/tenant`, body),
-    getTenant: (id: string) => requests.get<Result<TenantModel>>(`/tenant/${id}`),
-    removeTenant: (id: string) => requests.delete<EmptyResult>(`/tenant/${id}`),
-    getTeachers: (id: string) => requests.get<Result<UserModel[]>>(`/tenant/teachers/${id}`),
-    getGroups: (tenantId: string) => requests.get<Result<GroupModel[]>>(`/tenant/groups/${tenantId}`),
-    getLessons: (tenantId: string) => requests.get<Result<LessonModel[]>>(`/tenant/lessons/${tenantId}`),
+    createTenant: (body: TenantCreateModel) => requests.post(`/tenant`, body),
+    updateTenant: (body: TenantUpdateModel) => requests.put(`/tenant`, body),
+    getTenant: (id: string) => requests.get<TenantModel>(`/tenant/${id}`),
+    removeTenant: (id: string) => requests.delete(`/tenant/${id}`),
+    getTeachers: (id: string) => requests.get<UserModel[]>(`/tenant/teachers/${id}`),
+    getGroups: (tenantId: string) => requests.get<GroupModel[]>(`/tenant/groups/${tenantId}`),
+    getLessons: (tenantId: string) => requests.get<LessonModel[]>(`/tenant/lessons/${tenantId}`),
 }
 
 const TenantSettings = {
-    createTenantSettings: (body: TenantSettingsCreateModel) => requests.post<EmptyResult>(`/tenantSettings`, body),
-    updateTenantSettings: (body: TenantSettingsUpdateModel) => requests.put<EmptyResult>(`/tenantSettings`, body),
-    getTenantSettings: (tenantId: string) => requests.get<Result<TenantSettingsModel>>(`/tenantSettings/${tenantId}`),
-    getTenantScheduleTimes: (tenantId: string) => requests.get<Result<ScheduleStartEndTime[]>>(`/tenantSettings/time/${tenantId}`),
-    removeTenantSettings: (tenantId: string) => requests.delete<EmptyResult>(`/tenantSettings/${tenantId}`),
+    createTenantSettings: (body: TenantSettingsCreateModel) => requests.post(`/tenantSettings`, body),
+    updateTenantSettings: (body: TenantSettingsUpdateModel) => requests.put(`/tenantSettings`, body),
+    getTenantSettings: (tenantId: string) => requests.get<TenantSettingsModel>(`/tenantSettings/${tenantId}`),
+    getTenantScheduleTimes: (tenantId: string) => requests.get<ScheduleStartEndTime[]>(`/tenantSettings/time/${tenantId}`),
+    removeTenantSettings: (tenantId: string) => requests.delete(`/tenantSettings/${tenantId}`),
 }
 
 const TeacherLesson = {
-    createItems: (body: TeachersLessonsCreateModel) => requests.post<EmptyResult>(`/teachersLessons`, body),
-    getItems: (id: string) => requests.get<Result<TeachersLessonsModel>>(`/teachersLessons/${id}`),
-    removeItems: (id: string) => requests.delete<EmptyResult>(`/teachersLessons/${id}`),
+    createItems: (body: TeachersLessonsCreateModel) => requests.post(`/teachersLessons`, body),
+    getItems: (id: string) => requests.get<TeachersLessonsModel>(`/teachersLessons/${id}`),
+    removeItems: (id: string) => requests.delete(`/teachersLessons/${id}`),
 }
 
 const TeacherGroupLesson = {
-    createItems: (body: TeachersGroupsLessonsCreateModel) => requests.post<EmptyResult>(`/teachersGroupsLessons`, body),
-    getItems: (id: string) => requests.get<Result<TeachersGroupsLessonsModel>>(`/teachersGroupsLessons/${id}`),
-    removeItems: (id: string) => requests.delete<EmptyResult>(`/teachersGroupsLessons/${id}`),
+    createItems: (body: TeachersGroupsLessonsCreateModel) => requests.post(`/teachersGroupsLessons`, body),
+    getItems: (id: string) => requests.get<TeachersGroupsLessonsModel>(`/teachersGroupsLessons/${id}`),
+    removeItems: (id: string) => requests.delete(`/teachersGroupsLessons/${id}`),
 }
 
 const GroupLesson = {
-    createItems: (body: GroupsLessonsCreateModel) => requests.post<EmptyResult>(`/groupLessons`, body),
-    getItems: (id: string) => requests.get<Result<GroupsLessonsModel>>(`/groupLessons/${id}`),
-    removeItems: (id: string) => requests.delete<EmptyResult>(`/groupLessons/${id}`),
+    createItems: (body: GroupsLessonsCreateModel) => requests.post(`/groupLessons`, body),
+    getItems: (id: string) => requests.get<GroupsLessonsModel>(`/groupLessons/${id}`),
+    removeItems: (id: string) => requests.delete(`/groupLessons/${id}`),
 }
 
 export const agent = {

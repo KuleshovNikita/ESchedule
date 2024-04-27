@@ -13,41 +13,16 @@ namespace ESchedule.DataAccess.Repos.Tenant
         {
         }
 
-        public override async Task<ServiceResult<TenantModel>> First(Expression<Func<TenantModel, bool>> command)
-        {
-            var result = new ServiceResult<TenantModel>();
-
-            try
-            {
-                result.Value = await _context.Set<TenantModel>()
+        public override async Task<TenantModel> First(Expression<Func<TenantModel, bool>> command)
+            => await _context.Set<TenantModel>()
                     .Include(x => x.Settings)
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
 
-                return result.Success();
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(ex);
-            }
-        }
-
-        public override Task<ServiceResult<IEnumerable<TenantModel>>> Where(Expression<Func<TenantModel, bool>> command)
-        {
-            var result = new ServiceResult<IEnumerable<TenantModel>>();
-
-            try
-            {
-                result.Value = _context.Set<TenantModel>()
+        public override async Task<IEnumerable<TenantModel>> Where(Expression<Func<TenantModel, bool>> command)
+            => await _context.Set<TenantModel>()
                     .Include(x => x.Settings)
                     .Where(command)
+                    .ToListAsync()  
                         ?? throw new EntityNotFoundException();
-
-                return Task.FromResult(result.Success());
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(result.Fail(ex));
-            }
-        }
     }
 }

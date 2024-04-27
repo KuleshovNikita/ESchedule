@@ -1,4 +1,5 @@
 ﻿using ESchedule.DataAccess.Context;
+using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Properties;
@@ -17,18 +18,18 @@ namespace ESchedule.Business.Lessons
             _context = context;
         }
 
-        public async Task<ServiceResult<Empty>> TickPupilAttendance(Guid pupilId)
+        public async Task TickPupilAttendance(Guid pupilId)
         {
             var user = await _context.Users
                                 .FirstOrDefaultAsync(x => x.Id == pupilId);
 
             if(user == null)
             {
-                return new ServiceResult<Empty>().Fail(Resources.NoUsersForSpecifiedKeyWereFound);
+                throw new EntityNotFoundException(Resources.NoUsersForSpecifiedKeyWereFound);
             }
 
             var currentTime = DateTime.Now;
-            ScheduleModel schedule = null;//GetTargetSchedule(user, currentTime.TimeOfDay);
+            ScheduleModel schedule = null!;
 
             if(schedule == null)
             {
@@ -57,12 +58,8 @@ namespace ESchedule.Business.Lessons
                 Date = currentTime,
             };
 
-            await _context.Attendances
-                        .AddAsync(model);
-
+            await _context.Attendances.AddAsync(model);
             await _context.SaveChangesAsync();
-
-            return new ServiceResult<Empty>().Success();
         }
 
         private ScheduleModel? GetTargetSchedule(UserModel user, TimeSpan currentTime)

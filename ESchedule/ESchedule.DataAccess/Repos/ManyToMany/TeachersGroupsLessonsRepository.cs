@@ -13,45 +13,21 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
         {
         }
 
-        public override async Task<ServiceResult<TeachersGroupsLessonsModel>> First(Expression<Func<TeachersGroupsLessonsModel, bool>> command)
-        {
-            var result = new ServiceResult<TeachersGroupsLessonsModel>();
-
-            try
-            {
-                result.Value = await _context.Set<TeachersGroupsLessonsModel>()
+        public override async Task<TeachersGroupsLessonsModel> First(Expression<Func<TeachersGroupsLessonsModel, bool>> command)
+            => await _context.Set<TeachersGroupsLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)
                     .Include(x => x.StudyGroup)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+                    .FirstOrDefaultAsync(command)
+                        ?? throw new EntityNotFoundException();
 
-                return result.Success();
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(ex);
-            }
-        }
-
-        public override Task<ServiceResult<IEnumerable<TeachersGroupsLessonsModel>>> Where(Expression<Func<TeachersGroupsLessonsModel, bool>> command)
-        {
-            var result = new ServiceResult<IEnumerable<TeachersGroupsLessonsModel>>();
-
-            try
-            {
-                result.Value = _context.Set<TeachersGroupsLessonsModel>()
+        public override async Task<IEnumerable<TeachersGroupsLessonsModel>> Where(Expression<Func<TeachersGroupsLessonsModel, bool>> command) 
+            => await _context.Set<TeachersGroupsLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)
                     .Include(x => x.StudyGroup)
                     .Where(command)
+                    .ToListAsync() 
                         ?? throw new EntityNotFoundException();
-
-                return Task.FromResult(result.Success());
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult(result.Fail(ex));
-            }
-        }
     }
 }

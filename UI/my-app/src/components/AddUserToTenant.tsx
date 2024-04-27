@@ -39,11 +39,8 @@ export default function AddUserToTenant() {
             id: userCode
         }
 
-        const response = await userStore.updateUserInfo(userUpdate);
-
-        if(response.isSuccessful) {
-            toast.success(translator('toasts.user-added-to-tenant'));
-        }
+        await userStore.updateUserInfo(userUpdate)
+            .then(() => toast.success(translator('toasts.user-added-to-tenant')));
     }
 
     return(

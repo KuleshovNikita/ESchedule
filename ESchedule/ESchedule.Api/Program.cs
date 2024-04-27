@@ -1,9 +1,9 @@
+using ESchedule.Api.Middlewares;
 using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Auth;
-using ESchedule.Domain.Policy.Requirements;
 using ESchedule.Startup.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
@@ -45,7 +45,6 @@ builder.Services.AddSwaggerGen(cfg =>
 });
 builder.Services.RegisterDependencies();
 builder.Services.AddCors(x => x.AllowAnyOriginPolicy());
-
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureAuthentication(configuration.GetSection("Jwt").Get<JwtSettings>()!);
@@ -63,9 +62,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors();
+app.UseExceptionHandler(new ExceptionHandlerOptions() { ExceptionHandler = new ExceptionHandler().InvokeAsync });
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+//app.UseMiddleware<ErrorResponseMiddleware>();
 
 app.MapControllers();
 

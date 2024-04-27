@@ -16,7 +16,7 @@ namespace ESchedule.Business.Lessons
             _context = dbContext;
         }
 
-        public async Task<ServiceResult<Empty>> UpdateLessonsList(IEnumerable<Guid> newLessonsList, Guid tenantId)
+        public async Task UpdateLessonsList(IEnumerable<Guid> newLessonsList, Guid tenantId)
         {
             var lessons = _context.Lessons
                             .Where(x => x.TenantId == tenantId && !newLessonsList.Contains(x.Id));
@@ -27,14 +27,11 @@ namespace ESchedule.Business.Lessons
 
             //var tenantLessons = (await Where(x => x.TenantId == tenantId)).Value;
             //var removedLessons = tenantLessons.Where(x => !newLessonsList.Contains(x.Id)).Select(x => x.Id);
-            var result = new ServiceResult<Empty>();
 
             //foreach (var lesson in removedLessons)
             //{
             //    result = await RemoveItem(lesson);
             //}
-
-            return result;
         }
     }
 }

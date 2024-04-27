@@ -3,6 +3,7 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Extensions;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
+using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.ServiceResulting;
 using System.Linq.Expressions;
@@ -21,82 +22,72 @@ namespace ESchedule.Business
             _mapper = mapper;
         }
 
-        public async virtual Task<ServiceResult<Empty>> CreateItem<TCreateModel>(TCreateModel itemCreateModel)
+        public async virtual Task CreateItem<TCreateModel>(TCreateModel itemCreateModel)
         {
             var itemDomainModel = _mapper.Map<T>(itemCreateModel);
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
             itemDomainModel.Id = Guid.NewGuid();
-            return (await _repository.Insert(itemDomainModel)).Success();
+            await _repository.Insert(itemDomainModel);
         }
 
-        public async virtual Task<ServiceResult<Empty>> InsertMany(IEnumerable<T> itemsSet)
+        public async virtual Task InsertMany(IEnumerable<T> itemsSet)
         {
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
-            return (await _repository.InsertMany(itemsSet)).Success();
+            await _repository.InsertMany(itemsSet);
         }
 
-        public async virtual Task<ServiceResult<Empty>> InsertMany<K>(IEnumerable<K> itemsSet)
+        public async virtual Task InsertMany<K>(IEnumerable<K> itemsSet)
         {
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
             var mappedItems = _mapper.Map<IEnumerable<T>>(itemsSet);
-            return (await _repository.InsertMany(mappedItems)).Success();
+            await _repository.InsertMany(mappedItems);
         }
 
-        public async virtual Task<ServiceResult<IEnumerable<T>>> GetItems(Expression<Func<T, bool>> predicate, bool includeNavs = false)
-            => (await _repository.Where(predicate)).Success();
+        public async virtual Task<IEnumerable<T>> GetItems(Expression<Func<T, bool>> predicate, bool includeNavs = false)
+            => await _repository.Where(predicate);
 
-        public async virtual Task<ServiceResult<T>> First(Expression<Func<T, bool>> predicate)
-            => (await _repository.First(predicate)).Success();
+        public async virtual Task<T> First(Expression<Func<T, bool>> predicate)
+            => await _repository.First(predicate);
 
-        public async virtual Task<ServiceResult<IEnumerable<T>>> Where(Expression<Func<T, bool>> predicate)
-            => (await _repository.Where(predicate)).Success();
+        public async virtual Task<IEnumerable<T>> Where(Expression<Func<T, bool>> predicate)
+            => await _repository.Where(predicate);
 
-        public async virtual Task<ServiceResult<Empty>> RemoveItem(Guid itemId)
+        public async virtual Task RemoveItem(Guid itemId)
         {
-            var serviceResult = new ServiceResult<Empty>();
-
             if (await ItemExists(itemId))
             {
                 var items = await GetItems(x => x.Id == itemId);
-                return (await _repository.Remove(items.Value.First())).Success();
+                await _repository.Remove(items.First());
             }
 
-            return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);
+            throw new EntityNotFoundException();
         }
 
-        public async virtual Task<ServiceResult<Empty>> RemoveItem(T item)
+        public async virtual Task RemoveItem(T item)
         {
-            var serviceResult = new ServiceResult<Empty>();
-
             if (await ItemExists(item.Id))
             {
-                return (await _repository.Remove(item)).Success();
+                await _repository.Remove(item);
             }
 
-            return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);
+            throw new EntityNotFoundException();
         }
 
-        public async virtual Task<ServiceResult<Empty>> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel)
+        public async virtual Task UpdateItem<TUpdatedModel>(TUpdatedModel updateModel)
             where TUpdatedModel : BaseUpdateModel
         {
-            var serviceResult = new ServiceResult<Empty>();
-
             if (!await ItemExists(updateModel.Id))
             {
-                return serviceResult.FailAndThrow(Resources.TheItemDoesntExist);
+                throw new EntityNotFoundException();
             }
 
             var user = await First(x => x.Id == updateModel.Id);
-            user.Value = _mapper.MapOnlyUpdatedProperties(updateModel, user.Value);
+            user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
 
-            var result = await _repository.Update(user.Value);
-            return result.Success();
+            await _repository.Update(user);
         }
 
         protected async Task<bool> ItemExists(Guid itemId)
-        {
-            var result = await _repository.Any(x => x.Id == itemId);
-            return result.Success().Value;
-        }
+            => await _repository.Any(x => x.Id == itemId);
     }
 }
