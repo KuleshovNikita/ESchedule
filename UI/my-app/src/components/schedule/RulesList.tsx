@@ -25,11 +25,10 @@ export default function RulesList({ tenantId }: Props) {
     const { translator } = useCult();
 
     useEffect(() => {
-        const fetchRules = async () => {
-            const res = await scheduleStore.getScheduleRules(tenantId);
-            setRules(res);
-            setLoaded(true);
-        }
+        const fetchRules = async () => 
+            await scheduleStore.getScheduleRules(tenantId)
+                .then(res => setRules(res))
+                .then(() => setLoaded(true));
 
         fetchRules();
     }, [scheduleStore, tenantId]);
@@ -38,17 +37,14 @@ export default function RulesList({ tenantId }: Props) {
         setCreatingNewRuleFlag(!isCreatingNewRule);
     }
 
-    const createSchedule = async () => {
-        const result = await scheduleStore.buildSchedule(tenantId);
-
-        if(result) {
-            toast.success(translator('toasts.schedule-created-successfully'))
-        }
-    }
+    const createSchedule = async () => 
+        await scheduleStore.buildSchedule(tenantId)
+            .then(() => toast.success(translator('toasts.schedule-created-successfully')));
 
     const removeRule = async (ruleId: string) => {
-        await scheduleStore.removeRule(ruleId);
-        setRules(rules.filter(x => x.id !== ruleId));
+        await scheduleStore.removeRule(ruleId)
+            .then(() => setRules(rules.filter(x => x.id !== ruleId)));
+       
     }
 
     return(

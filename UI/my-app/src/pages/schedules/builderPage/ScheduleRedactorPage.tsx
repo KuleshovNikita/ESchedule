@@ -16,10 +16,9 @@ export default function ScheduleRedactorPage() {
     const [isLoaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        const fetchTenant = async () => {
-            await tenantStore.getTenant(userStore.user?.tenantId as string);
-            setLoaded(true);
-        }
+        const fetchTenant = async () => 
+            await tenantStore.getTenant(userStore.user?.tenantId as string)
+                .then(() => setLoaded(true));   
 
         fetchTenant();
     }, [tenantStore, userStore.user?.tenantId])

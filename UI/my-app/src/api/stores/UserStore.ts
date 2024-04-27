@@ -46,7 +46,8 @@ export default class UserStore {
         if(this.isLoggedIn) {
             return this.user;
         } else {
-            const response = await agent.Auth.getAuthenticatedUserInfo();
+            const response = await agent.Auth.getAuthenticatedUserInfo()
+                .catch(_ => null); //разобраться с этим завтра
             
             if(response) {
                 this.user = response;

@@ -34,7 +34,9 @@
         "welcome": "Welcome, ",
         "profile-updated": "Profile was updated",
         "schedule-created-successfully": "Schedule created successfully",
-        "rules-added-successfully": "Rules added successfully"
+        "rules-added-successfully": "Rules added successfully",
+        "lessons-list-updated": "Lessons list has been updated",
+        "lesson-added": "New lesson added"
     },
     "messages": {
         "page-not-found": "Page not found",
@@ -61,7 +63,8 @@
         "target-schedule": "Schedule to profile:",
         "lessons-viewer": "Lessons browser:",
         "add-user-to-tenant": "Add user to tenant:",
-        "user-code": "User personal code"
+        "user-code": "User personal code",
+        "lesson-name": "Lesson name"
     },
     "buttons": {
         "register": "Register",

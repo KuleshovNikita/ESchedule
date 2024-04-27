@@ -41,11 +41,8 @@ export default function RuleBodyCreator({ruleName, bodyData, onConfirm}: Props) 
             tenantId: userStore.user?.tenantId!
         }
 
-        const res = await scheduleStore.createRule(newRule);
-
-        if(res) {
-            toast.success(translator('toasts.rules-added-successfully'));
-        }
+        await scheduleStore.createRule(newRule)
+            .then(() => toast.success(translator('toasts.rules-added-successfully')));
 
         onConfirm();
     }

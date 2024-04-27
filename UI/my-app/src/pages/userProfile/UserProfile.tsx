@@ -175,11 +175,9 @@ export default function UserPage() {
             password: password === passwordSecret || !password ? null : password
         };
 
-        const result = await userStore.updateUserInfo(user);
+        await userStore.updateUserInfo(user);
         
-        if(result) {
-            toast.success(translator('toasts.profile-updated'));
-        } 
+        toast.success(translator('toasts.profile-updated'));
     }
 
     function getGroupLabelName(): React.ReactNode {

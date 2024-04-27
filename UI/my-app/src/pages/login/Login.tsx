@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useLocation } from "react-router";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserLoginModel } from "../../models/Users";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from "react-toastify";
@@ -9,7 +9,7 @@ import { InputFormStyle, RegisterButtonStyle } from "./LoginStyles";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useCult } from "../../hooks/Translator";
 
-const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
 
 export function LoginPage() {

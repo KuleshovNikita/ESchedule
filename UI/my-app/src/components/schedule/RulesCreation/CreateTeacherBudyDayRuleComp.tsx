@@ -25,15 +25,13 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
     const [dayError, setDayError] = useState('');
 
     useEffect(() => {
-        const fetchTeachers = async () => {
-            const res = await tenantStore.getTeachers(tenantStore.tenant?.id!);
-            setLoaded(true);
-            setTeachersInfo(res);
-        }
+        const fetchTeachers = async () => 
+            await tenantStore.getTeachers(tenantStore.tenant?.id!)
+                .then(res => setTeachersInfo(res))
+                .then(() => setLoaded(true));
 
-        const fetchTenant = async () => {
+        const fetchTenant = async () => 
             await tenantStore.getTenant(userStore.user?.tenantId!);
-        }
 
         fetchTenant();
 

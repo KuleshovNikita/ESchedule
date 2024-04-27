@@ -41,11 +41,13 @@ axios.interceptors.response.use(async (response) => response,
                 break;
             case 404:
                 redirect("/notFound");
-                break;
+                break;              
             case 500:
                 toast.error(i18n.t('server-errors.' + data.detail));             
                 break;
         }
+
+        return Promise.reject(error);
     }
 );
 
@@ -61,7 +63,7 @@ const requests = {
 
 const Auth = {
     login: (body: UserLoginModel) => requests.post<string>("/authentication/login", body),
-    register: (body: UserCreateModel) => requests.post<string>("/authentication/register", body),
+    register: (body: UserCreateModel) => requests.post("/authentication/register", body),
     getAuthenticatedUserInfo: () => requests.get<UserModel>("/authentication"),
     confirmEmail: (key: string) => requests.patch<string>(`/authentication/confirmEmail/${key}`)
 }

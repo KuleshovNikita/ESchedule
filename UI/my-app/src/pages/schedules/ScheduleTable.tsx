@@ -16,10 +16,9 @@ export const ScheduleTablePage = () => {
     const [ timeTable, setTimeTable ] = useState<ScheduleStartEndTime[]>([]);
 
     useEffect(() => {
-        const fetchTimeTable = async () => {
-            var res = await tenantSettingsStore.getTenantScheduleTimes(userStore.user?.tenantId as string);
-            setTimeTable(res);
-        }
+        const fetchTimeTable = async () => 
+            await tenantSettingsStore.getTenantScheduleTimes(userStore.user?.tenantId as string)
+                .then(res => setTimeTable(res));
 
         fetchTimeTable();
     }, [tenantSettingsStore, userStore.user?.tenantId])
@@ -34,11 +33,10 @@ export const ScheduleTablePage = () => {
                 : await scheduleStore.getScheduleForGroup(targetId as string);
         
 
-        const fetchSchedules = async () => {
-            var res = await fetchFromNecessarySource();
-            setSchedules(res);
-            setLoadedState(true);
-        }
+        const fetchSchedules = async () => 
+            await fetchFromNecessarySource()
+                .then(res => setSchedules(res))
+                .then(() => setLoadedState(true));
 
         fetchSchedules();
     }, [isTeacherScope, scheduleStore, targetId, userStore.user?.id]);

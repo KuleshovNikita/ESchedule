@@ -25,7 +25,6 @@ export default class ScheduleStore {
     }
  
     getScheduleForGroup = async (groupId: string) => {
-        console.log('group');
         const response = await this.client.getScheduleForGroup(groupId);
 
         if(response) {
@@ -63,10 +62,9 @@ export default class ScheduleStore {
         return response;
     }
 
-    getScheduleItem = async (id: string) => {
-        const response = await this.client.getScheduleItem(id);
-        return this.parseDate([response])[0];
-    }
+    getScheduleItem = async (id: string) => 
+        await this.client.getScheduleItem(id)
+            .then(res => this.parseDate([res])[0]);
 
     removeSchedule = async (tenantId: string) =>
         await this.client.removeSchedule(tenantId); 

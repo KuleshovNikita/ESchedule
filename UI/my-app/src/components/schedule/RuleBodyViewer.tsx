@@ -27,7 +27,8 @@ export default function RuleBodyViewer({rule}: Props) {
             const result = JSON.parse(rule.ruleJson) as TeacherBusyDayRule;
 
             if(!teacherInfo) {
-                userStore.getUserInfo(result.ActorId).then(res => setTeacherInfo(res));
+                userStore.getUserInfo(result.ActorId)
+                    .then(res => setTeacherInfo(res));
             }            
 
             return <TextField 

@@ -148,14 +148,10 @@ export default function RegistrationPage() {
             tenantId: '00000000-0000-0000-0000-000000000001'
         };
 
-        const success = await userStore.register(user);
+        await userStore.register(user);
         
-        if(success) {
-            navigate("/login");
-            toast.success(translator('toasts.verification-email-sent'));
-        } else {
-            navigate("/register");
-        }
+        navigate("/login");
+        toast.success(translator('toasts.verification-email-sent'));
     }
 
     const redirectToLogin = () => {
