@@ -39,7 +39,7 @@ const LessonViewer = observer(() => {
 
     const removeLessons = async () => {
         await lessonStore.removeLessons(lessonsToRemove.map(x => x.id), tenantStore.tenant?.id as string)
-            .then(() => toast.success("toasts.lessons-list-updated"));
+            .then(() => toast.success(translator("toasts.lesson-removed")));
     }
 
     const saveLesson = async () => {

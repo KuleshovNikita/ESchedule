@@ -35,7 +35,7 @@
         "profile-updated": "Профіль успішно оновлено",
         "schedule-created-successfully": "Розклад успішно побудовано",
         "rules-added-successfully": "Правила успішно додано",
-        "lessons-list-updated": "Список занять успішно оновлено",
+        "lesson-removed": "Урок успішно видалено",
         "lesson-added": "Додано новий урок"
     },
     "messages": {

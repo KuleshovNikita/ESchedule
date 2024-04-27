@@ -35,7 +35,7 @@
         "profile-updated": "Profile was updated",
         "schedule-created-successfully": "Schedule created successfully",
         "rules-added-successfully": "Rules added successfully",
-        "lessons-list-updated": "Lessons list has been updated",
+        "lesson-removed": "Lesson has been removed",
         "lesson-added": "New lesson added"
     },
     "messages": {
