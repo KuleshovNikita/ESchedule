@@ -2,7 +2,6 @@
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Lessons;
-using ESchedule.ServiceResulting;
 
 namespace ESchedule.Business.Lessons
 {
@@ -16,10 +15,10 @@ namespace ESchedule.Business.Lessons
             _context = dbContext;
         }
 
-        public async Task UpdateLessonsList(IEnumerable<Guid> newLessonsList, Guid tenantId)
+        public async Task RemoveLessons(IEnumerable<Guid> lessonsToRemove, Guid tenantId)
         {
             var lessons = _context.Lessons
-                            .Where(x => x.TenantId == tenantId && !newLessonsList.Contains(x.Id));
+                            .Where(x => x.TenantId == tenantId && lessonsToRemove.Contains(x.Id));
 
             _context.Lessons.RemoveRange(lessons);
 

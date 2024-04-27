@@ -82,7 +82,7 @@ const Group = {
 
 const Lesson = {
     createLesson: (body: LessonCreateModel) => requests.post(`/lesson`, body),
-    updateLessonsList: (body: string[], tenantId: string) => requests.put(`/lesson/many/${tenantId}`, body),
+    removeLessons: (body: string[], tenantId: string) => requests.put(`/lesson/many/${tenantId}`, body),
     updateLesson: (body: LessonUpdateModel) => requests.put(`/lesson`, body),
     getLesson: (id: string) => requests.get<LessonModel>(`/lesson/${id}`),
     removeLesson: (id: string) => requests.delete(`/lesson/${id}`),

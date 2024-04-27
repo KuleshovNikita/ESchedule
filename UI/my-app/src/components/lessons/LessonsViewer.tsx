@@ -42,8 +42,8 @@ export default function LessonViewer() {
         fetchLessons();
     }, [tenantStore])
 
-    const updateLessonsList = async () => {
-        await lessonStore.updateLessonsList(lessons.map(x => x.id), tenantStore.tenant?.id as string)
+    const removeLessons = async () => {
+        await lessonStore.removeLessons(lessonsToRemove.map(x => x.id), tenantStore.tenant?.id as string)
                          .then(() => toast.success("toasts.lessons-list-updated"));
     }
 
@@ -79,6 +79,14 @@ export default function LessonViewer() {
         );
     }
 
+    const handleCheck = (event: React.ChangeEvent<HTMLInputElement>, lesson: LessonModel) => {
+        if(event.target.checked) {
+            setLessonsToRemove([...lessonsToRemove, lesson]);
+        } else {
+            setLessonsToRemove(lessonsToRemove.filter(l => l.id !== lesson.id));
+        }
+    }
+
     const renderLessonsTable = () => {
         return  <Table sx={{display: 'inline-block'}}>
                     <TableBody>
@@ -86,21 +94,14 @@ export default function LessonViewer() {
                             lessons.map((l, k) => {
                                 return <TableRow key={k}>
                                     <TableCell sx={{...cellStyle, padding: '5px', width: '0%'}}>
-                                        <Checkbox sx={checkboxStyle}/>                                        
+                                        <Checkbox 
+                                            sx={checkboxStyle}
+                                            onChange={(e) => handleCheck(e, l)}/>                                        
                                     </TableCell>
                                     <TableCell sx={cellStyle}>
                                         <Typography variant="h6">
                                             {l.title}
                                         </Typography>
-                                    </TableCell>
-                                    <TableCell sx={removeBtnStyle}>
-                                        <Button 
-                                            onClick={() => setLessonsToRemove([...lessonsToRemove, l])}
-                                            variant='contained' 
-                                            sx={buttonHoverStyles}>
-                                                {translator('buttons.remove')}
-                                                <DeleteIcon sx={buttonImageIconStyle}/>
-                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             })
@@ -113,11 +114,12 @@ export default function LessonViewer() {
         {isModalActive && showModalWindow()}
         {lessons.length !== 0 ? renderLessonsTable() : <LoadingComponent type="circle"/>}
         <Button
-            onClick={updateLessonsList}
+            disabled={lessonsToRemove.length === 0}
+            onClick={removeLessons}
             variant='contained' 
             sx={buttonHoverStyles}>
-            {translator('buttons.save')}
-            <SaveIcon sx={buttonImageIconStyle}/>
+            {translator('buttons.remove')}
+            <DeleteIcon sx={buttonImageIconStyle}/>
         </Button>
         <Button
             onClick={() => setModalActive(true)}

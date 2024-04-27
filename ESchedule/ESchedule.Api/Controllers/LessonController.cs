@@ -28,8 +28,8 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPut("many/{tenantId}")]
-        public async Task UpdateLessonsList([FromBody] IEnumerable<Guid> newLessonsList, Guid tenantId)
-            => await _lessonService.UpdateLessonsList(newLessonsList, tenantId);
+        public async Task RemoveLessons([FromBody] IEnumerable<Guid> lessonsToRemove, Guid tenantId)
+            => await _lessonService.RemoveLessons(lessonsToRemove, tenantId);
 
         [Authorize]
         [HttpPut]

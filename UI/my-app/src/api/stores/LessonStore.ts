@@ -22,6 +22,6 @@ export default class LessonStore {
     getLesson = async (id: string) => 
         await this.client.getLesson(id);
 
-    updateLessonsList = async (lessons: string[], tenantId: string) =>
-        await this.client.updateLessonsList(lessons, tenantId);
+    removeLessons = async (lessons: string[], tenantId: string) =>
+        await this.client.removeLessons(lessons, tenantId);
 }
