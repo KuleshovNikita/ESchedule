@@ -11,21 +11,26 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from "@material-ui/core";
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
+import Checkbox from '@mui/material/Checkbox';
 
 const cellStyle = {
-    borderBottom: '1px solid black'
+    border: '1px solid black'
+}
+
+const checkboxStyle = {
+    '& .MuiSvgIcon-root': { fontSize: 40 }
 }
 
 const removeBtnStyle = {
     ...cellStyle, 
-    width: "20%",
-    borderLeft: "1px solid black"
+    width: "20%"
 }
 
 export default function LessonViewer() {
     const { tenantStore, lessonStore } = useStore();
     const { translator } = useCult();
     const [lessons, setLessons] = useState<LessonModel[]>([]);
+    const [lessonsToRemove, setLessonsToRemove] = useState<LessonModel[]>([]);
     const [isModalActive, setModalActive] = useState(false);
     const [lessonName, setLessonName] = useState('');
     
@@ -75,11 +80,14 @@ export default function LessonViewer() {
     }
 
     const renderLessonsTable = () => {
-        return  <Table sx={{width: '30%'}}>
+        return  <Table sx={{display: 'inline-block'}}>
                     <TableBody>
                         {
                             lessons.map((l, k) => {
                                 return <TableRow key={k}>
+                                    <TableCell sx={{...cellStyle, padding: '5px', width: '0%'}}>
+                                        <Checkbox sx={checkboxStyle}/>                                        
+                                    </TableCell>
                                     <TableCell sx={cellStyle}>
                                         <Typography variant="h6">
                                             {l.title}
@@ -87,7 +95,7 @@ export default function LessonViewer() {
                                     </TableCell>
                                     <TableCell sx={removeBtnStyle}>
                                         <Button 
-                                            onClick={() => setLessons(lessons.filter(les => les.id !== l.id))}
+                                            onClick={() => setLessonsToRemove([...lessonsToRemove, l])}
                                             variant='contained' 
                                             sx={buttonHoverStyles}>
                                                 {translator('buttons.remove')}
