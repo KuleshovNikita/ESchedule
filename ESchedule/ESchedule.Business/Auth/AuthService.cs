@@ -5,6 +5,7 @@ using ESchedule.Business.Email;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
+using ESchedule.DataAccess.Repos.Auth;
 using ESchedule.Domain;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Properties;
@@ -23,6 +24,7 @@ namespace ESchedule.Business.Auth
     {
         private readonly IEmailService _emailService;
         private readonly IUserService _userService;
+        private readonly IAuthRepository _authRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly JwtSettings _jwtSettings;
         
@@ -32,11 +34,13 @@ namespace ESchedule.Business.Auth
             IPasswordHasher passwordHasher, 
             IEmailService emailService, 
             IConfiguration config,
-            IUserService userService) : base(repository, mapper)
+            IUserService userService,
+            IAuthRepository authRepository) : base(repository, mapper)
         {
             _emailService = emailService;
             _passwordHasher = passwordHasher;
             _userService = userService;
+            _authRepository = authRepository;
 
             _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>()!;
         }
@@ -57,7 +61,7 @@ namespace ESchedule.Business.Auth
         {
             ValidateEmail(authModel.Login);
 
-            var user = await First(x => x.Login == authModel.Login);
+            var user = await _authRepository.First(x => x.Login == authModel.Login);
 
             if (!user.IsEmailConfirmed)
             {
@@ -79,7 +83,7 @@ namespace ESchedule.Business.Auth
                 throw new ArgumentNullException(Resources.InvalidDataFoundCantRegisterUser);
             }
 
-            var logins = await GetItems(x => x.Login == userModel.Login);
+            var logins = await _authRepository.Where(x => x.Login == userModel.Login);
 
             if (logins.Any())
             {
@@ -96,7 +100,7 @@ namespace ESchedule.Business.Auth
 
         public async Task<Guid> ConfirmEmail(string key)
         {
-            var userResult = await First(x => x.Password.ToLower() == key.ToLower());
+            var userResult = await _authRepository.First(x => x.Password.ToLower() == key.ToLower());
 
             if (userResult.IsEmailConfirmed)
             {

@@ -13,7 +13,9 @@ namespace ESchedule.Api.Controllers
         private readonly IAuthService _authService;
 
         public AuthenticationController(IAuthService authService, IBaseService<UserModel> userService) : base(userService)
-            => _authService = authService;
+        {
+            _authService = authService;
+        }
 
         [HttpPost("register")]
         public async Task Register([FromBody] UserCreateModel registerModel)

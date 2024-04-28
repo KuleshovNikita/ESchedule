@@ -1,10 +1,13 @@
 ﻿using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
+using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace ESchedule.DataAccess.Repos.User
 {
@@ -12,6 +15,7 @@ namespace ESchedule.DataAccess.Repos.User
     {
         public UserRepository(TenantEScheduleDbContext context) : base(context)
         {
+            
         }
 
         public override async Task<UserModel> First(Expression<Func<UserModel, bool>> command)

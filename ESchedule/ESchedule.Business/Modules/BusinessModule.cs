@@ -4,6 +4,7 @@ using ESchedule.Business.GroupLessons;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Lessons;
 using ESchedule.Business.ScheduleBuilding;
+using ESchedule.Business.ScheduleRules;
 using ESchedule.Business.TeachersGroupsLessons;
 using ESchedule.Business.TeachersLessons;
 using ESchedule.Business.Tenant;
@@ -28,6 +29,7 @@ namespace ESchedule.Business.Modules
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IRuleService, RuleService>();
             services.AddScoped<IScheduleBuilder, ScheduleBuilder>();
 
             services.AddScoped<ITenantSettingsService, TenantSettingsService>();

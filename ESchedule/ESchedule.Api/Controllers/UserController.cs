@@ -1,8 +1,8 @@
 ﻿using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.Users;
+using ESchedule.Domain.Enums;
 using ESchedule.Domain.Users;
-using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,5 +31,10 @@ namespace ESchedule.Api.Controllers
         [HttpDelete("{userId}")]
         public async Task RemoveUser(Guid userId)
             => await _service.RemoveItem(userId);
+
+        [Authorize]
+        [HttpGet("role/{role}")]
+        public async Task<IEnumerable<UserModel>> GetUsersByRole(Role role)
+            => await _service.Where(x => x.Role == role);
     }
 }

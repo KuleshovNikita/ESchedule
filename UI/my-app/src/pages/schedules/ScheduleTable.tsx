@@ -17,11 +17,11 @@ export const ScheduleTablePage = () => {
 
     useEffect(() => {
         const fetchTimeTable = async () => 
-            await tenantSettingsStore.getTenantScheduleTimes(userStore.user?.tenantId as string)
+            await tenantSettingsStore.getTenantScheduleTimes()
                 .then(res => setTimeTable(res));
 
         fetchTimeTable();
-    }, [tenantSettingsStore, userStore.user?.tenantId])
+    }, [tenantSettingsStore])
 
     useEffect(() => {
         const lowerScope = isTeacherScope?.toLocaleLowerCase();

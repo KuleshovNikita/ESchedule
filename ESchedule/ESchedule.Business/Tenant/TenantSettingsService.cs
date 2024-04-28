@@ -1,19 +1,24 @@
 ﻿using AutoMapper;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Tenant;
-using ESchedule.ServiceResulting;
 
 namespace ESchedule.Business.Tenant
 {
     public class TenantSettingsService : BaseService<TenantSettingsModel>, ITenantSettingsService
     {
-        public TenantSettingsService(IRepository<TenantSettingsModel> repository, IMapper mapper) : base(repository, mapper)
+        private readonly ITenantContextProvider _tenantContextProvider;
+
+        public TenantSettingsService(
+            IRepository<TenantSettingsModel> repository, 
+            ITenantContextProvider tenantContextProvider, 
+            IMapper mapper) : base(repository, mapper)
         {
+            _tenantContextProvider = tenantContextProvider;
         }
 
-        public async Task<List<object>> BuildSchedulesTimeTable(Guid tenantId) //TODO перенести это в скедьюл сервис
+        public async Task<List<object>> BuildSchedulesTimeTable() //TODO перенести это в скедьюл сервис
         {
-            var tenantSettings = await _repository.First(x => x.TenantId == tenantId);
+            var tenantSettings = await _repository.First(x => x.TenantId == _tenantContextProvider.Current.TenantId);
 
             var currentTime = tenantSettings.StudyDayStartTime;
             var resultList = new List<object>();

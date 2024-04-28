@@ -7,6 +7,7 @@ export default class UserStore {
     client: any = null;
     user: UserModel | null = null;
     otherUsers: UserModel[] = [];
+    teachers: UserModel[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -67,4 +68,17 @@ export default class UserStore {
 
         return response;
     }
+
+    getTeachers = async () => {
+        if(this.teachers) {
+            return this.teachers;
+        }
+
+        var res = await agent.User.getUsersByRole(Role.Teacher);
+
+        this.teachers = res;
+
+        return res;
+    }
+        
 }

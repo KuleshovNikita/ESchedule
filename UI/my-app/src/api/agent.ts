@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { store } from "./stores/StoresManager";
 import { redirect } from "react-router";
-import { UserLoginModel, UserCreateModel, UserUpdateModel, UserModel } from "../models/Users";
+import { UserLoginModel, UserCreateModel, UserUpdateModel, UserModel, Role } from "../models/Users";
 import { GroupCreateModel, GroupModel, GroupUpdateModel } from "../models/Groups";
 import { LessonCreateModel, LessonModel, LessonUpdateModel } from "../models/Lessons";
 import { GroupsLessonsCreateModel, GroupsLessonsModel, TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel, TeachersLessonsCreateModel, TeachersLessonsModel } from "../models/ManyToMany";
@@ -75,12 +75,14 @@ const Auth = {
 const User = {
     updateUser: (body: UserUpdateModel) => requests.put("/user", body),
     getUser: (id: string) => requests.get<UserModel>(`/user/${id}`),
+    getUsersByRole: (role: Role) => requests.get<UserModel[]>(`/user/role/${role}`),
 }
 
 const Group = {
     createGroup: (body: GroupCreateModel) => requests.post(`/group`, body),
     updateGroup: (body: GroupUpdateModel) => requests.put(`/group`, body),
     getGroup: (id: string) => requests.get<GroupModel>(`/group/${id}`),
+    getGroups: () => requests.get<GroupModel[]>(`/group`),
     removeGroup: (id: string) => requests.delete(`/group/${id}`),
 }
 
@@ -119,7 +121,7 @@ const TenantSettings = {
     createTenantSettings: (body: TenantSettingsCreateModel) => requests.post(`/tenantSettings`, body),
     updateTenantSettings: (body: TenantSettingsUpdateModel) => requests.put(`/tenantSettings`, body),
     getTenantSettings: (tenantId: string) => requests.get<TenantSettingsModel>(`/tenantSettings/${tenantId}`),
-    getTenantScheduleTimes: (tenantId: string) => requests.get<ScheduleStartEndTime[]>(`/tenantSettings/time/${tenantId}`),
+    getTenantScheduleTimes: () => requests.get<ScheduleStartEndTime[]>(`/tenantSettings/time`),
     removeTenantSettings: (tenantId: string) => requests.delete(`/tenantSettings/${tenantId}`),
 }
 

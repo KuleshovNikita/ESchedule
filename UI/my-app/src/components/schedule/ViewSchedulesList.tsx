@@ -11,7 +11,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
 
 export default function ViewSchedulesList() {
-    const { tenantStore, userStore } = useStore();
+    const { userStore, groupStore } = useStore();
     const navigate = useNavigate();
     const { translator } = useCult();
     const [isLoaded, setLoaded] = useState(false);
@@ -21,15 +21,15 @@ export default function ViewSchedulesList() {
 
     useEffect(() => {
         const fetchGroups = async () => 
-            await tenantStore.getGroups(userStore.user?.tenantId as string);
+            await groupStore.getGroups();
 
         const fetchTeachers = async () => 
-            await tenantStore.getTeachers(userStore.user?.tenantId as string)
+            await userStore.getTeachers()
                 .then(() => setLoaded(true));
 
         fetchGroups();
         fetchTeachers();
-    }, [tenantStore, userStore.user?.tenantId]);
+    }, []);
 
     useEffect(() => {
         if(targetSchedule.id === noneWord) {
@@ -42,11 +42,11 @@ export default function ViewSchedulesList() {
     }, [targetSchedule, targetScheduleError, translator]);
 
     const getCollection = () => {
-        const groupNames = tenantStore.tenantGroups.map(g => { 
+        const groupNames = groupStore.groups!.map(g => { 
             return { id: g.id, value: g.title, type: 'group' } 
         });
 
-        const teacherNames = tenantStore.tenantTeachers.map(t => { 
+        const teacherNames = userStore.teachers.map(t => { 
             return { id: t.id, value: normalizeUserName(t), type: 'teacher' } 
         });
 

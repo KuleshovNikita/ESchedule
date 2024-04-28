@@ -2,6 +2,7 @@
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
+using ESchedule.Business.ScheduleRules;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Schedule.Rules;
@@ -14,10 +15,10 @@ namespace ESchedule.Api.Controllers
     public class ScheduleController : BaseController<ScheduleModel>
     {
         private readonly IScheduleService _scheduleService; 
-        private readonly IBaseService<RuleModel> _rulesService; 
+        private readonly IRuleService _rulesService; 
 
         public ScheduleController(IScheduleService scheduleService, IBaseService<ScheduleModel> baseService,
-            IBaseService<RuleModel> rulesService) : base(baseService)
+            IRuleService rulesService) : base(baseService)
         {
             _scheduleService = scheduleService;
             _rulesService = rulesService;
@@ -66,7 +67,7 @@ namespace ESchedule.Api.Controllers
         [Authorize(Policies.DispatcherOnly)]
         [HttpPost("rule")]
         public async Task CreateRule([FromBody] RuleInputModel ruleModel)
-           => await _rulesService.CreateItem(ruleModel);
+           => await _rulesService.CreateRule(ruleModel);
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpDelete("rule/{ruleId}")]

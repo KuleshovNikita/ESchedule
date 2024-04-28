@@ -1,19 +1,25 @@
-﻿namespace ESchedule.Domain.Tenant
+﻿using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+
+namespace ESchedule.Domain.Tenant
 {
     public class TenantContextProvider : ITenantContextProvider
     {
-        public TenantContext _current = null!;
-
-        public TenantContext Current => _current;
-
-        public void UseContext(TenantContext context)
+        public TenantContextProvider(IHttpContextAccessor contextAccessor)
         {
-            if(_current != null)
+            var tenantClaim = contextAccessor.HttpContext.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Surname);
+
+            if (tenantClaim == null)
             {
                 return;
             }
 
-            _current = context;
+            var tenantId = Guid.Parse(tenantClaim.Value);
+            var tenantContext = new TenantContext(tenantId);
+
+            Current = tenantContext;
         }
+
+        public TenantContext Current { get; private set; }
     }
 }

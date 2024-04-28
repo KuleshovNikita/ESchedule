@@ -26,19 +26,14 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
 
     useEffect(() => {
         const fetchTeachers = async () => 
-            await tenantStore.getTeachers(tenantStore.tenant?.id!)
+            await userStore.getTeachers()
                 .then(res => setTeachersInfo(res))
                 .then(() => setLoaded(true));
-
-        const fetchTenant = async () => 
-            await tenantStore.getTenant(userStore.user?.tenantId!);
-
-        fetchTenant();
 
         if(teachersInfo.length === 0) {
             fetchTeachers();
         }  
-    }, [teachersInfo, tenantStore, userStore.user?.tenantId]);
+    }, [teachersInfo]);
 
     useEffect(() => {
         if(busyTeacher === noneWord) {
