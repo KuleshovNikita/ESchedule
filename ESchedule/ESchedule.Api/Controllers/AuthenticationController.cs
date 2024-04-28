@@ -4,7 +4,6 @@ using ESchedule.Business.Auth;
 using ESchedule.Domain;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Authentication;
 using System.Security.Claims;
 
 namespace ESchedule.Api.Controllers

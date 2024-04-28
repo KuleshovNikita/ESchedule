@@ -16,8 +16,8 @@ namespace ESchedule.Api.Controllers
         private readonly IScheduleService _scheduleService; 
         private readonly IBaseService<RuleModel> _rulesService; 
 
-        public ScheduleController(IScheduleService scheduleService, IBaseService<ScheduleModel> baseService
-            , IBaseService<RuleModel> rulesService) : base(baseService)
+        public ScheduleController(IScheduleService scheduleService, IBaseService<ScheduleModel> baseService,
+            IBaseService<RuleModel> rulesService) : base(baseService)
         {
             _scheduleService = scheduleService;
             _rulesService = rulesService;
