@@ -10,6 +10,7 @@ import { ScheduleTablePage } from "../pages/schedules/ScheduleTable";
 import { Role } from "../models/Users";
 import ScheduleRedactorPage from "../pages/schedules/builderPage/ScheduleRedactorPage";
 import { CreateTenant } from "../pages/tenant/CreateTenant";
+import ManageTenant from "../pages/tenant/ManageTenant";
 
 export default function AppRoutes() {
     return (
@@ -25,6 +26,9 @@ export default function AppRoutes() {
               />
               <Route path="/createTenant" 
                    element={ <CreateTenant/> } 
+              />
+              <Route path="/manageTenant" 
+                   element={ <ManageTenant/> } 
               />
               <Route path="/logout" 
                    element={ <Logout/> } 

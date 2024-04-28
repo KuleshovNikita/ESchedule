@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useStore } from "../../api/stores/StoresManager";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { mainBoxStyle, 
          profileBoxStyle, 
@@ -18,6 +19,7 @@ import React from "react";
 import { Role, UserUpdateModel } from "../../models/Users";
 import { getEnumKey } from "../../utils/Utils";
 import { useCult } from "../../hooks/Translator";
+import { useNavigate } from "react-router-dom";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -26,6 +28,7 @@ export default function UserPage() {
     const passwordSecret = "**********";
     const { userStore } = useStore();
     const { translator } = useCult();
+    const navigate = useNavigate();
     const currentUser = userStore.user;
 
     const [name, setName] = useState(currentUser!.name);
@@ -180,6 +183,14 @@ export default function UserPage() {
         toast.success(translator('toasts.profile-updated'));
     }
 
+    const manageTenant = async () => {
+        if(userStore.user?.tenant) {
+            navigate('/manageTenant');
+        } else {
+            navigate('/createTenant');
+        }
+    }
+
     function getGroupLabelName(): React.ReactNode {
         return userStore.user?.role === Role.Teacher 
             ? translator('labels.underlying-group') 
@@ -222,6 +233,19 @@ export default function UserPage() {
                         </Button>
                     }
 
+                    {
+                        userStore.user?.role == Role.Dispatcher
+                        &&
+                        <Button
+                            sx={buttonHoverStyles}   
+                            variant="contained"   
+                            onClick={manageTenant}      
+                        >
+                            {translator('buttons.manage-tenant')}
+                            <ConstructionIcon sx={buttonImageIconStyle}/>
+                        </Button>
+                    }
+                    
                     <Button
                         sx={buttonHoverStyles}   
                         variant="contained"   
