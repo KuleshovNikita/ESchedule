@@ -12,7 +12,9 @@
         "ERR0012": "This walk is already finished",
         "ERR0013": "User with the provided login doesn't exist",
         "ERR0014": "Wrong password or login",
-        "ERR0015": "User with such email is already registered"
+        "ERR0015": "User already belongs to a tenant",
+        "ERR0016": "User with such email is already registered",
+        "ERR0017": "Such tenant already exists"
     },
     "input-helpers": {
         "first-name-required": "First name is required",

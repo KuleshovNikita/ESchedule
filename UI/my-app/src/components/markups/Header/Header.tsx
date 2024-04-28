@@ -62,6 +62,7 @@ export default function Header() {
                     {
                        !location.pathname.startsWith('/login') 
                     && !location.pathname.startsWith('/register') 
+                    && !location.pathname.startsWith('/createTenant') 
                     &&
                         <Box sx={navigationButtonsStyle}>
                             <Avatar sx={[headerNavButtonStyle, profileNavButtonStyle]} onClick={userProfile}>

@@ -1,7 +1,10 @@
 import BaseEntity from "./Base";
 
 export interface TenantCreateModel {
-    tenantName: string;
+    name: string;
+    login: string;
+    password: string;
+    settings: TenantSettingsCreateModel
 }
 
 export interface TenantUpdateModel {
@@ -13,11 +16,9 @@ export interface TenantModel extends BaseEntity {
 }
 
 export interface TenantSettingsCreateModel {
-    studyDayStartTime: Date;
-    lessonDurationTime: Date;
-    breaksDurationTime: Date;
-    tenantId: string;
-    creatorId: string
+    studyDayStartTime: string;
+    lessonDurationTime: string;
+    breaksDurationTime: string;
 }
 
 export interface TenantSettingsUpdateModel {

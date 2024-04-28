@@ -141,6 +141,9 @@
   <data name="NoUsersForSpecifiedKeyWereFound" xml:space="preserve">
     <value>ERR0008</value>
   </data>
+  <data name="TenantAlreadyExists" xml:space="preserve">
+    <value>ERR0017</value>
+  </data>
   <data name="TheItemDoesntExist" xml:space="preserve">
     <value>ERR0009</value>
   </data>
@@ -153,8 +156,11 @@
   <data name="TheWalkIsAlreadyFinished" xml:space="preserve">
     <value>ERR0012</value>
   </data>
-  <data name="UserWithSuchEmailAlreadyRegistered" xml:space="preserve">
+  <data name="UserAlreadyBlongsToTenant" xml:space="preserve">
     <value>ERR0015</value>
+  </data>
+  <data name="UserWithSuchEmailAlreadyRegistered" xml:space="preserve">
+    <value>ERR0016</value>
   </data>
   <data name="UserWithTheProvidedLoginDoesntExist" xml:space="preserve">
     <value>ERR0013</value>

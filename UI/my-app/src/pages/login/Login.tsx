@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { InputFormStyle, RegisterButtonStyle } from "./LoginStyles";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useCult } from "../../hooks/Translator";
+import { createTenantButtonStyle } from "../registration/RegistrationStyles";
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -79,18 +80,18 @@ export function LoginPage() {
         };
 
         setAuthWaiter(true);
-        const isSuccessful = await userStore.login(user);
-
-        if(isSuccessful) {
-            toast.success(translator('toasts.welcome') + userStore.user?.name);
-        } 
+        await userStore.login(user)
+            .then(() => toast.success(translator('toasts.welcome') + userStore.user?.name))
+            .catch(err => false);
 
         navigate(fromPage, { replace: true });
     };
 
-    const redirectToRegistration = () => {
+    const redirectToRegistration = () => 
         navigate("/register", { replace: true });
-    }
+
+    const redirectToTenantCreator = () => 
+        navigate("/createTenant", { replace: true });
 
     return (
         <>
@@ -141,6 +142,15 @@ export function LoginPage() {
                             onClick={redirectToRegistration}>
                         {translator('buttons.register')}
                     </Button>
+                    <Typography>
+                    {translator('words.or')}
+                </Typography>
+                <Button sx={createTenantButtonStyle} 
+                        variant="contained" 
+                        size="large" 
+                        onClick={redirectToTenantCreator}>
+                    {translator('buttons.create-tenant')}
+                </Button>
                 </Box>
             </>
             }

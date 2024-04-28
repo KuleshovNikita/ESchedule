@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from 'react-toastify';
-import { loginButtonStyle, registrationFormStyle } from "./RegistrationStyles";
+import { createTenantButtonStyle, loginButtonStyle, registrationFormStyle } from "./RegistrationStyles";
 import { Role, UserCreateModel } from "../../models/Users";
 import { useCult } from "../../hooks/Translator";
 
@@ -154,9 +154,11 @@ export default function RegistrationPage() {
         toast.success(translator('toasts.verification-email-sent'));
     }
 
-    const redirectToLogin = () => {
+    const redirectToLogin = () => 
         navigate("/login", { replace: true });
-    }
+
+    const redirectToTenantCreator = () => 
+        navigate("/createTenant", { replace: true });
 
     const getRolesItems = () => {
         const values = Object.values(Role).filter(x => typeof x !== 'string') as Role[];
@@ -270,6 +272,15 @@ export default function RegistrationPage() {
                         size="large" 
                         onClick={redirectToLogin}>
                     {translator('buttons.login')}
+                </Button>
+                <Typography>
+                    {translator('words.or')}
+                </Typography>
+                <Button sx={createTenantButtonStyle} 
+                        variant="contained" 
+                        size="large" 
+                        onClick={redirectToTenantCreator}>
+                    {translator('buttons.create-tenant')}
                 </Button>
             </Box>
         </>

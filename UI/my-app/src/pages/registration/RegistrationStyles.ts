@@ -7,6 +7,15 @@ export const loginButtonStyle = {
     }
 }
 
+export const createTenantButtonStyle = {
+    "&": {
+        backgroundColor: "darkcyan"
+    },
+    "&:hover": {
+        backgroundColor: "darkorange"
+    }
+}
+
 export const registrationFormStyle = {
     '&': {
         display: 'flex', 

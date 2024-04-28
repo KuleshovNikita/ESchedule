@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import React, { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
@@ -38,11 +39,12 @@ class ForbiddenErrorBoundary extends Component<Props, State> {
     }
   
     public render() {
-      if (this.state.error) {
+      if (this.state.error && typeof this.state.error == typeof AxiosError) {
         if(this.state.error.response.status == 403) {
             return <h3>You have no right to access this page</h3>;
         }        
       } else {
+        console.log(this.props)
         return this.props.children;
       }
     }

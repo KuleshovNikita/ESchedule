@@ -35,6 +35,8 @@ namespace ESchedule.Business.Users
 
         public async Task UpdateUser(UserUpdateModel updateModel)
         {
+            var isPsswordChanged = updateModel.Password != null;
+
             if (!await ItemExists(updateModel.Id))
             {
                 throw new EntityNotFoundException();
@@ -43,7 +45,10 @@ namespace ESchedule.Business.Users
             var user = await First(x => x.Id == updateModel.Id);
             user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
 
-            user.Password = _passwordHasher.HashPassword(user.Password);
+            if(isPsswordChanged)
+            {
+                user.Password = _passwordHasher.HashPassword(updateModel.Password!);
+            }
 
             await _repository.Update(user);
         }

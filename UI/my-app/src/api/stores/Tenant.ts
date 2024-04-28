@@ -14,8 +14,14 @@ export default class TenantStore {
         makeAutoObservable(this);
     }
 
-    createTenant = async (tenant: TenantCreateModel) => 
-        await this.client.createTenant(tenant); 
+    createTenant = async (tenant: TenantCreateModel) => {
+        tenant.settings.breaksDurationTime += ":00";
+        tenant.settings.lessonDurationTime += ":00";
+        tenant.settings.studyDayStartTime += ":00";
+
+        return await this.client.createTenant(tenant); 
+    }
+        
  
     updateTenant = async (tenant: TenantUpdateModel) => 
         await this.client.updateTenant(tenant); 

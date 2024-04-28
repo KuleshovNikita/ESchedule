@@ -27,6 +27,7 @@ namespace ESchedule.Business.Modules
             services.AddScoped<IScheduleBuilder, ScheduleBuilder>();
 
             services.AddScoped<ITenantSettingsService, TenantSettingsService>();
+            services.AddScoped<ITenantService, TenantService>();
 
             services.AddScoped<ILessonService, LessonService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
