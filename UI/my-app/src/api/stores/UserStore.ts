@@ -50,6 +50,7 @@ export default class UserStore {
                 .catch(_ => null); //разобраться с этим завтра
             
             if(response) {
+                store.tenantStore.tenant = response.tenant
                 this.user = response;
             }
 
