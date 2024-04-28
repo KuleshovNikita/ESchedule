@@ -29,7 +29,11 @@
         "passwords-do-not-match": "Паролі не співпадають",
         "invalid-value": "Некоректне значення",
         "schedule-not-selected": "Розклад не обрано",
-        "invalid-user-code-inserted": "Введено некоректний користувача"
+        "invalid-user-code-inserted": "Введено некоректний користувача",
+        "tenant-name-required": "Назва організації обов'язкова",
+        "study-start-time-required": "Час початку навчального дня обов'язковий",
+        "lesson-duration-time-required": "Тривалість уроків обов'язкова",
+        "breaks-duration-time-required": "Тривалість перерв обов'язкова"
     },
     "toasts": {
         "verification-email-sent": "Ми надіслали на вказану пошту лист для підтвердження реєстрації, будь ласка, перевірте пошту",
@@ -38,7 +42,8 @@
         "schedule-created-successfully": "Розклад успішно побудовано",
         "rules-added-successfully": "Правила успішно додано",
         "lesson-removed": "Урок успішно видалено",
-        "lesson-added": "Додано новий урок"
+        "lesson-added": "Додано новий урок",
+        "tenant-created": "Організацію успішно створено"
     },
     "messages": {
         "page-not-found": "Сторінку не знайдено",
@@ -66,7 +71,11 @@
         "lessons-viewer": "Оглядач уроків:",
         "add-user-to-tenant": "Додати користувача до організації:",
         "user-code": "Персональний код користувача",
-        "lesson-name": "Назва уроку"
+        "lesson-name": "Назва уроку",
+        "tenant-name": "Назва організації",
+        "study-day-start-time": "Початок навчального дня",
+        "lesson-duration-time": "Тривалість уроків",
+        "breaks-duration-time": "Тривалість перерв"
     },
     "buttons": {
         "register": "Зареєструватись",
@@ -80,7 +89,8 @@
         "open": "Відкрити",
         "cancel": "Скасувати",
         "remove": "Видалити",
-        "add": "Додати"
+        "add": "Додати",
+        "create-tenant": "Створити організацію"
     },
     "headers": {
         "personal-info": "Персональна дані:",

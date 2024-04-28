@@ -29,7 +29,11 @@
         "passwords-do-not-match": "Passwords don't match",
         "invalid-value": "Invalid value",
         "schedule-not-selected": "Schedule not selected",
-        "invalid-user-code-inserted": "Invalid user code inserted"
+        "invalid-user-code-inserted": "Invalid user code inserted",
+        "tenant-name-required": "Tenant name is required",
+        "study-start-time-required": "Study day start time is required",
+        "lesson-duration-time-required": "Lessons duration time is required",
+        "breaks-duration-time-required": "Breaks duration time is required"
     },
     "toasts": {
         "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
@@ -38,7 +42,8 @@
         "schedule-created-successfully": "Schedule created successfully",
         "rules-added-successfully": "Rules added successfully",
         "lesson-removed": "Lesson has been removed",
-        "lesson-added": "New lesson added"
+        "lesson-added": "New lesson added",
+        "tenant-created": "Tenant created successfully"
     },
     "messages": {
         "page-not-found": "Page not found",
@@ -66,7 +71,11 @@
         "lessons-viewer": "Lessons browser:",
         "add-user-to-tenant": "Add user to tenant:",
         "user-code": "User personal code",
-        "lesson-name": "Lesson name"
+        "lesson-name": "Lesson name",
+        "tenant-name": "Tenant name",
+        "study-day-start-time": "Study day start time",
+        "lesson-duration-time": "Lesson duration time",
+        "breaks-duration-time": "Breaks duration time"
     },
     "buttons": {
         "register": "Register",
@@ -80,7 +89,8 @@
         "open": "Open",
         "cancel": "Cancel",
         "remove": "Remove",
-        "add": "Add"
+        "add": "Add",
+        "create-tenant": "Create tenant"
     },    
     "headers": {
         "personal-info": "Personal Info:",
