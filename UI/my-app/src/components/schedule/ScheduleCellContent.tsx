@@ -1,9 +1,9 @@
-import { Box } from "@mui/material";
 import { ScheduleModel } from "../../models/Schedules";
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
 import LoadingComponent from "../hoc/loading/LoadingComponent";
 import { normalizeUserName } from "../../utils/Utils";
+import Box from "@mui/material/Box";
 
 interface Props {
     item: ScheduleModel

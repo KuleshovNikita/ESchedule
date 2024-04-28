@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
-import { Box, Button, TextField } from "@mui/material";
 import LoadingComponent from "../hoc/loading/LoadingComponent";
 import { useCult } from "../../hooks/Translator";
 import RuleBodyViewer from "./RuleBodyViewer";
@@ -12,6 +11,9 @@ import PopupForm from "./RulesCreation/PopupForm";
 import { toast } from "react-toastify";
 import RuleSelect from "./RulesCreation/RuleSelect";
 import { RuleModel } from "../../models/Schedules";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 interface Props {
     tenantId: string

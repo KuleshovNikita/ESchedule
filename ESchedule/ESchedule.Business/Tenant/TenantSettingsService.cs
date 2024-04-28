@@ -11,7 +11,7 @@ namespace ESchedule.Business.Tenant
         {
         }
 
-        public async Task<List<object>> BuildSchedulesTimeTable(Guid tenantId)
+        public async Task<List<object>> BuildSchedulesTimeTable(Guid tenantId) //TODO перенести это в скедьюл сервис
         {
             var tenantSettings = await _repository.First(x => x.TenantId == tenantId);
 

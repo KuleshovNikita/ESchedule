@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mail;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
 
@@ -41,24 +42,31 @@ namespace ESchedule.Business.Auth
         {
             if (authModel is null)
             {
-                throw new Exception(Resources.InvalidDataFoundCantAuthenticateUser);
+                throw new ArgumentNullException(nameof(authModel), Resources.InvalidDataFoundCantAuthenticateUser);
             }
 
+            var user = await ValidateCredentials(authModel);
+
+            return BuildClaimsWithEmail(user);
+        }
+
+        public async Task<UserModel> ValidateCredentials(AuthModel authModel)
+        {
             ValidateEmail(authModel.Login);
 
             var user = await _userService.First(x => x.Login == authModel.Login);
 
             if (!user.IsEmailConfirmed)
             {
-                throw new Exception(Resources.EmailConfirmationIsNeeded);
+                throw new AuthenticationException(Resources.EmailConfirmationIsNeeded);
             }
 
             if (!_passwordHasher.ComparePasswords(authModel.Password, user.Password))
             {
-                throw new Exception(Resources.WrongPasswordOrLogin);
+                throw new AuthenticationException(Resources.WrongPasswordOrLogin);
             }
 
-            return BuildClaimsWithEmail(user);
+            return user;
         }
 
         public async Task Register(UserCreateModel userModel)

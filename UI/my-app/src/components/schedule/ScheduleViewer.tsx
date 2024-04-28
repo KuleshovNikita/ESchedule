@@ -1,10 +1,10 @@
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { useCult } from "../../hooks/Translator";
-import { Button } from "@mui/material";
 import PreviewIcon from '@mui/icons-material/Preview';
 import { useState } from "react";
 import PopupForm from "./RulesCreation/PopupForm";
 import ViewSchedulesList from "./ViewSchedulesList";
+import Button from "@mui/material/Button";
 
 export default function ScheduleViewer() {
     const {translator} = useCult();

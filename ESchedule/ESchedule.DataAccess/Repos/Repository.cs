@@ -15,6 +15,9 @@ namespace ESchedule.DataAccess.Repos
             => await _context.Set<TModel>().FirstOrDefaultAsync(command) 
                 ?? throw new EntityNotFoundException();
 
+        public virtual async Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command)
+           => await _context.Set<TModel>().SingleOrDefaultAsync(command);
+
         public virtual async Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command)
             => await _context.Set<TModel>().Where(command).ToListAsync() 
                 ?? throw new EntityNotFoundException();

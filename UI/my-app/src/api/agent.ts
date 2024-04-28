@@ -38,10 +38,14 @@ axios.interceptors.response.use(async (response) => response,
                     store.userStore.logout();
                     toast.error('The session has expired - please login again');
                 }
+                redirect('/login');
+                break;
+            case 403:
+                toast.error(translator('You do not have access to this page'));
                 break;
             case 404:
                 redirect("/notFound");
-                break;              
+                break;                 
             case 500:
                 toast.error(i18n.t('server-errors.' + data.detail));             
                 break;
@@ -102,7 +106,7 @@ const Schedule = {
 }
 
 const Tenant = {
-    createTenant: (body: TenantCreateModel) => requests.post(`/tenant`, body),
+    createTenant: (body: TenantCreateModel) => requests.post<TenantModel>(`/tenant`, body),
     updateTenant: (body: TenantUpdateModel) => requests.put(`/tenant`, body),
     getTenant: (id: string) => requests.get<TenantModel>(`/tenant/${id}`),
     removeTenant: (id: string) => requests.delete(`/tenant/${id}`),
@@ -149,3 +153,7 @@ export const agent = {
     Tenant,
     TenantSettings
 };
+
+function translator(arg0: string): import("react-toastify").ToastContent<unknown> {
+    throw new Error("Function not implemented.");
+}

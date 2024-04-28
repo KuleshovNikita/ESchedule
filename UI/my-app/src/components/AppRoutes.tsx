@@ -9,40 +9,46 @@ import ConfirmEmailPage from "../pages/confirmEmail/ConfirmEmail";
 import { ScheduleTablePage } from "../pages/schedules/ScheduleTable";
 import { Role } from "../models/Users";
 import ScheduleRedactorPage from "../pages/schedules/builderPage/ScheduleRedactorPage";
+import { CreateTenant } from "../pages/tenant/CreateTenant";
+import ManageTenant from "../pages/tenant/ManageTenant";
 
 export default function AppRoutes() {
     return (
         <Routes>
-            <Route path="" 
+              <Route path="" 
                    element={ <Navigate to="/profile"/> } 
-            />
-
-            <Route path="/register" 
+              />
+              <Route path="/register" 
                    element={ <RegistrationPage /> } 
-            />
-            <Route path="/login" 
+              />
+              <Route path="/login" 
                    element={ <LoginPage/> } 
-            />
-            <Route path="/logout" 
+              />
+              <Route path="/createTenant" 
+                   element={ <CreateTenant/> } 
+              />
+              <Route path="/manageTenant" 
+                   element={ <ManageTenant/> } 
+              />
+              <Route path="/logout" 
                    element={ <Logout/> } 
-            />
-
-            <Route path="/confirmEmail/:key" 
+              />
+              <Route path="/confirmEmail/:key" 
                    element={ <ConfirmEmailPage/> } 
-            />
-            <Route path="/profile" 
+              />
+              <Route path="/profile" 
                    element={ <Auth><UserPage /></Auth> } 
-            />
-            <Route path="/schedule/:isTeacherScope/:targetId" 
+              />
+              <Route path="/schedule/:isTeacherScope/:targetId" 
                    element={ <Auth><ScheduleTablePage /></Auth> } 
-            />
-            <Route path="/scheduleBuilder" 
+              />
+              <Route path="/scheduleBuilder" 
                    element={ <Auth role={Role.Dispatcher}><ScheduleRedactorPage /></Auth> } 
-            />
+              />
 
-            <Route path="*" 
+              <Route path="*" 
                    element={ <NotFound /> } 
-            />
+              />
         </Routes>
     );
 }

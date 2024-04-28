@@ -9,8 +9,8 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
         public void Configure(EntityTypeBuilder<TenantModel> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.TenantName).IsRequired();
-            builder.HasIndex(x => x.TenantName).IsUnique();
+            builder.Property(x => x.Name).IsRequired();
+            builder.HasIndex(x => x.Name).IsUnique();
         }
     }
 }

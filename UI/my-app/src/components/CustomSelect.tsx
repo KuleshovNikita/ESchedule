@@ -1,6 +1,8 @@
-import { InputLabel, MenuItem, Select } from "@mui/material";
 import { noneWord } from "../utils/Utils";
 import { useCult } from "../hooks/Translator";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
 const style = {
     mt: 1, 

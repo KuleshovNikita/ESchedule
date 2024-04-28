@@ -2,10 +2,13 @@ import { ReactNode } from "react";
 import { ScheduleStartEndTime } from "../../models/Tenants";
 import { ScheduleItemPlaceholderStyle, ScheduleItemStyle, ScheduleRowStyle, ScheduleTableHeadStyle } from "./ScheduleTableStyles";
 import ScheduleCellContent from "../../components/schedule/ScheduleCellContent";
-import { Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { DayOfWeek, ScheduleModel } from "../../models/Schedules";
 import { daysOfWeek, timeTableScope } from "../../utils/Utils";
 import { TimeTableBodyStyles } from "../../components/markups/timeTable/TimeTableMarkupStyles";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import TableBody from "@mui/material/TableBody";
+import Table from "@mui/material/Table";
 
 interface Props {
     schedules: ScheduleModel[],
