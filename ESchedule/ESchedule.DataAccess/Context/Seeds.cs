@@ -65,60 +65,70 @@ namespace ESchedule.DataAccess.Context
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000007"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000008"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000009"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new GroupsLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000010"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 }
             };
 
@@ -134,36 +144,42 @@ namespace ESchedule.DataAccess.Context
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000006"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000006"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersLessonsModel
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000006"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 }
             };
 
@@ -180,6 +196,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -187,6 +204,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -194,6 +212,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -201,6 +220,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -208,6 +228,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -215,6 +236,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000007"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -222,6 +244,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -229,6 +252,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -236,6 +260,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
                 new TeachersGroupsLessonsModel
                 {
@@ -243,6 +268,7 @@ namespace ESchedule.DataAccess.Context
                     LessonId = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                     StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                     TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000006"),
+                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
                 },
             };
 

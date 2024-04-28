@@ -4,6 +4,7 @@ using ESchedule.Business.GroupLessons;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Lessons;
 using ESchedule.Business.ScheduleBuilding;
+using ESchedule.Business.TeachersGroupsLessons;
 using ESchedule.Business.TeachersLessons;
 using ESchedule.Business.Tenant;
 using ESchedule.Business.Users;
