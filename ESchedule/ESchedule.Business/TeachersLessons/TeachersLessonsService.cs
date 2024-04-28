@@ -7,12 +7,15 @@ namespace ESchedule.Business.TeachersLessons
 {
     public class TeachersLessonsService : BaseService<TeachersLessonsModel>
     {
+        protected readonly ITenantContextProvider _tenantContextProvider;
+
         public TeachersLessonsService(
             IRepository<TeachersLessonsModel> repository,
             IMapper mapper,
             ITenantContextProvider tenantContextProvider)
-            : base(repository, mapper, tenantContextProvider)
+            : base(repository, mapper)
         {
+            _tenantContextProvider = tenantContextProvider;
         }
 
         public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)

@@ -14,13 +14,11 @@ namespace ESchedule.Business
     {
         protected readonly IRepository<T> _repository;
         protected readonly IMapper _mapper;
-        protected readonly ITenantContextProvider _tenantContextProvider;
 
-        public BaseService(IRepository<T> repository, IMapper mapper, ITenantContextProvider tenantContextProvider)
+        public BaseService(IRepository<T> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            _tenantContextProvider = tenantContextProvider;
         }
 
         public async virtual Task<T> CreateItem<TCreateModel>(TCreateModel itemCreateModel)
