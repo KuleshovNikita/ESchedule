@@ -1,6 +1,5 @@
 import { useCult } from "../../../hooks/Translator";
 import CreateTeacherBodyDayRuleComp from "./CreateTeacherBudyDayRuleComp";
-import { Button } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../../styles/ButtonStyles";
 import { useState } from "react";
@@ -9,6 +8,7 @@ import { RuleInputModel } from "../../../models/Schedules";
 import { availableRules } from "../../../utils/ruleUtils";
 import { noneWord } from "../../../utils/Utils";
 import { toast } from "react-toastify";
+import Button from "@mui/material/Button";
 
 interface Props {
     ruleName: string,

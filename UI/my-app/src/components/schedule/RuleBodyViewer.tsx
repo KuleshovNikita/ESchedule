@@ -1,4 +1,3 @@
-import { TextField } from "@mui/material";
 import { RuleModel } from "../../models/Schedules";
 import { TeacherBusyDayRule } from "../../models/Rules";
 import { daysOfWeek } from "../../utils/Utils";
@@ -7,6 +6,7 @@ import { useState } from "react";
 import { UserModel } from "../../models/Users";
 import { useCult } from "../../hooks/Translator";
 import { availableRules } from "../../utils/ruleUtils";
+import TextField from "@mui/material/TextField";
 
 interface Props {
     rule: RuleModel

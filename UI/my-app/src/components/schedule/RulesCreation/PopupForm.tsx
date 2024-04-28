@@ -1,9 +1,10 @@
-import { Box, Button } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { newRuleFormStyle, 
          outerTransperancyStyle, 
          ruleBodyFormStyle, 
          ruleFormCloseButtonStyle } from "../../../pages/schedules/ScheduleTableStyles";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 interface Props {
     closeButtonHandler: any,

@@ -1,11 +1,13 @@
 import { useParams } from "react-router";
 import { useStore } from "../../api/stores/StoresManager";
-import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useEffect, useState } from "react";
 import { loginButtonStyle } from "../registration/RegistrationStyles";
 import { useCult } from "../../hooks/Translator";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 export default function ConfirmEmailPage() {
     const navigate = useNavigate();

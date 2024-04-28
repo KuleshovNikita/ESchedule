@@ -1,4 +1,3 @@
-import { Box, Button, TextField } from "@mui/material";
 import { useCult } from "../hooks/Translator";
 import { useEffect, useState } from "react";
 import { buttonHoverStyles, buttonImageIconStyle } from "../styles/ButtonStyles";
@@ -6,6 +5,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useStore } from "../api/stores/StoresManager";
 import { UserUpdateModel } from "../models/Users";
 import { toast } from "react-toastify";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 export default function AddUserToTenant() {
     const { translator } = useCult();
@@ -48,7 +50,7 @@ export default function AddUserToTenant() {
             <Box>
                 <TextField
                     label={translator('labels.user-code')}
-                    onChange={(e) => setUserCode(e.target.value)}
+                    onChange={(e: any) => setUserCode(e.target.value)}
                     helperText={error}
                     sx={{width: '25%'}}
                 />

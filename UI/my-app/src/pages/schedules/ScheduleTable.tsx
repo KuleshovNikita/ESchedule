@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { useStore } from "../../api/stores/StoresManager";
 import TimeTableMarkup from "../../components/markups/timeTable/TimeTableMarkup";
 import { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { ScheduleStartEndTime } from "../../models/Tenants";
 import ScheduleTableBuilder from "./ScheduleTableBuilder";
 import { useParams } from "react-router-dom";
+import Box from "@mui/material/Box";
 
 export const ScheduleTablePage = () => {
     const { scheduleStore, userStore, tenantSettingsStore } = useStore();

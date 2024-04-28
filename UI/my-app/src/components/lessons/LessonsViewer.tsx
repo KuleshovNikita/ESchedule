@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
 import { LessonCreateModel, LessonModel } from "../../models/Lessons";
-import { Box, Button, Table, TableBody, TableCell, TableRow, TextField } from "@mui/material";
 import LoadingComponent from "../hoc/loading/LoadingComponent";
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { useCult } from "../../hooks/Translator";
@@ -13,6 +12,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import Checkbox from '@mui/material/Checkbox';
 import { observer } from "mobx-react-lite";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import TableBody from "@mui/material/TableBody";
+import Table from "@mui/material/Table";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import Box from "@mui/material/Box";
 
 const cellStyle = {
     border: '1px solid black'
@@ -59,7 +65,7 @@ const LessonViewer = observer(() => {
             <PopupForm closeButtonHandler={() => setModalActive(false)}>
                 <TextField 
                     label={translator('labels.lesson-name')}
-                    onChange={(e) => setLessonName(e.target.value)}
+                    onChange={(e: any) => setLessonName(e.target.value)}
                 />
                 <Button sx={buttonHoverStyles}   
                     variant="contained"

@@ -1,4 +1,3 @@
-import { Avatar, Box, Button, MenuItem, Select, Typography } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
@@ -10,6 +9,12 @@ import { cultureSelectStyle, headerBox, headerLeftSideBoxStyle, headerNavButtonS
          titleTextStyle } from "./HeaderStyles";
 import { Role } from "../../../models/Users";
 import { getDefLang, locales, updateLang } from "../../../translations/Localization";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 
 const navOptions = { 
     replace: false

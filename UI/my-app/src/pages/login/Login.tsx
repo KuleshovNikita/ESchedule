@@ -1,4 +1,3 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +8,10 @@ import { InputFormStyle, RegisterButtonStyle } from "./LoginStyles";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useCult } from "../../hooks/Translator";
 import { createTenantButtonStyle } from "../registration/RegistrationStyles";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -115,7 +118,7 @@ export function LoginPage() {
                         helperText= {emailErrors}
                         error={emailErrors.length !== 0}
                         inputRef={emailRef}
-                        onFocus={(e) => handleEmailChange(e)}
+                        onFocus={(e: Focus) => handleEmailChange(e)}
                         onChange={handleEmailChange}
                     />
                     <TextField
@@ -127,7 +130,7 @@ export function LoginPage() {
                         helperText= {passwordErrors}
                         error={passwordErrors.length !== 0}
                         inputRef={passwordRef}
-                        onFocus={(e) => handlePasswordChange(e)}
+                        onFocus={(e: Focus) => handlePasswordChange(e)}
                         onChange={handlePasswordChange}
                     />
                     <Button variant="contained" size="large" onClick={submit}>

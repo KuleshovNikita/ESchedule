@@ -1,4 +1,3 @@
-import { InputLabel, MenuItem, Select } from "@mui/material";
 import { noneWord } from "../../../utils/Utils";
 import { useCult } from "../../../hooks/Translator";
 

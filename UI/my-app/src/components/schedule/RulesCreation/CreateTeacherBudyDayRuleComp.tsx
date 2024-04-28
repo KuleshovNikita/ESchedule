@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { UserModel } from "../../../models/Users";
 import { useStore } from "../../../api/stores/StoresManager";
-import { FormHelperText } from "@mui/material";
 import LoadingComponent from "../../hoc/loading/LoadingComponent";
 import { useCult } from "../../../hooks/Translator";
 import { daysOfWeek, noneWord, normalizeUserName } from "../../../utils/Utils";
 import CustomSelect from "../../CustomSelect";
+import FormHelperText from "@mui/material/FormHelperText";
 
 interface Props {
     setHasErrors: any,

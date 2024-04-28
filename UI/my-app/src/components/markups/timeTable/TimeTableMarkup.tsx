@@ -1,8 +1,12 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { TimeTableHeadStyles, TableHeadCellStyle, TableMarkupStyle, TimeTableBodyStyles, TimeTableCellStyle, TimeTableRowStyle } from "./TimeTableMarkupStyles";
 import { ReactNode } from "react";
 import { daysOfWeek, timeTableScope } from "../../../utils/Utils";
 import { useCult } from "../../../hooks/Translator";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
 
 export default function TimeTableMarkup() {
     const { translator } = useCult();

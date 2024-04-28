@@ -1,15 +1,16 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
-import { UserLoginModel } from "../../models/Users";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from "react-toastify";
-import { InputFormStyle, RegisterButtonStyle } from "../login/LoginStyles";
+import { InputFormStyle } from "../login/LoginStyles";
 import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useCult } from "../../hooks/Translator";
 import { createTenantButtonStyle } from "../registration/RegistrationStyles";
-import { TenantCreateModel, TenantModel, TenantSettingsCreateModel } from "../../models/Tenants";
+import { TenantCreateModel, TenantSettingsCreateModel } from "../../models/Tenants";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -25,8 +26,6 @@ export function CreateTenant() {
     const navigate = useNavigate();
     const location = useLocation();
     const { translator } = useCult();
-
-    const fromPage = location.state?.form?.pathname || "/";
 
     const [isWaiting, setWaiter] = useState(false);
 
@@ -189,7 +188,7 @@ export function CreateTenant() {
                     sx={InputFormStyle}
                     noValidate
                     autoComplete="off"
-                >
+                >                    
                     <TextField
                         label={translator('labels.tenant-name')}
                         variant="filled"
@@ -198,7 +197,7 @@ export function CreateTenant() {
                         helperText= {tenantErrors}
                         error={tenantErrors.length !== 0}
                         inputRef={tenantRef}
-                        onFocus={(e) => handleTenantNameChange(e)}
+                        onFocus={(e: Focus) => handleTenantNameChange(e)}
                         onChange={handleTenantNameChange}
                     />
                     <TextField
@@ -210,7 +209,7 @@ export function CreateTenant() {
                         helperText= {studyDayStartTimeErrors}
                         error={studyDayStartTimeErrors.length !== 0}
                         inputRef={studyDayStartTimeRef}
-                        onFocus={(e) => handleStudyDayStartTimeChange(e)}
+                        onFocus={(e: Focus) => handleStudyDayStartTimeChange(e)}
                         onChange={handleStudyDayStartTimeChange}
                     />
                     <TextField
@@ -222,7 +221,7 @@ export function CreateTenant() {
                         helperText= {lessonDurationTimeErrors}
                         error={lessonDurationTimeErrors.length !== 0}
                         inputRef={lessonDurationTimeRef}
-                        onFocus={(e) => handleLessonDurationTimeChange(e)}
+                        onFocus={(e: Focus) => handleLessonDurationTimeChange(e)}
                         onChange={handleLessonDurationTimeChange}
                     />
                     <TextField
@@ -234,7 +233,7 @@ export function CreateTenant() {
                         helperText= {breaksDurationTimeErrors}
                         error={breaksDurationTimeErrors.length !== 0}
                         inputRef={breaksDurationTimeRef}
-                        onFocus={(e) => handleBreaksDurationTimeChange(e)}
+                        onFocus={(e: Focus) => handleBreaksDurationTimeChange(e)}
                         onChange={handleBreaksDurationTimeChange}
                     />
                     <hr style={hrStyle}/>
@@ -246,7 +245,7 @@ export function CreateTenant() {
                         helperText= {emailErrors}
                         error={emailErrors.length !== 0}
                         inputRef={emailRef}
-                        onFocus={(e) => handleEmailChange(e)}
+                        onFocus={(e: Focus) => handleEmailChange(e)}
                         onChange={handleEmailChange}
                     />
                     <TextField
@@ -258,7 +257,7 @@ export function CreateTenant() {
                         helperText= {passwordErrors}
                         error={passwordErrors.length !== 0}
                         inputRef={passwordRef}
-                        onFocus={(e) => handlePasswordChange(e)}
+                        onFocus={(e: Focus) => handlePasswordChange(e)}
                         onChange={handlePasswordChange}
                     />
                     <hr style={hrStyle}/>

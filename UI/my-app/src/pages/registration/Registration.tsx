@@ -1,4 +1,3 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
@@ -6,6 +5,14 @@ import { toast } from 'react-toastify';
 import { createTenantButtonStyle, loginButtonStyle, registrationFormStyle } from "./RegistrationStyles";
 import { Role, UserCreateModel } from "../../models/Users";
 import { useCult } from "../../hooks/Translator";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
@@ -183,7 +190,7 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={nameErrors}
                     error={nameErrors.length !== 0}
-                    onChange={e => setName(e.target.value)}
+                    onChange={(e: any) => setName(e.target.value)}
                 />
                 <TextField
                     label={translator('labels.last-name')}
@@ -192,7 +199,7 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={lastNameErrors}
                     error={lastNameErrors.length !== 0}
-                    onChange={e => setLastName(e.target.value)}
+                    onChange={(e: any) => setLastName(e.target.value)}
                 />
                 <TextField 
                     label={translator('labels.father-name')}
@@ -203,7 +210,7 @@ export default function RegistrationPage() {
                     required={true}
                     error={fatherNameErrors.length !== 0}
                     margin="dense"
-                    onChange={e => setFatherName(e.target.value)}
+                    onChange={(e: any) => setFatherName(e.target.value)}
                 />
                 <TextField
                     label={translator('labels.age')}
@@ -214,7 +221,7 @@ export default function RegistrationPage() {
                     helperText={ageErrors}
                     error={ageErrors.length !== 0}
                     margin="dense"
-                    onChange={e => setAge(e.target.value)}
+                    onChange={(e: any) => setAge(e.target.value)}
                 />
                 <FormControl>
                     <InputLabel id="role-registration-select-label">{translator('labels.role')}</InputLabel>
@@ -225,7 +232,7 @@ export default function RegistrationPage() {
                         variant="filled"
                         required
                         value={role}
-                        onChange={e => setRole(e.target.value as Role)}
+                        onChange={(e: any) => setRole(e.target.value as Role)}
                     >
                         { getRolesItems() }
                     </Select>
@@ -237,7 +244,7 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={emailErrors}
                     error={emailErrors.length !== 0}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e: any) => setEmail(e.target.value)}
                 />
                 <TextField
                     label={translator('labels.password')}
@@ -247,7 +254,7 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={passwordErrors}
                     error={passwordErrors.length !== 0}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={(e: any) => setPassword(e.target.value)}
                 />
                 <TextField
                     label={translator('labels.repeat-password')}
@@ -257,7 +264,7 @@ export default function RegistrationPage() {
                     required={true}
                     helperText={repeatPasswordErrors}
                     error={repeatPasswordErrors.length !== 0}
-                    onChange={e => setRepeatPassword(e.target.value)}
+                    onChange={(e: any) => setRepeatPassword(e.target.value)}
                 />
                 
                 <Button variant="contained" size="large" onClick={submit}>

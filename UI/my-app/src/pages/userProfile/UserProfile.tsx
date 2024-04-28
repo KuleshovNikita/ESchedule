@@ -1,4 +1,3 @@
-import { Avatar, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState, useRef } from "react";
 import { useStore } from "../../api/stores/StoresManager";
@@ -20,6 +19,10 @@ import { Role, UserUpdateModel } from "../../models/Users";
 import { getEnumKey } from "../../utils/Utils";
 import { useCult } from "../../hooks/Translator";
 import { useNavigate } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -273,7 +276,7 @@ export default function UserPage() {
                         inputRef={firstNameRef}
                         error={firstNameErrors.length !== 0}
                         margin="dense"
-                        onFocus={(e) => handleFirstNameChange(e)}
+                        onFocus={(e: Focus) => handleFirstNameChange(e)}
                         onChange={handleFirstNameChange}
                     />
                     <TextField 
@@ -287,7 +290,7 @@ export default function UserPage() {
                         inputRef={lastNameRef}
                         error={lastNameErrors.length !== 0}
                         margin="dense"
-                        onFocus={(e) => handleLastNameChange(e)}
+                        onFocus={(e: Focus) => handleLastNameChange(e)}
                         onChange={handleLastNameChange}
                     />
                     <TextField 
@@ -301,7 +304,7 @@ export default function UserPage() {
                         inputRef={fatherNameRef}
                         error={fatherNameErrors.length !== 0}
                         margin="dense"
-                        onFocus={(e) => handleFatherNameChange(e)}
+                        onFocus={(e: Focus) => handleFatherNameChange(e)}
                         onChange={handleFatherNameChange}
                     />
                     <TextField 
@@ -315,7 +318,7 @@ export default function UserPage() {
                         inputRef={ageRef}
                         error={ageErrors.length !== 0}
                         margin="dense"
-                        onFocus={(e) => handleAgeChange(e)}
+                        onFocus={(e: Focus) => handleAgeChange(e)}
                         onChange={handleAgeChange}
                     />
                     <hr/>
@@ -335,7 +338,7 @@ export default function UserPage() {
                         inputRef={loginRef}
                         error={emailErrors.length !== 0}
                         margin="dense"
-                        onFocus={(e) => handleEmailChange(e)}
+                        onFocus={(e: Focus) => handleEmailChange(e)}
                         onChange={handleEmailChange}
                     />
                     <TextField 
@@ -350,7 +353,7 @@ export default function UserPage() {
                         inputRef={passwordRef}
                         error={passwordErrors.length !== 0}
                         margin="dense"
-                        onFocus={(e) => handlePasswordChange(e)}
+                        onFocus={(e: Focus) => handlePasswordChange(e)}
                         onChange={handlePasswordChange}
                     />
                     <hr/>
