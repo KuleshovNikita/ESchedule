@@ -1,5 +1,6 @@
 ﻿using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Repos;
+using ESchedule.DataAccess.Repos.Auth;
 using ESchedule.DataAccess.Repos.Groups;
 using ESchedule.DataAccess.Repos.Lessons;
 using ESchedule.DataAccess.Repos.ManyToMany;
@@ -24,6 +25,7 @@ namespace ESchedule.DataAccess.Modules
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             services.AddScoped<IRepository<UserModel>, UserRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IRepository<GroupModel>, GroupRepository>();
             services.AddScoped<IRepository<LessonModel>, LessonRepository>();
             services.AddScoped<IRepository<TenantSettingsModel>, TenantSettingsRepository>();

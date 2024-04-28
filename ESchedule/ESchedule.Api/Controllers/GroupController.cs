@@ -1,6 +1,7 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
+using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,9 @@ namespace ESchedule.Api.Controllers
 {
     public class GroupController : BaseController<GroupModel>
     {
-        public GroupController(IBaseService<GroupModel> groupService) : base(groupService) { }
+        private readonly ITenantContextProvider _p;
+
+        public GroupController(IBaseService<GroupModel> groupService, ITenantContextProvider p) : base(groupService) { _p = p; }
 
         [Authorize]
         [HttpPost]
@@ -20,6 +23,11 @@ namespace ESchedule.Api.Controllers
         [HttpPut]
         public async Task UpdateGroup([FromBody] GroupUpdateModel groupModel)
             => await _service.UpdateItem(groupModel);
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IEnumerable<GroupModel>> GetGroups()
+            => await _service.GetItems();
 
         [Authorize]
         [HttpGet("{groupId}")]

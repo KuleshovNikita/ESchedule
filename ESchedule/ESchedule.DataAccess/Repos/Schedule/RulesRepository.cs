@@ -9,7 +9,7 @@ namespace ESchedule.DataAccess.Repos.Schedule
 {
     public class RulesRepository : Repository<RuleModel>
     {
-        public RulesRepository(EScheduleDbContext context) : base(context)
+        public RulesRepository(TenantEScheduleDbContext context) : base(context)
         {
         }
 

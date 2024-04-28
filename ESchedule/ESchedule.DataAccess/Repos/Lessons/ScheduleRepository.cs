@@ -9,7 +9,7 @@ namespace ESchedule.DataAccess.Repos.Lessons
 {
     public class ScheduleRepository : Repository<ScheduleModel>
     {
-        public ScheduleRepository(EScheduleDbContext context) : base(context)
+        public ScheduleRepository(TenantEScheduleDbContext context) : base(context)
         {
         }
 

@@ -4,11 +4,11 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Email;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
+using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
-using ESchedule.ServiceResulting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,21 +19,24 @@ using System.Text;
 
 namespace ESchedule.Business.Auth
 {
-    public class AuthService : IAuthService
+    public class AuthService : BaseService<UserModel>, IAuthService
     {
         private readonly IEmailService _emailService;
         private readonly IUserService _userService;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IMapper _mapper;
         private readonly JwtSettings _jwtSettings;
-
-        public AuthService(IMapper mapper, IPasswordHasher passwordHasher, IEmailService emailService,
-            IUserService userService, IConfiguration config)
+        
+        public AuthService(
+            IRepository<UserModel> repository, 
+            IMapper mapper, 
+            IPasswordHasher passwordHasher, 
+            IEmailService emailService, 
+            IConfiguration config,
+            IUserService userService) : base(repository, mapper)
         {
             _emailService = emailService;
-            _userService = userService;
             _passwordHasher = passwordHasher;
-            _mapper = mapper;
+            _userService = userService;
 
             _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>()!;
         }
@@ -54,7 +57,7 @@ namespace ESchedule.Business.Auth
         {
             ValidateEmail(authModel.Login);
 
-            var user = await _userService.First(x => x.Login == authModel.Login);
+            var user = await First(x => x.Login == authModel.Login);
 
             if (!user.IsEmailConfirmed)
             {
@@ -76,7 +79,7 @@ namespace ESchedule.Business.Auth
                 throw new ArgumentNullException(Resources.InvalidDataFoundCantRegisterUser);
             }
 
-            var logins = await _userService.GetItems(x => x.Login == userModel.Login);
+            var logins = await GetItems(x => x.Login == userModel.Login);
 
             if (logins.Any())
             {
@@ -93,7 +96,7 @@ namespace ESchedule.Business.Auth
 
         public async Task<Guid> ConfirmEmail(string key)
         {
-            var userResult = await _userService.First(x => x.Password.ToLower() == key.ToLower());
+            var userResult = await First(x => x.Password.ToLower() == key.ToLower());
 
             if (userResult.IsEmailConfirmed)
             {
@@ -103,7 +106,7 @@ namespace ESchedule.Business.Auth
             userResult.IsEmailConfirmed = true;
             var userUpdateModel = _mapper.Map<UserUpdateModel>(userResult);
 
-            await _userService.UpdateItem(userUpdateModel);
+            await UpdateItem(userUpdateModel);
 
             return userResult.Id;
         }

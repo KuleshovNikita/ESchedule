@@ -1,5 +1,4 @@
-﻿using ESchedule.ServiceResulting;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace ESchedule.DataAccess.Repos
 {
@@ -10,6 +9,8 @@ namespace ESchedule.DataAccess.Repos
         Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command);
 
         Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command);
+
+        Task<IEnumerable<TModel>> All();
 
         Task<bool> Any(Expression<Func<TModel, bool>> command);
 

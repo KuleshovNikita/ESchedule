@@ -9,7 +9,7 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
 {
     public class TeachersLessonsRepository : Repository<TeachersLessonsModel>
     {
-        public TeachersLessonsRepository(EScheduleDbContext context) : base(context)
+        public TeachersLessonsRepository(TenantEScheduleDbContext context) : base(context)
         {
         }
 

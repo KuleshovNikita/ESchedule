@@ -9,7 +9,7 @@ namespace ESchedule.DataAccess.Repos.Tenant
 {
     public class TenantRepository : Repository<TenantModel>
     {
-        public TenantRepository(EScheduleDbContext context) : base(context)
+        public TenantRepository(TenantEScheduleDbContext context) : base(context)
         {
         }
 

@@ -10,7 +10,7 @@ namespace ESchedule.DataAccess.Repos.Groups
 {
     public class GroupRepository : Repository<GroupModel>
     {
-        public GroupRepository(EScheduleDbContext context) : base(context)
+        public GroupRepository(TenantEScheduleDbContext context) : base(context)
         {
         }
 

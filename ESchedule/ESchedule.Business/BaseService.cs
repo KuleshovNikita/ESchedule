@@ -45,6 +45,9 @@ namespace ESchedule.Business
         public async virtual Task<IEnumerable<T>> GetItems(Expression<Func<T, bool>> predicate, bool includeNavs = false)
             => await _repository.Where(predicate);
 
+        public async virtual Task<IEnumerable<T>> GetItems()
+            => await _repository.All();
+
         public async virtual Task<T> First(Expression<Func<T, bool>> predicate)
             => await _repository.First(predicate);
 
