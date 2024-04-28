@@ -1,11 +1,13 @@
 ﻿using ESchedule.Business.Auth;
 using ESchedule.Business.Email;
+using ESchedule.Business.GroupLessons;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Lessons;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Business.Tenant;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
+using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,6 +33,8 @@ namespace ESchedule.Business.Modules
 
             services.AddScoped<ILessonService, LessonService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
+
+            services.AddScoped<IBaseService<GroupsLessonsModel>, GroupLessonsService>();
 
             return services;
         }

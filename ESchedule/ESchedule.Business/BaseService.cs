@@ -4,8 +4,7 @@ using ESchedule.Business.Extensions;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Exceptions;
-using ESchedule.Domain.Properties;
-using ESchedule.ServiceResulting;
+using ESchedule.Domain.Tenant;
 using System.Linq.Expressions;
 
 namespace ESchedule.Business
@@ -15,11 +14,13 @@ namespace ESchedule.Business
     {
         protected readonly IRepository<T> _repository;
         protected readonly IMapper _mapper;
+        protected readonly ITenantContextProvider _tenantContextProvider;
 
-        public BaseService(IRepository<T> repository, IMapper mapper)
+        public BaseService(IRepository<T> repository, IMapper mapper, ITenantContextProvider tenantContextProvider)
         {
             _repository = repository;
             _mapper = mapper;
+            _tenantContextProvider = tenantContextProvider;
         }
 
         public async virtual Task<T> CreateItem<TCreateModel>(TCreateModel itemCreateModel)
@@ -36,7 +37,7 @@ namespace ESchedule.Business
             await _repository.InsertMany(itemsSet);
         }
 
-        public async virtual Task InsertMany<K>(IEnumerable<K> itemsSet)
+        public async virtual Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> itemsSet)
         {
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
             var mappedItems = _mapper.Map<IEnumerable<T>>(itemsSet);

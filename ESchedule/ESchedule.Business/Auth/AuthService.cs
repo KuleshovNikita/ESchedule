@@ -118,7 +118,7 @@ namespace ESchedule.Business.Auth
 
         private string BuildClaimsWithEmail(UserModel userModel)
         {
-            var claims = ClaimsSets.GetClaimsWithEmail(userModel);
+            var claims = ClaimsSets.GetClaims(userModel);
             return BuildClaims(claims);
         }
 

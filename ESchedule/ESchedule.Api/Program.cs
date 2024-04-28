@@ -1,16 +1,19 @@
+using ESchedule.Api.Filters;
 using ESchedule.Api.Middlewares;
 using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Auth;
 using ESchedule.Startup.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-builder.Services.AddControllers()
+builder.Services.AddControllers(opt =>
+                {
+                    opt.Filters.Add<TenantContextFilter>();
+                })
                 .AddJsonOptions(opt =>
                 {
                     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;

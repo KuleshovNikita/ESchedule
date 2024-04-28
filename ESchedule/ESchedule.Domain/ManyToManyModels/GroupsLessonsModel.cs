@@ -10,5 +10,7 @@ namespace ESchedule.Domain.ManyToManyModels
 
         public Guid StudyGroupId { get; set; }
         public GroupModel StudyGroup { get; set; } = null!;
+
+        public Guid TenantId { get; set; }
     }
 }

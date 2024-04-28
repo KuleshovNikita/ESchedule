@@ -1,7 +1,6 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Business;
 using ESchedule.Domain.ManyToManyModels;
-using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +8,10 @@ namespace ESchedule.Api.Controllers
 {
     public class GroupLessonsController : BaseController<GroupsLessonsModel>
     {
-        public GroupLessonsController(IBaseService<GroupsLessonsModel> service) : base(service) { }
+        public GroupLessonsController(IBaseService<GroupsLessonsModel> service) : base(service) 
+        {
+           
+        }
 
         [Authorize]
         [HttpPost]
