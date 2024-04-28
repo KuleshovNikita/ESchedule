@@ -1,0 +1,35 @@
+﻿using AutoMapper;
+using ESchedule.DataAccess.Repos;
+using ESchedule.Domain.ManyToManyModels;
+using ESchedule.Domain.Tenant;
+
+namespace ESchedule.Business.TeachersLessons
+{
+    public class TeachersLessonsService : BaseService<TeachersLessonsModel>
+    {
+        public TeachersLessonsService(
+            IRepository<TeachersLessonsModel> repository,
+            IMapper mapper,
+            ITenantContextProvider tenantContextProvider)
+            : base(repository, mapper, tenantContextProvider)
+        {
+        }
+
+        public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)
+        {
+            if (request == null || !request.Any())
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            var mapped = request.Select(x => {
+                var item = _mapper.Map<TeachersLessonsModel>(x);
+                item.TenantId = _tenantContextProvider.Current.TenantId;
+
+                return item;
+            });
+
+            await _repository.InsertMany(mapped);
+        }
+    }
+}

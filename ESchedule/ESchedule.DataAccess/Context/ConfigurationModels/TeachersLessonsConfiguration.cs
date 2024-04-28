@@ -9,6 +9,7 @@ namespace ESchedule.DataAccess.Context.ConfigurationModels
         public void Configure(EntityTypeBuilder<TeachersLessonsModel> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.TenantId);
 
             builder.HasOne(x => x.Teacher)
                 .WithMany(x => x.TaughtLessons)

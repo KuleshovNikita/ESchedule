@@ -31,8 +31,8 @@ namespace ESchedule.DataAccess.Context
             modelBuilder.Entity<GroupModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
             modelBuilder.Entity<AttendanceModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
             modelBuilder.Entity<GroupsLessonsModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
-
-            //TODO add for TeachersLessons, TeacherGroupsLessons, GroupLessons
+            modelBuilder.Entity<TeachersLessonsModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
+            modelBuilder.Entity<TeachersGroupsLessonsModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
         }
     }
 }

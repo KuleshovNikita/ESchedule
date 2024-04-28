@@ -4,6 +4,7 @@ using ESchedule.Business.GroupLessons;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Lessons;
 using ESchedule.Business.ScheduleBuilding;
+using ESchedule.Business.TeachersLessons;
 using ESchedule.Business.Tenant;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
@@ -35,6 +36,8 @@ namespace ESchedule.Business.Modules
             services.AddScoped<IAttendanceService, AttendanceService>();
 
             services.AddScoped<IBaseService<GroupsLessonsModel>, GroupLessonsService>();
+            services.AddScoped<IBaseService<TeachersLessonsModel>, TeachersLessonsService>();
+            services.AddScoped<IBaseService<TeachersGroupsLessonsModel>, TeachersGroupsLessonsService>();
 
             return services;
         }

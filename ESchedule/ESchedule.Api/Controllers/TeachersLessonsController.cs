@@ -1,7 +1,6 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Business;
 using ESchedule.Domain.ManyToManyModels;
-using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
