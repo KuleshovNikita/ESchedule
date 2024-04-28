@@ -44,7 +44,6 @@ class ForbiddenErrorBoundary extends Component<Props, State> {
             return <h3>You have no right to access this page</h3>;
         }        
       } else {
-        console.log(this.props)
         return this.props.children;
       }
     }

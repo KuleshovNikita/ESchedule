@@ -2,6 +2,6 @@
 {
     public record TenantUpdateModel : BaseUpdateModel
     {
-        public string? TenantName { get; set; } = null!;
+        public string? Name { get; set; } = null!;
     }
 }

@@ -32,7 +32,7 @@ export default function ScheduleRedactorPage() {
         :   
             <Box sx={{ml: 1}}>
                 <Typography variant="h2">
-                    {tenantStore.tenant?.tenantName}
+                    {tenantStore.tenant?.name}
                 </Typography>
                 
                 <CustomAccordion title={translator('labels.rules-list')}>

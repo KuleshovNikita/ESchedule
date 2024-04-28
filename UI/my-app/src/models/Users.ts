@@ -8,7 +8,6 @@ export interface UserCreateModel extends UserLoginModel {
     fatherName: string;
     age: number;
     role: Role;
-    tenantId: string | null;
 }
 
 export interface UserUpdateModel extends BaseEntity {
@@ -33,7 +32,7 @@ export interface UserModel extends BaseEntity {
     role: Role;
     isEmailConfirmed: boolean;
     groupId: string | null;
-    group: GroupModel;
+    group: GroupModel | null;
     tenantId: string | null;
     tenant: TenantModel;
 }

@@ -348,7 +348,7 @@ export default function UserPage() {
                         label={translator('labels.tenant')}
                         variant="filled"
                         size="small"
-                        value={userStore.user?.tenant.tenantName}
+                        value={userStore.user?.tenant?.name ?? "None"}
                         required={false}
                         disabled
                         margin="dense"

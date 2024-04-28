@@ -28,11 +28,9 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use(async (response) => response,
     (error: AxiosError<ErrorResponse>) => {
-        console.log(error)
         const { data, status, headers } = error.response!;
         switch (status) {
             case 400:
-                console.log(data);
                 toast.error('Bad request');
                 break;
             case 401:

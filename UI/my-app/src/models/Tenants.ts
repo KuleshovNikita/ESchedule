@@ -8,11 +8,11 @@ export interface TenantCreateModel {
 }
 
 export interface TenantUpdateModel {
-    tenantName: string | null;
+    name: string | null;
 }
 
 export interface TenantModel extends BaseEntity {
-    tenantName: string;
+    name: string;
 }
 
 export interface TenantSettingsCreateModel {
