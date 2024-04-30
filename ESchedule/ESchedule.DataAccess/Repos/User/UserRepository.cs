@@ -1,20 +1,24 @@
 ﻿using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
+using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace ESchedule.DataAccess.Repos.User
 {
     public class UserRepository : Repository<UserModel>
     {
-        public UserRepository(EScheduleDbContext context) : base(context)
+        public UserRepository(TenantEScheduleDbContext context) : base(context)
         {
+            
         }
 
-        public override async Task<UserModel> First(Expression<Func<UserModel, bool>> command)
+        public override async Task<UserModel> FirstOrDefault(Expression<Func<UserModel, bool>> command)
             => await _context.Set<UserModel>()
                     .Include(x => x.Group)
                     .Include(x => x.Tenant)

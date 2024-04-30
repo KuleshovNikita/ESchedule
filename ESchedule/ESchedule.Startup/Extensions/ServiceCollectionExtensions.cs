@@ -41,8 +41,10 @@ namespace ESchedule.Startup.Extensions
 
         public static IServiceCollection ConfigureDbConnection(this IServiceCollection services, ConfigurationManager config)
             => services
+                .AddDbContext<TenantEScheduleDbContext>(ServiceLifetime.Transient)
                 .AddDbContext<EScheduleDbContext>(
-                    opt => opt.UseSqlServer(config.GetConnectionString("SqlServer")!)
+                    opt => opt.UseSqlServer(config.GetConnectionString("SqlServer")!),
+                    ServiceLifetime.Transient
                 );
 
         public static void ConfigureAuthorization(this IServiceCollection services)

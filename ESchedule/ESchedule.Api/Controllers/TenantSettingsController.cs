@@ -30,14 +30,14 @@ namespace ESchedule.Api.Controllers
             => await _service.UpdateItem(tenantModel);
 
         [Authorize]
-        [HttpGet("time/{tenantId}")]
-        public async Task<List<object>> GetTenantScheduleTimes(Guid tenantId)
-            => await _tenantSettingsService.BuildSchedulesTimeTable(tenantId);
+        [HttpGet("time")]
+        public async Task<List<object>> GetTenantScheduleTimes()
+            => await _tenantSettingsService.BuildSchedulesTimeTable();
 
         [Authorize]
         [HttpGet("{tenantId}")]
         public async Task<TenantSettingsModel> GetTenantSettings(Guid tenantId)
-            => await _service.First(x => x.Id == tenantId);
+            => await _service.FirstOrDefault(x => x.Id == tenantId);
 
         [Authorize]
         [HttpDelete("{tenantId}")]

@@ -37,14 +37,14 @@ const LessonViewer = observer(() => {
     
     useEffect(() => {
         const fetchLessons = async () => 
-            await tenantStore.getLessons(tenantStore.tenant?.id as string)
+            await lessonStore.getLessons()
                 .then(res => lessonStore.lessons = res);
 
         fetchLessons();
     }, [tenantStore, lessonStore])
 
     const removeLessons = async () => {
-        await lessonStore.removeLessons(lessonsToRemove.map(x => x.id), tenantStore.tenant?.id as string)
+        await lessonStore.removeLessons(lessonsToRemove.map(x => x.id))
             .then(() => toast.success(translator("toasts.lesson-removed")));
     }
 

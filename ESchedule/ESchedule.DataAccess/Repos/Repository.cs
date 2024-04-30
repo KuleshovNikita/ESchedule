@@ -7,11 +7,11 @@ namespace ESchedule.DataAccess.Repos
 {
     public class Repository<TModel> : IRepository<TModel> where TModel : class
     {
-        protected readonly EScheduleDbContext _context;
+        protected readonly TenantEScheduleDbContext _context;
 
-        public Repository(EScheduleDbContext context) => _context = context;
+        public Repository(TenantEScheduleDbContext context) => _context = context;
 
-        public virtual async Task<TModel> First(Expression<Func<TModel, bool>> command)
+        public virtual async Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> command)
             => await _context.Set<TModel>().FirstOrDefaultAsync(command) 
                 ?? throw new EntityNotFoundException();
 
@@ -21,6 +21,9 @@ namespace ESchedule.DataAccess.Repos
         public virtual async Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command)
             => await _context.Set<TModel>().Where(command).ToListAsync() 
                 ?? throw new EntityNotFoundException();
+
+        public virtual async Task<IEnumerable<TModel>> All()
+            => await _context.Set<TModel>().Where(x => true).ToListAsync();
 
         public virtual async Task<bool> Any(Expression<Func<TModel, bool>> command)
             => await _context.Set<TModel>().AnyAsync(command);
@@ -57,5 +60,8 @@ namespace ESchedule.DataAccess.Repos
             _context.Set<TModel>().RemoveRange(entities);
             await _context.SaveChangesAsync();
         }
+
+        public async Task SaveChangesAsync() =>
+            await _context.SaveChangesAsync();
     }
 }

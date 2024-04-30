@@ -4,7 +4,7 @@ import { agent } from "../agent";
 
 export default class GroupStore {
     client = agent.Group;
-    group: GroupModel | null = null;
+    groups: GroupModel[] | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -21,4 +21,17 @@ export default class GroupStore {
 
     getGroup = async (id: string) => 
         await this.client.getGroup(id);
+
+    getGroups = async () => {
+        if(this.groups) {
+            return this.groups;
+        }
+
+        var res = await this.client.getGroups();
+
+        this.groups = res;
+
+        return res;
+    }
+        
 }

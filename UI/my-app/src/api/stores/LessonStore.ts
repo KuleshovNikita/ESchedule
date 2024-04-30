@@ -23,8 +23,20 @@ export default class LessonStore {
     getLesson = async (id: string) => 
         await this.client.getLesson(id);
 
-    removeLessons = async (lessons: string[], tenantId: string) =>
-        await this.client.removeLessons(lessons, tenantId)
+    getLessons = async () => {
+        if(this.lessons) {
+            return this.lessons;
+        } 
+
+        const res = await this.client.getLessons();
+        this.lessons = res;
+
+        return res;
+    }
+        
+
+    removeLessons = async (lessons: string[]) =>
+        await this.client.removeLessons(lessons)
             .then(() => this.lessons!.filter(l => !lessons.includes(l.id)))
             .then(res => this.lessons = res);
 }

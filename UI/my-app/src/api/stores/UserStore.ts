@@ -7,6 +7,7 @@ export default class UserStore {
     client: any = null;
     user: UserModel | null = null;
     otherUsers: UserModel[] = [];
+    teachers: UserModel[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -36,6 +37,9 @@ export default class UserStore {
     updateUserInfo = async (user: UserUpdateModel) => 
         await agent.User.updateUser(user);
 
+    updateUserTenant = async (userId: string) => 
+        await agent.User.updateUserTenant(userId);
+
     confirmEmail = async (key: string) => 
         await agent.Auth.confirmEmail(key);
 
@@ -50,6 +54,7 @@ export default class UserStore {
                 .catch(_ => null); //разобраться с этим завтра
             
             if(response) {
+                store.tenantStore.tenant = response.tenant
                 this.user = response;
             }
 
@@ -66,4 +71,17 @@ export default class UserStore {
 
         return response;
     }
+
+    getTeachers = async () => {
+        if(this.teachers) {
+            return this.teachers;
+        }
+
+        var res = await agent.User.getUsersByRole(Role.Teacher);
+
+        this.teachers = res;
+
+        return res;
+    }
+        
 }

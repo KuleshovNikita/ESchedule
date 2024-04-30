@@ -27,8 +27,8 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpPut("many/{tenantId}")]
-        public async Task RemoveLessons([FromBody] IEnumerable<Guid> lessonsToRemove, Guid tenantId)
-            => await _lessonService.RemoveLessons(lessonsToRemove, tenantId);
+        public async Task RemoveLessons([FromBody] IEnumerable<Guid> lessonsToRemove)
+            => await _lessonService.RemoveLessons(lessonsToRemove);
 
         [Authorize]
         [HttpPut]
@@ -38,7 +38,12 @@ namespace ESchedule.Api.Controllers
         [Authorize]
         [HttpGet("{lessonId}")]
         public async Task<LessonModel> GetLesson(Guid lessonId)
-            => await _service.First(x => x.Id == lessonId);
+            => await _service.FirstOrDefault(x => x.Id == lessonId);
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IEnumerable<LessonModel>> GetLessons()
+            => await _service.GetItems();
 
         [Authorize]
         [HttpDelete("{lessonId}")]

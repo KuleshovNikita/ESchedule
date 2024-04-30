@@ -19,7 +19,6 @@ export interface UserUpdateModel extends BaseEntity {
     age: number | null;
     role: Role | null;
     groupId: string | null;
-    tenantId: string | null;
 }
 
 export interface UserModel extends BaseEntity {

@@ -9,11 +9,11 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
 {
     public class GroupsLessonsRepository : Repository<GroupsLessonsModel>
     {
-        public GroupsLessonsRepository(EScheduleDbContext context) : base(context)
+        public GroupsLessonsRepository(TenantEScheduleDbContext context) : base(context)
         {
         }
 
-        public override async Task<GroupsLessonsModel> First(Expression<Func<GroupsLessonsModel, bool>> command)
+        public override async Task<GroupsLessonsModel> FirstOrDefault(Expression<Func<GroupsLessonsModel, bool>> command)
             => await _context.Set<GroupsLessonsModel>()
                     .Include(x => x.StudyGroup)
                     .Include(x => x.Lesson)

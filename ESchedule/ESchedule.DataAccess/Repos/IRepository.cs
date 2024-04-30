@@ -1,15 +1,16 @@
-﻿using ESchedule.ServiceResulting;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace ESchedule.DataAccess.Repos
 {
     public interface IRepository<TModel> where TModel : class
     {
-        Task<TModel> First(Expression<Func<TModel, bool>> command);
+        Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> command);
 
         Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command);
 
         Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command);
+
+        Task<IEnumerable<TModel>> All();
 
         Task<bool> Any(Expression<Func<TModel, bool>> command);
 
@@ -22,5 +23,7 @@ namespace ESchedule.DataAccess.Repos
         Task Remove(TModel entity);
 
         Task RemoveRange(IEnumerable<TModel> entities);
+
+        Task SaveChangesAsync();
     }
 }

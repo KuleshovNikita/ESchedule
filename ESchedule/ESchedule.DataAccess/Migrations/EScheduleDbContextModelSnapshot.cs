@@ -169,6 +169,9 @@ namespace ESchedule.DataAccess.Migrations
                     b.Property<Guid>("StudyGroupId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("LessonId");
@@ -182,61 +185,71 @@ namespace ESchedule.DataAccess.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000002"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000003"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000003"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000004"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000004"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000005"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000005"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000006"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000007"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000008"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000003"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000009"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000004"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000010"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000005"),
-                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002")
+                            StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         });
                 });
 
@@ -255,6 +268,9 @@ namespace ESchedule.DataAccess.Migrations
                     b.Property<Guid>("TeacherId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("LessonId");
@@ -271,70 +287,80 @@ namespace ESchedule.DataAccess.Migrations
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000001"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000002"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000005"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000003"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000003"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000004"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000004"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000005"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000004"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000006"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000005"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000007"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000001"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000008"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000009"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000010"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000003"),
                             StudyGroupId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         });
                 });
 
@@ -350,6 +376,9 @@ namespace ESchedule.DataAccess.Migrations
                     b.Property<Guid>("TeacherId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("LessonId");
@@ -363,37 +392,43 @@ namespace ESchedule.DataAccess.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000002"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000005"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000003"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000004"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000003"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000006"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000005"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000004"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000006"),
                             LessonId = new Guid("00000000-0000-0000-0000-000000000005"),
-                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007")
+                            TeacherId = new Guid("00000000-0000-0000-0000-000000000007"),
+                            TenantId = new Guid("00000000-0000-0000-0000-000000000001")
                         });
                 });
 

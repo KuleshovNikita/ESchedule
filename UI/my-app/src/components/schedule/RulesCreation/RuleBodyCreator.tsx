@@ -37,8 +37,7 @@ export default function RuleBodyCreator({ruleName, bodyData, onConfirm}: Props) 
     const saveRule = async () => {
         const newRule: RuleInputModel = {
             ruleName: ruleName,
-            ruleJson: JSON.stringify(bodyData),
-            tenantId: userStore.user?.tenantId!
+            ruleJson: JSON.stringify(bodyData)
         }
 
         await scheduleStore.createRule(newRule)

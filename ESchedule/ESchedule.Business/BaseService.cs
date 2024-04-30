@@ -4,8 +4,6 @@ using ESchedule.Business.Extensions;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Exceptions;
-using ESchedule.Domain.Properties;
-using ESchedule.ServiceResulting;
 using System.Linq.Expressions;
 
 namespace ESchedule.Business
@@ -36,7 +34,7 @@ namespace ESchedule.Business
             await _repository.InsertMany(itemsSet);
         }
 
-        public async virtual Task InsertMany<K>(IEnumerable<K> itemsSet)
+        public async virtual Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> itemsSet)
         {
             // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
             var mappedItems = _mapper.Map<IEnumerable<T>>(itemsSet);
@@ -46,8 +44,14 @@ namespace ESchedule.Business
         public async virtual Task<IEnumerable<T>> GetItems(Expression<Func<T, bool>> predicate, bool includeNavs = false)
             => await _repository.Where(predicate);
 
-        public async virtual Task<T> First(Expression<Func<T, bool>> predicate)
-            => await _repository.First(predicate);
+        public async virtual Task<IEnumerable<T>> GetItems()
+            => await _repository.All();
+
+        public async virtual Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)
+            => await _repository.FirstOrDefault(predicate);
+
+        public async virtual Task<T> SingleOrDefault(Expression<Func<T, bool>> predicate)
+            => await _repository.SingleOrDefault(predicate);
 
         public async virtual Task<IEnumerable<T>> Where(Expression<Func<T, bool>> predicate)
             => await _repository.Where(predicate);
@@ -81,7 +85,7 @@ namespace ESchedule.Business
                 throw new EntityNotFoundException();
             }
 
-            var user = await First(x => x.Id == updateModel.Id);
+            var user = await FirstOrDefault(x => x.Id == updateModel.Id);
             user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
 
             await _repository.Update(user);

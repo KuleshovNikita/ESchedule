@@ -9,11 +9,11 @@ namespace ESchedule.DataAccess.Repos.Tenant
 {
     public class TenantSettingsRepository : Repository<TenantSettingsModel>
     {
-        public TenantSettingsRepository(EScheduleDbContext context) : base(context)
+        public TenantSettingsRepository(TenantEScheduleDbContext context) : base(context)
         {
         }
 
-        public override async Task<TenantSettingsModel> First(Expression<Func<TenantSettingsModel, bool>> command)
+        public override async Task<TenantSettingsModel> FirstOrDefault(Expression<Func<TenantSettingsModel, bool>> command)
             => await _context.Set<TenantSettingsModel>()
                     .Include(x => x.Tenant)
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();

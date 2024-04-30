@@ -10,11 +10,11 @@ namespace ESchedule.DataAccess.Repos.Groups
 {
     public class GroupRepository : Repository<GroupModel>
     {
-        public GroupRepository(EScheduleDbContext context) : base(context)
+        public GroupRepository(TenantEScheduleDbContext context) : base(context)
         {
         }
 
-        public override async Task<GroupModel> First(Expression<Func<GroupModel, bool>> command)
+        public override async Task<GroupModel> FirstOrDefault(Expression<Func<GroupModel, bool>> command)
             => await _context.Set<GroupModel>()
                     .Include(x => x.StudingLessons)
                     .Include(x => x.Members)

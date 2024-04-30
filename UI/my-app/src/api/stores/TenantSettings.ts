@@ -23,12 +23,12 @@ export default class TenantSettingsStore {
     getTenantSettings = async (tenantId: string) =>
         await this.client.getTenantSettings(tenantId);
 
-    getTenantScheduleTimes = async (tenantId: string) => {
+    getTenantScheduleTimes = async () => {
         if(this.timeTableList) {
             return this.timeTableList;
         }
 
-        const response = await this.client.getTenantScheduleTimes(tenantId);
+        const response = await this.client.getTenantScheduleTimes();
 
         if(response) {
             this.timeTableList = this.parseDate(response);

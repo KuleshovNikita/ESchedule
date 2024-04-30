@@ -174,7 +174,6 @@ export default function UserPage() {
             age: age,
             role: null,
             groupId: null,
-            tenantId: null,
             name: name,
             lastName: lastName, 
             fatherName: fatherName,

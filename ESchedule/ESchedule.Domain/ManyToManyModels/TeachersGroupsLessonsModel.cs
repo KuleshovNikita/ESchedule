@@ -13,5 +13,7 @@ namespace ESchedule.Domain.ManyToManyModels
 
         public Guid LessonId { get; set; }
         public LessonModel Lesson { get; set; } = null!;
+
+        public Guid TenantId { get; set; }
     }
 }

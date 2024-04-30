@@ -3,7 +3,6 @@ using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Auth;
 using ESchedule.Startup.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 

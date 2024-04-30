@@ -1,7 +1,6 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Business;
 using ESchedule.Domain.ManyToManyModels;
-using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +18,7 @@ namespace ESchedule.Api.Controllers
         [Authorize]
         [HttpGet("{itemId}")]
         public async Task<TeachersLessonsModel> GetItems(Guid itemId) //TODO хз как получать про них инфу
-            => await _service.First(x => x.Id == itemId);
+            => await _service.FirstOrDefault(x => x.Id == itemId);
 
         [Authorize]
         [HttpDelete]

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { buttonHoverStyles, buttonImageIconStyle } from "../styles/ButtonStyles";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useStore } from "../api/stores/StoresManager";
-import { UserUpdateModel } from "../models/Users";
 import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -28,20 +27,7 @@ export default function AddUserToTenant() {
     }
 
     const addUserToTenant = async () => {
-        const userUpdate: UserUpdateModel = {
-            name: null,
-            lastName: null,
-            fatherName: null,
-            login: null,
-            password: null,
-            age: null,
-            role: null,
-            groupId: null,
-            tenantId: tenantStore.tenant?.id as string,
-            id: userCode
-        }
-
-        await userStore.updateUserInfo(userUpdate)
+        await userStore.updateUserTenant(userCode)
             .then(() => toast.success(translator('toasts.user-added-to-tenant')));
     }
 

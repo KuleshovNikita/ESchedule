@@ -4,7 +4,6 @@ using ESchedule.Business.Auth;
 using ESchedule.Domain;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Authentication;
 using System.Security.Claims;
 
 namespace ESchedule.Api.Controllers
@@ -14,7 +13,9 @@ namespace ESchedule.Api.Controllers
         private readonly IAuthService _authService;
 
         public AuthenticationController(IAuthService authService, IBaseService<UserModel> userService) : base(userService)
-            => _authService = authService;
+        {
+            _authService = authService;
+        }
 
         [HttpPost("register")]
         public async Task Register([FromBody] UserCreateModel registerModel)
@@ -41,7 +42,7 @@ namespace ESchedule.Api.Controllers
                 throw new InvalidOperationException("Invalid token provided");
             }
 
-            return await _service.First(x => x.Id == id);
+            return await _service.FirstOrDefault(x => x.Id == id);
         }
 
         [HttpPatch("confirmEmail/{key}")]
