@@ -4,17 +4,18 @@ import { noneWord, normalizeUserName } from "../../utils/Utils";
 import { useCult } from "../../hooks/Translator";
 import CustomSelect, { SelectItem } from "../CustomSelect";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import LoadingComponent from "../hoc/loading/LoadingComponent";
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { useNavigate } from "react-router-dom";
 import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
+import Loader from "../hoc/loading/Loader";
+import { useLoader } from "../../hooks/Loader";
 
 export default function ViewSchedulesList() {
     const { userStore, groupStore } = useStore();
     const navigate = useNavigate();
     const { translator } = useCult();
-    const [isLoaded, setLoaded] = useState(false);
+    const loader = useLoader();
 
     const [targetSchedule, setTargetSchedule] = useState({id: noneWord, type: ''});
     const [targetScheduleError, setTargetScheduleError] = useState('');
@@ -25,8 +26,9 @@ export default function ViewSchedulesList() {
 
         const fetchTeachers = async () => 
             await userStore.getTeachers()
-                .then(() => setLoaded(true));
+                .then(() => loader.hide());
 
+        loader.show();
         fetchGroups();
         fetchTeachers();
     }, []);
@@ -70,13 +72,8 @@ export default function ViewSchedulesList() {
         setTargetSchedule({id: value.id, type: value.type as string});
     }
 
-    return(<>
-    {
-        !isLoaded
-    ? 
-        <LoadingComponent type='circle'/>
-    :
-        <>
+    return(
+        <Loader type='spin' replace>
             <CustomSelect 
                 label={translator('labels.target-schedule')} 
                 onChange={e => updateCurrentValue(e.target.value)} 
@@ -92,7 +89,6 @@ export default function ViewSchedulesList() {
                 {translator('buttons.open')}
                 <AddCircleIcon sx={buttonImageIconStyle}/>
             </Button>
-        </>
-    }
-    </>);
+        </Loader>
+    );
 }

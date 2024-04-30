@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from "react-toastify";
 import { InputFormStyle } from "../login/LoginStyles";
-import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
 import { useCult } from "../../hooks/Translator";
 import { createTenantButtonStyle } from "../registration/RegistrationStyles";
 import { TenantCreateModel, TenantSettingsCreateModel } from "../../models/Tenants";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Loader from "../../components/hoc/loading/Loader";
+import { useLoader } from "../../hooks/Loader";
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -24,10 +25,8 @@ const hrStyle = {
 export function CreateTenant() {
 
     const navigate = useNavigate();
-    const location = useLocation();
     const { translator } = useCult();
-
-    const [isWaiting, setWaiter] = useState(false);
+    const loader = useLoader();
 
     const [tenantName, setTenantName] = useState("");
     const [tenantErrors, setTenantErrors] = useState("");
@@ -167,108 +166,103 @@ export function CreateTenant() {
             settings: settings
         };
 
-        setWaiter(true);
+        loader.show();
+
         await tenantStore.createTenant(tenant)
             .then(() => toast.success(translator('toasts.tenant-created')))
-            .catch(err => false);
+            .then(() => loader.hide())
+            .catch(err => loader.hide());
 
         navigate('/login', { replace: true });
     };
 
     return (
-        <>
-            {
-                isWaiting === true
-            ?
-                <LoadingComponent/>
-            :
-            <>
-                <Box
-                    component="form"
-                    sx={InputFormStyle}
-                    noValidate
-                    autoComplete="off"
-                >                    
-                    <TextField
-                        label={translator('labels.tenant-name')}
-                        variant="filled"
-                        value={tenantName}
-                        required={true}
-                        helperText= {tenantErrors}
-                        error={tenantErrors.length !== 0}
-                        inputRef={tenantRef}
-                        onFocus={(e: Focus) => handleTenantNameChange(e)}
-                        onChange={handleTenantNameChange}
-                    />
-                    <TextField
-                        label={translator('labels.study-day-start-time')}
-                        variant="filled"
-                        type="time"
-                        value={studyDayStartTime}
-                        required={true}
-                        helperText= {studyDayStartTimeErrors}
-                        error={studyDayStartTimeErrors.length !== 0}
-                        inputRef={studyDayStartTimeRef}
-                        onFocus={(e: Focus) => handleStudyDayStartTimeChange(e)}
-                        onChange={handleStudyDayStartTimeChange}
-                    />
-                    <TextField
-                        label={translator('labels.lesson-duration-time')}
-                        variant="filled"
-                        type='time'
-                        value={lessonDurationTime}
-                        required={true}
-                        helperText= {lessonDurationTimeErrors}
-                        error={lessonDurationTimeErrors.length !== 0}
-                        inputRef={lessonDurationTimeRef}
-                        onFocus={(e: Focus) => handleLessonDurationTimeChange(e)}
-                        onChange={handleLessonDurationTimeChange}
-                    />
-                    <TextField
-                        label={translator('labels.breaks-duration-time')}
-                        variant="filled"
-                        type="time"
-                        value={breaksDurationTime}
-                        required={true}
-                        helperText= {breaksDurationTimeErrors}
-                        error={breaksDurationTimeErrors.length !== 0}
-                        inputRef={breaksDurationTimeRef}
-                        onFocus={(e: Focus) => handleBreaksDurationTimeChange(e)}
-                        onChange={handleBreaksDurationTimeChange}
-                    />
-                    <hr style={hrStyle}/>
-                    <TextField
-                        label={translator('labels.email')}
-                        variant="filled"
-                        value={email}
-                        required={true}
-                        helperText= {emailErrors}
-                        error={emailErrors.length !== 0}
-                        inputRef={emailRef}
-                        onFocus={(e: Focus) => handleEmailChange(e)}
-                        onChange={handleEmailChange}
-                    />
-                    <TextField
-                        label={translator('labels.password')}
-                        variant="filled"
-                        type="password"
-                        value={password}
-                        required={true}
-                        helperText= {passwordErrors}
-                        error={passwordErrors.length !== 0}
-                        inputRef={passwordRef}
-                        onFocus={(e: Focus) => handlePasswordChange(e)}
-                        onChange={handlePasswordChange}
-                    />
-                    <hr style={hrStyle}/>
-                    <Button sx={createTenantButtonStyle} 
-                        variant="contained" 
-                        size="large" 
-                        onClick={submit}>
-                            {translator('buttons.create-tenant')}
-                    </Button>
-                </Box>
-            </>
-            }
-        </>
-)}
+        <Loader>
+            <Box
+                component="form"
+                sx={InputFormStyle}
+                noValidate
+                autoComplete="off"
+            >                    
+                <TextField
+                    label={translator('labels.tenant-name')}
+                    variant="filled"
+                    value={tenantName}
+                    required={true}
+                    helperText= {tenantErrors}
+                    error={tenantErrors.length !== 0}
+                    inputRef={tenantRef}
+                    onFocus={(e: Focus) => handleTenantNameChange(e)}
+                    onChange={handleTenantNameChange}
+                />
+                <TextField
+                    label={translator('labels.study-day-start-time')}
+                    variant="filled"
+                    type="time"
+                    value={studyDayStartTime}
+                    required={true}
+                    helperText= {studyDayStartTimeErrors}
+                    error={studyDayStartTimeErrors.length !== 0}
+                    inputRef={studyDayStartTimeRef}
+                    onFocus={(e: Focus) => handleStudyDayStartTimeChange(e)}
+                    onChange={handleStudyDayStartTimeChange}
+                />
+                <TextField
+                    label={translator('labels.lesson-duration-time')}
+                    variant="filled"
+                    type='time'
+                    value={lessonDurationTime}
+                    required={true}
+                    helperText= {lessonDurationTimeErrors}
+                    error={lessonDurationTimeErrors.length !== 0}
+                    inputRef={lessonDurationTimeRef}
+                    onFocus={(e: Focus) => handleLessonDurationTimeChange(e)}
+                    onChange={handleLessonDurationTimeChange}
+                />
+                <TextField
+                    label={translator('labels.breaks-duration-time')}
+                    variant="filled"
+                    type="time"
+                    value={breaksDurationTime}
+                    required={true}
+                    helperText= {breaksDurationTimeErrors}
+                    error={breaksDurationTimeErrors.length !== 0}
+                    inputRef={breaksDurationTimeRef}
+                    onFocus={(e: Focus) => handleBreaksDurationTimeChange(e)}
+                    onChange={handleBreaksDurationTimeChange}
+                />
+                <hr style={hrStyle}/>
+                <TextField
+                    label={translator('labels.email')}
+                    variant="filled"
+                    value={email}
+                    required={true}
+                    helperText= {emailErrors}
+                    error={emailErrors.length !== 0}
+                    inputRef={emailRef}
+                    onFocus={(e: Focus) => handleEmailChange(e)}
+                    onChange={handleEmailChange}
+                />
+                <TextField
+                    label={translator('labels.password')}
+                    variant="filled"
+                    type="password"
+                    value={password}
+                    required={true}
+                    helperText= {passwordErrors}
+                    error={passwordErrors.length !== 0}
+                    inputRef={passwordRef}
+                    onFocus={(e: Focus) => handlePasswordChange(e)}
+                    onChange={handlePasswordChange}
+                />
+                <hr style={hrStyle}/>
+                <Button sx={createTenantButtonStyle} 
+                    variant="contained" 
+                    size="large" 
+                    onClick={submit}>
+                        {translator('buttons.create-tenant')}
+                </Button>
+            </Box>
+        </Loader>
+    );
+}

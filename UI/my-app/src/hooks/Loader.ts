@@ -1,23 +1,21 @@
-const loaderEvent = new CustomEvent('showLoader', {detail: {state: false}})
+import { loaderEventName } from "../utils/Utils";
+
+const loaderEvent = new CustomEvent(loaderEventName, {detail: {state: false}})
 
 export const useLoader = () => {
-    let state: boolean = false;
 
-    const showLoader = () => {
-        state = true;
-        loaderEvent.detail.state = state;
+    const show = () => {
+        loaderEvent.detail.state = true;
         window.dispatchEvent(loaderEvent);
     }
 
-    const hideLoader = () => {
-        state = false;
-        loaderEvent.detail.state = state;
+    const hide = () => {
+        loaderEvent.detail.state = false;
         window.dispatchEvent(loaderEvent);
     }
 
     return {
-        showLoader, 
-        hideLoader,
-        state
+        show,
+        hide
     };
 }

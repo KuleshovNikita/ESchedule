@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
-import LoadingComponent from "../hoc/loading/LoadingComponent";
+import Loader from "../hoc/loading/Loader";
 import { useCult } from "../../hooks/Translator";
 import RuleBodyViewer from "./RuleBodyViewer";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -14,6 +14,7 @@ import { RuleModel } from "../../models/Schedules";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useLoader } from "../../hooks/Loader";
 
 interface Props {
     tenantId: string
@@ -21,17 +22,18 @@ interface Props {
 
 export default function RulesList({ tenantId }: Props) {
     const { scheduleStore } = useStore();
-    const [isLoaded, setLoaded] = useState(false);
     const [rules, setRules] = useState<RuleModel[]>([]);
     const [isCreatingNewRule, setCreatingNewRuleFlag] = useState(false);
     const { translator } = useCult();
+    const loader = useLoader();
 
     useEffect(() => {
         const fetchRules = async () => 
             await scheduleStore.getScheduleRules(tenantId)
                 .then(res => setRules(res))
-                .then(() => setLoaded(true));
+                .then(() => loader.hide());
 
+        loader.show();
         fetchRules();
     }, [scheduleStore, tenantId]);
 
@@ -50,56 +52,48 @@ export default function RulesList({ tenantId }: Props) {
     }
 
     return(
-        <>
-        {
-            !isLoaded
-        ?   
-            <LoadingComponent type='circle'/>
-        :
-            <>
-                {
-                    rules?.map((v, k) => {
-                        return <Box key={k} sx={{mt: 1}}>
-                                    <TextField value={translator(v.ruleName)}/>
-                                    <RuleBodyViewer rule={v}/>
-                                    <Button sx={{...buttonHoverStyles, ml: 3}} 
-                                            variant="contained"
-                                            onClick={() => removeRule(v.id)}
-                                    >
-                                        {translator("buttons.remove")}
-                                    </Button>
-                                </Box>
-                    })
-                }
+        <Loader type='spin' replace>
+            {
+                rules?.map((v, k) => {
+                    return <Box key={k} sx={{mt: 1}}>
+                                <TextField value={translator(v.ruleName)}/>
+                                <RuleBodyViewer rule={v}/>
+                                <Button sx={{...buttonHoverStyles, ml: 3}} 
+                                        variant="contained"
+                                        onClick={() => removeRule(v.id)}
+                                >
+                                    {translator("buttons.remove")}
+                                </Button>
+                            </Box>
+                })
+            }
 
-                <Box sx={rulesListButtonsStyle}>
-                    <Button 
-                        sx={buttonHoverStyles} 
-                        variant="contained"
-                        onClick={showNewRuleForm}
-                    >
-                        {translator('buttons.create-new-rule')}
-                        <AddCircleIcon sx={buttonImageIconStyle} />
-                    </Button>
-                    <Button
-                        sx={buttonHoverStyles}   
-                        variant="contained"
-                        onClick={createSchedule}         
-                    >
-                        {translator('buttons.build-schedule')}
-                        <ConstructionIcon sx={buttonImageIconStyle}/>
-                    </Button>
-                </Box>
+            <Box sx={rulesListButtonsStyle}>
+                <Button 
+                    sx={buttonHoverStyles} 
+                    variant="contained"
+                    onClick={showNewRuleForm}
+                >
+                    {translator('buttons.create-new-rule')}
+                    <AddCircleIcon sx={buttonImageIconStyle} />
+                </Button>
+                <Button
+                    sx={buttonHoverStyles}   
+                    variant="contained"
+                    onClick={createSchedule}         
+                >
+                    {translator('buttons.build-schedule')}
+                    <ConstructionIcon sx={buttonImageIconStyle}/>
+                </Button>
+            </Box>
 
-                { 
-                    isCreatingNewRule
-                &&
-                    <PopupForm closeButtonHandler={showNewRuleForm}>
-                        <RuleSelect onConfirm={showNewRuleForm}/>
-                    </PopupForm>
-                }
-            </>
-        }
-        </>
+            { 
+                isCreatingNewRule
+            &&
+                <PopupForm closeButtonHandler={showNewRuleForm}>
+                    <RuleSelect onConfirm={showNewRuleForm}/>
+                </PopupForm>
+            }
+        </Loader>
     )
 }

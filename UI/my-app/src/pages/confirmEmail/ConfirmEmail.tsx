@@ -1,22 +1,22 @@
 import { useParams } from "react-router";
 import { useStore } from "../../api/stores/StoresManager";
 import { useNavigate } from "react-router-dom";
-import LoadingComponent from "../../components/hoc/loading/LoadingComponent";
+import Loader from "../../components/hoc/loading/Loader";
 import { useEffect, useState } from "react";
 import { loginButtonStyle } from "../registration/RegistrationStyles";
 import { useCult } from "../../hooks/Translator";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { useLoader } from "../../hooks/Loader";
 
 export default function ConfirmEmailPage() {
     const navigate = useNavigate();
     const { translator } = useCult();
-
-    const [finished, setFinishState] = useState(false);
     const { userStore } = useStore();
     const [ userId, setUserId ] = useState('');
     const { key } = useParams();
+    const loader = useLoader();
 
     useEffect(() => { 
         sendEmailConfirmation();
@@ -27,12 +27,14 @@ export default function ConfirmEmailPage() {
             navigate('/notFound', { replace: true })
         }
 
+        loader.show();
+
         const response = await userStore.confirmEmail(encodeURIComponent(key as string));
         if(response) {
             setUserId(response);
         } 
         
-        setFinishState(true);
+        loader.hide();
     }
 
     const redirectToLogin = () => {
@@ -40,30 +42,24 @@ export default function ConfirmEmailPage() {
     }
 
     return (
-        <Box>
-            {
-                    finished
-                ? 
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography variant="h2">
-                            {translator('messages.email-confirmed')}<br/>
-                        </Typography>
-                        <Typography>
-                            {translator('messages.send-code-to-dispatcher')}
-                        </Typography>
-                        <Typography>
-                            {userId}
-                        </Typography>
-                        <Button sx={loginButtonStyle} 
-                                variant="contained" 
-                                size="large" 
-                                onClick={redirectToLogin}>
-                            {translator('buttons.login')}
-                        </Button>
-                    </Box>
-                : 
-                    <LoadingComponent/>
-            }            
-        </Box>
+        <Loader replace>
+            <Box sx={{textAlign: 'center'}}>
+                <Typography variant="h2">
+                    {translator('messages.email-confirmed')}<br/>
+                </Typography>
+                <Typography>
+                    {translator('messages.send-code-to-dispatcher')}
+                </Typography>
+                <Typography>
+                    {userId}
+                </Typography>
+                <Button sx={loginButtonStyle} 
+                        variant="contained" 
+                        size="large" 
+                        onClick={redirectToLogin}>
+                    {translator('buttons.login')}
+                </Button>
+            </Box>
+        </Loader> 
     );
 }

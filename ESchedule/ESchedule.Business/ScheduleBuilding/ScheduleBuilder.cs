@@ -2,9 +2,7 @@
 using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule;
-using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Users;
-using System.Reflection;
 
 namespace ESchedule.Business.ScheduleBuilding
 {
