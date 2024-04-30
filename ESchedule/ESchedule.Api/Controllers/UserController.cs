@@ -23,9 +23,14 @@ namespace ESchedule.Api.Controllers
             => await _userService.UpdateUser(userModel);
 
         [Authorize]
+        [HttpPatch("tenant")]
+        public async Task UpdateUser(Guid userId)
+            => await _userService.SignUserToTenant(userId);
+
+        [Authorize]
         [HttpGet("{userId}")]
         public async Task<UserModel> GetUsers(Guid userId)
-            => await _service.First(x => x.Id == userId);
+            => await _service.FirstOrDefault(x => x.Id == userId);
 
         [Authorize]
         [HttpDelete("{userId}")]

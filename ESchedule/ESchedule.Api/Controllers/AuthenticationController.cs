@@ -42,7 +42,7 @@ namespace ESchedule.Api.Controllers
                 throw new InvalidOperationException("Invalid token provided");
             }
 
-            return await _service.First(x => x.Id == id);
+            return await _service.FirstOrDefault(x => x.Id == id);
         }
 
         [HttpPatch("confirmEmail/{key}")]

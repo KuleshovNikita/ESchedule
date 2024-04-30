@@ -32,7 +32,7 @@ namespace ESchedule.Api.Controllers
         [Authorize]
         [HttpGet("{groupId}")]
         public async Task<GroupModel> GetGroup(Guid groupId)
-            => await _service.First(x => x.Id == groupId);
+            => await _service.FirstOrDefault(x => x.Id == groupId);
 
         [Authorize]
         [HttpDelete("{groupId}")]

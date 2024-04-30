@@ -4,7 +4,6 @@ using ESchedule.Business.Extensions;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Exceptions;
-using ESchedule.Domain.Tenant;
 using System.Linq.Expressions;
 
 namespace ESchedule.Business
@@ -48,8 +47,11 @@ namespace ESchedule.Business
         public async virtual Task<IEnumerable<T>> GetItems()
             => await _repository.All();
 
-        public async virtual Task<T> First(Expression<Func<T, bool>> predicate)
-            => await _repository.First(predicate);
+        public async virtual Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)
+            => await _repository.FirstOrDefault(predicate);
+
+        public async virtual Task<T> SingleOrDefault(Expression<Func<T, bool>> predicate)
+            => await _repository.SingleOrDefault(predicate);
 
         public async virtual Task<IEnumerable<T>> Where(Expression<Func<T, bool>> predicate)
             => await _repository.Where(predicate);
@@ -83,7 +85,7 @@ namespace ESchedule.Business
                 throw new EntityNotFoundException();
             }
 
-            var user = await First(x => x.Id == updateModel.Id);
+            var user = await FirstOrDefault(x => x.Id == updateModel.Id);
             user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
 
             await _repository.Update(user);

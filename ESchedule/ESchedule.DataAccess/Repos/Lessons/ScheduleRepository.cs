@@ -13,7 +13,7 @@ namespace ESchedule.DataAccess.Repos.Lessons
         {
         }
 
-        public override async Task<ScheduleModel> First(Expression<Func<ScheduleModel, bool>> command)
+        public override async Task<ScheduleModel> FirstOrDefault(Expression<Func<ScheduleModel, bool>> command)
             => await _context.Set<ScheduleModel>()
                     .Include(x => x.Tenant)
                     .Include(x => x.Lesson)

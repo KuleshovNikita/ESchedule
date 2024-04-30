@@ -18,7 +18,7 @@ namespace ESchedule.Business.Tenant
 
         public async Task<List<object>> BuildSchedulesTimeTable() //TODO перенести это в скедьюл сервис
         {
-            var tenantSettings = await _repository.First(x => x.TenantId == _tenantContextProvider.Current.TenantId);
+            var tenantSettings = await _repository.FirstOrDefault(x => x.TenantId == _tenantContextProvider.Current.TenantId);
 
             var currentTime = tenantSettings.StudyDayStartTime;
             var resultList = new List<object>();

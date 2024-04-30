@@ -9,5 +9,7 @@ namespace ESchedule.Business.Users
         Task AddUser(UserModel userModel);
 
         Task UpdateUser(UserUpdateModel updateModel);
+
+        Task SignUserToTenant(Guid userId);
     }
 }

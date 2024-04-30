@@ -74,6 +74,7 @@ const Auth = {
 
 const User = {
     updateUser: (body: UserUpdateModel) => requests.put("/user", body),
+    updateUserTenant: (userId: string) => requests.patch(`/user/tenant/${userId}`),
     getUser: (id: string) => requests.get<UserModel>(`/user/${id}`),
     getUsersByRole: (role: Role) => requests.get<UserModel[]>(`/user/role/${role}`),
 }
@@ -88,9 +89,10 @@ const Group = {
 
 const Lesson = {
     createLesson: (body: LessonCreateModel) => requests.post<LessonModel>(`/lesson`, body),
-    removeLessons: (body: string[], tenantId: string) => requests.put(`/lesson/many/${tenantId}`, body),
+    removeLessons: (body: string[]) => requests.put("/lesson/many/", body),
     updateLesson: (body: LessonUpdateModel) => requests.put(`/lesson`, body),
     getLesson: (id: string) => requests.get<LessonModel>(`/lesson/${id}`),
+    getLessons: () => requests.get<LessonModel[]>(`/lesson`),
     removeLesson: (id: string) => requests.delete(`/lesson/${id}`),
 }
 

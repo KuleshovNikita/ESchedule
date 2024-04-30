@@ -13,7 +13,7 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
         {
         }
 
-        public override async Task<TeachersGroupsLessonsModel> First(Expression<Func<TeachersGroupsLessonsModel, bool>> command)
+        public override async Task<TeachersGroupsLessonsModel> FirstOrDefault(Expression<Func<TeachersGroupsLessonsModel, bool>> command)
             => await _context.Set<TeachersGroupsLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)

@@ -11,7 +11,7 @@ namespace ESchedule.DataAccess.Repos
 
         public Repository(TenantEScheduleDbContext context) => _context = context;
 
-        public virtual async Task<TModel> First(Expression<Func<TModel, bool>> command)
+        public virtual async Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> command)
             => await _context.Set<TModel>().FirstOrDefaultAsync(command) 
                 ?? throw new EntityNotFoundException();
 
@@ -60,5 +60,8 @@ namespace ESchedule.DataAccess.Repos
             _context.Set<TModel>().RemoveRange(entities);
             await _context.SaveChangesAsync();
         }
+
+        public async Task SaveChangesAsync() =>
+            await _context.SaveChangesAsync();
     }
 }

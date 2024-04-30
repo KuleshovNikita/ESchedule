@@ -42,27 +42,4 @@ export default class TenantStore {
 
         return response;
     }
-
-    getTeachers = async (id: string) => {
-        const response = await this.client.getTeachers(id);
-
-        if(response) {
-            this.tenantTeachers = response;
-        }
-
-        return response;
-    }
-
-    getGroups = async (tenantId: string) => {
-        const response = await this.client.getGroups(tenantId);
-
-        if(response) {
-            this.tenantGroups = response;
-        }
-
-        return response;
-    }
-
-    getLessons = async (tenantId: string) => 
-        await this.client.getLessons(tenantId);
 }

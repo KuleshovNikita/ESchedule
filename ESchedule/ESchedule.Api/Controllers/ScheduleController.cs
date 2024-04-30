@@ -57,7 +57,7 @@ namespace ESchedule.Api.Controllers
         [Authorize]
         [HttpGet("item/{scheduleId}")]
         public async Task<ScheduleModel> GetScheduleItem(Guid scheduleId)
-            => await _scheduleService.First(x => x.Id == scheduleId);
+            => await _scheduleService.FirstOrDefault(x => x.Id == scheduleId);
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpDelete("{tenantId}")]

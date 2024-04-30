@@ -61,7 +61,7 @@ namespace ESchedule.Business.Auth
         {
             ValidateEmail(authModel.Login);
 
-            var user = await _authRepository.First(x => x.Login == authModel.Login);
+            var user = await _authRepository.FirstOrDefault(x => x.Login == authModel.Login);
 
             if (!user.IsEmailConfirmed)
             {
@@ -100,7 +100,7 @@ namespace ESchedule.Business.Auth
 
         public async Task<Guid> ConfirmEmail(string key)
         {
-            var userResult = await _authRepository.First(x => x.Password.ToLower() == key.ToLower());
+            var userResult = await _authRepository.FirstOrDefault(x => x.Password.ToLower() == key.ToLower());
 
             if (userResult.IsEmailConfirmed)
             {

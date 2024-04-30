@@ -102,7 +102,7 @@ namespace ESchedule.Business.ScheduleBuilding
         {
             var groups = await _groupService.GetItems(x => x.TenantId == tenantId);
             var teachers = await _teacherService.GetItems(x => x.Role == Role.Teacher && x.TenantId == tenantId);
-            var tenant = await _tenantService.First(x => x.Id == tenantId);
+            var tenant = await _tenantService.FirstOrDefault(x => x.Id == tenantId);
             var lessons = await _lessonService.GetItems(x => x.TenantId == tenantId);
 
             var scheduleBuilderData = new ScheduleBuilderHelpData

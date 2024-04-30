@@ -18,7 +18,7 @@ namespace ESchedule.DataAccess.Repos.User
             
         }
 
-        public override async Task<UserModel> First(Expression<Func<UserModel, bool>> command)
+        public override async Task<UserModel> FirstOrDefault(Expression<Func<UserModel, bool>> command)
             => await _context.Set<UserModel>()
                     .Include(x => x.Group)
                     .Include(x => x.Tenant)

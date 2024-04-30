@@ -12,7 +12,7 @@ namespace ESchedule.DataAccess.Repos.Auth
         {
         }
 
-        public override async Task<UserModel> First(Expression<Func<UserModel, bool>> command)
+        public override async Task<UserModel> FirstOrDefault(Expression<Func<UserModel, bool>> command)
             => await _context.Set<UserModel>()
                     .IgnoreQueryFilters()
                     .Include(x => x.Tenant)

@@ -13,7 +13,7 @@ namespace ESchedule.DataAccess.Repos.Tenant
         {
         }
 
-        public override async Task<TenantSettingsModel> First(Expression<Func<TenantSettingsModel, bool>> command)
+        public override async Task<TenantSettingsModel> FirstOrDefault(Expression<Func<TenantSettingsModel, bool>> command)
             => await _context.Set<TenantSettingsModel>()
                     .Include(x => x.Tenant)
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();

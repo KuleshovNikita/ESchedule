@@ -13,7 +13,7 @@ namespace ESchedule.DataAccess.Repos.Schedule
         {
         }
 
-        public override async Task<RuleModel> First(Expression<Func<RuleModel, bool>> command)
+        public override async Task<RuleModel> FirstOrDefault(Expression<Func<RuleModel, bool>> command)
             => await _context.Set<RuleModel>()
                     .Include(x => x.Tenant)
                     .FirstOrDefaultAsync(command) 

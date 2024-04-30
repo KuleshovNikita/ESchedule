@@ -18,7 +18,7 @@ namespace ESchedule.Api.Controllers
         [Authorize]
         [HttpGet("{itemId}")]
         public async Task<TeachersLessonsModel> GetItems(Guid itemId) //TODO хз как получать про них инфу
-            => await _service.First(x => x.Id == itemId);
+            => await _service.FirstOrDefault(x => x.Id == itemId);
 
         [Authorize]
         [HttpDelete]

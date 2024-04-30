@@ -37,6 +37,9 @@ export default class UserStore {
     updateUserInfo = async (user: UserUpdateModel) => 
         await agent.User.updateUser(user);
 
+    updateUserTenant = async (userId: string) => 
+        await agent.User.updateUserTenant(userId);
+
     confirmEmail = async (key: string) => 
         await agent.Auth.confirmEmail(key);
 

@@ -37,7 +37,7 @@ namespace ESchedule.Api.Controllers
         [Authorize]
         [HttpGet("{tenantId}")]
         public async Task<TenantSettingsModel> GetTenantSettings(Guid tenantId)
-            => await _service.First(x => x.Id == tenantId);
+            => await _service.FirstOrDefault(x => x.Id == tenantId);
 
         [Authorize]
         [HttpDelete("{tenantId}")]

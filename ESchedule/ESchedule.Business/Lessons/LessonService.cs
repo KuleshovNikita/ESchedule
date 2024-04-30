@@ -15,10 +15,9 @@ namespace ESchedule.Business.Lessons
             _context = dbContext;
         }
 
-        public async Task RemoveLessons(IEnumerable<Guid> lessonsToRemove, Guid tenantId)
+        public async Task RemoveLessons(IEnumerable<Guid> lessonsToRemove)
         {
-            var lessons = _context.Lessons
-                            .Where(x => x.TenantId == tenantId && lessonsToRemove.Contains(x.Id));
+            var lessons = _context.Lessons.Where(x => lessonsToRemove.Contains(x.Id));
 
             _context.Lessons.RemoveRange(lessons);
 
