@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from 'react-toastify';
-import { createTenantButtonStyle, loginButtonStyle, registrationFormStyle } from "./RegistrationStyles";
+import { createTenantButtonStyle, loginButtonStyle, formStyle, personalDataRowStyles, buttonsBlockStyles } from "./RegistrationStyles";
 import { Role, UserCreateModel } from "../../models/Users";
 import { useCult } from "../../hooks/Translator";
 import MenuItem from "@mui/material/MenuItem";
@@ -161,10 +161,10 @@ export default function RegistrationPage() {
     }
 
     const redirectToLogin = () => 
-        navigate("/login", { replace: true });
+        navigate("/login");
 
     const redirectToTenantCreator = () => 
-        navigate("/createTenant", { replace: true });
+        navigate("/createTenant");
 
     const getRolesItems = () => {
         const values = Object.values(Role).filter(x => typeof x !== 'string') as Role[];
@@ -180,114 +180,122 @@ export default function RegistrationPage() {
         <>
             <Box
                 component="form"
-                sx={registrationFormStyle}
+                sx={formStyle}
                 autoComplete="off"
             >
-                <TextField
-                    label={translator('labels.first-name')}
-                    variant="filled"
-                    value={name}
-                    required={true}
-                    helperText={nameErrors}
-                    error={nameErrors.length !== 0}
-                    onChange={(e: any) => setName(e.target.value)}
-                />
-                <TextField
-                    label={translator('labels.last-name')}
-                    variant="filled"
-                    value={lastName}
-                    required={true}
-                    helperText={lastNameErrors}
-                    error={lastNameErrors.length !== 0}
-                    onChange={(e: any) => setLastName(e.target.value)}
-                />
-                <TextField 
-                    label={translator('labels.father-name')}
-                    variant="filled"
-                    size="small"
-                    helperText={fatherNameErrors}
-                    value={fatherName}
-                    required={true}
-                    error={fatherNameErrors.length !== 0}
-                    margin="dense"
-                    onChange={(e: any) => setFatherName(e.target.value)}
-                />
-                <TextField
-                    label={translator('labels.age')}
-                    variant="filled"
-                    value={age}
-                    type="number"
-                    required
-                    helperText={ageErrors}
-                    error={ageErrors.length !== 0}
-                    margin="dense"
-                    onChange={(e: any) => setAge(e.target.value)}
-                />
-                <FormControl>
-                    <InputLabel id="role-registration-select-label">{translator('labels.role')}</InputLabel>
-                    <Select
-                        label={translator('labels.role')}
-                        id="role-registration-select"
-                        labelId="role-registration-select-label"
-                        variant="filled"
-                        required
-                        value={role}
-                        onChange={(e: any) => setRole(e.target.value as Role)}
-                    >
-                        { getRolesItems() }
-                    </Select>
-                </FormControl>
-                <TextField
-                    label={translator('labels.email')}
-                    variant="filled"
-                    value={email}
-                    required={true}
-                    helperText={emailErrors}
-                    error={emailErrors.length !== 0}
-                    onChange={(e: any) => setEmail(e.target.value)}
-                />
-                <TextField
-                    label={translator('labels.password')}
-                    variant="filled"
-                    type="password"
-                    value={password}
-                    required={true}
-                    helperText={passwordErrors}
-                    error={passwordErrors.length !== 0}
-                    onChange={(e: any) => setPassword(e.target.value)}
-                />
-                <TextField
-                    label={translator('labels.repeat-password')}
-                    variant="filled"
-                    type="password"
-                    value={repeatPassword}
-                    required={true}
-                    helperText={repeatPasswordErrors}
-                    error={repeatPasswordErrors.length !== 0}
-                    onChange={(e: any) => setRepeatPassword(e.target.value)}
-                />
-                
-                <Button variant="contained" size="large" onClick={submit}>
-                    {translator('buttons.register')}
-                </Button>
-                <Typography>
-                    {translator('words.or')}
-                </Typography>
-                <Button sx={loginButtonStyle} 
-                        variant="contained" 
-                        size="large" 
-                        onClick={redirectToLogin}>
-                    {translator('buttons.login')}
-                </Button>
-                <Typography>
-                    {translator('words.or')}
-                </Typography>
-                <Button sx={createTenantButtonStyle} 
-                        variant="contained" 
-                        size="large" 
-                        onClick={redirectToTenantCreator}>
-                    {translator('buttons.create-tenant')}
-                </Button>
+                <Box>
+                    <Box sx={personalDataRowStyles}>
+                        <TextField
+                            label={translator('labels.first-name')}
+                            variant="filled"
+                            value={name}
+                            required={true}
+                            helperText={nameErrors}
+                            error={nameErrors.length !== 0}
+                            onChange={(e: any) => setName(e.target.value)}
+                        />
+                        <TextField
+                            label={translator('labels.last-name')}
+                            variant="filled"
+                            value={lastName}
+                            required={true}
+                            helperText={lastNameErrors}
+                            error={lastNameErrors.length !== 0}
+                            onChange={(e: any) => setLastName(e.target.value)}
+                        />
+                        <TextField 
+                            label={translator('labels.father-name')}
+                            variant="filled"
+                            helperText={fatherNameErrors}
+                            value={fatherName}
+                            required={true}
+                            error={fatherNameErrors.length !== 0}
+                            margin="dense"
+                            onChange={(e: any) => setFatherName(e.target.value)}
+                        />
+                    </Box>
+                    <Box sx={personalDataRowStyles}>
+                        <TextField
+                            label={translator('labels.age')}
+                            variant="filled"
+                            value={age}
+                            type="number"
+                            required
+                            helperText={ageErrors}
+                            error={ageErrors.length !== 0}
+                            margin="dense"
+                            onChange={(e: any) => setAge(e.target.value)}
+                        />
+                        <FormControl>
+                            <InputLabel id="role-registration-select-label">{translator('labels.role')}</InputLabel>
+                            <Select
+                                label={translator('labels.role')}
+                                id="role-registration-select"
+                                labelId="role-registration-select-label"
+                                variant="filled"
+                                required
+                                value={role}
+                                onChange={(e: any) => setRole(e.target.value as Role)}
+                            >
+                                { getRolesItems() }
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <Box sx={personalDataRowStyles}>
+                        <TextField
+                            label={translator('labels.email')}
+                            variant="filled"
+                            value={email}
+                            required={true}
+                            helperText={emailErrors}
+                            error={emailErrors.length !== 0}
+                            onChange={(e: any) => setEmail(e.target.value)}
+                        />
+                        <TextField
+                            label={translator('labels.password')}
+                            variant="filled"
+                            type="password"
+                            value={password}
+                            required={true}
+                            helperText={passwordErrors}
+                            error={passwordErrors.length !== 0}
+                            onChange={(e: any) => setPassword(e.target.value)}
+                        />
+                        <TextField
+                            label={translator('labels.repeat-password')}
+                            variant="filled"
+                            type="password"
+                            value={repeatPassword}
+                            required={true}
+                            helperText={repeatPasswordErrors}
+                            error={repeatPasswordErrors.length !== 0}
+                            onChange={(e: any) => setRepeatPassword(e.target.value)}
+                        />
+                    </Box>
+                </Box>
+                <Box sx={buttonsBlockStyles}>
+                    <Button variant="contained" size="large" onClick={submit}>
+                        {translator('buttons.register')}
+                    </Button>
+                    <Typography>
+                        {translator('words.or')}
+                    </Typography>
+                    <Button sx={loginButtonStyle} 
+                            variant="contained" 
+                            size="large" 
+                            onClick={redirectToLogin}>
+                        {translator('buttons.login')}
+                    </Button>
+                    <Typography>
+                        {translator('words.or')}
+                    </Typography>
+                    <Button sx={createTenantButtonStyle} 
+                            variant="contained" 
+                            size="large" 
+                            onClick={redirectToTenantCreator}>
+                        {translator('buttons.create-tenant')}
+                    </Button>
+                </Box>
             </Box>
         </>
     )

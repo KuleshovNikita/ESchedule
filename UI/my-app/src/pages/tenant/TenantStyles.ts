@@ -1,12 +1,3 @@
-export const loginButtonStyle = {
-    "&": {
-        backgroundColor: "brown"
-    },
-    "&:hover": {
-        backgroundColor: "red"
-    }
-}
-
 export const createTenantButtonStyle = {
     "&": {
         backgroundColor: "darkcyan"
@@ -36,18 +27,10 @@ export const formStyle = {
     },
 }
 
-export const personalDataRowStyles = {
+export const rowStyles = {
     '&': {
         display: 'flex', 
         flexDirection: 'row', 
         width: '100vh'
-    }
-}
-
-export const buttonsBlockStyles = {
-    '&': {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
     }
 }
