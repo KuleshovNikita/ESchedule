@@ -38,21 +38,6 @@ namespace ESchedule.Api.Controllers
         public async Task UpdateTenant([FromBody] TenantUpdateModel tenantModel)
             => await _service.UpdateItem(tenantModel);
 
-        [Authorize(Policies.DispatcherOnly)]
-        [HttpGet("teachers/{tenantId}")]
-        public async Task<IEnumerable<UserModel>> GetTeachers(Guid tenantId)
-            => await _userService.Where(x => x.TenantId == tenantId && x.Role == Domain.Enums.Role.Teacher); //TODO перенести это в бизнесс
-
-        [Authorize]
-        [HttpGet("groups/{tenantId}")]
-        public async Task<IEnumerable<GroupModel>> GetTenantGroups(Guid tenantId)
-            => await _groupService.Where(x => x.TenantId == tenantId);
-
-        [Authorize]
-        [HttpGet("lessons/{tenantId}")]
-        public async Task<IEnumerable<LessonModel>> GetTenantLessons(Guid tenantId)
-            => await _lessonService.Where(x => x.TenantId == tenantId);
-
         [Authorize]
         [HttpGet("{tenantId}")]
         public async Task<TenantModel> GetTenants(Guid tenantId)
