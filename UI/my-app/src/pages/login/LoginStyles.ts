@@ -1,12 +1,25 @@
-export const InputFormStyle = {
+export const MainBoxStyle = {
+    "&": {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        height: '70vh'
+    },
+    "& .MuiTextField-root": { m: 1 },
+    "& button": { my: 1 },
+    "& .MuiLink-root": { fontSize: "1.2rem" },
+}
+
+export const InputsBoxStyle = {
     "&": {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
+        width: '50vh'
     },
-    "& .MuiTextField-root": { m: 1, width: "25ch" },
-    "& button": { my: 1 },
-    "& .MuiLink-root": { fontSize: "1.2rem" },
+    "& .MuiTextField-root": { width: '300px' },
 }
 
 export const RegisterButtonStyle = {

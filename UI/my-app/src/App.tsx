@@ -28,9 +28,11 @@ function App() {
     <BrowserRouter>
       <React.StrictMode>
         <I18nextProvider i18n={i18next}>
-          <Header /> 
+          <header>
+            <Header /> 
+          </header>
           <ForbiddenErrorBoundary> 
-            <main className="main">
+            <main className="my">
               <AppRoutes />
             </main>
           </ForbiddenErrorBoundary>  

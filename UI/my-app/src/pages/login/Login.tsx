@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { UserLoginModel } from "../../models/Users";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from "react-toastify";
-import { InputFormStyle, RegisterButtonStyle } from "./LoginStyles";
+import { InputsBoxStyle, MainBoxStyle, RegisterButtonStyle } from "./LoginStyles";
 import { useCult } from "../../hooks/Translator";
 import { createTenantButtonStyle } from "../registration/RegistrationStyles";
 import TextField from "@mui/material/TextField";
@@ -91,63 +91,67 @@ export function LoginPage() {
     };
 
     const redirectToRegistration = () => 
-        navigate("/register", { replace: true });
+        navigate("/register");
 
     const redirectToTenantCreator = () => 
-        navigate("/createTenant", { replace: true });
+        navigate("/createTenant");
 
     return (
         <Loader>
             <Box
                 component="form"
-                sx={InputFormStyle}
+                sx={MainBoxStyle}
                 noValidate
                 autoComplete="off"
             >
-                <TextField
-                    label={translator('labels.email')}
-                    variant="filled"
-                    value={email}
-                    required={true}
-                    helperText= {emailErrors}
-                    error={emailErrors.length !== 0}
-                    inputRef={emailRef}
-                    onFocus={(e: Focus) => handleEmailChange(e)}
-                    onChange={handleEmailChange}
-                />
-                <TextField
-                    label={translator('labels.password')}
-                    variant="filled"
-                    type="password"
-                    value={password}
-                    required={true}
-                    helperText= {passwordErrors}
-                    error={passwordErrors.length !== 0}
-                    inputRef={passwordRef}
-                    onFocus={(e: Focus) => handlePasswordChange(e)}
-                    onChange={handlePasswordChange}
-                />
-                <Button variant="contained" size="large" onClick={submit}>
-                    {translator('buttons.login')}
-                </Button>
-                <Typography>
+                <Box sx={InputsBoxStyle}>
+                    <TextField
+                        label={translator('labels.email')}
+                        variant="filled"
+                        value={email}
+                        required={true}
+                        helperText= {emailErrors}
+                        error={emailErrors.length !== 0}
+                        inputRef={emailRef}
+                        onFocus={(e: Focus) => handleEmailChange(e)}
+                        onChange={handleEmailChange}
+                    />
+                    <TextField
+                        label={translator('labels.password')}
+                        variant="filled"
+                        type="password"
+                        value={password}
+                        required={true}
+                        helperText= {passwordErrors}
+                        error={passwordErrors.length !== 0}
+                        inputRef={passwordRef}
+                        onFocus={(e: Focus) => handlePasswordChange(e)}
+                        onChange={handlePasswordChange}
+                    />
+                </Box>
+                <Box sx={InputsBoxStyle}>
+                    <Button variant="contained" size="large" onClick={submit}>
+                        {translator('buttons.login')}
+                    </Button>
+                    <Typography>
+                        {translator('words.or')}
+                    </Typography>
+                    <Button sx={RegisterButtonStyle} 
+                            variant="contained" 
+                            size="large" 
+                            onClick={redirectToRegistration}>
+                        {translator('buttons.register')}
+                    </Button>
+                    <Typography>
                     {translator('words.or')}
-                </Typography>
-                <Button sx={RegisterButtonStyle} 
-                        variant="contained" 
-                        size="large" 
-                        onClick={redirectToRegistration}>
-                    {translator('buttons.register')}
-                </Button>
-                <Typography>
-                {translator('words.or')}
-            </Typography>
-            <Button sx={createTenantButtonStyle} 
-                    variant="contained" 
-                    size="large" 
-                    onClick={redirectToTenantCreator}>
-                {translator('buttons.create-tenant')}
-            </Button>
+                    </Typography>
+                    <Button sx={createTenantButtonStyle} 
+                            variant="contained" 
+                            size="large" 
+                            onClick={redirectToTenantCreator}>
+                        {translator('buttons.create-tenant')}
+                    </Button>
+                </Box>
             </Box>
         </Loader>
     );
