@@ -3,13 +3,13 @@ import { useStore } from "../../api/stores/StoresManager";
 import { noneWord, normalizeUserName } from "../../utils/Utils";
 import { useCult } from "../../hooks/Translator";
 import CustomSelect, { SelectItem } from "../CustomSelect";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { useNavigate } from "react-router-dom";
 import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
 import Loader from "../hoc/loading/Loader";
 import { useLoader } from "../../hooks/Loader";
+import Icon from "../wrappers/Icon";
 
 export default function ViewSchedulesList() {
     const { userStore, groupStore } = useStore();
@@ -87,7 +87,7 @@ export default function ViewSchedulesList() {
                     onClick={openSchedule}   
             >
                 {translator('buttons.open')}
-                <AddCircleIcon sx={buttonImageIconStyle}/>
+                <Icon type='add'/>
             </Button>
         </Loader>
     );
