@@ -32,6 +32,7 @@ export default class UserStore {
         store.commonStore.setToken(null);
         window.localStorage.removeItem("jwt");
         this.user = null;
+        store.tenantStore.tenant = null;
     };
 
     updateUserInfo = async (user: UserUpdateModel) => 

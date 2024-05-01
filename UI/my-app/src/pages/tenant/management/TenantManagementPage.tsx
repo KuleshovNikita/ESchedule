@@ -1,4 +1,3 @@
-import { useStore } from "../../../api/stores/StoresManager";
 import { useCult } from "../../../hooks/Translator";
 import { Typography } from "@material-ui/core";
 import Box from "@mui/material/Box";
@@ -9,16 +8,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function TenantManagementPage() {
     const { translator } = useCult();
-    const { tenantStore } = useStore();
     const navigate = useNavigate();
 
     return (
     <Box>
         <Box sx={{ml: 1}}>
-            <Typography variant="h2">
-                {tenantStore.tenant?.name}
-            </Typography>
-
             <Box sx={pageStyle}>
                 <Button sx={btnStyle} onClick={() => navigate('/rulesManagement')}>
                     <Icon type='edit' sx={iconStyle}/>

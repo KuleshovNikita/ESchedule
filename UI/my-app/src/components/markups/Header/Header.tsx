@@ -1,8 +1,10 @@
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
 import { cultureSelectStyle, headerBox, headerLeftSideBoxStyle, headerNavButtonStyle,
+         labelStyles,
          navigationButtonsStyle, 
          profileNavButtonStyle, 
+         tenantTitleStyle, 
          titleTextStyle } from "./HeaderStyles";
 import { Role } from "../../../models/Users";
 import { getDefLang, locales, updateLang } from "../../../translations/Localization";
@@ -18,8 +20,8 @@ const navOptions = {
     replace: false
 }
 
-export default function Header() {
-    const { userStore } = useStore();
+const Header = () => {
+    const { userStore, tenantStore } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -46,20 +48,25 @@ export default function Header() {
              &&
                 <Box sx={headerBox}>
                     <Box sx={headerLeftSideBoxStyle}>
-                        <Typography variant="h2" component="h2" sx={titleTextStyle}>
-                            Eschedule
-                        </Typography>
                         <Select defaultValue={getDefLang} sx={cultureSelectStyle}>
-                        {
-                            Object.keys(locales).map((key) => {
-                                return  <MenuItem value={key} 
-                                                  key={key} 
-                                                  onClick={() => updateLang(key)}>
-                                            {locales[key as keyof typeof locales]}
-                                        </MenuItem>
-                            })
-                        }
+                            {
+                                Object.keys(locales).map((key) => {
+                                    return  <MenuItem value={key} 
+                                                    key={key} 
+                                                    onClick={() => updateLang(key)}>
+                                                {locales[key as keyof typeof locales]}
+                                            </MenuItem>
+                                })
+                            }
                         </Select>
+                        <Box sx={labelStyles}>
+                            <Typography variant="h3" component="h2" sx={titleTextStyle}>
+                                Eschedule
+                            </Typography>
+                            <Typography variant="h5" component="h2" sx={tenantTitleStyle}>
+                                {tenantStore.tenant?.name}
+                            </Typography>
+                        </Box>
                     </Box>
 
                     {
@@ -107,3 +114,5 @@ export default function Header() {
         </>
     );
 }
+
+export default Header;

@@ -5,9 +5,15 @@ export const headerLeftSideBoxStyle = {
     mr: 2,
 }
 
+export const labelStyles = {
+    display: 'flex',
+    flexDirection: 'column'
+}
+
 export const cultureSelectStyle = {
     mt: 1.8,
     mb: 1.8,
+    mr: 1.8,
     width: "150px",
     '& .MuiInputBase-input': {
         backgroundColor: 'white',
@@ -18,6 +24,11 @@ export const titleTextStyle = {
     mr: 2,
     display: "inline-block",
     color: 'white'
+}
+
+export const tenantTitleStyle = {
+    ...titleTextStyle,
+    textAlign: 'center'
 }
 
 export const navigationButtonsStyle = { 
