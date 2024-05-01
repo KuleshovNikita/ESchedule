@@ -1,8 +1,5 @@
-import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { cultureSelectStyle, headerBox, headerLeftSideBoxStyle, headerNavButtonStyle,
          navigationButtonsStyle, 
          profileNavButtonStyle, 
@@ -15,6 +12,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Icon from '../../wrappers/Icon';
 
 const navOptions = { 
     replace: false
@@ -79,10 +77,10 @@ export default function Header() {
                                 (
                                     userStore.user?.role === Role.Dispatcher
                                 &&
-                                    <Button sx={[headerNavButtonStyle]}
+                                    <Button sx={headerNavButtonStyle}
                                             onClick={scheduleBuilder}
                                     >
-                                        <ManageAccountsIcon fontSize="large"/>
+                                        <Icon type='manage accounts' fontSize='large'/>
                                     </Button>
                                 )
                             || 
@@ -92,7 +90,7 @@ export default function Header() {
                                     <Button sx={[headerNavButtonStyle]}
                                             onClick={schedules}
                                     >
-                                        <CalendarMonthIcon fontSize="large"/>
+                                        <Icon type='calendar' fontSize='large'/>
                                     </Button>
                                 )
                             }
@@ -100,7 +98,7 @@ export default function Header() {
                             <Button sx={[headerNavButtonStyle]}
                                     onClick={logout}
                             >
-                                <LogoutIcon fontSize="large"/>
+                                <Icon type='quit' fontSize='large'/>
                             </Button>
                         </Box>
                     }

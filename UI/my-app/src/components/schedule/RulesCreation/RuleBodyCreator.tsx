@@ -1,5 +1,4 @@
 import { useCult } from "../../../hooks/Translator";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../../styles/ButtonStyles";
 import { useState } from "react";
 import { useStore } from "../../../api/stores/StoresManager";
@@ -9,6 +8,7 @@ import { noneWord } from "../../../utils/Utils";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import CreateTeacherBodyDayRuleComp from "./CreateTeacherBodyDayRuleComp";
+import Icon from "../../wrappers/Icon";
 
 interface Props {
     ruleName: string,
@@ -29,7 +29,7 @@ export default function RuleBodyCreator({ruleName, bodyData, onConfirm}: Props) 
                     onClick={saveRule}   
             >
                 {translator('buttons.create')}
-                <AddCircleIcon sx={buttonImageIconStyle}/>
+                <Icon type='add'/>
             </Button>
         );
     }

@@ -5,10 +5,7 @@ import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyl
 import { useCult } from "../../hooks/Translator";
 import { toast } from "react-toastify";
 import PopupForm from "../schedule/RulesCreation/PopupForm";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from "@material-ui/core";
-import DeleteIcon from '@mui/icons-material/Delete';
-import SaveIcon from '@mui/icons-material/Save';
 import Checkbox from '@mui/material/Checkbox';
 import { observer } from "mobx-react-lite";
 import TextField from "@mui/material/TextField";
@@ -20,6 +17,7 @@ import TableRow from "@mui/material/TableRow";
 import Box from "@mui/material/Box";
 import { useLoader } from "../../hooks/Loader";
 import Loader from "../hoc/loading/Loader";
+import Icon from "../wrappers/Icon";
 
 const cellStyle = {
     border: '1px solid black'
@@ -79,8 +77,7 @@ const LessonViewer = observer(() => {
                     onClick={saveLesson}   
                 >
                     {translator('buttons.create')}
-                    <SaveIcon/>
-                    <AddCircleIcon sx={buttonImageIconStyle}/>
+                    <Icon type='save'/>
                 </Button>
             </PopupForm>
         );
@@ -129,14 +126,14 @@ const LessonViewer = observer(() => {
             variant='contained' 
             sx={buttonHoverStyles}>
             {translator('buttons.remove')}
-            <DeleteIcon sx={buttonImageIconStyle}/>
+            <Icon type='add'/>
         </Button>
         <Button
             onClick={() => setModalActive(true)}
             variant='contained' 
             sx={{...buttonHoverStyles, ml: 1}}>
             {translator('buttons.add')}
-            <AddCircleIcon sx={buttonImageIconStyle}/>
+            <Icon type='add'/>
         </Button>
     </Box>
     );

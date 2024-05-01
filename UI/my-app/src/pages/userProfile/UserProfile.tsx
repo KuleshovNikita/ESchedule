@@ -1,17 +1,12 @@
 import { Box } from "@mui/system";
 import { useEffect, useState, useRef } from "react";
 import { useStore } from "../../api/stores/StoresManager";
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import CancelIcon from '@mui/icons-material/Cancel';
 import { mainBoxStyle, 
          profileBoxStyle, 
          avatarStyle, 
          userInfoBlocks,
          userInfoSubSetBlock} from "./UserProfileStyles";
-import { buttonImageIconStyle,
-         buttonHoverStyles, 
+import { buttonHoverStyles, 
          buttonBoxStyles } from "../../styles/ButtonStyles";
 import { toast } from "react-toastify";
 import React from "react";
@@ -23,6 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import Icon from "../../components/wrappers/Icon";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -222,7 +218,7 @@ export default function UserPage() {
                             onClick={resetChanges}          
                         >
                             {translator('buttons.cancel')}
-                            <CancelIcon sx={buttonImageIconStyle}/>
+                            <Icon type='cancel'/>
                         </Button>
                     :
                         <Button
@@ -231,7 +227,7 @@ export default function UserPage() {
                             onClick={setProfileChanging}         
                         >
                             {translator('buttons.change')}
-                            <EditIcon sx={buttonImageIconStyle}/>
+                            <Icon type='edit'/>
                         </Button>
                     }
 
@@ -244,7 +240,7 @@ export default function UserPage() {
                             onClick={manageTenant}      
                         >
                             {translator('buttons.manage-tenant')}
-                            <ConstructionIcon sx={buttonImageIconStyle}/>
+                            <Icon type='build'/>
                         </Button>
                     }
                     
@@ -255,7 +251,7 @@ export default function UserPage() {
                         disabled={changeMode}          
                     >
                         {translator('buttons.save')}
-                        <SaveIcon sx={buttonImageIconStyle}/>
+                        <Icon type='save'/>
                     </Button>
                 </Box>
             </Box>

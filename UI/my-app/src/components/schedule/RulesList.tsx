@@ -3,8 +3,6 @@ import { useStore } from "../../api/stores/StoresManager";
 import Loader from "../hoc/loading/Loader";
 import { useCult } from "../../hooks/Translator";
 import RuleBodyViewer from "./RuleBodyViewer";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ConstructionIcon from '@mui/icons-material/Construction';
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
 import PopupForm from "./RulesCreation/PopupForm";
@@ -15,6 +13,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useLoader } from "../../hooks/Loader";
+import Icon from "../wrappers/Icon";
 
 interface Props {
     tenantId: string
@@ -75,7 +74,7 @@ export default function RulesList({ tenantId }: Props) {
                     onClick={showNewRuleForm}
                 >
                     {translator('buttons.create-new-rule')}
-                    <AddCircleIcon sx={buttonImageIconStyle} />
+                    <Icon type='add'/>
                 </Button>
                 <Button
                     sx={buttonHoverStyles}   
@@ -83,7 +82,7 @@ export default function RulesList({ tenantId }: Props) {
                     onClick={createSchedule}         
                 >
                     {translator('buttons.build-schedule')}
-                    <ConstructionIcon sx={buttonImageIconStyle}/>
+                    <Icon type='build'/>
                 </Button>
             </Box>
 
