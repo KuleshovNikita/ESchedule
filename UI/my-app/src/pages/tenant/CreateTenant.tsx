@@ -3,7 +3,7 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from "react-toastify";
-import { InputFormStyle } from "../login/LoginStyles";
+import { MainBoxStyle } from "../login/LoginStyles";
 import { useCult } from "../../hooks/Translator";
 import { createTenantButtonStyle } from "../registration/RegistrationStyles";
 import { TenantCreateModel, TenantSettingsCreateModel } from "../../models/Tenants";
@@ -180,7 +180,7 @@ export function CreateTenant() {
         <Loader>
             <Box
                 component="form"
-                sx={InputFormStyle}
+                sx={MainBoxStyle}
                 noValidate
                 autoComplete="off"
             >                    
