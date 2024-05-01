@@ -38,15 +38,15 @@ namespace ESchedule.Business.ScheduleBuilding
             _rulesService = ruleService;
         }
 
-        public async Task BuildSchedule(Guid tenantId)
+        public async Task BuildSchedule()
         {
-            var rules = await _rulesService.Where(x => x.TenantId == tenantId);
+            var rules = await _rulesService.GetItems();
 
-            var builderData = await GetNecessaryBuilderData(tenantId);
+            var builderData = await GetNecessaryBuilderData();
             var parsedRules = new RulesParser().ParseToRules(rules);
             var schedules = _scheduleBuilder.BuildSchedules(builderData, parsedRules);
 
-            await RemoveWhere(x => x.TenantId == tenantId);
+            await RemoveAll();
             await InsertMany(schedules);
         }
 
@@ -65,9 +65,9 @@ namespace ESchedule.Business.ScheduleBuilding
             await _rulesService.InsertMany(ruleModels);
         }
 
-        public async Task RemoveWhere(Expression<Func<ScheduleModel, bool>> predicate)
+        public async Task RemoveAll()
         {
-            var items = await GetItems(predicate);
+            var items = await GetItems();
             await _repository.RemoveRange(items);
         }
 
@@ -98,12 +98,12 @@ namespace ESchedule.Business.ScheduleBuilding
             return schedulesSet;
         }
 
-        private async Task<ScheduleBuilderHelpData> GetNecessaryBuilderData(Guid tenantId)
+        private async Task<ScheduleBuilderHelpData> GetNecessaryBuilderData()
         {
-            var groups = await _groupService.GetItems(x => x.TenantId == tenantId);
-            var teachers = await _teacherService.GetItems(x => x.Role == Role.Teacher && x.TenantId == tenantId);
-            var tenant = await _tenantService.FirstOrDefault(x => x.Id == tenantId);
-            var lessons = await _lessonService.GetItems(x => x.TenantId == tenantId);
+            var groups = await _groupService.GetItems();
+            var teachers = await _teacherService.GetItems(x => x.Role == Role.Teacher);
+            var tenant = await _tenantService.SingleOrDefault();
+            var lessons = await _lessonService.GetItems();
 
             var scheduleBuilderData = new ScheduleBuilderHelpData
             {

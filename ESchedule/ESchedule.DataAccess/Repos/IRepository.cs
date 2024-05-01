@@ -8,6 +8,8 @@ namespace ESchedule.DataAccess.Repos
 
         Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command);
 
+        Task<TModel> SingleOrDefault();
+
         Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command);
 
         Task<IEnumerable<TModel>> All();

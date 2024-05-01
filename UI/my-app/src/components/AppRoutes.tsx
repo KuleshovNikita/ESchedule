@@ -11,6 +11,10 @@ import { Role } from "../models/Users";
 import TenantManagementPage from "../pages/tenant/management/TenantManagementPage";
 import { CreateTenant } from "../pages/tenant/creation/CreateTenant";
 import ManageTenant from "../pages/tenant/creation/ManageTenant";
+import LessonViewer from "./lessons/LessonsViewer";
+import ScheduleViewer from "./schedule/ScheduleViewer";
+import AddUserToTenant from "./AddUserToTenant";
+import RulesList from "./schedule/RulesList";
 
 export default function AppRoutes() {
     return (
@@ -38,6 +42,19 @@ export default function AppRoutes() {
               />
               <Route path="/profile" 
                    element={ <Auth><UserPage /></Auth> } 
+               />
+
+               <Route path="/lessonsManagement" 
+                   element={ <Auth role={Role.Dispatcher}><LessonViewer /></Auth> } 
+              />
+              <Route path="/scheduleManagement" 
+                   element={ <Auth role={Role.Dispatcher}><ScheduleViewer /></Auth> } 
+              />
+              <Route path="/rulesManagement" 
+                   element={ <Auth role={Role.Dispatcher}><RulesList /></Auth> } 
+              />
+              <Route path="/addUserToTenant" 
+                   element={ <Auth role={Role.Dispatcher}><AddUserToTenant /></Auth> } 
               />
               <Route path="/schedule/:isTeacherScope/:targetId" 
                    element={ <Auth><ScheduleTablePage /></Auth> } 

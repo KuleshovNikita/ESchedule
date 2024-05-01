@@ -1,19 +1,16 @@
 import { useStore } from "../../../api/stores/StoresManager";
 import { useCult } from "../../../hooks/Translator";
 import { Typography } from "@material-ui/core";
-import RulesList from "../../../components/schedule/RulesList";
-import ScheduleViewer from "../../../components/schedule/ScheduleViewer";
-import LessonsViewer from "../../../components/lessons/LessonsViewer";
-import CustomAccordion from "../../../components/CustomAccordion";
-import AddUserToTenant from "../../../components/AddUserToTenant";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Icon from "../../../components/wrappers/Icon";
 import { btnStyle, iconStyle, pageStyle } from "./TenantManagementStyles";
+import { useNavigate } from "react-router-dom";
 
 export default function TenantManagementPage() {
     const { translator } = useCult();
     const { tenantStore } = useStore();
+    const navigate = useNavigate();
 
     return (
     <Box>
@@ -23,28 +20,28 @@ export default function TenantManagementPage() {
             </Typography>
 
             <Box sx={pageStyle}>
-                <Button sx={btnStyle}>
+                <Button sx={btnStyle} onClick={() => navigate('/rulesManagement')}>
                     <Icon type='edit' sx={iconStyle}/>
                     <Typography>
                         {translator('labels.rules-list')}
                     </Typography>
                 </Button>
 
-                <Button sx={btnStyle}>
+                <Button sx={btnStyle} onClick={() => navigate('/scheduleManagement')}>
                     <Icon type='calendar' sx={iconStyle}/>
                     <Typography>
                         {translator('labels.schedule-viewer')}
                     </Typography>
                 </Button>
 
-                <Button sx={btnStyle}>
+                <Button sx={btnStyle} onClick={() => navigate('/lessonsManagement')}>
                     <Icon type='preview' sx={iconStyle}/>
                     <Typography>
                         {translator('labels.lessons-viewer')}
                     </Typography>
                 </Button>
 
-                <Button sx={btnStyle}>
+                <Button sx={btnStyle} onClick={() => navigate('/addUserToTenant')}>
                     <Icon type='person add' sx={iconStyle}/>
                     <Box>
                         <Typography>
@@ -53,25 +50,6 @@ export default function TenantManagementPage() {
                     </Box>
                 </Button>
             </Box>
-            
-            {/* <CustomAccordion title={translator('labels.rules-list')}>
-                <RulesList tenantId={tenantStore.tenant?.id as string}/>
-            </CustomAccordion>
-            <hr/>
-
-            <CustomAccordion title={translator('labels.schedule-viewer')}>
-                <ScheduleViewer/>
-            </CustomAccordion>
-            <hr/>
-
-            <CustomAccordion title={translator('labels.lessons-viewer')}>
-                <LessonsViewer/>
-            </CustomAccordion>
-            <hr/>
-
-            <CustomAccordion title={translator('labels.add-user-to-tenant')}>
-                <AddUserToTenant/>
-            </CustomAccordion> */}
         </Box>
     </Box>);
 }

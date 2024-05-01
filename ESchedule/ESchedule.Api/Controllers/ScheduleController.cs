@@ -25,9 +25,9 @@ namespace ESchedule.Api.Controllers
         }
 
         [Authorize(Policies.DispatcherOnly)]
-        [HttpPost("{tenantId}")]
-        public async Task BuildSchedule(Guid tenantId)
-            => await _scheduleService.BuildSchedule(tenantId);
+        [HttpPost]
+        public async Task BuildSchedule()
+            => await _scheduleService.BuildSchedule();
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPut]
@@ -45,9 +45,9 @@ namespace ESchedule.Api.Controllers
             => await _scheduleService.GetItems(x => x.TeacherId == teacherId, includeNavs: true);
 
         [Authorize(Policies.DispatcherOnly)]
-        [HttpGet("rules/{tenantId}")]
-        public async Task<IEnumerable<RuleModel>> GetScheduleRules(Guid tenantId)
-            => await _rulesService.GetItems(x => x.TenantId == tenantId);
+        [HttpGet("rules")]
+        public async Task<IEnumerable<RuleModel>> GetScheduleRules()
+            => await _rulesService.GetItems();
 
         [Authorize]
         [HttpGet("group/{groupId}")]
@@ -60,9 +60,9 @@ namespace ESchedule.Api.Controllers
             => await _scheduleService.FirstOrDefault(x => x.Id == scheduleId);
 
         [Authorize(Policies.DispatcherOnly)]
-        [HttpDelete("{tenantId}")]
-        public async Task RemoveSchedule(Guid tenantId)
-            => await _scheduleService.RemoveWhere(x => x.TenantId == tenantId);
+        [HttpDelete]
+        public async Task RemoveSchedule()
+            => await _scheduleService.RemoveAll();
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpPost("rule")]

@@ -15,11 +15,7 @@ import Button from "@mui/material/Button";
 import { useLoader } from "../../hooks/Loader";
 import Icon from "../wrappers/Icon";
 
-interface Props {
-    tenantId: string
-}
-
-export default function RulesList({ tenantId }: Props) {
+export default function RulesList() {
     const { scheduleStore } = useStore();
     const [rules, setRules] = useState<RuleModel[]>([]);
     const [isCreatingNewRule, setCreatingNewRuleFlag] = useState(false);
@@ -28,20 +24,20 @@ export default function RulesList({ tenantId }: Props) {
 
     useEffect(() => {
         const fetchRules = async () => 
-            await scheduleStore.getScheduleRules(tenantId)
+            await scheduleStore.getScheduleRules()
                 .then(res => setRules(res))
                 .then(() => loader.hide());
 
         loader.show();
         fetchRules();
-    }, [scheduleStore, tenantId]);
+    }, [scheduleStore]);
 
     const showNewRuleForm = () => {
         setCreatingNewRuleFlag(!isCreatingNewRule);
     }
 
     const createSchedule = async () => 
-        await scheduleStore.buildSchedule(tenantId)
+        await scheduleStore.buildSchedule()
             .then(() => toast.success(translator('toasts.schedule-created-successfully')));
 
     const removeRule = async (ruleId: string) => {

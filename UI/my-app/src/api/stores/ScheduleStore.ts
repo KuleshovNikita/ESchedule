@@ -11,8 +11,8 @@ export default class ScheduleStore {
         makeAutoObservable(this);
     }
 
-    buildSchedule = async (tenantId: string) => 
-        await this.client.buildSchedule(tenantId); 
+    buildSchedule = async () => 
+        await this.client.buildSchedule(); 
 
     getScheduleForTenant = async (tenantId: string) => {
         const response = await this.client.getScheduleForGroup(tenantId);
@@ -34,12 +34,12 @@ export default class ScheduleStore {
         return response;
     }
 
-    getScheduleRules = async (tenantId: string) => {
+    getScheduleRules = async () => {
         if(this.rules) {
             return this.rules;
         }
 
-        const response = await this.client.getScheduleRules(tenantId);
+        const response = await this.client.getScheduleRules();
 
         if(response) {
             this.rules = response;
@@ -66,8 +66,8 @@ export default class ScheduleStore {
         await this.client.getScheduleItem(id)
             .then(res => this.parseDate([res])[0]);
 
-    removeSchedule = async (tenantId: string) =>
-        await this.client.removeSchedule(tenantId); 
+    removeSchedule = async () =>
+        await this.client.removeSchedule(); 
 
     parseDate = (schedules: ScheduleModel[]) => {
         schedules.forEach(el => {

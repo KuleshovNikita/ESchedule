@@ -17,6 +17,9 @@ namespace ESchedule.DataAccess.Repos
 
         public virtual async Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command)
            => await _context.Set<TModel>().SingleOrDefaultAsync(command);
+        
+        public virtual async Task<TModel> SingleOrDefault()
+           => await _context.Set<TModel>().SingleOrDefaultAsync();
 
         public virtual async Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command)
             => await _context.Set<TModel>().Where(command).ToListAsync() 
