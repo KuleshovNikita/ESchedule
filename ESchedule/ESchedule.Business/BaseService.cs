@@ -52,6 +52,9 @@ namespace ESchedule.Business
 
         public async virtual Task<T> SingleOrDefault(Expression<Func<T, bool>> predicate)
             => await _repository.SingleOrDefault(predicate);
+        
+        public async virtual Task<T> SingleOrDefault()
+            => await _repository.SingleOrDefault();
 
         public async virtual Task<IEnumerable<T>> Where(Expression<Func<T, bool>> predicate)
             => await _repository.Where(predicate);

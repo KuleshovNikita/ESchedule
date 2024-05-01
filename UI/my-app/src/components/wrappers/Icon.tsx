@@ -11,6 +11,7 @@ import Preview from "@mui/icons-material/Preview";
 import Close from "@mui/icons-material/Close";
 import Edit from "@mui/icons-material/Edit";
 import Cancel from "@mui/icons-material/Cancel";
+import PersonAdd from '@mui/icons-material/PersonAdd';
 import { SxProps, Theme } from "@mui/material";
 
 type IconType = 
@@ -27,8 +28,15 @@ type IconType =
     | 'build'
     | 'preview'
     | 'close'
+    | 'person add'
 
-const Icon = (props: any) => {
+type Props = {
+    type: IconType;
+    sx?: SxProps<Theme> | undefined;
+    fontSize?: string;
+} & any 
+
+const Icon = (props: Props) => {
     const style = {...props.sx, buttonImageIconStyle};
 
     switch (props.type)
@@ -46,6 +54,7 @@ const Icon = (props: any) => {
         case 'build': return <Construction sx={style} {...props}/>
         case 'preview': return <Preview sx={style} {...props}/>
         case 'close': return <Close sx={style} {...props}/>
+        case 'person add': return <PersonAdd sx={style} {...props}/>
         default:
             return <>No icon</>
     }

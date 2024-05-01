@@ -18,6 +18,10 @@ namespace ESchedule.Business
 
         Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> predicate) => throw new Exception();
 
+        Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> predicate);
+
+        Task<TModel> SingleOrDefault();
+
         Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> predicate);
 
         Task RemoveItem(Guid itemId);
