@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { UserModel } from "../../../models/Users";
 import { useStore } from "../../../api/stores/StoresManager";
-import LoadingComponent from "../../hoc/loading/LoadingComponent";
 import { useCult } from "../../../hooks/Translator";
 import { daysOfWeek, noneWord, normalizeUserName } from "../../../utils/Utils";
 import CustomSelect from "../../CustomSelect";
 import FormHelperText from "@mui/material/FormHelperText";
+import Loader from "../../hoc/loading/Loader";
+import { useLoader } from "../../../hooks/Loader";
 
 interface Props {
     setHasErrors: any,
@@ -13,10 +14,11 @@ interface Props {
 }
 
 export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: Props) {
-    const { tenantStore, userStore } = useStore();
+    const { userStore } = useStore();
     const { translator } = useCult();
     const [teachersInfo, setTeachersInfo] = useState<UserModel[]>([]);
     const [isLoaded, setLoaded] = useState(false);
+    const loader = useLoader();
 
     const [busyTeacher, setBusyTeacher] = useState(noneWord);
     const [busyTeacherError, setBusyTeacherError] = useState('');
@@ -28,9 +30,10 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
         const fetchTeachers = async () => 
             await userStore.getTeachers()
                 .then(res => setTeachersInfo(res))
-                .then(() => setLoaded(true));
+                .then(() => loader.hide());
 
         if(teachersInfo.length === 0) {
+            loader.show();
             fetchTeachers();
         }  
     }, [teachersInfo]);
@@ -103,26 +106,18 @@ export default function CreateTeacherBodyDayRuleComp({setHasErrors, bodyData}: P
     }
    
     return (
-        <>
-        {
-            !isLoaded
-        ? 
-            <LoadingComponent type='circle'/>
-        :
-            <>
-                <CustomSelect 
-                    label={translator('labels.busy-teacher')} 
-                    onChange={e => setBusyTeacher(getId(e.target.value))} 
-                    collection={normalizeTeacherList()} 
-                    errorHandler={busyTeacherErrorHandler} />
+        <Loader type='spin' replace>
+            <CustomSelect 
+                label={translator('labels.busy-teacher')} 
+                onChange={e => setBusyTeacher(getId(e.target.value))} 
+                collection={normalizeTeacherList()} 
+                errorHandler={busyTeacherErrorHandler} />
 
-                <CustomSelect 
-                    label={translator('labels.day-of-week')} 
-                    onChange={e => setDay(getId(e.target.value))} 
-                    collection={normalizeDaysList()} 
-                    errorHandler={dayErrorHandler} />
-            </>
-        }
-        </>
+            <CustomSelect 
+                label={translator('labels.day-of-week')} 
+                onChange={e => setDay(getId(e.target.value))} 
+                collection={normalizeDaysList()} 
+                errorHandler={dayErrorHandler} />
+        </Loader>
     );
 }

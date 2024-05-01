@@ -21,5 +21,7 @@ export const daysOfWeek = [
 ]
 
 export const noneWord = 'words.none';
+export const loaderEventName = 'showLoader';
+
 
 export const hourInPixels = 148;

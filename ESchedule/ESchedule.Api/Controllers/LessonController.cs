@@ -26,7 +26,7 @@ namespace ESchedule.Api.Controllers
             => await _service.CreateItem(lessonModel);
 
         [Authorize]
-        [HttpPut("many/{tenantId}")]
+        [HttpPut("many")]
         public async Task RemoveLessons([FromBody] IEnumerable<Guid> lessonsToRemove)
             => await _lessonService.RemoveLessons(lessonsToRemove);
 
