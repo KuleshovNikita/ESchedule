@@ -8,9 +8,9 @@ import RegistrationPage from "../pages/registration/Registration";
 import ConfirmEmailPage from "../pages/confirmEmail/ConfirmEmail";
 import { ScheduleTablePage } from "../pages/schedules/ScheduleTable";
 import { Role } from "../models/Users";
-import ScheduleRedactorPage from "../pages/schedules/builderPage/ScheduleRedactorPage";
-import { CreateTenant } from "../pages/tenant/CreateTenant";
-import ManageTenant from "../pages/tenant/ManageTenant";
+import TenantManagementPage from "../pages/tenant/management/TenantManagementPage";
+import { CreateTenant } from "../pages/tenant/creation/CreateTenant";
+import ManageTenant from "../pages/tenant/creation/ManageTenant";
 
 export default function AppRoutes() {
     return (
@@ -43,7 +43,7 @@ export default function AppRoutes() {
                    element={ <Auth><ScheduleTablePage /></Auth> } 
               />
               <Route path="/scheduleBuilder" 
-                   element={ <Auth role={Role.Dispatcher}><ScheduleRedactorPage /></Auth> } 
+                   element={ <Auth role={Role.Dispatcher}><TenantManagementPage /></Auth> } 
               />
 
               <Route path="*" 
