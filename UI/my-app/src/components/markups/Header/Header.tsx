@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "../../../api/stores/StoresManager";
-import { cultureSelectStyle, headerBox, headerLeftSideBoxStyle, headerNavButtonStyle,
+import { cultureSelectStyle, headerBox, headerIconStyle, headerLeftSideBoxStyle, headerNavButtonStyle,
          labelStyles,
          navigationButtonsStyle, 
          profileNavButtonStyle, 
@@ -87,7 +87,7 @@ const Header = () => {
                                     <Button sx={headerNavButtonStyle}
                                             onClick={scheduleBuilder}
                                     >
-                                        <Icon type='manage accounts' fontSize='large'/>
+                                        <Icon sx={headerIconStyle} type='manage accounts' fontSize='large'/>
                                     </Button>
                                 )
                             || 
@@ -97,7 +97,7 @@ const Header = () => {
                                     <Button sx={[headerNavButtonStyle]}
                                             onClick={schedules}
                                     >
-                                        <Icon type='calendar' fontSize='large'/>
+                                        <Icon sx={headerIconStyle} type='calendar' fontSize='large'/>
                                     </Button>
                                 )
                             }
@@ -105,7 +105,7 @@ const Header = () => {
                             <Button sx={[headerNavButtonStyle]}
                                     onClick={logout}
                             >
-                                <Icon type='quit' fontSize='large'/>
+                                <Icon sx={headerIconStyle} type='quit' fontSize='large'/>
                             </Button>
                         </Box>
                     }

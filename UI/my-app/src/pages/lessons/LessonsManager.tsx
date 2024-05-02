@@ -18,13 +18,14 @@ import { useLoader } from "../../hooks/Loader";
 import Loader from "../../components/hoc/loading/Loader";
 import Icon from "../../components/wrappers/Icon";
 import PageBox from "../../components/wrappers/PageBox";
-import { Box } from "@mui/material";
-import { buttonsBox, cellStyle, checkboxStyle, pageMarkup } from "./LessonsManagerStyles";
+import { Box, TableHead } from "@mui/material";
+import { buttonsBox, checkboxStyle, pageMarkup } from "./LessonsManagerStyles";
+import { cellStyle, checkboxCellStyle, headCellStyle, headRowStyle } from "../../styles/TableStyles";
 
 const LessonsManager = observer(() => {
     const { tenantStore, lessonStore } = useStore();
     const { translator } = useCult();
-    const [lessonsToRemove, setLessonsToRemove] = useState<LessonModel[]>([]);
+    const [selectedlessons, setSelectedLessons] = useState<LessonModel[]>([]);
     const [isModalActive, setModalActive] = useState(false);
     const [lessonName, setLessonName] = useState('');
     const loader = useLoader();
@@ -42,8 +43,9 @@ const LessonsManager = observer(() => {
     }, [tenantStore, lessonStore])
 
     const removeLessons = async () => {
-        await lessonStore.removeLessons(lessonsToRemove.map(x => x.id))
-            .then(() => toast.success(translator("toasts.lesson-removed")));
+        await lessonStore.removeLessons(selectedlessons.map(x => x.id))
+            .then(() => toast.success(translator("toasts.lesson-removed")))
+            .then(() => setSelectedLessons([]));
     }
 
     const saveLesson = async () => {
@@ -79,46 +81,59 @@ const LessonsManager = observer(() => {
 
     const handleCheck = (event: React.ChangeEvent<HTMLInputElement>, lesson: LessonModel) => {
         if(event.target.checked) {
-            setLessonsToRemove([...lessonsToRemove, lesson]);
+            setSelectedLessons([...selectedlessons, lesson]);
         } else {
-            setLessonsToRemove(lessonsToRemove.filter(l => l.id !== lesson.id));
+            setSelectedLessons(selectedlessons.filter(l => l.id !== lesson.id));
         }
     }
 
     const renderLessonsTable = () => {
-        return  <Table sx={{display: 'inline-block'}}>
-                    <TableBody>
-                        {
-                            lessonStore.lessons?.map((l, k) => {
-                                return <TableRow key={k}>
-                                    <TableCell sx={{...cellStyle, padding: '5px', width: '0%'}}>
-                                        <Checkbox 
-                                            sx={checkboxStyle}
-                                            onChange={(e) => handleCheck(e, l)}/>                                        
-                                    </TableCell>
-                                    <TableCell sx={cellStyle}>
-                                        <Typography variant="h6">
-                                            {l.title}
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            })
-                        }
-                    </TableBody>
-                </Table>
-    }
+        return(  
+            <Table>
+                <TableHead>
+                    <TableRow sx={headRowStyle}>
+                        <TableCell sx={headCellStyle}/>
+                        <TableCell sx={headCellStyle}>
+                            <Typography variant="h6">
+                                <b>{translator('labels.lesson-name')}</b>
+                            </Typography>
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                {
+                    lessonStore.lessons?.map((l, k) => {
+                        return (
+                            <TableRow key={k}>
+                                <TableCell sx={checkboxCellStyle}>
+                                    <Checkbox
+                                        sx={checkboxStyle}
+                                        onChange={(e) => handleCheck(e, l)}/>                                        
+                                </TableCell>
+                                <TableCell sx={cellStyle}>
+                                    <Typography variant="h6">
+                                        {l.title}
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                        );
+                    })
+                }
+                </TableBody>
+            </Table>
+    )}
 
     return(
     <PageBox>
         <Box sx={pageMarkup}>
             <Box sx={buttonsBox}>
                 <Button
-                    disabled={lessonsToRemove.length === 0}
+                    disabled={selectedlessons.length === 0}
                     onClick={removeLessons}
                     variant='contained' 
                     sx={buttonHoverStyles}>
                     {translator('buttons.remove')}
-                    <Icon type='add'/>
+                    <Icon type='remove'/>
                 </Button>
                 <Button
                     onClick={() => setModalActive(true)}

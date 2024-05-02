@@ -37,7 +37,7 @@ type Props = {
 } & any 
 
 const Icon = (props: Props) => {
-    const style = {...props.sx, buttonImageIconStyle};
+    const style = {...props.sx, ...buttonImageIconStyle};
 
     switch (props.type)
     {

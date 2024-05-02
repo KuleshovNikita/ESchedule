@@ -1,7 +1,3 @@
-export const cellStyle = {
-    border: '1px solid black'
-}
-
 export const checkboxStyle = {
     '& .MuiSvgIcon-root': { fontSize: 40 }
 }
