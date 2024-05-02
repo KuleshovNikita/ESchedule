@@ -1,9 +1,6 @@
 import { deepOrange } from "@mui/material/colors"
 
 export const mainBoxStyle = {
-    ml: 3,
-    mt: 2,
-    mr: 3,
     display: "grid",
     gridTemplateColumns: "1fr 4fr"     
 }

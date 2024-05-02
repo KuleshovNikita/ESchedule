@@ -11,8 +11,8 @@ export const labelStyles = {
 }
 
 export const cultureSelectStyle = {
-    mt: 1.8,
-    mb: 1.8,
+    mt: 2,
+    mb: 3,
     mr: 1.8,
     width: "150px",
     '& .MuiInputBase-input': {
@@ -21,7 +21,6 @@ export const cultureSelectStyle = {
 }
 
 export const titleTextStyle = {
-    mr: 2,
     display: "inline-block",
     color: 'white'
 }
@@ -41,6 +40,7 @@ export const navigationButtonsStyle = {
 export const headerNavButtonStyle = {
     bgcolor: "white",
     color: "orange",
+    height: '60px',
     mr: 1,
     "&:hover": {
         bgcolor: "brown"
@@ -48,12 +48,12 @@ export const headerNavButtonStyle = {
 }
 
 export const profileNavButtonStyle = {
-    padding: '6px',
-    mr: 2
+    width: '60px'
 }
 
 export const headerBox = {
     bgcolor: "orange",
     display: "grid",
-    gridTemplateColumns: "6fr 1fr"
+    gridTemplateColumns: "6fr 1fr",
+    height: '90px'
 }

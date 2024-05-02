@@ -4,7 +4,7 @@ import { LessonCreateModel, LessonModel } from "../../models/Lessons";
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { useCult } from "../../hooks/Translator";
 import { toast } from "react-toastify";
-import PopupForm from "../schedule/RulesCreation/PopupForm";
+import PopupForm from "../../components/schedule/RulesCreation/PopupForm";
 import { Typography } from "@material-ui/core";
 import Checkbox from '@mui/material/Checkbox';
 import { observer } from "mobx-react-lite";
@@ -14,10 +14,10 @@ import TableBody from "@mui/material/TableBody";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import Box from "@mui/material/Box";
 import { useLoader } from "../../hooks/Loader";
-import Loader from "../hoc/loading/Loader";
-import Icon from "../wrappers/Icon";
+import Loader from "../../components/hoc/loading/Loader";
+import Icon from "../../components/wrappers/Icon";
+import PageBox from "../../components/wrappers/PageBox";
 
 const cellStyle = {
     border: '1px solid black'
@@ -27,7 +27,7 @@ const checkboxStyle = {
     '& .MuiSvgIcon-root': { fontSize: 40 }
 }
 
-const LessonViewer = observer(() => {
+const LessonsManager = observer(() => {
     const { tenantStore, lessonStore } = useStore();
     const { translator } = useCult();
     const [lessonsToRemove, setLessonsToRemove] = useState<LessonModel[]>([]);
@@ -115,7 +115,7 @@ const LessonViewer = observer(() => {
     }
 
     return(
-    <Box>
+    <PageBox>
         {isModalActive && showModalWindow()}
         <Loader type="spin" replace>
             {renderLessonsTable()}
@@ -135,8 +135,8 @@ const LessonViewer = observer(() => {
             {translator('buttons.add')}
             <Icon type='add'/>
         </Button>
-    </Box>
+    </PageBox>
     );
 });
 
-export default LessonViewer;
+export default LessonsManager;

@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { useLoader } from "../../hooks/Loader";
 import Loader from "../../components/hoc/loading/Loader";
+import PageBox from "../../components/wrappers/PageBox";
 
 export const ScheduleTablePage = () => {
     const { scheduleStore, userStore, tenantSettingsStore } = useStore();
@@ -45,11 +46,11 @@ export const ScheduleTablePage = () => {
     }, [isTeacherScope, scheduleStore, targetId, userStore.user?.id]);
 
     return( 
-        <Box>
+        <PageBox>
             <TimeTableMarkup/>
             <Loader type='spin' replace>
                 <ScheduleTableBuilder schedules={schedules} timeTable={timeTable} />
             </Loader>
-        </Box>
+        </PageBox>
     );
 }

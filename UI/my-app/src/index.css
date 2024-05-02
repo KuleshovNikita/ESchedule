@@ -7,8 +7,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body, #root, .my, .App {
-  height: 97%;
+body, #root, .App {
+  height: 'stretch';
+}
+
+html, body, #root {
+  height: 100vh;
+}
+
+.main {
+  padding: 2vh 24px;
+  height: 85%;
 }
 
 code {

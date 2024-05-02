@@ -13,6 +13,7 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import PageBox from "../../components/wrappers/PageBox";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
@@ -177,7 +178,7 @@ export default function RegistrationPage() {
     }
 
     return (
-        <>
+        <PageBox>
             <Box
                 component="form"
                 sx={formStyle}
@@ -297,7 +298,7 @@ export default function RegistrationPage() {
                     </Button>
                 </Box>
             </Box>
-        </>
+        </PageBox>
     )
 }
 

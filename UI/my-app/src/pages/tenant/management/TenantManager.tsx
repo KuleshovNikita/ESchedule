@@ -3,16 +3,16 @@ import { Typography } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Icon from "../../../components/wrappers/Icon";
-import { btnStyle, iconStyle, pageStyle } from "./TenantManagementStyles";
+import { btnStyle, iconStyle, pageStyle } from "./TenantManagerStyles";
 import { useNavigate } from "react-router-dom";
+import PageBox from "../../../components/wrappers/PageBox";
 
-export default function TenantManagementPage() {
+export default function TenantManager() {
     const { translator } = useCult();
     const navigate = useNavigate();
 
     return (
-    <Box>
-        <Box sx={{ml: 1}}>
+        <PageBox>
             <Box sx={pageStyle}>
                 <Button sx={btnStyle} onClick={() => navigate('/rulesManagement')}>
                     <Icon type='edit' sx={iconStyle}/>
@@ -44,6 +44,5 @@ export default function TenantManagementPage() {
                     </Box>
                 </Button>
             </Box>
-        </Box>
-    </Box>);
-}
+        </PageBox>
+);}

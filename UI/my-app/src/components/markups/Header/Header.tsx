@@ -38,7 +38,7 @@ const Header = () => {
     }
 
     const scheduleBuilder = () => {
-        navigate('/scheduleBuilder', navOptions);
+        navigate('/tenantManager', navOptions);
     }
 
     return( 
@@ -60,10 +60,10 @@ const Header = () => {
                             }
                         </Select>
                         <Box sx={labelStyles}>
-                            <Typography variant="h3" component="h2" sx={titleTextStyle}>
+                            <Typography variant="h3" component="h3" sx={titleTextStyle}>
                                 Eschedule
                             </Typography>
-                            <Typography variant="h5" component="h2" sx={tenantTitleStyle}>
+                            <Typography variant="h5" component="h5" sx={tenantTitleStyle}>
                                 {tenantStore.tenant?.name}
                             </Typography>
                         </Box>

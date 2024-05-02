@@ -1,12 +1,13 @@
-import { useCult } from "../hooks/Translator";
+import { useCult } from "../../../hooks/Translator";
 import { useEffect, useState } from "react";
-import { buttonHoverStyles, buttonImageIconStyle } from "../styles/ButtonStyles";
-import { useStore } from "../api/stores/StoresManager";
+import { buttonHoverStyles, buttonImageIconStyle } from "../../../styles/ButtonStyles";
+import { useStore } from "../../../api/stores/StoresManager";
 import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Icon from "./wrappers/Icon";
+import Icon from "../../../components/wrappers/Icon";
+import PageBox from "../../../components/wrappers/PageBox";
 
 export default function AddUserToTenant() {
     const { translator } = useCult();
@@ -32,7 +33,7 @@ export default function AddUserToTenant() {
     }
 
     return(
-        <Box>
+        <PageBox>
             <Box>
                 <TextField
                     label={translator('labels.user-code')}
@@ -52,6 +53,6 @@ export default function AddUserToTenant() {
                     <Icon type='add'/>
                 </Button>
             </Box>
-        </Box>
+        </PageBox>
     )
 }
