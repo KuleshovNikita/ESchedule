@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Loader from "../../../components/hoc/loading/Loader";
 import { useLoader } from "../../../hooks/Loader";
 import { createTenantButtonStyle, formStyle, rowStyles } from "./TenantStyles";
+import PageBox from "../../../components/wrappers/PageBox";
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -177,99 +178,101 @@ export function CreateTenant() {
 
     return (
         <Loader>
-            <Box
-                component="form"
-                sx={formStyle}
-                noValidate
-                autoComplete="off"
-            >    
-                <Box>
-                    <Box sx={rowStyles}>              
-                        <TextField
-                            label={translator('labels.tenant-name')}
-                            variant="filled"
-                            value={tenantName}
-                            required={true}
-                            helperText= {tenantErrors}
-                            error={tenantErrors.length !== 0}
-                            inputRef={tenantRef}
-                            onFocus={(e: Focus) => handleTenantNameChange(e)}
-                            onChange={handleTenantNameChange}
-                        />
+            <PageBox>
+                <Box
+                    component="form"
+                    sx={formStyle}
+                    noValidate
+                    autoComplete="off"
+                >    
+                    <Box>
+                        <Box sx={rowStyles}>              
+                            <TextField
+                                label={translator('labels.tenant-name')}
+                                variant="filled"
+                                value={tenantName}
+                                required={true}
+                                helperText= {tenantErrors}
+                                error={tenantErrors.length !== 0}
+                                inputRef={tenantRef}
+                                onFocus={(e: Focus) => handleTenantNameChange(e)}
+                                onChange={handleTenantNameChange}
+                            />
+                        </Box>
+                        <Box sx={rowStyles}>  
+                            <TextField
+                                label={translator('labels.study-day-start-time')}
+                                variant="filled"
+                                type="time"
+                                value={studyDayStartTime}
+                                required={true}
+                                helperText= {studyDayStartTimeErrors}
+                                error={studyDayStartTimeErrors.length !== 0}
+                                inputRef={studyDayStartTimeRef}
+                                onFocus={(e: Focus) => handleStudyDayStartTimeChange(e)}
+                                onChange={handleStudyDayStartTimeChange}
+                            />
+                            <TextField
+                                label={translator('labels.lesson-duration-time')}
+                                variant="filled"
+                                type='time'
+                                value={lessonDurationTime}
+                                required={true}
+                                helperText= {lessonDurationTimeErrors}
+                                error={lessonDurationTimeErrors.length !== 0}
+                                inputRef={lessonDurationTimeRef}
+                                onFocus={(e: Focus) => handleLessonDurationTimeChange(e)}
+                                onChange={handleLessonDurationTimeChange}
+                            />
+                            <TextField
+                                label={translator('labels.breaks-duration-time')}
+                                variant="filled"
+                                type="time"
+                                value={breaksDurationTime}
+                                required={true}
+                                helperText= {breaksDurationTimeErrors}
+                                error={breaksDurationTimeErrors.length !== 0}
+                                inputRef={breaksDurationTimeRef}
+                                onFocus={(e: Focus) => handleBreaksDurationTimeChange(e)}
+                                onChange={handleBreaksDurationTimeChange}
+                            />
+                        </Box>  
+                        <Box sx={rowStyles}>
+                            <TextField
+                                label={translator('labels.email')}
+                                variant="filled"
+                                value={email}
+                                required={true}
+                                helperText= {emailErrors}
+                                error={emailErrors.length !== 0}
+                                inputRef={emailRef}
+                                onFocus={(e: Focus) => handleEmailChange(e)}
+                                onChange={handleEmailChange}
+                            />
+                            <TextField
+                                label={translator('labels.password')}
+                                variant="filled"
+                                type="password"
+                                value={password}
+                                required={true}
+                                helperText= {passwordErrors}
+                                error={passwordErrors.length !== 0}
+                                inputRef={passwordRef}
+                                onFocus={(e: Focus) => handlePasswordChange(e)}
+                                onChange={handlePasswordChange}
+                            />
+                        </Box>
                     </Box>
-                    <Box sx={rowStyles}>  
-                        <TextField
-                            label={translator('labels.study-day-start-time')}
-                            variant="filled"
-                            type="time"
-                            value={studyDayStartTime}
-                            required={true}
-                            helperText= {studyDayStartTimeErrors}
-                            error={studyDayStartTimeErrors.length !== 0}
-                            inputRef={studyDayStartTimeRef}
-                            onFocus={(e: Focus) => handleStudyDayStartTimeChange(e)}
-                            onChange={handleStudyDayStartTimeChange}
-                        />
-                        <TextField
-                            label={translator('labels.lesson-duration-time')}
-                            variant="filled"
-                            type='time'
-                            value={lessonDurationTime}
-                            required={true}
-                            helperText= {lessonDurationTimeErrors}
-                            error={lessonDurationTimeErrors.length !== 0}
-                            inputRef={lessonDurationTimeRef}
-                            onFocus={(e: Focus) => handleLessonDurationTimeChange(e)}
-                            onChange={handleLessonDurationTimeChange}
-                        />
-                        <TextField
-                            label={translator('labels.breaks-duration-time')}
-                            variant="filled"
-                            type="time"
-                            value={breaksDurationTime}
-                            required={true}
-                            helperText= {breaksDurationTimeErrors}
-                            error={breaksDurationTimeErrors.length !== 0}
-                            inputRef={breaksDurationTimeRef}
-                            onFocus={(e: Focus) => handleBreaksDurationTimeChange(e)}
-                            onChange={handleBreaksDurationTimeChange}
-                        />
-                    </Box>  
-                    <Box sx={rowStyles}>
-                        <TextField
-                            label={translator('labels.email')}
-                            variant="filled"
-                            value={email}
-                            required={true}
-                            helperText= {emailErrors}
-                            error={emailErrors.length !== 0}
-                            inputRef={emailRef}
-                            onFocus={(e: Focus) => handleEmailChange(e)}
-                            onChange={handleEmailChange}
-                        />
-                        <TextField
-                            label={translator('labels.password')}
-                            variant="filled"
-                            type="password"
-                            value={password}
-                            required={true}
-                            helperText= {passwordErrors}
-                            error={passwordErrors.length !== 0}
-                            inputRef={passwordRef}
-                            onFocus={(e: Focus) => handlePasswordChange(e)}
-                            onChange={handlePasswordChange}
-                        />
+                    <Box>
+                        <Button sx={createTenantButtonStyle} 
+                            variant="contained" 
+                            size="large" 
+                            onClick={submit}>
+                                {translator('buttons.create-tenant')}
+                        </Button>
                     </Box>
                 </Box>
-                <Box>
-                    <Button sx={createTenantButtonStyle} 
-                        variant="contained" 
-                        size="large" 
-                        onClick={submit}>
-                            {translator('buttons.create-tenant')}
-                    </Button>
-                </Box>
-            </Box>
+            </PageBox>
         </Loader>
     );
 }

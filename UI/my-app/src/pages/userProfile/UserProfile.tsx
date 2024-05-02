@@ -19,6 +19,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Icon from "../../components/wrappers/Icon";
+import PageBox from "../../components/wrappers/PageBox";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -201,192 +202,194 @@ export default function UserPage() {
     }
 
     return(
-        <Box sx={mainBoxStyle}>
-            <Box sx={profileBoxStyle}>
-                <Avatar sx={avatarStyle}>
-                    {currentUser?.name[0].toUpperCase()}
-                    {currentUser?.lastName[0].toUpperCase()}
-                </Avatar>
+        <PageBox>
+            <Box sx={mainBoxStyle}>
+                <Box sx={profileBoxStyle}>
+                    <Avatar sx={avatarStyle}>
+                        {currentUser?.name[0].toUpperCase()}
+                        {currentUser?.lastName[0].toUpperCase()}
+                    </Avatar>
 
-                <Box sx={buttonBoxStyles}>
-                    {
-                        !changeMode
-                    ?
-                        <Button
-                            sx={buttonHoverStyles}   
-                            variant="contained"   
-                            onClick={resetChanges}          
-                        >
-                            {translator('buttons.cancel')}
-                            <Icon type='cancel'/>
-                        </Button>
-                    :
-                        <Button
-                            sx={buttonHoverStyles}   
-                            variant="contained"   
-                            onClick={setProfileChanging}         
-                        >
-                            {translator('buttons.change')}
-                            <Icon type='edit'/>
-                        </Button>
-                    }
+                    <Box sx={buttonBoxStyles}>
+                        {
+                            !changeMode
+                        ?
+                            <Button
+                                sx={buttonHoverStyles}   
+                                variant="contained"   
+                                onClick={resetChanges}          
+                            >
+                                {translator('buttons.cancel')}
+                                <Icon type='cancel'/>
+                            </Button>
+                        :
+                            <Button
+                                sx={buttonHoverStyles}   
+                                variant="contained"   
+                                onClick={setProfileChanging}         
+                            >
+                                {translator('buttons.change')}
+                                <Icon type='edit'/>
+                            </Button>
+                        }
 
-                    {
-                        userStore.user?.role == Role.Dispatcher
-                        &&
+                        {
+                            userStore.user?.role == Role.Dispatcher
+                            &&
+                            <Button
+                                sx={buttonHoverStyles}   
+                                variant="contained"   
+                                onClick={manageTenant}      
+                            >
+                                {translator('buttons.manage-tenant')}
+                                <Icon type='build'/>
+                            </Button>
+                        }
+                        
                         <Button
                             sx={buttonHoverStyles}   
                             variant="contained"   
-                            onClick={manageTenant}      
+                            onClick={submit} 
+                            disabled={changeMode}          
                         >
-                            {translator('buttons.manage-tenant')}
-                            <Icon type='build'/>
+                            {translator('buttons.save')}
+                            <Icon type='save'/>
                         </Button>
-                    }
-                    
-                    <Button
-                        sx={buttonHoverStyles}   
-                        variant="contained"   
-                        onClick={submit} 
-                        disabled={changeMode}          
-                    >
-                        {translator('buttons.save')}
-                        <Icon type='save'/>
-                    </Button>
+                    </Box>
+                </Box>
+                <Box sx={userInfoBlocks}>
+                    <Box sx={userInfoSubSetBlock}>
+                        <Typography variant='h5'> 
+                            {translator('headers.personal-info')}
+                        </Typography>
+                        <TextField 
+                            label={translator('labels.first-name')}
+                            variant="filled"
+                            size="small"
+                            helperText={firstNameErrors}
+                            value={name}
+                            required={true}
+                            disabled={changeMode}
+                            inputRef={firstNameRef}
+                            error={firstNameErrors.length !== 0}
+                            margin="dense"
+                            onFocus={(e: Focus) => handleFirstNameChange(e)}
+                            onChange={handleFirstNameChange}
+                        />
+                        <TextField 
+                            label={translator('labels.last-name')}
+                            variant="filled"
+                            size="small"
+                            helperText={lastNameErrors}
+                            value={lastName}
+                            required={true}
+                            disabled={changeMode}
+                            inputRef={lastNameRef}
+                            error={lastNameErrors.length !== 0}
+                            margin="dense"
+                            onFocus={(e: Focus) => handleLastNameChange(e)}
+                            onChange={handleLastNameChange}
+                        />
+                        <TextField 
+                            label={translator('labels.father-name')}
+                            variant="filled"
+                            size="small"
+                            helperText={fatherNameErrors}
+                            value={fatherName}
+                            required={true}
+                            disabled={changeMode}
+                            inputRef={fatherNameRef}
+                            error={fatherNameErrors.length !== 0}
+                            margin="dense"
+                            onFocus={(e: Focus) => handleFatherNameChange(e)}
+                            onChange={handleFatherNameChange}
+                        />
+                        <TextField 
+                            label={translator('labels.age')}
+                            variant="filled"
+                            size="small"
+                            helperText={ageErrors}
+                            value={age}
+                            required={true}
+                            disabled={changeMode}
+                            inputRef={ageRef}
+                            error={ageErrors.length !== 0}
+                            margin="dense"
+                            onFocus={(e: Focus) => handleAgeChange(e)}
+                            onChange={handleAgeChange}
+                        />
+                        <hr/>
+                    </Box>
+                    <Box sx={userInfoSubSetBlock}>
+                        <Typography variant='h5'> 
+                            {translator('headers.credentials')}
+                        </Typography>
+                        <TextField 
+                            label={translator('labels.email')}
+                            variant="filled"
+                            size="small"
+                            helperText={emailErrors}
+                            value={email}
+                            required={true}
+                            disabled={changeMode}
+                            inputRef={loginRef}
+                            error={emailErrors.length !== 0}
+                            margin="dense"
+                            onFocus={(e: Focus) => handleEmailChange(e)}
+                            onChange={handleEmailChange}
+                        />
+                        <TextField 
+                            label={translator('labels.password')}
+                            variant="filled"
+                            size="small"
+                            helperText={passwordErrors}
+                            type="password"
+                            value={password}
+                            required={true}
+                            disabled={changeMode}
+                            inputRef={passwordRef}
+                            error={passwordErrors.length !== 0}
+                            margin="dense"
+                            onFocus={(e: Focus) => handlePasswordChange(e)}
+                            onChange={handlePasswordChange}
+                        />
+                        <hr/>
+                    </Box>
+                    <Box sx={userInfoSubSetBlock}>
+                        <Typography variant='h5'> 
+                            {translator('headers.tenant-info')}
+                        </Typography>
+                        <TextField 
+                            label={translator('labels.role')}
+                            variant="filled"
+                            size="small"
+                            value={translator(getEnumKey(Role, userStore.user?.role))}
+                            required={false}
+                            disabled
+                            margin="dense"
+                        />
+                        <TextField 
+                            label={translator('labels.tenant')}
+                            variant="filled"
+                            size="small"
+                            value={userStore.user?.tenant?.name ?? "None"}
+                            required={false}
+                            disabled
+                            margin="dense"
+                        />
+                        <TextField 
+                            label={getGroupLabelName()}
+                            variant="filled"
+                            size="small"
+                            value={getGroupFieldValue()}
+                            required={false}
+                            disabled
+                            margin="dense"
+                        />
+                        <hr/>
+                    </Box>
                 </Box>
             </Box>
-            <Box sx={userInfoBlocks}>
-                <Box sx={userInfoSubSetBlock}>
-                    <Typography variant='h5'> 
-                        {translator('headers.personal-info')}
-                    </Typography>
-                    <TextField 
-                        label={translator('labels.first-name')}
-                        variant="filled"
-                        size="small"
-                        helperText={firstNameErrors}
-                        value={name}
-                        required={true}
-                        disabled={changeMode}
-                        inputRef={firstNameRef}
-                        error={firstNameErrors.length !== 0}
-                        margin="dense"
-                        onFocus={(e: Focus) => handleFirstNameChange(e)}
-                        onChange={handleFirstNameChange}
-                    />
-                    <TextField 
-                        label={translator('labels.last-name')}
-                        variant="filled"
-                        size="small"
-                        helperText={lastNameErrors}
-                        value={lastName}
-                        required={true}
-                        disabled={changeMode}
-                        inputRef={lastNameRef}
-                        error={lastNameErrors.length !== 0}
-                        margin="dense"
-                        onFocus={(e: Focus) => handleLastNameChange(e)}
-                        onChange={handleLastNameChange}
-                    />
-                    <TextField 
-                        label={translator('labels.father-name')}
-                        variant="filled"
-                        size="small"
-                        helperText={fatherNameErrors}
-                        value={fatherName}
-                        required={true}
-                        disabled={changeMode}
-                        inputRef={fatherNameRef}
-                        error={fatherNameErrors.length !== 0}
-                        margin="dense"
-                        onFocus={(e: Focus) => handleFatherNameChange(e)}
-                        onChange={handleFatherNameChange}
-                    />
-                    <TextField 
-                        label={translator('labels.age')}
-                        variant="filled"
-                        size="small"
-                        helperText={ageErrors}
-                        value={age}
-                        required={true}
-                        disabled={changeMode}
-                        inputRef={ageRef}
-                        error={ageErrors.length !== 0}
-                        margin="dense"
-                        onFocus={(e: Focus) => handleAgeChange(e)}
-                        onChange={handleAgeChange}
-                    />
-                    <hr/>
-                </Box>
-                <Box sx={userInfoSubSetBlock}>
-                    <Typography variant='h5'> 
-                        {translator('headers.credentials')}
-                    </Typography>
-                    <TextField 
-                        label={translator('labels.email')}
-                        variant="filled"
-                        size="small"
-                        helperText={emailErrors}
-                        value={email}
-                        required={true}
-                        disabled={changeMode}
-                        inputRef={loginRef}
-                        error={emailErrors.length !== 0}
-                        margin="dense"
-                        onFocus={(e: Focus) => handleEmailChange(e)}
-                        onChange={handleEmailChange}
-                    />
-                    <TextField 
-                        label={translator('labels.password')}
-                        variant="filled"
-                        size="small"
-                        helperText={passwordErrors}
-                        type="password"
-                        value={password}
-                        required={true}
-                        disabled={changeMode}
-                        inputRef={passwordRef}
-                        error={passwordErrors.length !== 0}
-                        margin="dense"
-                        onFocus={(e: Focus) => handlePasswordChange(e)}
-                        onChange={handlePasswordChange}
-                    />
-                    <hr/>
-                </Box>
-                <Box sx={userInfoSubSetBlock}>
-                    <Typography variant='h5'> 
-                        {translator('headers.tenant-info')}
-                    </Typography>
-                    <TextField 
-                        label={translator('labels.role')}
-                        variant="filled"
-                        size="small"
-                        value={translator(getEnumKey(Role, userStore.user?.role))}
-                        required={false}
-                        disabled
-                        margin="dense"
-                    />
-                    <TextField 
-                        label={translator('labels.tenant')}
-                        variant="filled"
-                        size="small"
-                        value={userStore.user?.tenant?.name ?? "None"}
-                        required={false}
-                        disabled
-                        margin="dense"
-                    />
-                    <TextField 
-                        label={getGroupLabelName()}
-                        variant="filled"
-                        size="small"
-                        value={getGroupFieldValue()}
-                        required={false}
-                        disabled
-                        margin="dense"
-                    />
-                    <hr/>
-                </Box>
-            </Box>
-        </Box>
+        </PageBox>
     );
 }

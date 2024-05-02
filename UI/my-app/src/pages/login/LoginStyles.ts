@@ -1,11 +1,8 @@
 export const MainBoxStyle = {
-    "&": {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        height: '70vh'
-    },
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     "& .MuiTextField-root": { m: 1 },
     "& button": { my: 1 },
     "& .MuiLink-root": { fontSize: "1.2rem" },

@@ -8,12 +8,11 @@ import RegistrationPage from "../pages/registration/Registration";
 import ConfirmEmailPage from "../pages/confirmEmail/ConfirmEmail";
 import { ScheduleTablePage } from "../pages/schedules/ScheduleTable";
 import { Role } from "../models/Users";
-import TenantManagementPage from "../pages/tenant/management/TenantManagementPage";
+import TenantManager from "../pages/tenant/management/TenantManager";
 import { CreateTenant } from "../pages/tenant/creation/CreateTenant";
-import ManageTenant from "../pages/tenant/creation/ManageTenant";
-import LessonViewer from "./lessons/LessonsViewer";
+import LessonsManager from "../pages/lessons/LessonsManager";
 import ScheduleViewer from "./schedule/ScheduleViewer";
-import AddUserToTenant from "./AddUserToTenant";
+import AddUserToTenant from "../pages/tenant/users/AddUserToTenant";
 import RulesList from "./schedule/RulesList";
 
 export default function AppRoutes() {
@@ -31,9 +30,6 @@ export default function AppRoutes() {
               <Route path="/createTenant" 
                    element={ <CreateTenant/> } 
               />
-              <Route path="/manageTenant" 
-                   element={ <ManageTenant/> } 
-              />
               <Route path="/logout" 
                    element={ <Logout/> } 
               />
@@ -45,7 +41,7 @@ export default function AppRoutes() {
                />
 
                <Route path="/lessonsManagement" 
-                   element={ <Auth role={Role.Dispatcher}><LessonViewer /></Auth> } 
+                   element={ <Auth role={Role.Dispatcher}><LessonsManager /></Auth> } 
               />
               <Route path="/scheduleManagement" 
                    element={ <Auth role={Role.Dispatcher}><ScheduleViewer /></Auth> } 
@@ -59,8 +55,8 @@ export default function AppRoutes() {
               <Route path="/schedule/:isTeacherScope/:targetId" 
                    element={ <Auth><ScheduleTablePage /></Auth> } 
               />
-              <Route path="/scheduleBuilder" 
-                   element={ <Auth role={Role.Dispatcher}><TenantManagementPage /></Auth> } 
+              <Route path="/tenantManager" 
+                   element={ <Auth role={Role.Dispatcher}><TenantManager /></Auth> } 
               />
 
               <Route path="*" 

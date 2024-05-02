@@ -4,7 +4,7 @@ const screenBoxStyle = {
     height: '100%'
 }
 
-const PageBox = ({children}: any) => {
+const PageBox = ({children}: any) => {   
     return(
         <Box sx={screenBoxStyle}>
             {children}

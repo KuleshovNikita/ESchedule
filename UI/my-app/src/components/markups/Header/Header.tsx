@@ -38,7 +38,7 @@ const Header = () => {
     }
 
     const scheduleBuilder = () => {
-        navigate('/scheduleBuilder', navOptions);
+        navigate('/tenantManager', navOptions);
     }
 
     return( 

@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useLoader } from "../../hooks/Loader";
+import PageBox from "../../components/wrappers/PageBox";
 
 export default function ConfirmEmailPage() {
     const navigate = useNavigate();
@@ -43,23 +44,25 @@ export default function ConfirmEmailPage() {
 
     return (
         <Loader replace>
-            <Box sx={{textAlign: 'center'}}>
-                <Typography variant="h2">
-                    {translator('messages.email-confirmed')}<br/>
-                </Typography>
-                <Typography>
-                    {translator('messages.send-code-to-dispatcher')}
-                </Typography>
-                <Typography>
-                    {userId}
-                </Typography>
-                <Button sx={loginButtonStyle} 
-                        variant="contained" 
-                        size="large" 
-                        onClick={redirectToLogin}>
-                    {translator('buttons.login')}
-                </Button>
-            </Box>
+            <PageBox>
+                <Box sx={{textAlign: 'center'}}>
+                    <Typography variant="h2">
+                        {translator('messages.email-confirmed')}<br/>
+                    </Typography>
+                    <Typography>
+                        {translator('messages.send-code-to-dispatcher')}
+                    </Typography>
+                    <Typography>
+                        {userId}
+                    </Typography>
+                    <Button sx={loginButtonStyle} 
+                            variant="contained" 
+                            size="large" 
+                            onClick={redirectToLogin}>
+                        {translator('buttons.login')}
+                    </Button>
+                </Box>
+            </PageBox>
         </Loader> 
     );
 }
