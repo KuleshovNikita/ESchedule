@@ -11,39 +11,35 @@ export default function TenantManagementPage() {
     const navigate = useNavigate();
 
     return (
-    <Box>
-        <Box sx={{ml: 1}}>
-            <Box sx={pageStyle}>
-                <Button sx={btnStyle} onClick={() => navigate('/rulesManagement')}>
-                    <Icon type='edit' sx={iconStyle}/>
-                    <Typography>
-                        {translator('labels.rules-list')}
-                    </Typography>
-                </Button>
+        <Box sx={pageStyle}>
+            <Button sx={btnStyle} onClick={() => navigate('/rulesManagement')}>
+                <Icon type='edit' sx={iconStyle}/>
+                <Typography>
+                    {translator('labels.rules-list')}
+                </Typography>
+            </Button>
 
-                <Button sx={btnStyle} onClick={() => navigate('/scheduleManagement')}>
-                    <Icon type='calendar' sx={iconStyle}/>
-                    <Typography>
-                        {translator('labels.schedule-viewer')}
-                    </Typography>
-                </Button>
+            <Button sx={btnStyle} onClick={() => navigate('/scheduleManagement')}>
+                <Icon type='calendar' sx={iconStyle}/>
+                <Typography>
+                    {translator('labels.schedule-viewer')}
+                </Typography>
+            </Button>
 
-                <Button sx={btnStyle} onClick={() => navigate('/lessonsManagement')}>
-                    <Icon type='preview' sx={iconStyle}/>
-                    <Typography>
-                        {translator('labels.lessons-viewer')}
-                    </Typography>
-                </Button>
+            <Button sx={btnStyle} onClick={() => navigate('/lessonsManagement')}>
+                <Icon type='preview' sx={iconStyle}/>
+                <Typography>
+                    {translator('labels.lessons-viewer')}
+                </Typography>
+            </Button>
 
-                <Button sx={btnStyle} onClick={() => navigate('/addUserToTenant')}>
-                    <Icon type='person add' sx={iconStyle}/>
-                    <Box>
-                        <Typography>
-                            {translator('labels.add-user-to-tenant')}
-                        </Typography>
-                    </Box>
-                </Button>
-            </Box>
+            <Button sx={btnStyle} onClick={() => navigate('/addUserToTenant')}>
+                <Icon type='person add' sx={iconStyle}/>
+                <Box>
+                    <Typography>
+                        {translator('labels.add-user-to-tenant')}
+                    </Typography>
+                </Box>
+            </Button>
         </Box>
-    </Box>);
-}
+);}

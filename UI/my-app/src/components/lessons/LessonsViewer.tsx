@@ -14,10 +14,10 @@ import TableBody from "@mui/material/TableBody";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import Box from "@mui/material/Box";
 import { useLoader } from "../../hooks/Loader";
 import Loader from "../hoc/loading/Loader";
 import Icon from "../wrappers/Icon";
+import PageBox from "../wrappers/PageBox";
 
 const cellStyle = {
     border: '1px solid black'
@@ -115,7 +115,7 @@ const LessonViewer = observer(() => {
     }
 
     return(
-    <Box>
+    <PageBox>
         {isModalActive && showModalWindow()}
         <Loader type="spin" replace>
             {renderLessonsTable()}
@@ -135,7 +135,7 @@ const LessonViewer = observer(() => {
             {translator('buttons.add')}
             <Icon type='add'/>
         </Button>
-    </Box>
+    </PageBox>
     );
 });
 
