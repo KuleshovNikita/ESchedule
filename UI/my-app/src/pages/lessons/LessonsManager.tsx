@@ -18,14 +18,8 @@ import { useLoader } from "../../hooks/Loader";
 import Loader from "../../components/hoc/loading/Loader";
 import Icon from "../../components/wrappers/Icon";
 import PageBox from "../../components/wrappers/PageBox";
-
-const cellStyle = {
-    border: '1px solid black'
-}
-
-const checkboxStyle = {
-    '& .MuiSvgIcon-root': { fontSize: 40 }
-}
+import { Box } from "@mui/material";
+import { buttonsBox, cellStyle, checkboxStyle, pageMarkup } from "./LessonsManagerStyles";
 
 const LessonsManager = observer(() => {
     const { tenantStore, lessonStore } = useStore();
@@ -116,25 +110,31 @@ const LessonsManager = observer(() => {
 
     return(
     <PageBox>
-        {isModalActive && showModalWindow()}
-        <Loader type="spin" replace>
-            {renderLessonsTable()}
-        </Loader>
-        <Button
-            disabled={lessonsToRemove.length === 0}
-            onClick={removeLessons}
-            variant='contained' 
-            sx={buttonHoverStyles}>
-            {translator('buttons.remove')}
-            <Icon type='add'/>
-        </Button>
-        <Button
-            onClick={() => setModalActive(true)}
-            variant='contained' 
-            sx={{...buttonHoverStyles, ml: 1}}>
-            {translator('buttons.add')}
-            <Icon type='add'/>
-        </Button>
+        <Box sx={pageMarkup}>
+            <Box sx={buttonsBox}>
+                <Button
+                    disabled={lessonsToRemove.length === 0}
+                    onClick={removeLessons}
+                    variant='contained' 
+                    sx={buttonHoverStyles}>
+                    {translator('buttons.remove')}
+                    <Icon type='add'/>
+                </Button>
+                <Button
+                    onClick={() => setModalActive(true)}
+                    variant='contained' 
+                    sx={{...buttonHoverStyles, ml: 1}}>
+                    {translator('buttons.add')}
+                    <Icon type='add'/>
+                </Button>
+            </Box>
+            <Box>        
+                {isModalActive && showModalWindow()}
+                <Loader type="spin" replace>
+                    {renderLessonsTable()}
+                </Loader>
+            </Box>
+        </Box>
     </PageBox>
     );
 });
