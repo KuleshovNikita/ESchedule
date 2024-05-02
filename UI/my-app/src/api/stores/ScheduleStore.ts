@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { RuleInputModel, RuleModel, ScheduleModel } from "../../models/Schedules";
 import { agent } from "../agent";
+import { CacheDisposable } from "./StoresManager";
 
-export default class ScheduleStore {
+export default class ScheduleStore implements CacheDisposable {
     client = agent.Schedule;
     schedules: ScheduleModel[] | null = null;
     rules: RuleModel[] | null = null;
@@ -85,5 +86,10 @@ export default class ScheduleStore {
         await this.client.createRule(rule); 
 
     removeRule = async (ruleId: string) => 
-        await this.client.removeRule(ruleId); 
+        await this.client.removeRule(ruleId);
+
+    clearCache = () => {
+        this.schedules = null;
+        this.rules = null;
+    }
 }

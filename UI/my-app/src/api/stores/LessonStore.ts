@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { LessonCreateModel, LessonModel, LessonUpdateModel } from "../../models/Lessons";
 import { agent } from "../agent";
+import { CacheDisposable } from "./StoresManager";
 
-export default class LessonStore {
+export default class LessonStore implements CacheDisposable {
     lessons: LessonModel[] | null = null;
     client = agent.Lesson;
 
@@ -33,10 +34,13 @@ export default class LessonStore {
 
         return res;
     }
-        
 
     removeLessons = async (lessons: string[]) =>
         await this.client.removeLessons(lessons)
             .then(() => this.lessons!.filter(l => !lessons.includes(l.id)))
             .then(res => this.lessons = res);
+
+    clearCache = () => {
+        this.lessons = null;
+    }
 }

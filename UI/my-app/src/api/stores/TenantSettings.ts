@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { ScheduleStartEndTime, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel } from "../../models/Tenants";
 import { agent } from "../agent";
+import { CacheDisposable } from "./StoresManager";
 
-export default class TenantSettingsStore {
+export default class TenantSettingsStore implements CacheDisposable {
     client = agent.TenantSettings;
     settings: TenantSettingsModel | null = null;
     timeTableList: ScheduleStartEndTime[] | null = null;
@@ -47,5 +48,10 @@ export default class TenantSettingsStore {
         });       
 
         return schedules;
+    }
+
+    clearCache = () => {
+        this.settings = null;
+        this.timeTableList = null;
     }
 }

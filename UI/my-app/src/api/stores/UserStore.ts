@@ -1,9 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { agent } from "../agent";
 import { UserModel, UserLoginModel, UserCreateModel, UserUpdateModel, Role } from "../../models/Users";
-import { store } from "./StoresManager";
+import { CacheDisposable, clearStores, store } from "./StoresManager";
 
-export default class UserStore {
+export default class UserStore implements CacheDisposable {
     client: any = null;
     user: UserModel | null = null;
     otherUsers: UserModel[] = [];
@@ -24,6 +24,7 @@ export default class UserStore {
         const userInfo = await this.getAutenticatedUserInfo();
 
         this.user = userInfo;
+        store.tenantStore.tenant = userInfo!.tenant;
 
         return response;
     };
@@ -31,8 +32,7 @@ export default class UserStore {
     logout = () => {
         store.commonStore.setToken(null);
         window.localStorage.removeItem("jwt");
-        this.user = null;
-        store.tenantStore.tenant = null;
+        clearStores(store);
     };
 
     updateUserInfo = async (user: UserUpdateModel) => 
@@ -85,4 +85,9 @@ export default class UserStore {
         return res;
     }
         
+    clearCache = () => {
+        this.user = null;
+        this.otherUsers = [];
+        this.teachers = [];
+    }
 }

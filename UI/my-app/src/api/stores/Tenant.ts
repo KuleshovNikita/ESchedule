@@ -3,8 +3,9 @@ import { TenantCreateModel, TenantModel, TenantUpdateModel } from "../../models/
 import { agent } from "../agent";
 import { UserModel } from "../../models/Users";
 import { GroupModel } from "../../models/Groups";
+import { CacheDisposable } from "./StoresManager";
 
-export default class TenantStore {
+export default class TenantStore implements CacheDisposable {
     client = agent.Tenant;
     tenant: TenantModel | null = null;
     tenantGroups: GroupModel[] = [];
@@ -22,7 +23,6 @@ export default class TenantStore {
         return await this.client.createTenant(tenant); 
     }
         
- 
     updateTenant = async (tenant: TenantUpdateModel) => 
         await this.client.updateTenant(tenant); 
 
@@ -41,5 +41,11 @@ export default class TenantStore {
         }
 
         return response;
+    }
+
+    clearCache = () => {
+        this.tenant = null;
+        this.tenantGroups = [];
+        this.tenantTeachers = [];
     }
 }

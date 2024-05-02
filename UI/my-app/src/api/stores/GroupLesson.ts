@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { GroupsLessonsCreateModel, GroupsLessonsModel } from "../../models/ManyToMany";
 import { agent } from "../agent";
+import { CacheDisposable } from "./StoresManager";
 
-export default class GroupLessonStore {
+export default class GroupLessonStore implements CacheDisposable {
     client = agent.GroupLesson;
     items: GroupsLessonsModel | null = null;
 
@@ -18,4 +19,8 @@ export default class GroupLessonStore {
 
     getItems = async (id: string) =>
         await this.client.getItems(id);
+
+    clearCache = () => {
+        this.items = null;
+    }
 }
