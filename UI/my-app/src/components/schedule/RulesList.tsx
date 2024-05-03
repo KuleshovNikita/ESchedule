@@ -5,7 +5,7 @@ import { useCult } from "../../hooks/Translator";
 import RuleBodyViewer from "./RuleBodyViewer";
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
-import PopupForm from "./RulesCreation/PopupForm";
+import PopupForm from "../modalWindow/PopupForm";
 import { toast } from "react-toastify";
 import RuleSelect from "./RulesCreation/RuleSelect";
 import { RuleModel } from "../../models/Schedules";

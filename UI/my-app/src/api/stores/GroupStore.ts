@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { GroupCreateModel, GroupModel, GroupUpdateModel } from "../../models/Groups";
 import { agent } from "../agent";
+import { CacheDisposable } from "./StoresManager";
 
-export default class GroupStore {
+export default class GroupStore implements CacheDisposable {
     client = agent.Group;
     groups: GroupModel[] | null = null;
 
@@ -32,6 +33,10 @@ export default class GroupStore {
         this.groups = res;
 
         return res;
+    }
+
+    clearCache = () => {
+        this.groups = null;
     }
         
 }

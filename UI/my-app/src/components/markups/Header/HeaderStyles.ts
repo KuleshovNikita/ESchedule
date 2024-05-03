@@ -47,6 +47,10 @@ export const headerNavButtonStyle = {
     },
 }
 
+export const headerIconStyle = {
+    color: 'orange'
+}
+
 export const profileNavButtonStyle = {
     width: '60px'
 }

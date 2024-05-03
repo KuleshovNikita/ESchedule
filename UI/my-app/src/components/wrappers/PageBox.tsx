@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box";
 
 const screenBoxStyle = {
-    height: '100%'
+    height: 'fill',
+    pb: '24px'
 }
 
 const PageBox = ({children}: any) => {   

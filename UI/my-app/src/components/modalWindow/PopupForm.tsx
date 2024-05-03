@@ -1,10 +1,10 @@
 import { newRuleFormStyle, 
          outerTransperancyStyle, 
          ruleBodyFormStyle, 
-         ruleFormCloseButtonStyle } from "../../../pages/schedules/ScheduleTableStyles";
+         ruleFormCloseButtonStyle } from "../../pages/schedules/ScheduleTableStyles";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Icon from '../../wrappers/Icon';
+import Icon from '../wrappers/Icon';
 
 interface Props {
     closeButtonHandler: any,
@@ -15,9 +15,9 @@ export default function PopupForm({closeButtonHandler, children}: Props) {
     return(
         <Box sx={outerTransperancyStyle}>
             <Box sx={newRuleFormStyle}>
-                <Box sx={{mb: 5}}>
+                <Box sx={{mb: 1}}>
                     <Button sx={ruleFormCloseButtonStyle} onClick={() => closeButtonHandler()} >
-                        <Icon type='close'/>
+                        <Icon sx={{pl: 0}} type='close'/>
                     </Button>
                 </Box>
                 <Box sx={ruleBodyFormStyle}>

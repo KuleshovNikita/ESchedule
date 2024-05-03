@@ -1,6 +1,7 @@
 import { makeAutoObservable, reaction } from "mobx";
+import { CacheDisposable } from "./StoresManager";
 
-export default class CommonStore {
+export default class CommonStore implements CacheDisposable {
     token: string | null = window.localStorage.getItem('jwt');
     appLoaded = false;
 
@@ -25,5 +26,9 @@ export default class CommonStore {
 
     setAppLoaded = (state: boolean) => {
         this.appLoaded = state;
+    }
+
+    clearCache = () => {
+        this.token = null;
     }
 }

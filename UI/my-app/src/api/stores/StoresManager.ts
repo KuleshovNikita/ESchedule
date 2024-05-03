@@ -10,6 +10,10 @@ import TenantStore from "./Tenant";
 import TenantSettingsStore from "./TenantSettings";
 import UserStore from "./UserStore";
 
+export interface CacheDisposable {
+    clearCache: () => void
+}
+
 export interface Store {
     commonStore: CommonStore;
     userStore: UserStore;
@@ -40,4 +44,16 @@ export const StoreContext = createContext(store);
 
 export function useStore() {
     return useContext(StoreContext);
+}
+
+export function clearStores(store: Store) {
+    store.commonStore.clearCache();
+    store.groupStore.clearCache();
+    store.lessonStore.clearCache();
+    store.groupLessonStore.clearCache();
+    store.scheduleStore.clearCache();
+    store.teacherGroupLessonStore.clearCache();
+    store.teacherLessonStore.clearCache();
+    store.tenantStore.clearCache();
+    store.tenantSettingsStore.clearCache();
 }
