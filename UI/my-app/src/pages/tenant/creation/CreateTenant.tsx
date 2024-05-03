@@ -171,9 +171,8 @@ export function CreateTenant() {
         await tenantStore.createTenant(tenant)
             .then(() => toast.success(translator('toasts.tenant-created')))
             .then(() => loader.hide())
+            .then(() => navigate('/login'))
             .catch(err => loader.hide());
-
-        navigate('/login');
     };
 
     return (

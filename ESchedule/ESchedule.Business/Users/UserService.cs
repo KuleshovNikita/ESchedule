@@ -23,20 +23,6 @@ namespace ESchedule.Business.Users
             _tenantContextProvider = tenantContextProvider;
         }
 
-        public async Task AddUser(UserModel userModel)
-        {
-            if (await IsLoginAlreadyRegistered(userModel.Login))
-            {
-                throw new InvalidOperationException(Resources.TheLoginIsAlreadyRegistered);
-            }
-
-            var hashedPassword = _passwordHasher.HashPassword(userModel.Password);
-            userModel.Password = hashedPassword;
-            userModel.Id = Guid.NewGuid();
-
-            await _repository.Insert(userModel);
-        }
-
         public async Task SignUserToTenant(Guid userId)
         {
             var user = await SingleOrDefault(x => x.Id == userId);
@@ -69,8 +55,5 @@ namespace ESchedule.Business.Users
 
             await _repository.Update(user);
         }
-
-        private async Task<bool> IsLoginAlreadyRegistered(string login)
-            => await _repository.Any(x => x.Login == login);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Tenant;
-using ESchedule.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -16,7 +15,7 @@ namespace ESchedule.DataAccess.Repos.Tenant
         public override async Task<TenantModel> FirstOrDefault(Expression<Func<TenantModel, bool>> command)
             => await _context.Set<TenantModel>()
                     .Include(x => x.Settings)
-                    .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
+                    .FirstOrDefaultAsync(command);
 
         public override async Task<IEnumerable<TenantModel>> Where(Expression<Func<TenantModel, bool>> command)
             => await _context.Set<TenantModel>()

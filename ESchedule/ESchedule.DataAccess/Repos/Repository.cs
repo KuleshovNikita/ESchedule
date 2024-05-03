@@ -12,7 +12,7 @@ namespace ESchedule.DataAccess.Repos
         public Repository(TenantEScheduleDbContext context) => _context = context;
 
         public virtual async Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> command)
-            => await _context.Set<TModel>().FirstOrDefaultAsync(command) 
+            => await _context.Set<TModel>().FirstOrDefaultAsync(command)
                 ?? throw new EntityNotFoundException();
 
         public virtual async Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command)

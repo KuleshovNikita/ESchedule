@@ -94,7 +94,16 @@ namespace ESchedule.Business.Auth
 
             ValidateEmail(userModel.Login);
 
-            await _userService.AddUser(userDomainModel);
+            if (await IsLoginAlreadyRegistered(userModel.Login))
+            {
+                throw new InvalidOperationException(Resources.TheLoginIsAlreadyRegistered);
+            }
+
+            var hashedPassword = _passwordHasher.HashPassword(userModel.Password);
+            userDomainModel.Password = hashedPassword;
+            userDomainModel.Id = Guid.NewGuid();
+
+            await _repository.Insert(userDomainModel);
             await _emailService.SendEmailConfirmMessage(userDomainModel);
         }
 
@@ -147,5 +156,8 @@ namespace ESchedule.Business.Auth
 
             return tokenHandler;
         }
+
+        private async Task<bool> IsLoginAlreadyRegistered(string login)
+           => await _authRepository.Any(x => x.Login == login);
     }
 }
