@@ -1,7 +1,7 @@
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { useCult } from "../../hooks/Translator";
 import { useState } from "react";
-import PopupForm from "./RulesCreation/PopupForm";
+import PopupForm from "../modalWindow/PopupForm";
 import ViewSchedulesList from "./ViewSchedulesList";
 import Button from "@mui/material/Button";
 import Icon from "../wrappers/Icon";

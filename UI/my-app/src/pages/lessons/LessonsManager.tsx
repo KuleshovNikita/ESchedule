@@ -4,7 +4,7 @@ import { LessonCreateModel, LessonModel } from "../../models/Lessons";
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { useCult } from "../../hooks/Translator";
 import { toast } from "react-toastify";
-import PopupForm from "../../components/schedule/RulesCreation/PopupForm";
+import PopupForm from "../../components/modalWindow/PopupForm";
 import { Typography } from "@material-ui/core";
 import Checkbox from '@mui/material/Checkbox';
 import { observer } from "mobx-react-lite";

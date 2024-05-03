@@ -28,10 +28,9 @@ export const rulesListStyle = {
 
 export const newRuleFormStyle = {
     display: 'flex',
+    alignItems: 'end',
     flexDirection: 'column',
-    position: 'absolute',
-    left: '30%',
-    top: '20%',
+    margin: '5% auto',
     width: "600px",
     backgroundColor: 'white',
     borderRadius: '15px',
@@ -40,8 +39,6 @@ export const newRuleFormStyle = {
 }
 
 export const ruleFormCloseButtonStyle = {
-    position: 'absolute', 
-    right: 5, 
     backgroundColor: 'rgb(25, 118, 210, 1)',
     padding: '5px',
     color: 'white',
@@ -52,7 +49,8 @@ export const ruleFormCloseButtonStyle = {
 
 export const ruleBodyFormStyle = {
     display: 'flex', 
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width: '100%'
 }
 
 export const outerTransperancyStyle = {
