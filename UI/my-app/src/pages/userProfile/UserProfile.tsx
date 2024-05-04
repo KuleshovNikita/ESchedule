@@ -26,7 +26,7 @@ type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>;
 
 export default function UserPage() {
     const passwordSecret = "**********";
-    const { userStore } = useStore();
+    const { userStore, tenantStore } = useStore();
     const { translator } = useCult();
     const navigate = useNavigate();
     const currentUser = userStore.user;
@@ -182,12 +182,8 @@ export default function UserPage() {
         toast.success(translator('toasts.profile-updated'));
     }
 
-    const manageTenant = async () => {
-        if(userStore.user?.tenant) {
-            navigate('/manageTenant');
-        } else {
-            navigate('/createTenant');
-        }
+    const createTenant = async () => {
+        navigate('/createTenant');
     }
 
     function getGroupLabelName(): React.ReactNode {
@@ -235,13 +231,14 @@ export default function UserPage() {
 
                         {
                             userStore.user?.role == Role.Dispatcher
+                            && tenantStore.tenant == null
                             &&
                             <Button
                                 sx={buttonHoverStyles}   
                                 variant="contained"   
-                                onClick={manageTenant}      
+                                onClick={createTenant}      
                             >
-                                {translator('buttons.manage-tenant')}
+                                {translator('buttons.create-tenant')}
                                 <Icon type='build'/>
                             </Button>
                         }

@@ -4,7 +4,7 @@ using ESchedule.Domain.Users;
 
 namespace ESchedule.Business.Auth
 {
-    public interface IAuthService
+    public interface IAuthService : IBaseService<UserModel>
     {
         Task<Guid> ConfirmEmail(string key);
 
@@ -13,5 +13,9 @@ namespace ESchedule.Business.Auth
         Task<UserModel> ValidateCredentials(AuthModel authModel);
 
         Task Register(UserCreateModel userModel);
+
+        Task<UserModel> GetUserInfoWithTenant(Guid id);
+
+        Task<UserModel> GetUserInfoWithoutTenant(Guid id);
     }
 }

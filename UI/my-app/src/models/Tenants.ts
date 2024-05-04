@@ -2,8 +2,6 @@ import BaseEntity from "./Base";
 
 export interface TenantCreateModel {
     name: string;
-    login: string;
-    password: string;
     settings: TenantSettingsCreateModel
 }
 

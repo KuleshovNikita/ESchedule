@@ -79,10 +79,10 @@ const Header = () => {
                                 {userStore.user?.name[0].toUpperCase()}
                                 {userStore.user?.lastName[0].toUpperCase()}
                             </Avatar>
-
                             {
                                 (
                                     userStore.user?.role === Role.Dispatcher
+                                &&  tenantStore.tenant != null
                                 &&
                                     <Button sx={headerNavButtonStyle}
                                             onClick={scheduleBuilder}
@@ -93,6 +93,7 @@ const Header = () => {
                             || 
                                 (
                                     userStore.user?.role === Role.Teacher
+                                &&  tenantStore.tenant != null
                                 &&
                                     <Button sx={[headerNavButtonStyle]}
                                             onClick={schedules}

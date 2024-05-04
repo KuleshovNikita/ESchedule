@@ -4,28 +4,34 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Auth;
 using ESchedule.Business.Users;
 using ESchedule.DataAccess.Repos;
+using ESchedule.DataAccess.Repos.Auth;
 using ESchedule.Domain;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Tenant;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ESchedule.Business.Tenant
 {
     public class TenantService : BaseService<TenantModel>, ITenantService
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthRepository _authRepo;
         private readonly IUserService _userService;
         private readonly IRepository<TenantSettingsModel> _tenantSettingsRepo;
+        private readonly IHttpContextAccessor _httpAccessor;
 
         public TenantService(IRepository<TenantModel> repository,
             IRepository<TenantSettingsModel> settingsRepo,
-            IAuthService authService, 
+            IAuthRepository authService, 
             IMapper mapper,
-            IUserService userService) : base(repository, mapper)
+            IUserService userService,
+            IHttpContextAccessor httpAccessor) : base(repository, mapper)
         {
-            _authService = authService;
+            _authRepo = authService;
             _tenantSettingsRepo = settingsRepo;
             _userService = userService;
+            _httpAccessor = httpAccessor;
         }
 
         public async Task<TenantModel> CreateTenant(TenantCreateModel request)
@@ -42,13 +48,8 @@ namespace ESchedule.Business.Tenant
                 throw new InvalidOperationException(Resources.TenantAlreadyExists);
             }
 
-            var authModel = new AuthModel
-            {
-                Login = request.Login,
-                Password = request.Password,
-            };
-
-            var user = await _authService.ValidateCredentials(authModel);
+            var userId = _httpAccessor.HttpContext.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+            var user = await _authRepo.SingleOrDefault(x => x.Id == Guid.Parse(userId));
             
             if(user.TenantId != null)
             {
@@ -56,14 +57,7 @@ namespace ESchedule.Business.Tenant
             }
             var tenant = await CreateItem(request);
 
-            var updateUser = new UserUpdateModel()
-            {
-                Id = user.Id,
-                TenantId = tenant.Id,
-                Role = Domain.Enums.Role.Dispatcher
-            };
-
-            await _userService.UpdateUser(updateUser);
+            await _userService.SignUserToTenant(user.Id, tenant.Id);
 
             return tenant;
         }

@@ -26,5 +26,15 @@ namespace ESchedule.DataAccess.Repos.Auth
                     .Where(command)
                     .ToListAsync()
                         ?? throw new EntityNotFoundException();
+
+        public override async Task<bool> Any(Expression<Func<UserModel, bool>> command)
+            => await _context.Set<UserModel>()
+                    .IgnoreQueryFilters()
+                    .AnyAsync(command);
+
+        public override async Task<UserModel> SingleOrDefault(Expression<Func<UserModel, bool>> command)
+            => await _context.Set<UserModel>()
+                    .IgnoreQueryFilters()
+                    .SingleOrDefaultAsync(command);
     }
 }

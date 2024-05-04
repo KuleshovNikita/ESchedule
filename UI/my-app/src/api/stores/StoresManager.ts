@@ -48,6 +48,7 @@ export function useStore() {
 
 export function clearStores(store: Store) {
     store.commonStore.clearCache();
+    store.userStore.clearCache();
     store.groupStore.clearCache();
     store.lessonStore.clearCache();
     store.groupLessonStore.clearCache();
