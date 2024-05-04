@@ -9,13 +9,15 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import Table from "@mui/material/Table";
+import { useStore } from "../../api/stores/StoresManager";
 
 interface Props {
-    schedules: ScheduleModel[],
-    timeTable: ScheduleStartEndTime[]
+    timeTable: ScheduleStartEndTime[] | null
 }
 
-export default function ScheduleTableBuilder({ schedules, timeTable }: Props) {
+export default function ScheduleTableBuilder({ timeTable }: Props) {
+    const { scheduleStore } = useStore();
+    let schedules: ScheduleModel[] | null;
 
     const buildRowCells = (timeRange: ScheduleStartEndTime) => {
         if(!schedules || schedules.length === 0) {
@@ -39,28 +41,28 @@ export default function ScheduleTableBuilder({ schedules, timeTable }: Props) {
 
         schedules = schedules?.filter(sc => !rowItems?.includes(sc));
 
-    return result;
-}
-
-const buildRows = () => {
-    const rows: ReactNode[] = [];    
-
-    schedules = schedules.sort((sc1, sc2) => 
-                            sc1.startTime.getTime() - 
-                            sc2.startTime.getTime()
-                        );
-                        
-
-    for(let j = 0, i = timeTableScope.start; i <= timeTableScope.end; i++, j++) {
-        rows.push(
-            <TableRow key={i} sx={ScheduleRowStyle}>
-                {schedules ? buildRowCells(timeTable![j]) : undefined}
-            </TableRow>
-        );
+        return result;
     }
 
-    return rows;
-}
+    const buildRows = () => {
+        const rows: ReactNode[] = [];    
+
+        schedules = scheduleStore.schedules?.sort((sc1, sc2) => 
+                                sc1.startTime.getTime() - 
+                                sc2.startTime.getTime()
+                            ) ?? null;
+                            
+
+        for(let j = 0, i = timeTableScope.start; i <= timeTableScope.end; i++, j++) {
+            rows.push(
+                <TableRow key={i} sx={ScheduleRowStyle}>
+                    {schedules ? buildRowCells(timeTable![j]) : undefined}
+                </TableRow>
+            );
+        }
+
+        return rows;
+    }
 
     return(
         <Table sx={ScheduleTableHeadStyle}>

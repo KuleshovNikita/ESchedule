@@ -1,4 +1,5 @@
 ﻿using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Responses;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
@@ -35,14 +36,9 @@ namespace ESchedule.Api.Controllers
             => await _service.UpdateItem(scheduleModel);
 
         [Authorize]
-        [HttpGet("tenant/{tenantId}")]
-        public async Task<IEnumerable<ScheduleModel>> GetSchedulesForTenant(Guid tenantId)
-            => await _scheduleService.GetItems(x => x.TenantId == tenantId);
-
-        [Authorize]
         [HttpGet("teacher/{teacherId}")]
-        public async Task<IEnumerable<ScheduleModel>> GetSchedulesForTeacher(Guid teacherId)
-            => await _scheduleService.GetItems(x => x.TeacherId == teacherId, includeNavs: true);
+        public async Task<IEnumerable<ScheduleItemResponse>> GetSchedulesForTeacher(Guid teacherId)
+            => await _scheduleService.GetMinimalSchedule(x => x.TeacherId == teacherId);
 
         [Authorize(Policies.DispatcherOnly)]
         [HttpGet("rules")]
@@ -51,8 +47,8 @@ namespace ESchedule.Api.Controllers
 
         [Authorize]
         [HttpGet("group/{groupId}")]
-        public async Task<IEnumerable<ScheduleModel>> GetSchedulesForGroup(Guid groupId)
-            => await _scheduleService.GetItems(x => x.StudyGroupId == groupId);
+        public async Task<IEnumerable<ScheduleItemResponse>> GetSchedulesForGroup(Guid groupId)
+            => await _scheduleService.GetMinimalSchedule(x => x.StudyGroupId == groupId);
 
         [Authorize]
         [HttpGet("item/{scheduleId}")]

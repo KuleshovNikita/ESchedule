@@ -19,14 +19,9 @@ export interface ScheduleModel extends BaseEntity {
     startTime: Date;
     endTime: Date;
     dayOfWeek: DayOfWeek;
-    studyGroupId: string;
-    studyGroup: GroupModel;
-    teacherId: string;
+    groupName: string;
     teacher: UserModel;
-    lessonId: string;
-    lesson: LessonModel;
-    tenantId: string;
-    tenant: TenantModel;
+    lessonName: string;
 }
 
 export enum DayOfWeek {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Responses;
 using ESchedule.Business.ScheduleRules;
 using ESchedule.Business.Tenant;
 using ESchedule.DataAccess.Repos;
@@ -79,25 +80,11 @@ namespace ESchedule.Business.ScheduleBuilding
             await _repository.InsertMany(schedulesSet);
         }
 
-        public override async Task<IEnumerable<ScheduleModel>> GetItems(Expression<Func<ScheduleModel, bool>> predicate, bool includeNavs = false)
+        public async Task<IEnumerable<ScheduleItemResponse>> GetMinimalSchedule(Expression<Func<ScheduleModel, bool>> predicate)
         {
             var schedules = await base.GetItems(predicate);
-            var result = includeNavs ? schedules : SimplifySchedulesSet(schedules);
 
-            return result;
-        }
-
-        private IEnumerable<ScheduleModel> SimplifySchedulesSet(IEnumerable<ScheduleModel> schedulesSet)
-        {
-            foreach (var schedule in schedulesSet)
-            {
-                schedule.Teacher = null!;
-                schedule.StudyGroup = null!;
-                schedule.Lesson = null!;
-                schedule.Tenant = null!;
-            }
-
-            return schedulesSet;
+            return schedules.Select(x => _mapper.Map<ScheduleItemResponse>(x));
         }
 
         private async Task<ScheduleBuilderHelpData> GetNecessaryBuilderData()

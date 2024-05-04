@@ -19,7 +19,7 @@ type SelectChanged = (event: any) => void
 interface Props {
     label: string,
     onChange: SelectChanged,
-    collection: SelectItem[],
+    collection: SelectItem[] | null,
     errorHandler: any
 }
 

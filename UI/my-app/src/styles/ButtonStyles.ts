@@ -7,7 +7,7 @@ export const buttonHoverStyles = {
     "&:hover": { 
         bgcolor: "orange" 
     }, 
-    mt: 1 
+    mt: 4 
 }
 
 export const buttonImageIconStyle = { 

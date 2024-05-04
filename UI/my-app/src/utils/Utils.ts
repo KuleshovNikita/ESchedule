@@ -5,8 +5,14 @@ export const getEnumKey = (targetEnum: any, value: any) => {
     return Object.keys(targetEnum)[key];
 }
 
-export const normalizeUserName = (user: UserModel) => 
-        `${user.lastName} ${user.lastName[0]}. ${user.fatherName[0]}.`;
+export const normalizeUserName = (user: UserModel | null) => {
+    if(user) {
+        return `${user.lastName} ${user.lastName[0]}. ${user.fatherName[0]}.`;
+    } else {
+        return "";
+    }
+}
+        
 
 export const timeTableScope = { start: 8, end: 18 };
 
