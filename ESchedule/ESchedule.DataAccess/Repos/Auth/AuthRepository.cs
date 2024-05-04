@@ -31,5 +31,10 @@ namespace ESchedule.DataAccess.Repos.Auth
             => await _context.Set<UserModel>()
                     .IgnoreQueryFilters()
                     .AnyAsync(command);
+
+        public override async Task<UserModel> SingleOrDefault(Expression<Func<UserModel, bool>> command)
+            => await _context.Set<UserModel>()
+                    .IgnoreQueryFilters()
+                    .SingleOrDefaultAsync(command);
     }
 }

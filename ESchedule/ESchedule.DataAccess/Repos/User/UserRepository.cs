@@ -28,6 +28,15 @@ namespace ESchedule.DataAccess.Repos.User
                     .FirstOrDefaultAsync(command)
                         ?? throw new EntityNotFoundException();
 
+        public override async Task<UserModel> SingleOrDefault(Expression<Func<UserModel, bool>> command)
+            => await _context.Set<UserModel>()
+                    .Include(x => x.Group)
+                    .Include(x => x.Tenant)
+                    .Include(x => x.StudyGroups)
+                    .Include(x => x.StudySchedules)
+                    .Include(x => x.TaughtLessons)
+                    .SingleOrDefaultAsync(command);
+
         public override async Task<IEnumerable<UserModel>> Where(Expression<Func<UserModel, bool>> command)
             => await _context.Set<UserModel>()
                     .Include(x => x.Group)

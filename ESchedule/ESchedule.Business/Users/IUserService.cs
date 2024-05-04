@@ -1,6 +1,5 @@
 ﻿using ESchedule.Api.Models.Updates;
 using ESchedule.Domain.Users;
-using ESchedule.ServiceResulting;
 
 namespace ESchedule.Business.Users
 {
@@ -9,5 +8,7 @@ namespace ESchedule.Business.Users
         Task UpdateUser(UserUpdateModel updateModel);
 
         Task SignUserToTenant(Guid userId);
+
+        Task SignUserToTenant(Guid userId, Guid tenantId);
     }
 }

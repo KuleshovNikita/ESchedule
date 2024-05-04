@@ -18,6 +18,7 @@ namespace ESchedule.Api.Controllers
             _tenantService = tenantService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task CreateTenant([FromBody] TenantCreateModel tenantModel)
             => await _tenantService.CreateTenant(tenantModel);

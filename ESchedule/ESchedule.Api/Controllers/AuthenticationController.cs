@@ -36,13 +36,16 @@ namespace ESchedule.Api.Controllers
             }
 
             var userId = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var hasTenant = claims.Any(x => x.Type == ClaimTypes.Surname);
 
             if(!Guid.TryParse(userId, out var id))
             {
                 throw new InvalidOperationException("Invalid token provided");
             }
 
-            return await _service.FirstOrDefault(x => x.Id == id);
+            return hasTenant
+                    ? await _authService.GetUserInfoWithTenant(id)
+                    : await _authService.GetUserInfoWithoutTenant(id);
         }
 
         [HttpPatch("confirmEmail/{key}")]

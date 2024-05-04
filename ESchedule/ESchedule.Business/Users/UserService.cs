@@ -3,6 +3,7 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Extensions;
 using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
+using ESchedule.DataAccess.Repos.Auth;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Tenant;
@@ -13,27 +14,32 @@ namespace ESchedule.Business.Users
     public class UserService : BaseService<UserModel>, IUserService
     {
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IAuthRepository _authRepository;
         private readonly ITenantContextProvider _tenantContextProvider;
 
         public UserService(IRepository<UserModel> repository, IMapper mapper, IPasswordHasher passwordHasher,
-             ITenantContextProvider tenantContextProvider) 
+             ITenantContextProvider tenantContextProvider, IAuthRepository authRepository) 
             : base(repository, mapper)
         {
             _passwordHasher = passwordHasher;
             _tenantContextProvider = tenantContextProvider;
+            _authRepository = authRepository;
         }
 
         public async Task SignUserToTenant(Guid userId)
-        {
-            var user = await SingleOrDefault(x => x.Id == userId);
+            => await SignUserToTenant(userId, _tenantContextProvider.Current.TenantId);
 
-            if(user == null)
+        public async Task SignUserToTenant(Guid userId, Guid tenantId)
+        {
+            var user = await _authRepository.SingleOrDefault(x => x.Id == userId);
+
+            if (user == null)
             {
                 throw new EntityNotFoundException(Resources.NoUsersForSpecifiedKeyWereFound);
             }
 
-            user.TenantId = _tenantContextProvider.Current.TenantId;
-            await _repository.SaveChangesAsync();
+            user.TenantId = tenantId;
+            await _authRepository.SaveChangesAsync();
         }
 
         public async Task UpdateUser(UserUpdateModel updateModel)

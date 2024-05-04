@@ -24,7 +24,7 @@ namespace ESchedule.Business.Auth
     {
         private readonly IEmailService _emailService;
         private readonly IUserService _userService;
-        private readonly IAuthRepository _authRepository;
+        private readonly DataAccess.Repos.Auth.IAuthRepository _authRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly JwtSettings _jwtSettings;
         
@@ -35,7 +35,7 @@ namespace ESchedule.Business.Auth
             IEmailService emailService, 
             IConfiguration config,
             IUserService userService,
-            IAuthRepository authRepository) : base(repository, mapper)
+            DataAccess.Repos.Auth.IAuthRepository authRepository) : base(repository, mapper)
         {
             _emailService = emailService;
             _passwordHasher = passwordHasher;
@@ -159,5 +159,11 @@ namespace ESchedule.Business.Auth
 
         private async Task<bool> IsLoginAlreadyRegistered(string login)
            => await _authRepository.Any(x => x.Login == login);
+
+        public async Task<UserModel> GetUserInfoWithTenant(Guid id)
+            => await _userService.SingleOrDefault(x => x.Id == id);
+
+        public async Task<UserModel> GetUserInfoWithoutTenant(Guid id)
+            => await _authRepository.SingleOrDefault(x => x.Id == id);
     }
 }

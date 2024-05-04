@@ -36,12 +36,8 @@ export function CreateTenant() {
     const [lessonDurationTimeErrors, setLessonDurationTimeErrors] = useState("");
     const [breaksDurationTime, setBreaksDurationTime] = useState("");
     const [breaksDurationTimeErrors, setBreaksDurationTimeErrors] = useState("");
-    const [email, setEmail] = useState("");
-    const [emailErrors, setEmailErrors] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordErrors, setPasswordErrors] = useState("");
 
-    const { tenantStore } = useStore();
+    const { tenantStore, userStore } = useStore();
 
     const tenantRef = useRef<HTMLInputElement>();
     const studyDayStartTimeRef = useRef<HTMLInputElement>();
@@ -98,32 +94,6 @@ export function CreateTenant() {
         setBreaksDurationTime(time);
     }
 
-    const handleEmailChange = (e: Focus) => {
-        const email = e.target.value;
-
-        if(email.length === 0) {
-            setEmailErrors(translator('input-helpers.email-required'));
-        } else if(!email.match(EMAIL_REGEX)) {
-            setEmailErrors(translator('input-helpers.email-should-be-correct'));
-        } else {
-            setEmailErrors('');
-        }
-
-        setEmail(email);
-    }
-
-    const handlePasswordChange = (e: Focus) => {
-        const password = e.target.value;
-
-        if (password.length === 0) {
-            setPasswordErrors(translator('input-helpers.please-enter-password'));
-        } else {
-            setPasswordErrors('');
-        }
-
-        setPassword(password);
-    }
-
     const hasErrors = () => {
         tenantRef.current?.focus();
         emailRef.current?.focus();
@@ -133,15 +103,11 @@ export function CreateTenant() {
         passwordRef.current?.focus();
         passwordRef.current?.blur();
 
-        const isTouched = email.length 
-                        && password.length 
-                        && tenantName.length 
+        const isTouched = tenantName.length 
                         && studyDayStartTime.length 
                         && lessonDurationTime.length 
                         && breaksDurationTime.length 
-        const hasAnyError = emailErrors.length 
-                        || passwordErrors.length 
-                        || tenantErrors.length 
+        const hasAnyError = tenantErrors.length 
                         || studyDayStartTimeErrors.length
                         || lessonDurationTimeErrors.length
                         || breaksDurationTimeErrors.length
@@ -161,8 +127,6 @@ export function CreateTenant() {
         }
         const tenant: TenantCreateModel = { 
             name: tenantName,
-            login: email, 
-            password: password,
             settings: settings
         };
 
@@ -171,7 +135,7 @@ export function CreateTenant() {
         await tenantStore.createTenant(tenant)
             .then(() => toast.success(translator('toasts.tenant-created')))
             .then(() => loader.hide())
-            .then(() => navigate('/login'))
+            .then(() => navigate('/logout'))
             .catch(err => loader.hide());
     };
 
@@ -236,31 +200,6 @@ export function CreateTenant() {
                                 onChange={handleBreaksDurationTimeChange}
                             />
                         </Box>  
-                        <Box sx={rowStyles}>
-                            <TextField
-                                label={translator('labels.email')}
-                                variant="filled"
-                                value={email}
-                                required={true}
-                                helperText= {emailErrors}
-                                error={emailErrors.length !== 0}
-                                inputRef={emailRef}
-                                onFocus={(e: Focus) => handleEmailChange(e)}
-                                onChange={handleEmailChange}
-                            />
-                            <TextField
-                                label={translator('labels.password')}
-                                variant="filled"
-                                type="password"
-                                value={password}
-                                required={true}
-                                helperText= {passwordErrors}
-                                error={passwordErrors.length !== 0}
-                                inputRef={passwordRef}
-                                onFocus={(e: Focus) => handlePasswordChange(e)}
-                                onChange={handlePasswordChange}
-                            />
-                        </Box>
                     </Box>
                     <Box>
                         <Button sx={createTenantButtonStyle} 
