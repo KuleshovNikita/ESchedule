@@ -3,6 +3,7 @@ import { RowAlignStyle } from "../../components/markups/timeTable/TimeTableMarku
 export const ScheduleTableHeadStyle = {
     mt: '180px',
     position: 'absolute',
+    width: '96%'
 }
 
 export const scheduleRedactorStyle = {

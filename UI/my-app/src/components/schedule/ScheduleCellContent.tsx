@@ -1,5 +1,4 @@
 import { ScheduleModel } from "../../models/Schedules";
-import { ScheduleItemPlaceholderStyle } from "../../pages/schedules/ScheduleTableStyles";
 import { normalizeUserName } from "../../utils/Utils";
 import Box from "@mui/material/Box";
 
@@ -14,9 +13,6 @@ export default function ScheduleCellContent({ item }: Props) {
     }
 
     const normalizeTime = () => {
-
-
-
         const startTime = item?.startTime.toLocaleTimeString([], timeOptions);
         const endTime = item?.endTime.toLocaleTimeString([], timeOptions);
 

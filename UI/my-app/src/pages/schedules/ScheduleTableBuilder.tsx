@@ -11,12 +11,8 @@ import TableBody from "@mui/material/TableBody";
 import Table from "@mui/material/Table";
 import { useStore } from "../../api/stores/StoresManager";
 
-interface Props {
-    timeRanges: ScheduleStartEndTime[] | null
-}
-
-export default function ScheduleTableBuilder({ timeRanges }: Props) {
-    const { scheduleStore } = useStore();
+export default function ScheduleTableBuilder() {
+    const { scheduleStore, tenantSettingsStore } = useStore();
     let schedules: ScheduleModel[] | null;
 
     const defineStyle = (item: ScheduleModel | undefined) => 
@@ -49,7 +45,8 @@ export default function ScheduleTableBuilder({ timeRanges }: Props) {
     }
 
     const buildRows = () => {
-        const rows: ReactNode[] = [];    
+        const rows: ReactNode[] = [];  
+        const timeRanges = tenantSettingsStore.timeTableList;  
 
         schedules = scheduleStore.schedules?.sort((sc1, sc2) => 
                                 sc1.startTime.getTime() - 

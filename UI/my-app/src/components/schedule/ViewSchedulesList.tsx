@@ -70,7 +70,7 @@ const ViewSchedulesList = () => {
 
     const updateCurrentValue = (item: string) => {
         const value = JSON.parse(item) as SelectItem;
-        setTargetSchedule({id: value.id, type: value.type as string});
+        setTargetSchedule({id: value.id, type: value.type});
     }
 
     return(

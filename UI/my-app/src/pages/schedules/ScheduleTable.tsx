@@ -1,7 +1,6 @@
 import { useStore } from "../../api/stores/StoresManager";
 import TimeTableMarkup from "../../components/markups/timeTable/TimeTableMarkup";
 import { useEffect, useState } from "react";
-import { ScheduleStartEndTime } from "../../models/Tenants";
 import ScheduleTableBuilder from "./ScheduleTableBuilder";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../hooks/Loader";
@@ -13,20 +12,11 @@ export const ScheduleTablePage = observer(() => {
     const { scheduleStore, userStore, tenantSettingsStore } = useStore();
     const { scope, targetId } = useParams();
     const loader = useLoader();
-    const [ timeTable, setTimeTable ] = useState<ScheduleStartEndTime[] | null>([]);
 
     useEffect(() => {
         const fetchTimeTable = async () => 
             await tenantSettingsStore.getTenantScheduleTimes()
-                .then(res => setTimeTable(res))
                 .then(() => loader.hide());
-
-        loader.show();
-        fetchTimeTable();
-    }, [tenantSettingsStore])
-
-    useEffect(() => {
-        loader.show();
 
         const fetchSchedules = async () => {
             switch(scope?.toLocaleLowerCase()) {
@@ -43,7 +33,9 @@ export const ScheduleTablePage = observer(() => {
             }
         }                
 
+        loader.show();
         fetchSchedules()
+            .then(() => fetchTimeTable())
             .then(() => loader.hide());
     }, [scope, scheduleStore, targetId, userStore.user?.id]);
 
@@ -51,7 +43,7 @@ export const ScheduleTablePage = observer(() => {
         <PageBox>
             <TimeTableMarkup/>
             <Loader type='spin' replace>
-                <ScheduleTableBuilder timeRanges={timeTable} />
+                <ScheduleTableBuilder />
             </Loader>
         </PageBox>
     );
