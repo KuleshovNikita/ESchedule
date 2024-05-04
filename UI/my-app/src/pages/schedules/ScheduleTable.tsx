@@ -11,7 +11,7 @@ import { observer } from "mobx-react-lite";
 
 export const ScheduleTablePage = observer(() => {
     const { scheduleStore, userStore, tenantSettingsStore } = useStore();
-    const { isTeacherScope, targetId } = useParams();
+    const { scope, targetId } = useParams();
     const loader = useLoader();
     const [ timeTable, setTimeTable ] = useState<ScheduleStartEndTime[] | null>([]);
 
@@ -26,28 +26,32 @@ export const ScheduleTablePage = observer(() => {
     }, [tenantSettingsStore])
 
     useEffect(() => {
-        const lowerScope = isTeacherScope?.toLocaleLowerCase();
-        const normalizedScope = lowerScope && lowerScope === 'true';
-
         loader.show();
 
-        const fetchFromNecessarySource = async () => 
-            normalizedScope
-                ? await scheduleStore.getScheduleForTeacher(targetId as string)
-                : await scheduleStore.getScheduleForGroup(targetId as string);
-        
-        const fetchSchedules = async () => 
-            await fetchFromNecessarySource()
-                .then(() => loader.hide());
+        const fetchSchedules = async () => {
+            switch(scope?.toLocaleLowerCase()) {
+                case 'teacher':
+                    await scheduleStore.getScheduleForTeacher(targetId as string)
+                    break;
+                case 'group':
+                    await scheduleStore.getScheduleForGroup(targetId as string)
+                    break;
 
-        fetchSchedules();
-    }, [isTeacherScope, scheduleStore, targetId, userStore.user?.id]);
+                default:
+                    await scheduleStore.getScheduleForGroup(targetId as string)
+                    break;
+            }
+        }                
+
+        fetchSchedules()
+            .then(() => loader.hide());
+    }, [scope, scheduleStore, targetId, userStore.user?.id]);
 
     return( 
         <PageBox>
             <TimeTableMarkup/>
             <Loader type='spin' replace>
-                <ScheduleTableBuilder timeTable={timeTable} />
+                <ScheduleTableBuilder timeRanges={timeTable} />
             </Loader>
         </PageBox>
     );

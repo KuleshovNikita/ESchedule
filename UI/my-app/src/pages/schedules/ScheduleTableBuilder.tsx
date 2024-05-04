@@ -12,14 +12,19 @@ import Table from "@mui/material/Table";
 import { useStore } from "../../api/stores/StoresManager";
 
 interface Props {
-    timeTable: ScheduleStartEndTime[] | null
+    timeRanges: ScheduleStartEndTime[] | null
 }
 
-export default function ScheduleTableBuilder({ timeTable }: Props) {
+export default function ScheduleTableBuilder({ timeRanges }: Props) {
     const { scheduleStore } = useStore();
     let schedules: ScheduleModel[] | null;
 
-    const buildRowCells = (timeRange: ScheduleStartEndTime) => {
+    const defineStyle = (item: ScheduleModel | undefined) => 
+        item 
+         ? ScheduleItemStyle
+         : ScheduleItemPlaceholderStyle;
+
+    const buildRowCells = (timeRange: ScheduleStartEndTime, rowNumber: number) => {
         if(!schedules || schedules.length === 0) {
             return;
         }
@@ -27,16 +32,15 @@ export default function ScheduleTableBuilder({ timeTable }: Props) {
         const rowItems = schedules?.filter(x => x.startTime.getTime() === timeRange.startTime.getTime());
         const result: ReactNode[] = [];
 
-        for(let i = 0; i < daysOfWeek.length; i++) {
-            const item = rowItems.find(x => x.dayOfWeek === i as DayOfWeek);
+        for(let cellNumber = 0; cellNumber < daysOfWeek.length; cellNumber++) {
+            const item = rowItems.find(x => x.dayOfWeek === cellNumber as DayOfWeek);
+            const key = `${rowNumber}${cellNumber}`
 
-            if(item) {
-                result.push(<TableCell sx={ScheduleItemStyle} key={item.id}>
-                                <ScheduleCellContent item={item}/>
-                            </TableCell>);
-            } else {
-                result.push(<TableCell sx={ScheduleItemPlaceholderStyle} key={i}></TableCell>)
-            } 
+            result.push(
+                <TableCell sx={defineStyle(item)} key={key}>
+                    <ScheduleCellContent item={item}/>
+                </TableCell>
+            );
         }
 
         schedules = schedules?.filter(sc => !rowItems?.includes(sc));
@@ -53,10 +57,10 @@ export default function ScheduleTableBuilder({ timeTable }: Props) {
                             ) ?? null;
                             
 
-        for(let j = 0, i = timeTableScope.start; i <= timeTableScope.end; i++, j++) {
+        for(let j = 0, row = timeTableScope.start; row <= timeTableScope.end; row++, j++) {
             rows.push(
-                <TableRow key={i} sx={ScheduleRowStyle}>
-                    {schedules ? buildRowCells(timeTable![j]) : undefined}
+                <TableRow key={row} sx={ScheduleRowStyle}>
+                    {schedules ? buildRowCells(timeRanges![j], row) : <></>}
                 </TableRow>
             );
         }

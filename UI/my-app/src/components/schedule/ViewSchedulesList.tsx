@@ -65,7 +65,7 @@ const ViewSchedulesList = () => {
     }
 
     const openSchedule = () => {
-        navigate(`/schedule/${targetSchedule.type === 'teacher'}/${targetSchedule.id}`, {replace: false})
+        navigate(`/schedule/${targetSchedule.type}/${targetSchedule.id}`, {replace: false})
     }
 
     const updateCurrentValue = (item: string) => {
