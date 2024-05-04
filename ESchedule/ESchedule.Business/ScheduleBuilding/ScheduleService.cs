@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Responses;
 using ESchedule.Business.ScheduleRules;
+using ESchedule.Business.Tenant;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Enums;
 using ESchedule.Domain.Lessons;
@@ -9,7 +11,6 @@ using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
-using ESchedule.ServiceResulting;
 using System.Data;
 using System.Linq.Expressions;
 
@@ -21,13 +22,14 @@ namespace ESchedule.Business.ScheduleBuilding
         private readonly IBaseService<RuleModel> _rulesService;
         private readonly IBaseService<UserModel> _teacherService;
         private readonly IBaseService<LessonModel> _lessonService;
-        private readonly IBaseService<TenantModel> _tenantService;
+        private readonly ITenantService _tenantService;
         private readonly IScheduleBuilder _scheduleBuilder;
+        private readonly ITenantContextProvider _tenantContextProvider;
 
         public ScheduleService(IBaseService<GroupModel> groupService, IBaseService<UserModel> teacherService,
-            IBaseService<LessonModel> lessonService, IBaseService<TenantModel> tenantService,
+            IBaseService<LessonModel> lessonService, ITenantService tenantService,
             IScheduleBuilder scheduleBuilder, IRepository<ScheduleModel> repo, IMapper mapper,
-            IBaseService<RuleModel> ruleService) 
+            IBaseService<RuleModel> ruleService, ITenantContextProvider tenantContextProvider) 
             : base(repo, mapper)
         {
             _groupService = groupService;
@@ -36,6 +38,7 @@ namespace ESchedule.Business.ScheduleBuilding
             _tenantService = tenantService;
             _scheduleBuilder = scheduleBuilder;
             _rulesService = ruleService;
+            _tenantContextProvider = tenantContextProvider;
         }
 
         public async Task BuildSchedule()
@@ -77,33 +80,19 @@ namespace ESchedule.Business.ScheduleBuilding
             await _repository.InsertMany(schedulesSet);
         }
 
-        public override async Task<IEnumerable<ScheduleModel>> GetItems(Expression<Func<ScheduleModel, bool>> predicate, bool includeNavs = false)
+        public async Task<IEnumerable<ScheduleItemResponse>> GetMinimalSchedule(Expression<Func<ScheduleModel, bool>> predicate)
         {
             var schedules = await base.GetItems(predicate);
-            var result = includeNavs ? schedules : SimplifySchedulesSet(schedules);
 
-            return result;
-        }
-
-        private IEnumerable<ScheduleModel> SimplifySchedulesSet(IEnumerable<ScheduleModel> schedulesSet)
-        {
-            foreach (var schedule in schedulesSet)
-            {
-                schedule.Teacher = null!;
-                schedule.StudyGroup = null!;
-                schedule.Lesson = null!;
-                schedule.Tenant = null!;
-            }
-
-            return schedulesSet;
+            return schedules.Select(x => _mapper.Map<ScheduleItemResponse>(x));
         }
 
         private async Task<ScheduleBuilderHelpData> GetNecessaryBuilderData()
         {
-            var groups = await _groupService.GetItems();
+            var groups = await _groupService.Where(x => true);
             var teachers = await _teacherService.GetItems(x => x.Role == Role.Teacher);
-            var tenant = await _tenantService.SingleOrDefault();
-            var lessons = await _lessonService.GetItems();
+            var tenant = await _tenantService.SingleOrDefault(x => x.Id == _tenantContextProvider.Current.TenantId);
+            var lessons = await _lessonService.Where(x => true);
 
             var scheduleBuilderData = new ScheduleBuilderHelpData
             {

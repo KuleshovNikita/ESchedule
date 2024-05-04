@@ -52,7 +52,7 @@ export default function AppRoutes() {
               <Route path="/addUserToTenant" 
                    element={ <Auth role={Role.Dispatcher}><AddUserToTenant /></Auth> } 
               />
-              <Route path="/schedule/:isTeacherScope/:targetId" 
+              <Route path="/schedule/:scope/:targetId" 
                    element={ <Auth><ScheduleTablePage /></Auth> } 
               />
               <Route path="/tenantManager" 

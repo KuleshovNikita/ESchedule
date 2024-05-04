@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Responses;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Modules;
 using ESchedule.DataAccess.Context;
@@ -128,6 +129,12 @@ namespace ESchedule.Startup.Extensions
 
                 cfg.CreateMap<ScheduleUpdateModel, ScheduleModel>();
                 cfg.CreateMap<ScheduleCreateModel, ScheduleModel>();
+                cfg.CreateMap<ScheduleModel, ScheduleItemResponse>()
+                    .ForPath(x => x.Teacher.Name, o => o.MapFrom(x => x.Teacher.Name))
+                    .ForPath(x => x.Teacher.LastName, o => o.MapFrom(x => x.Teacher.LastName))
+                    .ForPath(x => x.Teacher.FatherName, o => o.MapFrom(x => x.Teacher.FatherName))
+                    .ForMember(x => x.GroupName, o => o.MapFrom(x => x.StudyGroup.Title))
+                    .ForMember(x => x.LessonName, o => o.MapFrom(x => x.Lesson.Title));
 
                 cfg.CreateMap<RuleInputModel, RuleModel>();
 

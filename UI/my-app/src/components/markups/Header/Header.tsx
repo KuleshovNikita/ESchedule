@@ -34,7 +34,7 @@ const Header = () => {
     }
 
     const schedules = () => {
-        navigate(`/schedule/${true}/${userStore.user?.id}`, navOptions);
+        navigate(`/schedule/teacher/${userStore.user?.id}`, navOptions);
     }
 
     const scheduleBuilder = () => {

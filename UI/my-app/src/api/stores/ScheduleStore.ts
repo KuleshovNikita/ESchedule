@@ -14,16 +14,6 @@ export default class ScheduleStore implements CacheDisposable {
 
     buildSchedule = async () => 
         await this.client.buildSchedule(); 
-
-    getScheduleForTenant = async (tenantId: string) => {
-        const response = await this.client.getScheduleForGroup(tenantId);
-
-        if(response) {
-            this.schedules = this.parseDate(response);
-        }
-
-        return response;
-    }
  
     getScheduleForGroup = async (groupId: string) => {
         const response = await this.client.getScheduleForGroup(groupId);

@@ -1,49 +1,45 @@
 import { ScheduleModel } from "../../models/Schedules";
-import { useEffect, useState } from "react";
-import { useStore } from "../../api/stores/StoresManager";
 import { normalizeUserName } from "../../utils/Utils";
 import Box from "@mui/material/Box";
-import Loader from "../hoc/loading/Loader";
-import { useLoader } from "../../hooks/Loader";
 
 interface Props {
-    item: ScheduleModel
+    item: ScheduleModel | undefined
 }
 
 export default function ScheduleCellContent({ item }: Props) {
-    const {scheduleStore} = useStore();
-    const [itemState, setItemState] = useState(item);
-    const loader = useLoader();
-
-    useEffect(() => {
-        const fecthItem = async () => {
-            const res = await scheduleStore.getScheduleItem(item.id);
-            setItemState(res);
-            loader.hide();
-        }
-
-        loader.show();
-        fecthItem();
-    })
+    const timeOptions: Intl.DateTimeFormatOptions = { 
+        timeStyle: 'short', 
+        hour12: false 
+    }
 
     const normalizeTime = () => {
-        const startTime = itemState.startTime.toLocaleTimeString([], { hour12: false });
-        const endTime = itemState.endTime.toLocaleTimeString([], { hour12: false });
+        const startTime = item?.startTime.toLocaleTimeString([], timeOptions);
+        const endTime = item?.endTime.toLocaleTimeString([], timeOptions);
 
         return `${startTime} - ${endTime}`; 
     }
 
     return(
-        <Loader type='spin' replace>
+        <Box>
+        {
+            item
+        &&
             <Box>
-                { itemState.studyGroup.title }
+                <Box sx={{borderBottom: "1px black solid"}}>
+                    <b>{ item.lessonName }</b>
+                </Box>
+                <Box>
+                    { normalizeTime() }
+                </Box>
+                <Box>
+                    { item.groupName }
+                </Box>
+                <Box>
+                    { normalizeUserName(item.teacher) }
+                </Box>
             </Box>
-            <Box>
-                { `${itemState.lesson.title} - ${normalizeUserName(itemState.teacher)}` }
-            </Box>
-            <Box>
-                { normalizeTime() }
-            </Box>
-        </Loader>
+        }
+        
+        </Box>
     );
 }

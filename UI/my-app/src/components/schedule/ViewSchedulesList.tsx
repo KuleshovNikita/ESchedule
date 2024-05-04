@@ -10,9 +10,10 @@ import Button from "@mui/material/Button";
 import Loader from "../hoc/loading/Loader";
 import { useLoader } from "../../hooks/Loader";
 import Icon from "../wrappers/Icon";
+import { observer } from "mobx-react-lite";
 
-export default function ViewSchedulesList() {
-    const { userStore, groupStore } = useStore();
+const ViewSchedulesList = () => {
+    const { userStore, groupStore, tenantStore } = useStore();
     const navigate = useNavigate();
     const { translator } = useCult();
     const loader = useLoader();
@@ -22,16 +23,16 @@ export default function ViewSchedulesList() {
 
     useEffect(() => {
         const fetchGroups = async () => 
-            await groupStore.getGroups();
+            await groupStore.getGroups()
+                .then(() => fetchTeachers())
+                .then(() => loader.hide());
 
         const fetchTeachers = async () => 
-            await userStore.getTeachers()
-                .then(() => loader.hide());
+            await userStore.getTeachers();
 
         loader.show();
         fetchGroups();
-        fetchTeachers();
-    }, []);
+    }, [tenantStore, userStore, groupStore]);
 
     useEffect(() => {
         if(targetSchedule.id === noneWord) {
@@ -44,15 +45,15 @@ export default function ViewSchedulesList() {
     }, [targetSchedule, targetScheduleError, translator]);
 
     const getCollection = () => {
-        const groupNames = groupStore.groups!.map(g => { 
+        const groupNames = groupStore.groups?.map(g => { 
             return { id: g.id, value: g.title, type: 'group' } 
         });
 
-        const teacherNames = userStore.teachers.map(t => { 
+        const teacherNames = userStore.teachers?.map(t => { 
             return { id: t.id, value: normalizeUserName(t), type: 'teacher' } 
         });
 
-        return groupNames.concat(teacherNames);
+        return groupNames?.concat(teacherNames) ?? null;
     }
 
     const errorHandler = () => {
@@ -64,12 +65,12 @@ export default function ViewSchedulesList() {
     }
 
     const openSchedule = () => {
-        navigate(`/schedule/${targetSchedule.type === 'teacher'}/${targetSchedule.id}`, {replace: false})
+        navigate(`/schedule/${targetSchedule.type}/${targetSchedule.id}`, {replace: false})
     }
 
     const updateCurrentValue = (item: string) => {
         const value = JSON.parse(item) as SelectItem;
-        setTargetSchedule({id: value.id, type: value.type as string});
+        setTargetSchedule({id: value.id, type: value.type});
     }
 
     return(
@@ -80,7 +81,7 @@ export default function ViewSchedulesList() {
                 collection={getCollection()} 
                 errorHandler={errorHandler} 
             />
-            
+        
             <Button sx={buttonHoverStyles}   
                     variant="contained"
                     disabled={targetScheduleError !== ''}
@@ -88,7 +89,9 @@ export default function ViewSchedulesList() {
             >
                 {translator('buttons.open')}
                 <Icon type='add'/>
-            </Button>
+            </Button> 
         </Loader>
     );
 }
+
+export default observer(ViewSchedulesList);

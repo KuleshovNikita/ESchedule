@@ -1,5 +1,5 @@
 import LinearProgress from '@mui/material/LinearProgress';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { loaderEventName } from '../../../utils/Utils';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -7,7 +7,7 @@ type LoaderType = 'spin' | 'line';
 
 type Props = {
   replace?: boolean;
-  children?: any;
+  children?: ReactNode;
   type?: LoaderType;
 }
 
@@ -25,7 +25,7 @@ const Loader = ({type = 'line', replace = false, children}: Props) => {
     }
   }
 
-  const handler = (e: any) => { 
+  const handler = (e: any) => {
     setState(e.detail.state);   
   };
   
@@ -39,15 +39,18 @@ const Loader = ({type = 'line', replace = false, children}: Props) => {
       state 
     ?
       <>
-        {getLoader()}
+        <LinearProgress/>
         {
-          !replace
-          &&
-          children
+          replace
+            ? <></>
+            : children
+          
         }
       </>
     :
-      children
+    <>
+      {children}
+    </>
   );
 }
 

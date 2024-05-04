@@ -23,7 +23,7 @@ namespace ESchedule.Business.ScheduleBuilding
             foreach (var group in _builderData.AllTenantGroups)
             {
                 _currentGroup = group;
-                _lessonsMananger = new GroupLessonsManager(group.StudingLessons.Select(l => l.Lesson).ToArray());
+                _lessonsMananger = new GroupLessonsManager(builderData.AllTenantLessons.Where(x => group.StudingLessons.Select(l => l.LessonId).Contains(x.Id)).ToArray());
                 GenerateStudingWeek();
             }
 
@@ -101,8 +101,7 @@ namespace ESchedule.Business.ScheduleBuilding
 
                 if(teacher == null)
                 {
-                    i--;
-                    continue;
+                    return (null, null);
                 }
 
                 if (!IsTeacherBusyAtThisTime(teacher, lessonStartTime))
@@ -123,10 +122,10 @@ namespace ESchedule.Business.ScheduleBuilding
 
             if(TeacherHasLessonAtThisTime(teacherLessonInfo.TeacherId, lessonStartTime))
             {
-                return null;
+                return null!;
             }
 
-            return teacherLessonInfo.Teacher;
+            return _builderData.AllTenantTeachers.FirstOrDefault(x => x.Id == teacherLessonInfo.TeacherId)!;
         }
 
         private bool TeacherHasLessonAtThisTime(Guid teacherId, TimeSpan lessonStartTime) =>

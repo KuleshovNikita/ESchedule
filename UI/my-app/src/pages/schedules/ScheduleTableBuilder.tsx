@@ -9,15 +9,18 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import Table from "@mui/material/Table";
+import { useStore } from "../../api/stores/StoresManager";
 
-interface Props {
-    schedules: ScheduleModel[],
-    timeTable: ScheduleStartEndTime[]
-}
+export default function ScheduleTableBuilder() {
+    const { scheduleStore, tenantSettingsStore } = useStore();
+    let schedules: ScheduleModel[] | null;
 
-export default function ScheduleTableBuilder({ schedules, timeTable }: Props) {
+    const defineStyle = (item: ScheduleModel | undefined) => 
+        item 
+         ? ScheduleItemStyle
+         : ScheduleItemPlaceholderStyle;
 
-    const buildRowCells = (timeRange: ScheduleStartEndTime) => {
+    const buildRowCells = (timeRange: ScheduleStartEndTime, rowNumber: number) => {
         if(!schedules || schedules.length === 0) {
             return;
         }
@@ -25,42 +28,42 @@ export default function ScheduleTableBuilder({ schedules, timeTable }: Props) {
         const rowItems = schedules?.filter(x => x.startTime.getTime() === timeRange.startTime.getTime());
         const result: ReactNode[] = [];
 
-        for(let i = 0; i < daysOfWeek.length; i++) {
-            const item = rowItems.find(x => x.dayOfWeek === i as DayOfWeek);
+        for(let cellNumber = 0; cellNumber < daysOfWeek.length; cellNumber++) {
+            const item = rowItems.find(x => x.dayOfWeek === cellNumber as DayOfWeek);
+            const key = `${rowNumber}${cellNumber}`
 
-            if(item) {
-                result.push(<TableCell sx={ScheduleItemStyle} key={item.id}>
-                                <ScheduleCellContent item={item}/>
-                            </TableCell>);
-            } else {
-                result.push(<TableCell sx={ScheduleItemPlaceholderStyle} key={i}></TableCell>)
-            } 
+            result.push(
+                <TableCell sx={defineStyle(item)} key={key}>
+                    <ScheduleCellContent item={item}/>
+                </TableCell>
+            );
         }
 
         schedules = schedules?.filter(sc => !rowItems?.includes(sc));
 
-    return result;
-}
-
-const buildRows = () => {
-    const rows: ReactNode[] = [];    
-
-    schedules = schedules.sort((sc1, sc2) => 
-                            sc1.startTime.getTime() - 
-                            sc2.startTime.getTime()
-                        );
-                        
-
-    for(let j = 0, i = timeTableScope.start; i <= timeTableScope.end; i++, j++) {
-        rows.push(
-            <TableRow key={i} sx={ScheduleRowStyle}>
-                {schedules ? buildRowCells(timeTable![j]) : undefined}
-            </TableRow>
-        );
+        return result;
     }
 
-    return rows;
-}
+    const buildRows = () => {
+        const rows: ReactNode[] = [];  
+        const timeRanges = tenantSettingsStore.timeTableList;  
+
+        schedules = scheduleStore.schedules?.sort((sc1, sc2) => 
+                                sc1.startTime.getTime() - 
+                                sc2.startTime.getTime()
+                            ) ?? null;
+                            
+
+        for(let j = 0, row = timeTableScope.start; row <= timeTableScope.end; row++, j++) {
+            rows.push(
+                <TableRow key={row} sx={ScheduleRowStyle}>
+                    {schedules ? buildRowCells(timeRanges![j], row) : <></>}
+                </TableRow>
+            );
+        }
+
+        return rows;
+    }
 
     return(
         <Table sx={ScheduleTableHeadStyle}>

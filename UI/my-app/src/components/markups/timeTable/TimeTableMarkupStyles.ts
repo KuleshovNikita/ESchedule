@@ -1,7 +1,3 @@
-const TableRightMarginStyle = {
-    mr: 5
-}
-
 export const RowAlignStyle = {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)" ,
@@ -10,7 +6,6 @@ export const RowAlignStyle = {
 }
 
 export const TimeTableHeadStyles = {
-    ...TableRightMarginStyle,
     ...RowAlignStyle,
     '*': {
         borderRight: 'solid gray 1px',
@@ -35,8 +30,7 @@ export const TimeTableRowStyle = {
 }
 
 export const TimeTableBodyStyles = {
-    display: 'grid', 
-    ...TableRightMarginStyle,
+    display: 'grid'
 }
 
 export const TimeTableCellStyle = {
@@ -51,5 +45,6 @@ export const TableHeadCellStyle = {
 }
 
 export const TableMarkupStyle = {
-    position: 'absolute'
+    position: 'absolute',
+    width: '96%'
 }

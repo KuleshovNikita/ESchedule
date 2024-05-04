@@ -1,4 +1,6 @@
-﻿using ESchedule.Domain.Lessons.Schedule;
+﻿using ESchedule.Api.Models.Responses;
+using ESchedule.Domain.Lessons.Schedule;
+using System.Linq.Expressions;
 
 namespace ESchedule.Business.ScheduleBuilding
 {
@@ -7,5 +9,7 @@ namespace ESchedule.Business.ScheduleBuilding
         Task BuildSchedule();
 
         Task RemoveAll();
+
+        Task<IEnumerable<ScheduleItemResponse>> GetMinimalSchedule(Expression<Func<ScheduleModel, bool>> predicate);
     }
 }
