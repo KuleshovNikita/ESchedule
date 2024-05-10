@@ -20,6 +20,8 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Icon from "../../components/wrappers/Icon";
 import PageBox from "../../components/wrappers/PageBox";
+import PopupForm from "../../components/modalWindow/PopupForm";
+import RequestTenantAccess from "../../components/modalWindow/tenant/RequestTenantAccess";
 
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
@@ -50,6 +52,7 @@ export default function UserPage() {
     const [passwordErrors, setPasswordErrors] = useState('');
 
     const [changeMode, setChangeMode] = useState(true);
+    const [tenantRequestModal, setTenantRequestModal] = useState(false);
     
     useEffect(() => {
         userStore.getAutenticatedUserInfo();
@@ -197,6 +200,14 @@ export default function UserPage() {
             ?? translator('words.none');
     }
 
+    const canCreateTenant = () => {
+        return userStore.user?.role == Role.Dispatcher && !hasTenant()
+    } 
+
+    const hasTenant = () => {
+        return tenantStore.tenant != null
+    }
+
     return(
         <PageBox>
             <Box sx={mainBoxStyle}>
@@ -229,19 +240,25 @@ export default function UserPage() {
                             </Button>
                         }
 
-                        {
-                            userStore.user?.role == Role.Dispatcher
-                            && tenantStore.tenant == null
-                            &&
-                            <Button
-                                sx={buttonHoverStyles}   
-                                variant="contained"   
-                                onClick={createTenant}      
-                            >
-                                {translator('buttons.create-tenant')}
-                                <Icon type='build'/>
-                            </Button>
-                        }
+                        <Button
+                            sx={buttonHoverStyles}   
+                            variant="contained"   
+                            onClick={createTenant} 
+                            disabled={!canCreateTenant()}     
+                        >
+                            {translator('buttons.create-tenant')}
+                            <Icon type='build'/>
+                        </Button>
+
+                        <Button
+                            sx={buttonHoverStyles}   
+                            variant="contained"   
+                            onClick={() => setTenantRequestModal(true)} 
+                            disabled={hasTenant()}     
+                        >
+                            {translator('buttons.send-tenant-request')}
+                            <Icon type='request'/>
+                        </Button>
                         
                         <Button
                             sx={buttonHoverStyles}   
@@ -387,6 +404,14 @@ export default function UserPage() {
                     </Box>
                 </Box>
             </Box>
+
+            {
+                tenantRequestModal
+                &&
+                <PopupForm closeButtonHandler={() => setTenantRequestModal(false)}>
+                    <RequestTenantAccess/>
+                </PopupForm>
+            }
         </PageBox>
     );
 }

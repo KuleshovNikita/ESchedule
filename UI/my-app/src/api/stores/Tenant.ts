@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { TenantCreateModel, TenantModel, TenantUpdateModel } from "../../models/Tenants";
+import { RequestTenantAccessModel, TenantCreateModel, TenantModel, TenantUpdateModel } from "../../models/Tenants";
 import { agent } from "../agent";
 import { UserModel } from "../../models/Users";
 import { GroupModel } from "../../models/Groups";
@@ -42,6 +42,9 @@ export default class TenantStore implements CacheDisposable {
 
         return response;
     }
+
+    sendTenantAccessRequest = async (request: RequestTenantAccessModel) => 
+        await this.client.sendTenantAccessRequest(request);
 
     clearCache = () => {
         this.tenant = null;

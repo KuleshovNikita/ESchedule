@@ -7,7 +7,7 @@ import { GroupCreateModel, GroupModel, GroupUpdateModel } from "../models/Groups
 import { LessonCreateModel, LessonModel, LessonUpdateModel } from "../models/Lessons";
 import { GroupsLessonsCreateModel, GroupsLessonsModel, TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel, TeachersLessonsCreateModel, TeachersLessonsModel } from "../models/ManyToMany";
 import { RuleInputModel, RuleModel, ScheduleModel } from "../models/Schedules";
-import { ScheduleStartEndTime, TenantCreateModel, TenantModel, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel, TenantUpdateModel } from "../models/Tenants";
+import { RequestTenantAccessModel, ScheduleStartEndTime, TenantCreateModel, TenantModel, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel, TenantUpdateModel } from "../models/Tenants";
 import i18n from "i18next";
 
 interface ErrorResponse {
@@ -114,9 +114,7 @@ const Tenant = {
     updateTenant: (body: TenantUpdateModel) => requests.put(`/tenant`, body),
     getTenant: (id: string) => requests.get<TenantModel>(`/tenant/${id}`),
     removeTenant: (id: string) => requests.delete(`/tenant/${id}`),
-    getTeachers: (id: string) => requests.get<UserModel[]>(`/tenant/teachers/${id}`),
-    getGroups: (tenantId: string) => requests.get<GroupModel[]>(`/tenant/groups/${tenantId}`),
-    getLessons: (tenantId: string) => requests.get<LessonModel[]>(`/tenant/lessons/${tenantId}`),
+    sendTenantAccessRequest: (request: RequestTenantAccessModel) => requests.post('/tenant-request', request),
 }
 
 const TenantSettings = {
