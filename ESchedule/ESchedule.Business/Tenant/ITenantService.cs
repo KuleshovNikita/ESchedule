@@ -8,5 +8,7 @@ namespace ESchedule.Business.Tenant
         Task<TenantModel> CreateTenant(TenantCreateModel request);
 
         Task<TenantSettingsModel> CreateTenantSettings(TenantSettingsModel request);
+
+        Task RequestTenantAccess(RequestTenantAccessCreateModel request);
     }
 }

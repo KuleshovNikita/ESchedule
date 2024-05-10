@@ -24,6 +24,11 @@ namespace ESchedule.Api.Controllers
             => await _tenantService.CreateTenant(tenantModel);
 
         [Authorize]
+        [HttpPost("request")]
+        public async Task RequestTenantAccess([FromBody] RequestTenantAccessCreateModel tenantModel)
+            => await _tenantService.RequestTenantAccess(tenantModel);
+
+        [Authorize]
         [HttpPut]
         public async Task UpdateTenant([FromBody] TenantUpdateModel tenantModel)
             => await _service.UpdateItem(tenantModel);
