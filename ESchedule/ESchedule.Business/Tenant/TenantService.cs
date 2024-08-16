@@ -26,7 +26,7 @@ namespace ESchedule.Business.Tenant
         private readonly IRepository<RequestTenantAccessModel> _tenantRequestRepo;
         private readonly IHttpContextAccessor _httpAccessor;
         private readonly ITenantContextProvider _tenantContextProvider;
-        private readonly TenantEScheduleDbContext _dbContext;
+        private readonly IRepository<UserModel> _userRepo;
 
         public TenantService(
             IRepository<TenantModel> repository,
@@ -36,8 +36,8 @@ namespace ESchedule.Business.Tenant
             IMapper mapper,
             IUserService userService,
             IHttpContextAccessor httpAccessor,
-            ITenantContextProvider tenantContextProvider,
-            TenantEScheduleDbContext dbContext) : base(repository, mapper)
+            ITenantContextProvider tenantContextProvider, 
+            IRepository<UserModel> userRepo) : base(repository, mapper)
         {
             _authRepo = authService;
             _tenantSettingsRepo = settingsRepo;
@@ -45,7 +45,7 @@ namespace ESchedule.Business.Tenant
             _httpAccessor = httpAccessor;
             _tenantRequestRepo = tenantRequestRepo;
             _tenantContextProvider = tenantContextProvider;
-            _dbContext = dbContext;
+            _userRepo = userRepo;
         }
 
         public async Task<TenantModel> CreateTenant(TenantCreateModel request)
@@ -78,23 +78,23 @@ namespace ESchedule.Business.Tenant
 
         public async Task AcceptAccessRequest(Guid userId)
         {
-            var user = await _dbContext.Users.IgnoreQueryFilters().SingleOrDefaultAsync(x => x.Id == userId);
+            var user = await _userRepo.IgnoreQueryFilters().SingleOrDefault(x => x.Id == userId);
 
             if(user == null)
             {
                 throw new EntityNotFoundException("User does not exist");
             }
 
-            var allUserRequests = await _dbContext.TenantAccessRequests.IgnoreQueryFilters().Where(x => x.UserId == userId).ToListAsync();
-            _dbContext.TenantAccessRequests.RemoveRange(allUserRequests);
+            var allUserRequests = await _tenantRequestRepo.IgnoreQueryFilters().Where(x => x.UserId == userId);
+            await _tenantRequestRepo.RemoveRange(allUserRequests);
             
             user.TenantId = _tenantContextProvider.Current.TenantId;
-            await _dbContext.SaveChangesAsync();
+            await _userRepo.SaveChangesAsync();
         }
 
         public async Task DeclineAccessRequest(Guid userId)
         {
-            var user = await _dbContext.Users.IgnoreQueryFilters().SingleOrDefaultAsync(x => x.Id == userId);
+            var user = await _userRepo.IgnoreQueryFilters().SingleOrDefault(x => x.Id == userId);
 
             if (user == null)
             {
@@ -102,9 +102,9 @@ namespace ESchedule.Business.Tenant
             }
 
             var userRequest = await _tenantRequestRepo.SingleOrDefault(x => x.UserId == userId);
-            _dbContext.TenantAccessRequests.Remove(userRequest);
+            await _tenantRequestRepo.Remove(userRequest);
 
-            await _dbContext.SaveChangesAsync();
+            await _userRepo.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<UserModel>> GetAccessRequests()
@@ -119,7 +119,7 @@ namespace ESchedule.Business.Tenant
             var requests = await _tenantRequestRepo.Where(_ => true);
             var userIds = requests.Select(x => x.UserId);
 
-            return await _dbContext.Users.IgnoreQueryFilters().Where(x => userIds.Contains(x.Id)).ToListAsync();
+            return await _userRepo.IgnoreQueryFilters().Where(x => userIds.Contains(x.Id));
         }
 
         public async Task RequestTenantAccess(RequestTenantAccessCreateModel request)
@@ -136,7 +136,7 @@ namespace ESchedule.Business.Tenant
                 throw new EntityNotFoundException("Tenant does not exist");
             }
 
-            var entity = await _tenantRequestRepo.SingleOrDefault(x => x.UserId == request.UserId && x.TenantId == request.TenantId);
+            var entity = await _tenantRequestRepo.IgnoreQueryFilters().SingleOrDefault(x => x.UserId == request.UserId && x.TenantId == request.TenantId);
 
             if(entity != null)
             {

@@ -14,7 +14,7 @@ namespace ESchedule.DataAccess.Repos.Lessons
         }
 
         public override async Task<LessonModel> FirstOrDefault(Expression<Func<LessonModel, bool>> command)
-            => await _context.Set<LessonModel>()
+            => await GetContext<LessonModel>()
                     .Include(x => x.StudingGroups)
                     .Include(x => x.ResponsibleTeachers)
                     .Include(x => x.RelatedSchedules)
@@ -22,7 +22,7 @@ namespace ESchedule.DataAccess.Repos.Lessons
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
 
         public override async Task<IEnumerable<LessonModel>> Where(Expression<Func<LessonModel, bool>> command)
-            => await _context.Set<LessonModel>()
+            => await GetContext<LessonModel>()
                     .Include(x => x.StudingGroups)
                     .Include(x => x.ResponsibleTeachers)
                     .Include(x => x.RelatedSchedules)

@@ -14,13 +14,13 @@ namespace ESchedule.DataAccess.Repos.Schedule
         }
 
         public override async Task<RuleModel> FirstOrDefault(Expression<Func<RuleModel, bool>> command)
-            => await _context.Set<RuleModel>()
+            => await GetContext<RuleModel>()
                     .Include(x => x.Tenant)
                     .FirstOrDefaultAsync(command) 
                         ?? throw new EntityNotFoundException();
 
         public override async Task<IEnumerable<RuleModel>> Where(Expression<Func<RuleModel, bool>> command) 
-            => await _context.Set<RuleModel>()
+            => await GetContext<RuleModel>()
                     .Include(x => x.Tenant)
                     .Where(command)
                     .ToListAsync() 

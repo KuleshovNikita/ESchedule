@@ -27,5 +27,7 @@ namespace ESchedule.DataAccess.Repos
         Task RemoveRange(IEnumerable<TModel> entities);
 
         Task SaveChangesAsync();
+
+        IRepository<TModel> IgnoreQueryFilters();
     }
 }

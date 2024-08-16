@@ -12,8 +12,7 @@ namespace ESchedule.DataAccess.Repos.Tenant
         }
 
         public override async Task<RequestTenantAccessModel> SingleOrDefault(Expression<Func<RequestTenantAccessModel, bool>> command)
-            => await _context.Set<RequestTenantAccessModel>()
-                    .IgnoreQueryFilters()
+            => await GetContext<RequestTenantAccessModel>()
                     .SingleOrDefaultAsync(command);
     }
 }
