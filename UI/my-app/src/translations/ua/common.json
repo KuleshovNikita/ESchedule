@@ -75,7 +75,8 @@
         "tenant-name": "Назва організації",
         "study-day-start-time": "Початок навчального дня",
         "lesson-duration-time": "Тривалість уроків",
-        "breaks-duration-time": "Тривалість перерв"
+        "breaks-duration-time": "Тривалість перерв",
+        "view-tenant-requests": "Список запитів на доєднання до організації"
     },
     "buttons": {
         "register": "Зареєструватись",

@@ -4,6 +4,7 @@ using ESchedule.Business;
 using ESchedule.Business.Tenant;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Tenant;
+using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,11 @@ namespace ESchedule.Api.Controllers
         [HttpPost]
         public async Task CreateTenant([FromBody] TenantCreateModel tenantModel)
             => await _tenantService.CreateTenant(tenantModel);
+
+        [Authorize]
+        [HttpGet("accessRequests")]
+        public async Task<IEnumerable<UserModel>> AccessRequests()
+            => await _tenantService.GetAccessRequests();
 
         [Authorize]
         [HttpPost("request")]

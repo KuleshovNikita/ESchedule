@@ -43,6 +43,15 @@ export default function TenantManager() {
                         </Typography>
                     </Box>
                 </Button>
+
+                <Button sx={btnStyle} onClick={() => navigate('/viewTenantRequests')}>
+                    <Icon type='list' sx={iconStyle}/>
+                    <Box>
+                        <Typography>
+                            {translator('labels.view-tenant-requests')}
+                        </Typography>
+                    </Box>
+                </Button>
             </Box>
         </PageBox>
 );}

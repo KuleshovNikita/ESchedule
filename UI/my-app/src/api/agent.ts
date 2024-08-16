@@ -115,6 +115,7 @@ const Tenant = {
     getTenant: (id: string) => requests.get<TenantModel>(`/tenant/${id}`),
     removeTenant: (id: string) => requests.delete(`/tenant/${id}`),
     sendTenantAccessRequest: (request: RequestTenantAccessModel) => requests.post('/tenant/request', request),
+    getTenantAccessRequests: () => requests.get<UserModel[]>('/tenant/accessRequests'),
 }
 
 const TenantSettings = {

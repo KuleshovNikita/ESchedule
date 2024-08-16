@@ -14,6 +14,7 @@ import Cancel from "@mui/icons-material/Cancel";
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import { SxProps, Theme } from "@mui/material";
 import MapsUgcIcon from '@mui/icons-material/MapsUgc';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 type IconType = 
       'add' 
@@ -31,6 +32,7 @@ type IconType =
     | 'close'
     | 'person add'
     | 'request'
+    | 'list'
 
 type Props = {
     type: IconType;
@@ -58,6 +60,7 @@ const Icon = (props: Props) => {
         case 'close': return <Close sx={style} {...props}/>
         case 'person add': return <PersonAdd sx={style} {...props}/>
         case 'request': return <MapsUgcIcon sx={style} {...props}/>
+        case 'list': return <PlaylistAddIcon sx={style} {...props}/>
         default:
             return <>No icon</>
     }

@@ -75,7 +75,8 @@
         "tenant-name": "Tenant name",
         "study-day-start-time": "Study day start time",
         "lesson-duration-time": "Lesson duration time",
-        "breaks-duration-time": "Breaks duration time"
+        "breaks-duration-time": "Breaks duration time",
+        "view-tenant-requests": "View tenant access requests"
     },
     "buttons": {
         "register": "Register",

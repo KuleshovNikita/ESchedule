@@ -3,12 +3,15 @@ using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Auth;
 using ESchedule.Business.Users;
+using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
+using ESchedule.DataAccess.Repos.Tenant;
 using ESchedule.Domain;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Tenant;
+using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -22,20 +25,27 @@ namespace ESchedule.Business.Tenant
         private readonly IRepository<TenantSettingsModel> _tenantSettingsRepo;
         private readonly IRepository<RequestTenantAccessModel> _tenantRequestRepo;
         private readonly IHttpContextAccessor _httpAccessor;
+        private readonly ITenantContextProvider _tenantContextProvider;
+        private readonly TenantEScheduleDbContext _dbContext;
 
-        public TenantService(IRepository<TenantModel> repository,
+        public TenantService(
+            IRepository<TenantModel> repository,
             IRepository<TenantSettingsModel> settingsRepo,
             IRepository<RequestTenantAccessModel> tenantRequestRepo,
             IAuthRepository authService, 
             IMapper mapper,
             IUserService userService,
-            IHttpContextAccessor httpAccessor) : base(repository, mapper)
+            IHttpContextAccessor httpAccessor,
+            ITenantContextProvider tenantContextProvider,
+            TenantEScheduleDbContext dbContext) : base(repository, mapper)
         {
             _authRepo = authService;
             _tenantSettingsRepo = settingsRepo;
             _userService = userService;
             _httpAccessor = httpAccessor;
             _tenantRequestRepo = tenantRequestRepo;
+            _tenantContextProvider = tenantContextProvider;
+            _dbContext = dbContext;
         }
 
         public async Task<TenantModel> CreateTenant(TenantCreateModel request)
@@ -66,6 +76,21 @@ namespace ESchedule.Business.Tenant
             return tenant;
         }
 
+        public async Task<IEnumerable<UserModel>> GetAccessRequests()
+        {
+            var tenantExists = await _repository.Any(x => x.Id == _tenantContextProvider.Current.TenantId);
+
+            if (!tenantExists)
+            {
+                throw new EntityNotFoundException("Tenant does not exist");
+            }
+
+            var requests = await _tenantRequestRepo.Where(_ => true);
+            var userIds = requests.Select(x => x.UserId);
+
+            return await _dbContext.Users.IgnoreQueryFilters().Where(x => userIds.Contains(x.Id)).ToListAsync();
+        }
+
         public async Task RequestTenantAccess(RequestTenantAccessCreateModel request)
         {
             if(request == null)
@@ -86,6 +111,12 @@ namespace ESchedule.Business.Tenant
             {
                 throw new InvalidOperationException("A request to the tenant is already sent");
             }
+
+            //TODO
+            //1. перевести тексты ошибок
+            //2. удалять все запросы пользователя когда его принято в организацию
+            //3. добавить таблицу с запросами на ЮАЙ
+            //4. добавить лоадер на ЮАЙ при успешно отправленном запросе
 
             var domainModel = _mapper.Map<RequestTenantAccessModel>(request);
 

@@ -1,6 +1,6 @@
 import { useCult } from "../../../hooks/Translator";
 import { useEffect, useState } from "react";
-import { buttonHoverStyles, buttonImageIconStyle } from "../../../styles/ButtonStyles";
+import { buttonHoverStyles } from "../../../styles/ButtonStyles";
 import { useStore } from "../../../api/stores/StoresManager";
 import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
@@ -52,7 +52,7 @@ export default function AddUserToTenant() {
                     {translator('buttons.add')}
                     <Icon type='add'/>
                 </Button>
-            </Box>
+            </Box>            
         </PageBox>
     )
 }
