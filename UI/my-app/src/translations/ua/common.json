@@ -33,7 +33,9 @@
         "tenant-name-required": "Назва організації обов'язкова",
         "study-start-time-required": "Час початку навчального дня обов'язковий",
         "lesson-duration-time-required": "Тривалість уроків обов'язкова",
-        "breaks-duration-time-required": "Тривалість перерв обов'язкова"
+        "breaks-duration-time-required": "Тривалість перерв обов'язкова",
+        "field-wrong-format": "Невірний формат коду організації",
+        "field-required": "Це поле є обов'язковим"
     },
     "toasts": {
         "verification-email-sent": "Ми надіслали на вказану пошту лист для підтвердження реєстрації, будь ласка, перевірте пошту",
@@ -43,17 +45,21 @@
         "rules-added-successfully": "Правила успішно додано",
         "lesson-removed": "Урок успішно видалено",
         "lesson-added": "Додано новий урок",
-        "tenant-created": "Організацію успішно створено"
+        "tenant-created": "Організацію успішно створено",
+        "request-sent": "Запит на доєднання до організації відправлено, дочекайтесь коли Диспетчер підтвердить запит",
+        "request-accepted": "Запит ухвалено",
+        "request-declined": "Запит відхилено"
     },
     "messages": {
         "page-not-found": "Сторінку не знайдено",
         "email-confirmed": "Електрону пошту успішно підтверджено",
-        "send-code-to-dispatcher": "Це ваш персональний код, надішліть його вашому диспетчеру"
+        "send-code-to-dispatcher": "Це ваш персональний код, надішліть його вашому Диспетчеру"
     },
     "labels": {
         "first-name": "Ім'я",
         "last-name": "Прізвище",
         "father-name": "По батькові",
+        "full-name": "Повне ім'я",
         "age": "Вік",
         "role": "Роль",
         "email": "Електрона адреса",
@@ -76,7 +82,10 @@
         "study-day-start-time": "Початок навчального дня",
         "lesson-duration-time": "Тривалість уроків",
         "breaks-duration-time": "Тривалість перерв",
-        "view-tenant-requests": "Список запитів на доєднання до організації"
+        "view-tenant-requests": "Список запитів на доєднання до організації",
+        "tenant-code": "Код організації",
+        "tenant-requests": "Список запитів на доєднання до організації",
+        "user-info": "Інформація про користувачів"
     },
     "buttons": {
         "register": "Зареєструватись",
@@ -91,7 +100,11 @@
         "cancel": "Скасувати",
         "remove": "Видалити",
         "add": "Додати",
-        "create-tenant": "Створити організацію"
+        "create-tenant": "Створити організацію",
+        "send-tenant-request": "Відправити запит на вступ до організації",
+        "send": "Відправити",
+        "accept-request": "Ухвалити запит",
+        "decline-request": "Відхилити запит"
     },
     "headers": {
         "personal-info": "Персональна дані:",

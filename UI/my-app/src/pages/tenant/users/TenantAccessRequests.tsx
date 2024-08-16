@@ -48,25 +48,25 @@ export const TenantAccessRequests = observer(() => {
                 <TableRow>
                     <TableCell>
                         <Box>
-                            <b>{translator("lables.full-name")}:</b> {x.name} {x.lastName} {x.fatherName} 
+                            <b>{translator("labels.full-name")}:</b> {x.name} {x.lastName} {x.fatherName} 
                         </Box>
                         <Box>
-                            <b>{translator("lables.email")}:</b> {x.login}
+                            <b>{translator("labels.email")}:</b> {x.login}
                         </Box>
                     </TableCell>
                     <TableCell>
                         <Box sx={buttonsBox}>
                             <Button sx={buttonHoverStyles} variant="contained" onClick={() => accept(x.id)}>
-                                <Icon type='add'/>
                                 <Typography>
-                                    {translator('labels.accept-request')}
+                                    {translator('buttons.accept-request')}
                                 </Typography>
+                                <Icon type='add'/>
                             </Button>
                             <Button sx={{...buttonHoverStyles, ml: 1}} variant="contained"  onClick={() => decline(x.id)}>
-                                <Icon type='cancel'/>
                                 <Typography>
-                                    {translator('labels.decline-request')}
+                                    {translator('buttons.decline-request')}
                                 </Typography>
+                                <Icon type='cancel'/>
                             </Button>
                         </Box>
                     </TableCell>
@@ -82,7 +82,7 @@ export const TenantAccessRequests = observer(() => {
             <Loader type="spin" replace>                
                 <Box>
                     <Typography variant="h3" component="h3">
-                        {translator('labels.tenantRequests')}
+                        {translator('labels.tenant-requests')}
                     </Typography>
                 </Box>
                 <Table>
