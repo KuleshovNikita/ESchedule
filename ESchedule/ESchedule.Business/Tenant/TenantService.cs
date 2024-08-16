@@ -82,7 +82,7 @@ namespace ESchedule.Business.Tenant
 
             if(user == null)
             {
-                throw new EntityNotFoundException("User does not exist");
+                throw new EntityNotFoundException(Resources.UserDoesNotExist);
             }
 
             var allUserRequests = await _tenantRequestRepo.IgnoreQueryFilters().Where(x => x.UserId == userId);
@@ -98,7 +98,7 @@ namespace ESchedule.Business.Tenant
 
             if (user == null)
             {
-                throw new EntityNotFoundException("User does not exist");
+                throw new EntityNotFoundException(Resources.UserDoesNotExist);
             }
 
             var userRequest = await _tenantRequestRepo.SingleOrDefault(x => x.UserId == userId);
@@ -113,7 +113,7 @@ namespace ESchedule.Business.Tenant
 
             if (!tenantExists)
             {
-                throw new EntityNotFoundException("Tenant does not exist");
+                throw new EntityNotFoundException(Resources.TenantDoesNotExist);
             }
 
             var requests = await _tenantRequestRepo.Where(_ => true);
@@ -133,21 +133,15 @@ namespace ESchedule.Business.Tenant
 
             if(!tenantExists)
             {
-                throw new EntityNotFoundException("Tenant does not exist");
+                throw new EntityNotFoundException(Resources.TenantDoesNotExist);
             }
 
             var entity = await _tenantRequestRepo.IgnoreQueryFilters().SingleOrDefault(x => x.UserId == request.UserId && x.TenantId == request.TenantId);
 
             if(entity != null)
             {
-                throw new InvalidOperationException("A request to the tenant is already sent");
+                throw new InvalidOperationException(Resources.RequestToTenantAlreadySent);
             }
-
-            //TODO
-            //1. перевести тексты ошибок
-            //2. удалять все запросы пользователя когда его принято в организацию
-            //3. добавить таблицу с запросами на ЮАЙ
-            //4. добавить лоадер на ЮАЙ при успешно отправленном запросе
 
             var domainModel = _mapper.Map<RequestTenantAccessModel>(request);
 

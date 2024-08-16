@@ -14,7 +14,10 @@
         "ERR0014": "Wrong password or login",
         "ERR0015": "User already belongs to a tenant",
         "ERR0016": "User with such email is already registered",
-        "ERR0017": "Such tenant already exists"
+        "ERR0017": "Such tenant already exists",
+        "ERR0018": "User does not exist",
+        "ERR0019": "Request to tenant is sent already",
+        "ERR0020": "Tenant does not exist"
     },
     "input-helpers": {
         "first-name-required": "First name is required",
