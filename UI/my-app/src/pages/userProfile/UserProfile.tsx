@@ -409,7 +409,7 @@ export default function UserPage() {
                 tenantRequestModal
                 &&
                 <PopupForm closeButtonHandler={() => setTenantRequestModal(false)}>
-                    <RequestTenantAccess/>
+                    <RequestTenantAccess closeModal={() => setTenantRequestModal(false)}/>
                 </PopupForm>
             }
         </PageBox>

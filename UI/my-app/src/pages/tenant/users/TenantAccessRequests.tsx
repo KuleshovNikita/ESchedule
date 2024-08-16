@@ -14,6 +14,7 @@ import TableHead from "@material-ui/core/TableHead";
 import { headCellStyle, headRowStyle } from "../../../styles/TableStyles";
 import { buttonsBox } from "../../lessons/LessonsManagerStyles";
 import Loader from "../../../components/hoc/loading/Loader";
+import { toast } from "react-toastify";
 
 
 export const TenantAccessRequests = observer(() => {
@@ -31,9 +32,13 @@ export const TenantAccessRequests = observer(() => {
             .then(() => loader.hide());
     });
 
-    const accept = async (userId: string) => await tenantStore.acceptAccessRequest(userId);
+    const accept = async (userId: string) => 
+        await tenantStore.acceptAccessRequest(userId)
+            .then(() => toast.success(translator('toasts.request-accepted')));
 
-    const decline = async (userId: string) => await tenantStore.declineAccessRequest(userId);
+    const decline = async (userId: string) => 
+        await tenantStore.declineAccessRequest(userId)
+            .then(() => toast.success(translator('toasts.request-declined')));
 
     const renderRequests = () => {
         const result: ReactNode[] = [];

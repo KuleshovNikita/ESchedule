@@ -7,11 +7,12 @@ import { buttonHoverStyles } from "../../../styles/ButtonStyles";
 import Icon from "../../wrappers/Icon";
 import { useStore } from "../../../api/stores/StoresManager";
 import { RequestTenantAccessModel } from "../../../models/Tenants";
+import { toast } from "react-toastify";
 
 var GUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
 
-const RequestTenantAccess = () => {
+const RequestTenantAccess = ({closeModal}: any) => {
     const { translator } = useCult();
 
     const { userStore, tenantStore } = useStore();
@@ -46,6 +47,9 @@ const RequestTenantAccess = () => {
         }
 
         await tenantStore.sendTenantAccessRequest(request)
+            .then(() => toast.success(translator('toasts.request-sent')));
+
+        closeModal();
     }
     
     return (<>
