@@ -25,6 +25,16 @@ namespace ESchedule.Api.Controllers
             => await _tenantService.CreateTenant(tenantModel);
 
         [Authorize]
+        [HttpDelete("acceptAccessRequest/{userId}")]
+        public async Task AcceptAccessRequest(Guid userId)
+            => await _tenantService.AcceptAccessRequest(userId);
+
+        [Authorize]
+        [HttpDelete("declineAccessRequest/{userId}")]
+        public async Task DeclineAccessRequest(Guid userId)
+            => await _tenantService.DeclineAccessRequest(userId);
+
+        [Authorize]
         [HttpGet("accessRequests")]
         public async Task<IEnumerable<UserModel>> AccessRequests()
             => await _tenantService.GetAccessRequests();

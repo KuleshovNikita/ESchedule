@@ -76,6 +76,37 @@ namespace ESchedule.Business.Tenant
             return tenant;
         }
 
+        public async Task AcceptAccessRequest(Guid userId)
+        {
+            var user = await _dbContext.Users.IgnoreQueryFilters().SingleOrDefaultAsync(x => x.Id == userId);
+
+            if(user == null)
+            {
+                throw new EntityNotFoundException("User does not exist");
+            }
+
+            var allUserRequests = await _dbContext.TenantAccessRequests.IgnoreQueryFilters().Where(x => x.UserId == userId).ToListAsync();
+            _dbContext.TenantAccessRequests.RemoveRange(allUserRequests);
+            
+            user.TenantId = _tenantContextProvider.Current.TenantId;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeclineAccessRequest(Guid userId)
+        {
+            var user = await _dbContext.Users.IgnoreQueryFilters().SingleOrDefaultAsync(x => x.Id == userId);
+
+            if (user == null)
+            {
+                throw new EntityNotFoundException("User does not exist");
+            }
+
+            var userRequest = await _tenantRequestRepo.SingleOrDefault(x => x.UserId == userId);
+            _dbContext.TenantAccessRequests.Remove(userRequest);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<UserModel>> GetAccessRequests()
         {
             var tenantExists = await _repository.Any(x => x.Id == _tenantContextProvider.Current.TenantId);

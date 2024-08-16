@@ -10,6 +10,10 @@ namespace ESchedule.Business.Tenant
 
         Task<TenantSettingsModel> CreateTenantSettings(TenantSettingsModel request);
 
+        Task AcceptAccessRequest(Guid userId);
+
+        Task DeclineAccessRequest(Guid userId);
+
         Task<IEnumerable<UserModel>> GetAccessRequests();
 
         Task RequestTenantAccess(RequestTenantAccessCreateModel request);

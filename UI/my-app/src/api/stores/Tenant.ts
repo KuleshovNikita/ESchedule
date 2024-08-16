@@ -44,6 +44,16 @@ export default class TenantStore implements CacheDisposable {
         return response;
     }
 
+    acceptAccessRequest = async (userId: string) => 
+        await this.client.acceptAccessRequest(userId)
+            .then(() => this.accessRequests!.filter(x => x.id !== userId))
+            .then(res => this.accessRequests = res);
+
+    declineAccessRequest = async (userId: string) => 
+        await this.client.declineAccessRequest(userId)
+            .then(() => this.accessRequests!.filter(x => x.id !== userId))
+            .then(res => this.accessRequests = res);
+
     sendTenantAccessRequest = async (request: RequestTenantAccessModel) => 
         await this.client.sendTenantAccessRequest(request);
 
