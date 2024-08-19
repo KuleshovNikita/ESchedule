@@ -9,14 +9,13 @@ import { useLoader } from "../../../hooks/Loader";
 import { Button, TableBody, TableCell, TableRow } from "@mui/material";
 import { buttonHoverStyles } from "../../../styles/ButtonStyles";
 import EIcon from "../../../components/wrappers/EIcon";
-import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
-import { headCellStyle, headRowStyle } from "../../../styles/TableStyles";
 import { buttonsBox } from "../../lessons/LessonsManagerStyles";
 import Loader from "../../../components/hoc/loading/Loader";
 import { toast } from "react-toastify";
 import { ETableCell } from "../../../components/wrappers/ETable/ETableCell";
 import { ETableRow } from "../../../components/wrappers/ETable/ETableRow";
+import { ETable } from "../../../components/wrappers/ETable/ETable";
 
 
 export const TenantAccessRequests = observer(() => {
@@ -82,25 +81,16 @@ export const TenantAccessRequests = observer(() => {
     return (
         <PageBox>
             <Loader type="spin" replace>                
-                <Box>
-                    <Typography variant="h3" component="h3">
-                        {translator('labels.tenant-requests')}
-                    </Typography>
-                </Box>
-                <Table>
+                <ETable tableName='labels.tenant-requests'>
                     <TableHead>
-                        <TableRow sx={headRowStyle}>
-                            <TableCell sx={headCellStyle} colSpan={2}>
-                                <Typography variant="h6">
-                                    <b>{translator('labels.user-info')}</b>
-                                </Typography>
-                            </TableCell>
-                        </TableRow>
+                        <ETableRow headRow>
+                            <ETableCell headCell colSpan={2} columnName='labels.user-info'/>
+                        </ETableRow>
                     </TableHead>
                     <TableBody>
                         {renderRequests()}
                     </TableBody>
-                </Table>
+                </ETable>
             </Loader>
         </PageBox>
     );

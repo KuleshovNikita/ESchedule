@@ -2,12 +2,11 @@ export const btnStyle = {
     display: 'flex',
     flexDirection: 'column',
     height: '200px',
-    backgroundColor: 'orange',
     margin: "10px",
     width: '200px',
     color: 'white',
     "&:hover": {
-        backgroundColor: "brown"
+        backgroundColor: "orange"
     }
 }
 

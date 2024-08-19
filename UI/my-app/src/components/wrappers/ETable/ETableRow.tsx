@@ -1,5 +1,5 @@
 import { TableRow } from "@mui/material";
-import { headRowStyle } from "../../../styles/TableStyles";
+import { headRowStyle } from "./TableStyles";
 
 type ETableRowProps = {
     children?: any;

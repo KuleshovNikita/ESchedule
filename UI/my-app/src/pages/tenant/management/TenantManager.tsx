@@ -6,6 +6,7 @@ import EIcon from "../../../components/wrappers/EIcon";
 import { btnStyle, iconStyle, pageStyle } from "./TenantManagerStyles";
 import { useNavigate } from "react-router-dom";
 import PageBox from "../../../components/wrappers/PageBox";
+import { buttonHoverStyles } from "../../../styles/ButtonStyles";
 
 export default function TenantManager() {
     const { translator } = useCult();
@@ -14,28 +15,28 @@ export default function TenantManager() {
     return (
         <PageBox>
             <Box sx={pageStyle}>
-                <Button sx={btnStyle} onClick={() => navigate('/rulesManagement')}>
+                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/rulesManagement')}>
                     <EIcon type='edit' sx={iconStyle}/>
                     <Typography>
                         {translator('labels.rules-list')}
                     </Typography>
                 </Button>
 
-                <Button sx={btnStyle} onClick={() => navigate('/scheduleManagement')}>
+                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/scheduleManagement')}>
                     <EIcon type='calendar' sx={iconStyle}/>
                     <Typography>
                         {translator('labels.schedule-viewer')}
                     </Typography>
                 </Button>
 
-                <Button sx={btnStyle} onClick={() => navigate('/lessonsManagement')}>
+                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/lessonsManagement')}>
                     <EIcon type='preview' sx={iconStyle}/>
                     <Typography>
                         {translator('labels.lessons-viewer')}
                     </Typography>
                 </Button>
 
-                <Button sx={btnStyle} onClick={() => navigate('/addUserToTenant')}>
+                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/addUserToTenant')}>
                     <EIcon type='person add' sx={iconStyle}/>
                     <Box>
                         <Typography>
@@ -44,7 +45,7 @@ export default function TenantManager() {
                     </Box>
                 </Button>
 
-                <Button sx={btnStyle} onClick={() => navigate('/viewTenantRequests')}>
+                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/viewTenantRequests')}>
                     <EIcon type='list' sx={iconStyle}/>
                     <Box>
                         <Typography>

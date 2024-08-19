@@ -1,28 +1,24 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
 import { LessonCreateModel, LessonModel } from "../../models/Lessons";
-import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
+import { buttonHoverStyles } from "../../styles/ButtonStyles";
 import { useCult } from "../../hooks/Translator";
 import { toast } from "react-toastify";
 import PopupForm from "../../components/modalWindow/PopupForm";
 import { Typography } from "@material-ui/core";
-import Checkbox from '@mui/material/Checkbox';
 import { observer } from "mobx-react-lite";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import TableBody from "@mui/material/TableBody";
-import Table from "@mui/material/Table";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
 import { useLoader } from "../../hooks/Loader";
 import Loader from "../../components/hoc/loading/Loader";
 import EIcon from "../../components/wrappers/EIcon";
 import PageBox from "../../components/wrappers/PageBox";
 import { Box, TableHead } from "@mui/material";
-import { buttonsBox, checkboxStyle, pageMarkup } from "./LessonsManagerStyles";
-import { cellStyle, checkboxCellStyle, headCellStyle, headRowStyle } from "../../styles/TableStyles";
+import { buttonsBox, pageMarkup } from "./LessonsManagerStyles";
 import { ETableRow } from "../../components/wrappers/ETable/ETableRow";
 import { ETableCell } from "../../components/wrappers/ETable/ETableCell";
+import { ETable } from "../../components/wrappers/ETable/ETable";
 
 const LessonsManager = observer(() => {
     const { tenantStore, lessonStore } = useStore();
@@ -91,15 +87,11 @@ const LessonsManager = observer(() => {
 
     const renderLessonsTable = () => {
         return(  
-            <Table>
+            <ETable tableName="labels.lessons-list">
                 <TableHead>
                     <ETableRow headRow>
                         <ETableCell headCell/>
-                        <ETableCell headCell>
-                            <Typography variant="h6">
-                                <b>{translator('labels.lesson-name')}</b>
-                            </Typography>
-                        </ETableCell>
+                        <ETableCell headCell columnName='labels.lesson-name'/>
                     </ETableRow>
                 </TableHead>
                 <TableBody>
@@ -118,7 +110,7 @@ const LessonsManager = observer(() => {
                     })
                 }
                 </TableBody>
-            </Table>
+            </ETable>
     )}
 
     return(
