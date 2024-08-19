@@ -4,6 +4,7 @@ using ESchedule.Business;
 using ESchedule.Business.Tenant;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Tenant;
+using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,26 @@ namespace ESchedule.Api.Controllers
         [HttpPost]
         public async Task CreateTenant([FromBody] TenantCreateModel tenantModel)
             => await _tenantService.CreateTenant(tenantModel);
+
+        [Authorize]
+        [HttpDelete("acceptAccessRequest/{userId}")]
+        public async Task AcceptAccessRequest(Guid userId)
+            => await _tenantService.AcceptAccessRequest(userId);
+
+        [Authorize]
+        [HttpDelete("declineAccessRequest/{userId}")]
+        public async Task DeclineAccessRequest(Guid userId)
+            => await _tenantService.DeclineAccessRequest(userId);
+
+        [Authorize]
+        [HttpGet("accessRequests")]
+        public async Task<IEnumerable<UserModel>> AccessRequests()
+            => await _tenantService.GetAccessRequests();
+
+        [Authorize]
+        [HttpPost("request")]
+        public async Task RequestTenantAccess([FromBody] RequestTenantAccessCreateModel tenantModel)
+            => await _tenantService.RequestTenantAccess(tenantModel);
 
         [Authorize]
         [HttpPut]

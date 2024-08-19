@@ -14,7 +14,7 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
         }
 
         public override async Task<TeachersGroupsLessonsModel> FirstOrDefault(Expression<Func<TeachersGroupsLessonsModel, bool>> command)
-            => await _context.Set<TeachersGroupsLessonsModel>()
+            => await GetContext<TeachersGroupsLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)
                     .Include(x => x.StudyGroup)
@@ -22,7 +22,7 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
                         ?? throw new EntityNotFoundException();
 
         public override async Task<IEnumerable<TeachersGroupsLessonsModel>> Where(Expression<Func<TeachersGroupsLessonsModel, bool>> command) 
-            => await _context.Set<TeachersGroupsLessonsModel>()
+            => await GetContext<TeachersGroupsLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)
                     .Include(x => x.StudyGroup)

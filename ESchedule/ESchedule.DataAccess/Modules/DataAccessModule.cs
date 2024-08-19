@@ -35,6 +35,7 @@ namespace ESchedule.DataAccess.Modules
             services.AddScoped<IRepository<TeachersGroupsLessonsModel>, TeachersGroupsLessonsRepository>();
             services.AddScoped<IRepository<GroupsLessonsModel>, GroupsLessonsRepository>();
             services.AddScoped<IRepository<RuleModel>, RulesRepository>();
+            services.AddScoped<IRepository<RequestTenantAccessModel>, RequestTenantAccessRepository>();
 
             services.AddScoped<ITenantContextProvider, TenantContextProvider>();
 

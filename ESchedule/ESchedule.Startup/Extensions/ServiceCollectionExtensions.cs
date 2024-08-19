@@ -123,9 +123,9 @@ namespace ESchedule.Startup.Extensions
 
                 cfg.CreateMap<TenantUpdateModel, TenantModel>();
                 cfg.CreateMap<TenantCreateModel, TenantModel>();
-
                 cfg.CreateMap<TenantSettingsUpdateModel, TenantSettingsModel>();
                 cfg.CreateMap<TenantSettingsCreateModel, TenantSettingsModel>();
+                cfg.CreateMap<RequestTenantAccessCreateModel, RequestTenantAccessModel>();
 
                 cfg.CreateMap<ScheduleUpdateModel, ScheduleModel>();
                 cfg.CreateMap<ScheduleCreateModel, ScheduleModel>();

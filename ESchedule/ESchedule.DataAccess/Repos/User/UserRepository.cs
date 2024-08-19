@@ -19,7 +19,7 @@ namespace ESchedule.DataAccess.Repos.User
         }
 
         public override async Task<UserModel> FirstOrDefault(Expression<Func<UserModel, bool>> command)
-            => await _context.Set<UserModel>()
+            => await GetContext<UserModel>()
                     .Include(x => x.Group)
                     .Include(x => x.Tenant)
                     .Include(x => x.StudyGroups)
@@ -29,7 +29,7 @@ namespace ESchedule.DataAccess.Repos.User
                         ?? throw new EntityNotFoundException();
 
         public override async Task<UserModel> SingleOrDefault(Expression<Func<UserModel, bool>> command)
-            => await _context.Set<UserModel>()
+            => await GetContext<UserModel>()
                     .Include(x => x.Group)
                     .Include(x => x.Tenant)
                     .Include(x => x.StudyGroups)
@@ -38,7 +38,7 @@ namespace ESchedule.DataAccess.Repos.User
                     .SingleOrDefaultAsync(command);
 
         public override async Task<IEnumerable<UserModel>> Where(Expression<Func<UserModel, bool>> command)
-            => await _context.Set<UserModel>()
+            => await GetContext<UserModel>()
                     .Include(x => x.Group)
                     .Include(x => x.Tenant)
                     .Include(x => x.StudyGroups)

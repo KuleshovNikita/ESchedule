@@ -14,12 +14,12 @@ namespace ESchedule.DataAccess.Repos.Tenant
         }
 
         public override async Task<TenantSettingsModel> FirstOrDefault(Expression<Func<TenantSettingsModel, bool>> command)
-            => await _context.Set<TenantSettingsModel>()
+            => await GetContext<TenantSettingsModel>()
                     .Include(x => x.Tenant)
                     .FirstOrDefaultAsync(command) ?? throw new EntityNotFoundException();
 
         public override async Task<IEnumerable<TenantSettingsModel>> Where(Expression<Func<TenantSettingsModel, bool>> command)
-            => await _context.Set<TenantSettingsModel>()
+            => await GetContext<TenantSettingsModel>()
                     .Include(x => x.Tenant)
                     .Where(command)
                     .ToListAsync()

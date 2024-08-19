@@ -23,6 +23,7 @@ namespace ESchedule.DataAccess.Context
         public DbSet<TeachersGroupsLessonsModel> TeachersGroupsLessons { get; set; }
         public DbSet<TeachersLessonsModel> TeachersLessons { get; set; }
         public DbSet<AttendanceModel> Attendances { get; set; }
+        public DbSet<RequestTenantAccessModel> TenantAccessRequests { get; set; }
 
         public EScheduleDbContext(DbContextOptions options) : base(options)
         {
@@ -41,6 +42,7 @@ namespace ESchedule.DataAccess.Context
             modelBuilder.ApplyConfiguration(new TenantConfiguration());
             modelBuilder.ApplyConfiguration(new ScheduleRulesConfiguration());
             modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
+            modelBuilder.ApplyConfiguration(new RequestTenantAccessConfiguration());
 
             Seeds.ApplySeeds(modelBuilder);
         }

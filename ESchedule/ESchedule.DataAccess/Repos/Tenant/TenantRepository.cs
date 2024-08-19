@@ -13,19 +13,25 @@ namespace ESchedule.DataAccess.Repos.Tenant
         }
 
         public override async Task<TenantModel> FirstOrDefault(Expression<Func<TenantModel, bool>> command)
-            => await _context.Set<TenantModel>()
+            => await GetContext<TenantModel>()
                     .IgnoreQueryFilters()
                     .Include(x => x.Settings)
                     .FirstOrDefaultAsync(command);
 
         public override async Task<TenantModel> SingleOrDefault(Expression<Func<TenantModel, bool>> command)
-            => await _context.Set<TenantModel>()
+            => await GetContext<TenantModel>()
                     .IgnoreQueryFilters()
                     .Include(x => x.Settings)
                     .SingleOrDefaultAsync(command);
 
+
+        public override async Task<bool> Any(Expression<Func<TenantModel, bool>> command)
+            => await GetContext<TenantModel>()
+                    .IgnoreQueryFilters()
+                    .AnyAsync(command);
+
         public override async Task<IEnumerable<TenantModel>> Where(Expression<Func<TenantModel, bool>> command)
-            => await _context.Set<TenantModel>()
+            => await GetContext<TenantModel>()
                     .IgnoreQueryFilters()   
                     .Include(x => x.Settings)
                     .Where(command)

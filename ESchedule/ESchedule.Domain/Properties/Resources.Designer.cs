@@ -133,11 +133,29 @@ namespace ESchedule.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERR0019.
+        /// </summary>
+        public static string RequestToTenantAlreadySent {
+            get {
+                return ResourceManager.GetString("RequestToTenantAlreadySent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ERR0017.
         /// </summary>
         public static string TenantAlreadyExists {
             get {
                 return ResourceManager.GetString("TenantAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERR0020.
+        /// </summary>
+        public static string TenantDoesNotExist {
+            get {
+                return ResourceManager.GetString("TenantDoesNotExist", resourceCulture);
             }
         }
         
@@ -183,6 +201,15 @@ namespace ESchedule.Domain.Properties {
         public static string UserAlreadyBlongsToTenant {
             get {
                 return ResourceManager.GetString("UserAlreadyBlongsToTenant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERR0018.
+        /// </summary>
+        public static string UserDoesNotExist {
+            get {
+                return ResourceManager.GetString("UserDoesNotExist", resourceCulture);
             }
         }
         

@@ -33,6 +33,7 @@ namespace ESchedule.DataAccess.Context
             modelBuilder.Entity<GroupsLessonsModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
             modelBuilder.Entity<TeachersLessonsModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
             modelBuilder.Entity<TeachersGroupsLessonsModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
+            modelBuilder.Entity<RequestTenantAccessModel>().HasQueryFilter(x => x.TenantId == TenantContext.TenantId);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ESchedule.DataAccess.Context;
 using ESchedule.Domain.Exceptions;
+using ESchedule.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -8,28 +9,29 @@ namespace ESchedule.DataAccess.Repos
     public class Repository<TModel> : IRepository<TModel> where TModel : class
     {
         protected readonly TenantEScheduleDbContext _context;
+        private bool _ignoreQueryFilters = false;
 
         public Repository(TenantEScheduleDbContext context) => _context = context;
 
         public virtual async Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> command)
-            => await _context.Set<TModel>().FirstOrDefaultAsync(command)
+            => await GetContext<TModel>().FirstOrDefaultAsync(command)
                 ?? throw new EntityNotFoundException();
 
         public virtual async Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command)
-           => await _context.Set<TModel>().SingleOrDefaultAsync(command);
+           => await GetContext<TModel>().SingleOrDefaultAsync(command);
         
         public virtual async Task<TModel> SingleOrDefault()
-           => await _context.Set<TModel>().SingleOrDefaultAsync();
+           => await GetContext<TModel>().SingleOrDefaultAsync();
 
         public virtual async Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command)
-            => await _context.Set<TModel>().Where(command).ToListAsync() 
+            => await GetContext<TModel>().Where(command).ToListAsync() 
                 ?? throw new EntityNotFoundException();
 
         public virtual async Task<IEnumerable<TModel>> All()
-            => await _context.Set<TModel>().Where(x => true).ToListAsync();
+            => await GetContext<TModel>().Where(x => true).ToListAsync();
 
         public virtual async Task<bool> Any(Expression<Func<TModel, bool>> command)
-            => await _context.Set<TModel>().AnyAsync(command);
+            => await GetContext<TModel>().AnyAsync(command);
 
         public virtual async Task<TModel> Insert(TModel entity)
         {
@@ -66,5 +68,23 @@ namespace ESchedule.DataAccess.Repos
 
         public async Task SaveChangesAsync() =>
             await _context.SaveChangesAsync();
+
+        public IRepository<TModel> IgnoreQueryFilters()
+        {
+            _ignoreQueryFilters = true;
+
+            return this;
+        }
+
+        protected IQueryable<TEntity> GetContext<TEntity>()
+            where TEntity: class
+        {
+            if(_ignoreQueryFilters)
+            {
+                return _context.Set<TEntity>().IgnoreQueryFilters();
+            }
+
+            return _context.Set<TEntity>().AsQueryable();
+        }
     }
 }

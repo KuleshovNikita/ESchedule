@@ -14,6 +14,7 @@ import LessonsManager from "../pages/lessons/LessonsManager";
 import ScheduleViewer from "./schedule/ScheduleViewer";
 import AddUserToTenant from "../pages/tenant/users/AddUserToTenant";
 import RulesList from "./schedule/RulesList";
+import { TenantAccessRequests } from "../pages/tenant/users/TenantAccessRequests";
 
 export default function AppRoutes() {
     return (
@@ -57,6 +58,9 @@ export default function AppRoutes() {
               />
               <Route path="/tenantManager" 
                    element={ <Auth role={Role.Dispatcher}><TenantManager /></Auth> } 
+              />
+              <Route path="/viewTenantRequests" 
+                   element={ <Auth role={Role.Dispatcher}><TenantAccessRequests /></Auth> } 
               />
 
               <Route path="*" 

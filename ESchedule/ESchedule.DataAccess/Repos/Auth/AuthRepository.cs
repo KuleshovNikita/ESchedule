@@ -13,14 +13,14 @@ namespace ESchedule.DataAccess.Repos.Auth
         }
 
         public override async Task<UserModel> FirstOrDefault(Expression<Func<UserModel, bool>> command)
-            => await _context.Set<UserModel>()
+            => await GetContext<UserModel>()
                     .IgnoreQueryFilters()
                     .Include(x => x.Tenant)
                     .FirstOrDefaultAsync(command)
                         ?? throw new EntityNotFoundException();
 
         public override async Task<IEnumerable<UserModel>> Where(Expression<Func<UserModel, bool>> command)
-            => await _context.Set<UserModel>()
+            => await GetContext<UserModel>()
                     .IgnoreQueryFilters()   
                     .Include(x => x.Tenant)
                     .Where(command)
@@ -28,12 +28,12 @@ namespace ESchedule.DataAccess.Repos.Auth
                         ?? throw new EntityNotFoundException();
 
         public override async Task<bool> Any(Expression<Func<UserModel, bool>> command)
-            => await _context.Set<UserModel>()
+            => await GetContext<UserModel>()
                     .IgnoreQueryFilters()
                     .AnyAsync(command);
 
         public override async Task<UserModel> SingleOrDefault(Expression<Func<UserModel, bool>> command)
-            => await _context.Set<UserModel>()
+            => await GetContext<UserModel>()
                     .IgnoreQueryFilters()
                     .SingleOrDefaultAsync(command);
     }

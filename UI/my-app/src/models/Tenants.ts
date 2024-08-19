@@ -39,3 +39,8 @@ export interface ScheduleStartEndTime {
     endTime: Date;
 }
 
+export interface RequestTenantAccessModel {
+    userId: string;
+    tenantId: string;
+}
+

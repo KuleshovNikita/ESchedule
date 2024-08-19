@@ -14,7 +14,10 @@
         "ERR0014": "Wrong password or login",
         "ERR0015": "User already belongs to a tenant",
         "ERR0016": "User with such email is already registered",
-        "ERR0017": "Such tenant already exists"
+        "ERR0017": "Such tenant already exists",
+        "ERR0018": "User does not exist",
+        "ERR0019": "Request to tenant is sent already",
+        "ERR0020": "Tenant does not exist"
     },
     "input-helpers": {
         "first-name-required": "First name is required",
@@ -33,7 +36,9 @@
         "tenant-name-required": "Tenant name is required",
         "study-start-time-required": "Study day start time is required",
         "lesson-duration-time-required": "Lessons duration time is required",
-        "breaks-duration-time-required": "Breaks duration time is required"
+        "breaks-duration-time-required": "Breaks duration time is required",
+        "field-wrong-format": "Tenant number has a wrong format",
+        "field-required": "The field value is required"
     },
     "toasts": {
         "verification-email-sent": "We have sent a verification letter to your email, please, follow the instructions there",
@@ -43,17 +48,21 @@
         "rules-added-successfully": "Rules added successfully",
         "lesson-removed": "Lesson has been removed",
         "lesson-added": "New lesson added",
-        "tenant-created": "Tenant created successfully"
+        "tenant-created": "Tenant created successfully",
+        "request-sent": "Access tenant request sent successfully, wait for you Dispatcher to accept it",
+        "request-accepted": "Request accepted",
+        "request-declined": "Request declined"
     },
     "messages": {
         "page-not-found": "Page not found",
         "email-confirmed": "Email is successfully confirmed",
-        "send-code-to-dispatcher": "This is your personal code, send it to your dispatcher"
+        "send-code-to-dispatcher": "This is your personal code, send it to your Dispatcher"
     },
     "labels": {
         "first-name": "First Name",
         "last-name": "Last Name",
         "father-name": "Father Name",
+        "full-name": "Full Name",
         "age": "Age",
         "role": "Role",
         "email": "Email",
@@ -75,7 +84,11 @@
         "tenant-name": "Tenant name",
         "study-day-start-time": "Study day start time",
         "lesson-duration-time": "Lesson duration time",
-        "breaks-duration-time": "Breaks duration time"
+        "breaks-duration-time": "Breaks duration time",
+        "view-tenant-requests": "View tenant access requests",
+        "tenant-code": "Tenant code",
+        "tenant-requests": "List of requests to join your tenant",
+        "user-info": "User information"
     },
     "buttons": {
         "register": "Register",
@@ -90,7 +103,11 @@
         "cancel": "Cancel",
         "remove": "Remove",
         "add": "Add",
-        "create-tenant": "Create tenant"
+        "create-tenant": "Create tenant",
+        "send-tenant-request": "Send tenant access request",
+        "send": "Send",
+        "accept-request": "Accept request",
+        "decline-request": "Decline request"
     },    
     "headers": {
         "personal-info": "Personal Info:",

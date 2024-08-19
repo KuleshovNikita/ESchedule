@@ -141,8 +141,14 @@
   <data name="NoUsersForSpecifiedKeyWereFound" xml:space="preserve">
     <value>ERR0008</value>
   </data>
+  <data name="RequestToTenantAlreadySent" xml:space="preserve">
+    <value>ERR0019</value>
+  </data>
   <data name="TenantAlreadyExists" xml:space="preserve">
     <value>ERR0017</value>
+  </data>
+  <data name="TenantDoesNotExist" xml:space="preserve">
+    <value>ERR0020</value>
   </data>
   <data name="TheItemDoesntExist" xml:space="preserve">
     <value>ERR0009</value>
@@ -158,6 +164,9 @@
   </data>
   <data name="UserAlreadyBlongsToTenant" xml:space="preserve">
     <value>ERR0015</value>
+  </data>
+  <data name="UserDoesNotExist" xml:space="preserve">
+    <value>ERR0018</value>
   </data>
   <data name="UserWithSuchEmailAlreadyRegistered" xml:space="preserve">
     <value>ERR0016</value>

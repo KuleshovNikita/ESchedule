@@ -14,14 +14,14 @@ namespace ESchedule.DataAccess.Repos.ManyToMany
         }
 
         public override async Task<TeachersLessonsModel> FirstOrDefault(Expression<Func<TeachersLessonsModel, bool>> command)
-            => await _context.Set<TeachersLessonsModel>()
+            => await GetContext<TeachersLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)
                     .FirstOrDefaultAsync(command) 
                         ?? throw new EntityNotFoundException();
 
         public override async Task<IEnumerable<TeachersLessonsModel>> Where(Expression<Func<TeachersLessonsModel, bool>> command)
-            => await _context.Set<TeachersLessonsModel>()
+            => await GetContext<TeachersLessonsModel>()
                     .Include(x => x.Teacher)
                     .Include(x => x.Lesson)
                     .Where(command)
