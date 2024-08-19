@@ -13,7 +13,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useLoader } from "../../hooks/Loader";
-import Icon from "../wrappers/Icon";
+import EIcon from "../wrappers/EIcon";
 
 export default function RulesList() {
     const { scheduleStore } = useStore();
@@ -70,7 +70,7 @@ export default function RulesList() {
                     onClick={showNewRuleForm}
                 >
                     {translator('buttons.create-new-rule')}
-                    <Icon type='add'/>
+                    <EIcon type='add'/>
                 </Button>
                 <Button
                     sx={buttonHoverStyles}   
@@ -78,7 +78,7 @@ export default function RulesList() {
                     onClick={createSchedule}         
                 >
                     {translator('buttons.build-schedule')}
-                    <Icon type='build'/>
+                    <EIcon type='build'/>
                 </Button>
             </Box>
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import PopupForm from "../modalWindow/PopupForm";
 import ViewSchedulesList from "./ViewSchedulesList";
 import Button from "@mui/material/Button";
-import Icon from "../wrappers/Icon";
+import EIcon from "../wrappers/EIcon";
 
 export default function ScheduleViewer() {
     const {translator} = useCult();
@@ -20,7 +20,7 @@ export default function ScheduleViewer() {
                 onClick={showForm}
         >
             {translator('buttons.view-schedules')}
-            <Icon type='preview'/>
+            <EIcon type='preview'/>
         </Button>
 
         {

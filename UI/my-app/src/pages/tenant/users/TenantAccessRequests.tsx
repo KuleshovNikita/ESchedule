@@ -6,15 +6,17 @@ import { observer } from "mobx-react-lite";
 import { ReactNode, useEffect } from "react";
 import { useStore } from "../../../api/stores/StoresManager";
 import { useLoader } from "../../../hooks/Loader";
-import { Button, TableCell, TableRow } from "@mui/material";
+import { Button, TableBody, TableCell, TableRow } from "@mui/material";
 import { buttonHoverStyles } from "../../../styles/ButtonStyles";
-import Icon from "../../../components/wrappers/Icon";
+import EIcon from "../../../components/wrappers/EIcon";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import { headCellStyle, headRowStyle } from "../../../styles/TableStyles";
 import { buttonsBox } from "../../lessons/LessonsManagerStyles";
 import Loader from "../../../components/hoc/loading/Loader";
 import { toast } from "react-toastify";
+import { ETableCell } from "../../../components/wrappers/ETable/ETableCell";
+import { ETableRow } from "../../../components/wrappers/ETable/ETableRow";
 
 
 export const TenantAccessRequests = observer(() => {
@@ -45,32 +47,32 @@ export const TenantAccessRequests = observer(() => {
 
         tenantStore.accessRequests?.forEach(x => {
             result.push(
-                <TableRow>
-                    <TableCell>
+                <ETableRow>
+                    <ETableCell>
                         <Box>
                             <b>{translator("labels.full-name")}:</b> {x.name} {x.lastName} {x.fatherName} 
                         </Box>
                         <Box>
                             <b>{translator("labels.email")}:</b> {x.login}
                         </Box>
-                    </TableCell>
-                    <TableCell>
+                    </ETableCell>
+                    <ETableCell>
                         <Box sx={buttonsBox}>
                             <Button sx={buttonHoverStyles} variant="contained" onClick={() => accept(x.id)}>
                                 <Typography>
                                     {translator('buttons.accept-request')}
                                 </Typography>
-                                <Icon type='add'/>
+                                <EIcon type='add'/>
                             </Button>
                             <Button sx={{...buttonHoverStyles, ml: 1}} variant="contained"  onClick={() => decline(x.id)}>
                                 <Typography>
                                     {translator('buttons.decline-request')}
                                 </Typography>
-                                <Icon type='cancel'/>
+                                <EIcon type='cancel'/>
                             </Button>
                         </Box>
-                    </TableCell>
-                </TableRow>
+                    </ETableCell>
+                </ETableRow>
             );
         });
 
@@ -88,14 +90,16 @@ export const TenantAccessRequests = observer(() => {
                 <Table>
                     <TableHead>
                         <TableRow sx={headRowStyle}>
-                            <TableCell sx={{...headCellStyle}} colSpan={2}>
+                            <TableCell sx={headCellStyle} colSpan={2}>
                                 <Typography variant="h6">
                                     <b>{translator('labels.user-info')}</b>
                                 </Typography>
                             </TableCell>
                         </TableRow>
                     </TableHead>
-                    {renderRequests()}
+                    <TableBody>
+                        {renderRequests()}
+                    </TableBody>
                 </Table>
             </Loader>
         </PageBox>

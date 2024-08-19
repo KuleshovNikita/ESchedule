@@ -2,7 +2,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { Typography } from '@mui/material';
-import Icon from './wrappers/Icon';
+import EIcon from './wrappers/EIcon';
 
 interface Props {
     children: any,
@@ -17,7 +17,7 @@ export default function CustomAccordion({children, title}: Props) {
     return(
     <Accordion>
         <AccordionSummary
-            expandIcon={<Icon type='expand'/>}
+            expandIcon={<EIcon type='expand'/>}
             aria-controls="panel1a-content"
             sx={style}
             id="panel1a-header"

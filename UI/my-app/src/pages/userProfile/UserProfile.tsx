@@ -18,7 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Icon from "../../components/wrappers/Icon";
+import EIcon from "../../components/wrappers/EIcon";
 import PageBox from "../../components/wrappers/PageBox";
 import PopupForm from "../../components/modalWindow/PopupForm";
 import RequestTenantAccess from "../../components/modalWindow/tenant/RequestTenantAccess";
@@ -227,7 +227,7 @@ export default function UserPage() {
                                 onClick={resetChanges}          
                             >
                                 {translator('buttons.cancel')}
-                                <Icon type='cancel'/>
+                                <EIcon type='cancel'/>
                             </Button>
                         :
                             <Button
@@ -236,7 +236,7 @@ export default function UserPage() {
                                 onClick={setProfileChanging}         
                             >
                                 {translator('buttons.change')}
-                                <Icon type='edit'/>
+                                <EIcon type='edit'/>
                             </Button>
                         }
 
@@ -247,7 +247,7 @@ export default function UserPage() {
                             disabled={!canCreateTenant()}     
                         >
                             {translator('buttons.create-tenant')}
-                            <Icon type='build'/>
+                            <EIcon type='build'/>
                         </Button>
 
                         <Button
@@ -257,7 +257,7 @@ export default function UserPage() {
                             disabled={hasTenant()}     
                         >
                             {translator('buttons.send-tenant-request')}
-                            <Icon type='request'/>
+                            <EIcon type='request'/>
                         </Button>
                         
                         <Button
@@ -267,7 +267,7 @@ export default function UserPage() {
                             disabled={changeMode}          
                         >
                             {translator('buttons.save')}
-                            <Icon type='save'/>
+                            <EIcon type='save'/>
                         </Button>
                     </Box>
                 </Box>

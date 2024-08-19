@@ -16,11 +16,13 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { useLoader } from "../../hooks/Loader";
 import Loader from "../../components/hoc/loading/Loader";
-import Icon from "../../components/wrappers/Icon";
+import EIcon from "../../components/wrappers/EIcon";
 import PageBox from "../../components/wrappers/PageBox";
 import { Box, TableHead } from "@mui/material";
 import { buttonsBox, checkboxStyle, pageMarkup } from "./LessonsManagerStyles";
 import { cellStyle, checkboxCellStyle, headCellStyle, headRowStyle } from "../../styles/TableStyles";
+import { ETableRow } from "../../components/wrappers/ETable/ETableRow";
+import { ETableCell } from "../../components/wrappers/ETable/ETableCell";
 
 const LessonsManager = observer(() => {
     const { tenantStore, lessonStore } = useStore();
@@ -73,7 +75,7 @@ const LessonsManager = observer(() => {
                     onClick={saveLesson}   
                 >
                     {translator('buttons.create')}
-                    <Icon type='save'/>
+                    <EIcon type='save'/>
                 </Button>
             </PopupForm>
         );
@@ -91,31 +93,27 @@ const LessonsManager = observer(() => {
         return(  
             <Table>
                 <TableHead>
-                    <TableRow sx={headRowStyle}>
-                        <TableCell sx={headCellStyle}/>
-                        <TableCell sx={headCellStyle}>
+                    <ETableRow headRow>
+                        <ETableCell headCell/>
+                        <ETableCell headCell>
                             <Typography variant="h6">
                                 <b>{translator('labels.lesson-name')}</b>
                             </Typography>
-                        </TableCell>
-                    </TableRow>
+                        </ETableCell>
+                    </ETableRow>
                 </TableHead>
                 <TableBody>
                 {
                     lessonStore.lessons?.map((l, k) => {
                         return (
-                            <TableRow key={k}>
-                                <TableCell sx={checkboxCellStyle}>
-                                    <Checkbox
-                                        sx={checkboxStyle}
-                                        onChange={(e) => handleCheck(e, l)}/>                                        
-                                </TableCell>
-                                <TableCell sx={cellStyle}>
+                            <ETableRow key={k}>
+                                <ETableCell kind='checkbox' onClick={(e) => handleCheck(e, l)}></ETableCell>
+                                <ETableCell>
                                     <Typography variant="h6">
                                         {l.title}
                                     </Typography>
-                                </TableCell>
-                            </TableRow>
+                                </ETableCell>
+                            </ETableRow>
                         );
                     })
                 }
@@ -133,14 +131,14 @@ const LessonsManager = observer(() => {
                     variant='contained' 
                     sx={buttonHoverStyles}>
                     {translator('buttons.remove')}
-                    <Icon type='remove'/>
+                    <EIcon type='remove'/>
                 </Button>
                 <Button
                     onClick={() => setModalActive(true)}
                     variant='contained' 
                     sx={{...buttonHoverStyles, ml: 1}}>
                     {translator('buttons.add')}
-                    <Icon type='add'/>
+                    <EIcon type='add'/>
                 </Button>
             </Box>
             <Box>        
