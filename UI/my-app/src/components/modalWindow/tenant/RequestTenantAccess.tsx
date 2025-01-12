@@ -7,33 +7,13 @@ import EIcon from "../../wrappers/EIcon";
 import { useStore } from "../../../api/stores/StoresManager";
 import { RequestTenantAccessModel } from "../../../models/Tenants";
 import { toast } from "react-toastify";
-
-var GUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
+import { useInput } from "../../../hooks/useInput";
 
 const RequestTenantAccess = ({closeModal}: any) => {
     const { translator } = useCult();
-
     const { userStore, tenantStore } = useStore();
     
-    const [value, setValue] = useState('');
-    const [errors, setErrors] = useState('');
-
-    const tenantRef = useRef<HTMLInputElement>();
-
-    const handleChange = (e: Focus) => {
-        const value = e.target.value;
-
-        if (value.length === 0) {
-            setErrors(translator('input-helpers.field-required'));
-        } else if (!value.match(GUID_REGEX)) {
-            setErrors(translator('input-helpers.field-wrong-format'));
-        } else {
-            setErrors('');
-        }
-
-        setValue(value);
-    }
+    const { ref, value, errors, handleChange } = useInput('guid');
 
     const sendTenantRequest = async () => {
         if(errors) {
@@ -58,10 +38,10 @@ const RequestTenantAccess = ({closeModal}: any) => {
             helperText={errors}
             value={value}
             required={true}
-            inputRef={tenantRef}
+            inputRef={ref}
             error={errors.length !== 0}
             margin="dense"
-            onFocus={(e: Focus) => handleChange(e)}
+            onFocus={handleChange}
             onChange={handleChange}
         />
         <Button
