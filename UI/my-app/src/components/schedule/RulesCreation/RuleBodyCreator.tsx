@@ -8,7 +8,7 @@ import { noneWord } from "../../../utils/Utils";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import CreateTeacherBodyDayRuleComp from "./CreateTeacherBodyDayRuleComp";
-import Icon from "../../wrappers/Icon";
+import EIcon from "../../wrappers/EIcon";
 
 interface Props {
     ruleName: string,
@@ -29,7 +29,7 @@ export default function RuleBodyCreator({ruleName, bodyData, onConfirm}: Props) 
                     onClick={saveRule}   
             >
                 {translator('buttons.create')}
-                <Icon type='add'/>
+                <EIcon type='add'/>
             </Button>
         );
     }

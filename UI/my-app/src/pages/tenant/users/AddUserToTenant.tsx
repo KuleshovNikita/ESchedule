@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Icon from "../../../components/wrappers/Icon";
+import EIcon from "../../../components/wrappers/EIcon";
 import PageBox from "../../../components/wrappers/PageBox";
 
 export default function AddUserToTenant() {
@@ -50,7 +50,7 @@ export default function AddUserToTenant() {
                     onClick={addUserToTenant}
                 >
                     {translator('buttons.add')}
-                    <Icon type='add'/>
+                    <EIcon type='add'/>
                 </Button>
             </Box>            
         </PageBox>

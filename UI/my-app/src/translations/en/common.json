@@ -88,7 +88,8 @@
         "view-tenant-requests": "View tenant access requests",
         "tenant-code": "Tenant code",
         "tenant-requests": "List of requests to join your tenant",
-        "user-info": "User information"
+        "user-info": "User information",
+        "lessons-list": "Lessons list"
     },
     "buttons": {
         "register": "Register",

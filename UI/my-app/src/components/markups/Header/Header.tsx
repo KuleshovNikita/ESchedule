@@ -14,7 +14,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Icon from '../../wrappers/Icon';
+import EIcon from '../../wrappers/EIcon';
 
 const navOptions = { 
     replace: false
@@ -87,7 +87,7 @@ const Header = () => {
                                     <Button sx={headerNavButtonStyle}
                                             onClick={scheduleBuilder}
                                     >
-                                        <Icon sx={headerIconStyle} type='manage accounts' fontSize='large'/>
+                                        <EIcon sx={headerIconStyle} type='manage accounts' fontSize='large'/>
                                     </Button>
                                 )
                             || 
@@ -98,7 +98,7 @@ const Header = () => {
                                     <Button sx={[headerNavButtonStyle]}
                                             onClick={schedules}
                                     >
-                                        <Icon sx={headerIconStyle} type='calendar' fontSize='large'/>
+                                        <EIcon sx={headerIconStyle} type='calendar' fontSize='large'/>
                                     </Button>
                                 )
                             }
@@ -106,7 +106,7 @@ const Header = () => {
                             <Button sx={[headerNavButtonStyle]}
                                     onClick={logout}
                             >
-                                <Icon sx={headerIconStyle} type='quit' fontSize='large'/>
+                                <EIcon sx={headerIconStyle} type='quit' fontSize='large'/>
                             </Button>
                         </Box>
                     }

@@ -40,7 +40,7 @@ type Props = {
     fontSize?: string;
 } & any 
 
-const Icon = (props: Props) => {
+const EIcon = (props: Props) => {
     const style = {...props.sx, ...buttonImageIconStyle};
 
     switch (props.type)
@@ -67,4 +67,4 @@ const Icon = (props: Props) => {
          
 }
 
-export default Icon; 
+export default EIcon; 

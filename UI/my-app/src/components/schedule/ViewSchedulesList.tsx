@@ -9,7 +9,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
 import Loader from "../hoc/loading/Loader";
 import { useLoader } from "../../hooks/Loader";
-import Icon from "../wrappers/Icon";
+import EIcon from "../wrappers/EIcon";
 import { observer } from "mobx-react-lite";
 
 const ViewSchedulesList = () => {
@@ -88,7 +88,7 @@ const ViewSchedulesList = () => {
                     onClick={openSchedule}   
             >
                 {translator('buttons.open')}
-                <Icon type='add'/>
+                <EIcon type='add'/>
             </Button> 
         </Loader>
     );

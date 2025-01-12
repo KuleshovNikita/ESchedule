@@ -1,10 +1,9 @@
 import { TextField } from "@mui/material";
-import Box from "@mui/material/Box";
 import { useRef, useState } from "react";
 import { useCult } from "../../../hooks/Translator";
 import Button from "@material-ui/core/Button";
 import { buttonHoverStyles } from "../../../styles/ButtonStyles";
-import Icon from "../../wrappers/Icon";
+import EIcon from "../../wrappers/EIcon";
 import { useStore } from "../../../api/stores/StoresManager";
 import { RequestTenantAccessModel } from "../../../models/Tenants";
 import { toast } from "react-toastify";
@@ -71,7 +70,7 @@ const RequestTenantAccess = ({closeModal}: any) => {
             onClick={sendTenantRequest}     
         >
             {translator('buttons.send')}
-            <Icon type='request'/>
+            <EIcon type='request'/>
         </Button>
     </>);
 }
