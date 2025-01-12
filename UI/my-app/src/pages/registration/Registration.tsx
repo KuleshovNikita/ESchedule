@@ -4,7 +4,7 @@ import { useStore } from "../../api/stores/StoresManager";
 import { toast } from 'react-toastify';
 import { createTenantButtonStyle, loginButtonStyle, formStyle, personalDataRowStyles, buttonsBlockStyles } from "./RegistrationStyles";
 import { Role, UserCreateModel } from "../../models/Users";
-import { useCult } from "../../hooks/Translator";
+import { useCult } from "../../hooks/useTranslator";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";

@@ -1,4 +1,4 @@
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 import { useEffect, useState } from "react";
 import { buttonHoverStyles } from "../../../styles/ButtonStyles";
 import { useStore } from "../../../api/stores/StoresManager";

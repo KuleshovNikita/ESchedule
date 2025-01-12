@@ -1,5 +1,5 @@
 import { noneWord } from "../utils/Utils";
-import { useCult } from "../hooks/Translator";
+import { useCult } from "../hooks/useTranslator";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";

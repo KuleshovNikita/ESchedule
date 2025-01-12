@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { UserModel } from "../../../models/Users";
 import { useStore } from "../../../api/stores/StoresManager";
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 import { daysOfWeek, noneWord, normalizeUserName } from "../../../utils/Utils";
 import CustomSelect from "../../CustomSelect";
 import FormHelperText from "@mui/material/FormHelperText";
 import Loader from "../../hoc/loading/Loader";
-import { useLoader } from "../../../hooks/Loader";
+import { useLoader } from "../../../hooks/useLoader";
 
 interface Props {
     setHasErrors: any,

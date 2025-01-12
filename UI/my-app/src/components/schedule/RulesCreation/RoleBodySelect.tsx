@@ -1,5 +1,5 @@
 import { noneWord } from "../../../utils/Utils";
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 
 interface Props {
     onChange: any,

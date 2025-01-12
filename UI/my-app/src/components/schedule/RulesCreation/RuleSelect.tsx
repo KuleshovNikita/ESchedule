@@ -1,5 +1,5 @@
 import { InputLabel, MenuItem, Select } from "@mui/material"
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 import { availableRules } from "../../../utils/ruleUtils";
 import { useState } from "react";
 import RuleBodyCreator from "./RuleBodyCreator";

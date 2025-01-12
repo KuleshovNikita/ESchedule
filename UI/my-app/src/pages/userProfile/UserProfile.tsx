@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import React from "react";
 import { Role, UserUpdateModel } from "../../models/Users";
 import { getEnumKey } from "../../utils/Utils";
-import { useCult } from "../../hooks/Translator";
+import { useCult } from "../../hooks/useTranslator";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
