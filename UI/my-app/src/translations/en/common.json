@@ -26,8 +26,7 @@
         "minimal-age-5": "The minimal allowed age is 5",
         "maximal-age-99": "The maximal allowed age is 99",
         "email-required": "Email is required",
-        "email-should-be-correct": "Email should be in correct format",
-        "please-enter-password": "Please enter password",
+        "input-should-be-in-correct-format": "Field should have correct format",
         "please-repeat-password": "Please repeat password",
         "passwords-do-not-match": "Passwords don't match",
         "invalid-value": "Invalid value",
@@ -37,7 +36,6 @@
         "study-start-time-required": "Study day start time is required",
         "lesson-duration-time-required": "Lessons duration time is required",
         "breaks-duration-time-required": "Breaks duration time is required",
-        "field-wrong-format": "Tenant number has a wrong format",
         "field-required": "The field value is required"
     },
     "toasts": {

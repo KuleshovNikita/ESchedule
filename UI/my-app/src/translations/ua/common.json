@@ -26,8 +26,7 @@
         "minimal-age-5": "Мінімально допустимий вік 5",
         "maximal-age-99": "Максимально допустимий вік 99",
         "email-required": "Електрона адреса обов'язкова",
-        "email-should-be-correct": "Улуктрона адреса повинна буди у правильному форматі",
-        "please-enter-password": "Введіть пароль",
+        "input-should-be-in-correct-format": "Поле повинно бути в правильному форматі",
         "please-repeat-password": "Підтвердіть введений пароль",
         "passwords-do-not-match": "Паролі не співпадають",
         "invalid-value": "Некоректне значення",
@@ -37,7 +36,6 @@
         "study-start-time-required": "Час початку навчального дня обов'язковий",
         "lesson-duration-time-required": "Тривалість уроків обов'язкова",
         "breaks-duration-time-required": "Тривалість перерв обов'язкова",
-        "field-wrong-format": "Невірний формат коду організації",
         "field-required": "Це поле є обов'язковим"
     },
     "toasts": {

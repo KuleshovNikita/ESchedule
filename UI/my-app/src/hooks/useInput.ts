@@ -5,7 +5,7 @@ const GUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
-type InputHookType = 'guid' | 'email';
+type InputHookType = 'guid' | 'email' | 'password';
 
 export const useInput = (type: InputHookType) => {
     const { translator } = useCult();
@@ -16,44 +16,27 @@ export const useInput = (type: InputHookType) => {
     let handleChange: any;
 
     switch (type) {
-        case 'guid': handleChange = guidHandler(translator, setValue, setErrors); break;
-        case 'email': handleChange = emailHandler(translator, setValue, setErrors); break;
+        case 'guid': handleChange = textHandler(translator, setValue, setErrors, GUID_REGEX); break;
+        case 'email': handleChange = textHandler(translator, setValue, setErrors, EMAIL_REGEX); break;
+        case 'password': handleChange = textHandler(translator, setValue, setErrors); break;
     }
 
     return { ref, value, errors, handleChange }
 }
 
-const guidHandler = (translator: (key: string) => string, setValue: any, setErrors: any) => {
+const textHandler = (translator: (key: string) => string, setValue: any, setErrors: any, regex: RegExp | null = null) => {
     const handleChange = (e: Focus) => {
         const value = e.target.value;
 
         if (value.length === 0) {
             setErrors(translator('input-helpers.field-required'));
-        } else if (!value.match(GUID_REGEX)) {
-            setErrors(translator('input-helpers.field-wrong-format'));
+        } else if (regex && !value.match(regex)) {
+            setErrors(translator('input-helpers.input-should-be-in-correct-format'));
         } else {
             setErrors('');
         }
 
         setValue(value);
-    }
-
-    return handleChange;
-}
-
-const emailHandler = (translator: (key: string) => string, setValue: any, setErrors: any) => {
-    const handleChange = (e: Focus) => {
-        const email = e.target.value;
-    
-        if(email.length === 0) {
-            setErrors(translator('input-helpers.email-required'));
-        } else if(!email.match(EMAIL_REGEX)) {
-            setErrors(translator('input-helpers.email-should-be-correct'));
-        } else {
-            setErrors('');
-        }
-    
-        setValue(email);
     }
 
     return handleChange;

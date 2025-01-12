@@ -1,5 +1,3 @@
-import React, { useRef, useState } from "react";
-import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { UserLoginModel } from "../../models/Users";
 import { useStore } from "../../api/stores/StoresManager";
@@ -16,42 +14,23 @@ import Loader from "../../components/hoc/loading/Loader";
 import PageBox from "../../components/wrappers/PageBox";
 import { useInput } from "../../hooks/useInput";
 
-type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
-
 export function LoginPage() {
     const navigate = useNavigate();
-    const location = useLocation();
     const { translator } = useCult();
     const loader = useLoader();
 
     const emailInput = useInput('email');
-
-    const [password, setPassword] = useState("");
-    const [passwordErrors, setPasswordErrors] = useState("");
+    const passwordInput = useInput('password');
 
     const { userStore } = useStore();
 
-    const passwordRef = useRef<HTMLInputElement>();
-
-    const handlePasswordChange = (e: Focus) => {
-        const password = e.target.value;
-
-        if (password.length === 0) {
-            setPasswordErrors(translator('input-helpers.please-enter-password'));
-        } else {
-            setPasswordErrors('');
-        }
-
-        setPassword(password);
-    }
-
     const hasErrors = () => {
         emailInput.ref.current?.focus();
-        passwordRef.current?.focus();
-        passwordRef.current?.blur();
+        passwordInput.ref.current?.focus();
+        passwordInput.ref.current?.blur();
 
-        const isTouched = emailInput.value.length && password.length
-        const hasAnyError = emailInput.errors.length || passwordErrors.length
+        const isTouched = emailInput.value.length && passwordInput.value.length
+        const hasAnyError = emailInput.errors.length || passwordInput.errors.length
 
         return !isTouched || (isTouched && hasAnyError)
     }
@@ -63,7 +42,7 @@ export function LoginPage() {
 
         const user: UserLoginModel = { 
             login: emailInput.value, 
-            password: password 
+            password: passwordInput.value 
         };
 
         loader.show();
@@ -107,13 +86,13 @@ export function LoginPage() {
                             label={translator('labels.password')}
                             variant="filled"
                             type="password"
-                            value={password}
+                            value={passwordInput.value}
                             required={true}
-                            helperText= {passwordErrors}
-                            error={passwordErrors.length !== 0}
-                            inputRef={passwordRef}
-                            onFocus={(e: Focus) => handlePasswordChange(e)}
-                            onChange={handlePasswordChange}
+                            helperText= {passwordInput.errors}
+                            error={passwordInput.errors.length !== 0}
+                            inputRef={passwordInput.ref}
+                            onFocus={passwordInput.handleChange}
+                            onChange={passwordInput.handleChange}
                         />
                     </Box>
                     <Box sx={InputsBoxStyle}>
