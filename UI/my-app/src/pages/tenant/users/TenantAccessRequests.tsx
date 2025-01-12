@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import PageBox from "../../../components/wrappers/PageBox";
 import Typography from "@mui/material/Typography";
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 import { observer } from "mobx-react-lite";
 import { ReactNode, useEffect } from "react";
 import { useStore } from "../../../api/stores/StoresManager";
-import { useLoader } from "../../../hooks/Loader";
+import { useLoader } from "../../../hooks/useLoader";
 import { Button, TableBody, TableCell, TableRow } from "@mui/material";
 import { buttonHoverStyles } from "../../../styles/ButtonStyles";
 import EIcon from "../../../components/wrappers/EIcon";

@@ -1,5 +1,5 @@
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
-import { useCult } from "../../hooks/Translator";
+import { useCult } from "../../hooks/useTranslator";
 import { useState } from "react";
 import PopupForm from "../modalWindow/PopupForm";
 import ViewSchedulesList from "./ViewSchedulesList";

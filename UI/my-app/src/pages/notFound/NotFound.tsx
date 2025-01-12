@@ -1,5 +1,5 @@
 import PageBox from "../../components/wrappers/PageBox";
-import { useCult } from "../../hooks/Translator";
+import { useCult } from "../../hooks/useTranslator";
 
 const styles = require('./NotFound.module.css');
 

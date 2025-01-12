@@ -3,7 +3,7 @@ import TimeTableMarkup from "../../components/markups/timeTable/TimeTableMarkup"
 import { useEffect, useState } from "react";
 import ScheduleTableBuilder from "./ScheduleTableBuilder";
 import { useParams } from "react-router-dom";
-import { useLoader } from "../../hooks/Loader";
+import { useLoader } from "../../hooks/useLoader";
 import Loader from "../../components/hoc/loading/Loader";
 import PageBox from "../../components/wrappers/PageBox";
 import { observer } from "mobx-react-lite";

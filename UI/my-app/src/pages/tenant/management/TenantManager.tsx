@@ -1,4 +1,4 @@
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 import { Typography } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";

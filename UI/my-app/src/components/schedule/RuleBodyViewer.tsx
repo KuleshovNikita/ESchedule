@@ -4,7 +4,7 @@ import { daysOfWeek } from "../../utils/Utils";
 import { useStore } from "../../api/stores/StoresManager";
 import { useState } from "react";
 import { UserModel } from "../../models/Users";
-import { useCult } from "../../hooks/Translator";
+import { useCult } from "../../hooks/useTranslator";
 import { availableRules } from "../../utils/ruleUtils";
 import TextField from "@mui/material/TextField";
 

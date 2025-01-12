@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import { useRef, useState } from "react";
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 import Button from "@material-ui/core/Button";
 import { buttonHoverStyles } from "../../../styles/ButtonStyles";
 import EIcon from "../../wrappers/EIcon";

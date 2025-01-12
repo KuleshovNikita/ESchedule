@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/hoc/loading/Loader";
 import { useEffect, useState } from "react";
 import { loginButtonStyle } from "../registration/RegistrationStyles";
-import { useCult } from "../../hooks/Translator";
+import { useCult } from "../../hooks/useTranslator";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useLoader } from "../../hooks/Loader";
+import { useLoader } from "../../hooks/useLoader";
 import PageBox from "../../components/wrappers/PageBox";
 
 export default function ConfirmEmailPage() {

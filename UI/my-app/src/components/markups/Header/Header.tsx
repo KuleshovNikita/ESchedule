@@ -15,6 +15,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import EIcon from '../../wrappers/EIcon';
+import { useRoleCheck } from "../../../hooks/useRoleCheck";
+import { useTenantCheck } from "../../../hooks/useTenantCheck";
 
 const navOptions = { 
     replace: false
@@ -22,6 +24,8 @@ const navOptions = {
 
 const Header = () => {
     const { userStore, tenantStore } = useStore();
+    const checkRole = useRoleCheck();
+    const checkTenantNotEmpty = useTenantCheck();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -81,25 +85,24 @@ const Header = () => {
                             </Avatar>
                             {
                                 (
-                                    userStore.user?.role === Role.Dispatcher
-                                &&  tenantStore.tenant != null
-                                &&
-                                    <Button sx={headerNavButtonStyle}
-                                            onClick={scheduleBuilder}
-                                    >
-                                        <EIcon sx={headerIconStyle} type='manage accounts' fontSize='large'/>
-                                    </Button>
+
+                                    checkRole(Role.Dispatcher,
+                                    () => checkTenantNotEmpty(
+                                        () => <Button sx={headerNavButtonStyle} onClick={scheduleBuilder}>
+                                                <EIcon sx={headerIconStyle} type='manage accounts' fontSize='large'/>
+                                                </Button>
+                                        )
+                                    )
                                 )
                             || 
                                 (
-                                    userStore.user?.role === Role.Teacher
-                                &&  tenantStore.tenant != null
-                                &&
-                                    <Button sx={[headerNavButtonStyle]}
-                                            onClick={schedules}
-                                    >
-                                        <EIcon sx={headerIconStyle} type='calendar' fontSize='large'/>
-                                    </Button>
+                                    checkRole(Role.Teacher, 
+                                    () => checkTenantNotEmpty(
+                                        () => <Button sx={[headerNavButtonStyle]} onClick={schedules}>
+                                                <EIcon sx={headerIconStyle} type='calendar' fontSize='large'/>
+                                                </Button>
+                                        )
+                                    )
                                 )
                             }
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
 import Loader from "../hoc/loading/Loader";
-import { useCult } from "../../hooks/Translator";
+import { useCult } from "../../hooks/useTranslator";
 import RuleBodyViewer from "./RuleBodyViewer";
 import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
 import { rulesListButtonsStyle } from "../../pages/schedules/ScheduleTableStyles";
@@ -12,7 +12,7 @@ import { RuleModel } from "../../models/Schedules";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useLoader } from "../../hooks/Loader";
+import { useLoader } from "../../hooks/useLoader";
 import EIcon from "../wrappers/EIcon";
 
 export default function RulesList() {

@@ -3,13 +3,13 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../../api/stores/StoresManager";
 import { toast } from "react-toastify";
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 import { TenantCreateModel, TenantSettingsCreateModel } from "../../../models/Tenants";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Loader from "../../../components/hoc/loading/Loader";
-import { useLoader } from "../../../hooks/Loader";
+import { useLoader } from "../../../hooks/useLoader";
 import { createTenantButtonStyle, formStyle, rowStyles } from "./TenantStyles";
 import PageBox from "../../../components/wrappers/PageBox";
 

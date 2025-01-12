@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { checkboxStyle } from "../../../pages/lessons/LessonsManagerStyles";
 import { ChangeEvent } from "react";
 import Typography from "@material-ui/core/Typography";
-import { useCult } from "../../../hooks/Translator";
+import { useCult } from "../../../hooks/useTranslator";
 
 type CellType = 'checkbox' | undefined;
 

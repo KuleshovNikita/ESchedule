@@ -5,13 +5,13 @@ import { UserLoginModel } from "../../models/Users";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from "react-toastify";
 import { InputsBoxStyle, MainBoxStyle, RegisterButtonStyle } from "./LoginStyles";
-import { useCult } from "../../hooks/Translator";
+import { useCult } from "../../hooks/useTranslator";
 import { createTenantButtonStyle } from "../registration/RegistrationStyles";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useLoader } from "../../hooks/Loader";
+import { useLoader } from "../../hooks/useLoader";
 import Loader from "../../components/hoc/loading/Loader";
 import PageBox from "../../components/wrappers/PageBox";
 
