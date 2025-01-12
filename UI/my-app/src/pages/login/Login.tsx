@@ -14,8 +14,8 @@ import Typography from "@mui/material/Typography";
 import { useLoader } from "../../hooks/useLoader";
 import Loader from "../../components/hoc/loading/Loader";
 import PageBox from "../../components/wrappers/PageBox";
+import { useInput } from "../../hooks/useInput";
 
-const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
 
 export function LoginPage() {
@@ -24,29 +24,14 @@ export function LoginPage() {
     const { translator } = useCult();
     const loader = useLoader();
 
-    const [email, setEmail] = useState("");
-    const [emailErrors, setEmailErrors] = useState("");
+    const emailInput = useInput('email');
+
     const [password, setPassword] = useState("");
     const [passwordErrors, setPasswordErrors] = useState("");
 
     const { userStore } = useStore();
 
-    const emailRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
-
-    const handleEmailChange = (e: Focus) => {
-        const email = e.target.value;
-
-        if(email.length === 0) {
-            setEmailErrors(translator('input-helpers.email-required'));
-        } else if(!email.match(EMAIL_REGEX)) {
-            setEmailErrors(translator('input-helpers.email-should-be-correct'));
-        } else {
-            setEmailErrors('');
-        }
-
-        setEmail(email);
-    }
 
     const handlePasswordChange = (e: Focus) => {
         const password = e.target.value;
@@ -61,12 +46,12 @@ export function LoginPage() {
     }
 
     const hasErrors = () => {
-        emailRef.current?.focus();
+        emailInput.ref.current?.focus();
         passwordRef.current?.focus();
         passwordRef.current?.blur();
 
-        const isTouched = email.length && password.length
-        const hasAnyError = emailErrors.length || passwordErrors.length
+        const isTouched = emailInput.value.length && password.length
+        const hasAnyError = emailInput.errors.length || passwordErrors.length
 
         return !isTouched || (isTouched && hasAnyError)
     }
@@ -77,7 +62,7 @@ export function LoginPage() {
         }
 
         const user: UserLoginModel = { 
-            login: email, 
+            login: emailInput.value, 
             password: password 
         };
 
@@ -110,13 +95,13 @@ export function LoginPage() {
                         <TextField
                             label={translator('labels.email')}
                             variant="filled"
-                            value={email}
+                            value={emailInput.value}
                             required={true}
-                            helperText= {emailErrors}
-                            error={emailErrors.length !== 0}
-                            inputRef={emailRef}
-                            onFocus={(e: Focus) => handleEmailChange(e)}
-                            onChange={handleEmailChange}
+                            helperText= {emailInput.errors}
+                            error={emailInput.errors.length !== 0}
+                            inputRef={emailInput.ref}
+                            onFocus={emailInput.handleChange}
+                            onChange={emailInput.handleChange}
                         />
                         <TextField
                             label={translator('labels.password')}

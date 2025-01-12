@@ -1,20 +1,23 @@
 import { useRef, useState } from "react";
 import { useCult } from "./useTranslator";
 
-var GUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const GUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+
 type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
-type InputHookType = 'guid';
+type InputHookType = 'guid' | 'email';
 
 export const useInput = (type: InputHookType) => {
     const { translator } = useCult();
-    const ref = useRef(null);
+    const ref = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState('');
     const [errors, setErrors] = useState('');
 
     let handleChange: any;
 
     switch (type) {
-        case 'guid': handleChange = guidHandler(translator, setValue, setErrors)
+        case 'guid': handleChange = guidHandler(translator, setValue, setErrors); break;
+        case 'email': handleChange = emailHandler(translator, setValue, setErrors); break;
     }
 
     return { ref, value, errors, handleChange }
@@ -33,6 +36,24 @@ const guidHandler = (translator: (key: string) => string, setValue: any, setErro
         }
 
         setValue(value);
+    }
+
+    return handleChange;
+}
+
+const emailHandler = (translator: (key: string) => string, setValue: any, setErrors: any) => {
+    const handleChange = (e: Focus) => {
+        const email = e.target.value;
+    
+        if(email.length === 0) {
+            setErrors(translator('input-helpers.email-required'));
+        } else if(!email.match(EMAIL_REGEX)) {
+            setErrors(translator('input-helpers.email-should-be-correct'));
+        } else {
+            setErrors('');
+        }
+    
+        setValue(email);
     }
 
     return handleChange;
