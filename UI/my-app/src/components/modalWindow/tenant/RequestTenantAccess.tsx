@@ -7,15 +7,18 @@ import { RequestTenantAccessModel } from "../../../models/Tenants";
 import { toast } from "react-toastify";
 import { useInput } from "../../../hooks/useInput";
 import { ETextField } from "../../wrappers/ETextField";
+import { useRenderTrigger } from "../../../hooks/useRenderTrigger";
 
 const RequestTenantAccess = ({closeModal}: any) => {
     const { translator } = useCult();
     const { userStore, tenantStore } = useStore();
+    const rerender = useRenderTrigger();
     
     const tenantCodeInput = useInput('guid');
 
     const sendTenantRequest = async () => {
-        if(tenantCodeInput.errors) {
+        if(tenantCodeInput.errors.current !== '') {
+            rerender();
             return;
         }
 

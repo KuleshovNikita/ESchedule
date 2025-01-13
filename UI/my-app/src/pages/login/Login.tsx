@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { InputsBoxStyle, MainBoxStyle, RegisterButtonStyle } from "./LoginStyles";
 import { useCult } from "../../hooks/useTranslator";
 import { createTenantButtonStyle } from "../registration/RegistrationStyles";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -13,30 +12,35 @@ import { useLoader } from "../../hooks/useLoader";
 import Loader from "../../components/hoc/loading/Loader";
 import PageBox from "../../components/wrappers/PageBox";
 import { useInput } from "../../hooks/useInput";
+import { ETextField } from "../../components/wrappers/ETextField";
+import { useRenderTrigger } from "../../hooks/useRenderTrigger";
 
 export function LoginPage() {
     const navigate = useNavigate();
     const { translator } = useCult();
     const loader = useLoader();
 
+    const rerender = useRenderTrigger();
+
     const emailInput = useInput('email');
     const passwordInput = useInput('text');
 
     const { userStore } = useStore();
 
-    const hasErrors = () => {
+    const hasErrors = () =>
+        emailInput.errors.current !== '' 
+     || passwordInput.errors.current !== '' 
+
+    const validateInputs = () => {
         emailInput.ref.current?.focus();
         passwordInput.ref.current?.focus();
-        passwordInput.ref.current?.blur();
-
-        const isTouched = emailInput.value.length && passwordInput.value.length
-        const hasAnyError = emailInput.errors.current !== '' || passwordInput.errors.current !== '' 
-
-        return !isTouched || (isTouched && hasAnyError)
     }
 
     const submit = async () => {
+        validateInputs();
+        
         if (hasErrors()) {
+            rerender();
             return;
         }
 
@@ -71,28 +75,16 @@ export function LoginPage() {
                     autoComplete="off"
                 >
                     <Box sx={InputsBoxStyle}>
-                        <TextField
+                        <ETextField
                             label={translator('labels.email')}
-                            variant="filled"
-                            value={emailInput.value}
+                            inputProvider={emailInput}
                             required={true}
-                            helperText= {emailInput.errors.current}
-                            error={emailInput.errors.current !== ''}
-                            inputRef={emailInput.ref}
-                            onFocus={emailInput.handleChange}
-                            onChange={emailInput.handleChange}
                         />
-                        <TextField
+                        <ETextField
                             label={translator('labels.password')}
-                            variant="filled"
-                            type="password"
-                            value={passwordInput.value}
+                            inputProvider={passwordInput}
                             required={true}
-                            helperText= {passwordInput.errors.current}
-                            error={passwordInput.errors.current !== ''}
-                            inputRef={passwordInput.ref}
-                            onFocus={passwordInput.handleChange}
-                            onChange={passwordInput.handleChange}
+                            type="password"
                         />
                     </Box>
                     <Box sx={InputsBoxStyle}>

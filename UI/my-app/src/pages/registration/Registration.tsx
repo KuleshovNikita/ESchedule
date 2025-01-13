@@ -15,12 +15,13 @@ import Typography from "@mui/material/Typography";
 import PageBox from "../../components/wrappers/PageBox";
 import { useInput } from "../../hooks/useInput";
 import { ETextField } from "../../components/wrappers/ETextField";
+import { useRenderTrigger } from "../../hooks/useRenderTrigger";
 
 export default function RegistrationPage() {
     const { translator } = useCult();
 
     const [role, setRole] = useState(Role.Pupil);
-    const [renderTrigger, setRenderTrigger] = useState(true);
+    const rerender = useRenderTrigger();
 
     const nameInput = useInput('text');
     const lastNameInput = useInput('text');
@@ -56,9 +57,9 @@ export default function RegistrationPage() {
 
     const submit = async () => {
         validateInputs();
-        setRenderTrigger((prev) => !prev);
 
         if (hasErrors()) {
+            rerender();
             return;
         }
 
