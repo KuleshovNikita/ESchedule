@@ -1,132 +1,65 @@
-import React, { useRef, useState } from "react";
-import { useLocation } from "react-router";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../../api/stores/StoresManager";
 import { toast } from "react-toastify";
 import { useCult } from "../../../hooks/useTranslator";
 import { TenantCreateModel, TenantSettingsCreateModel } from "../../../models/Tenants";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Loader from "../../../components/hoc/loading/Loader";
 import { useLoader } from "../../../hooks/useLoader";
 import { createTenantButtonStyle, formStyle, rowStyles } from "./TenantStyles";
 import PageBox from "../../../components/wrappers/PageBox";
-
-const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
-
-const hrStyle = {
-    width: "210px",
-    marginTop: "20px",
-    marginBottom: "0px"
-}
+import { useInput } from "../../../hooks/useInput";
+import { ETextField } from "../../../components/wrappers/ETextField";
+import { useRenderTrigger } from "../../../hooks/useRenderTrigger";
 
 export function CreateTenant() {
-
     const navigate = useNavigate();
     const { translator } = useCult();
     const loader = useLoader();
+    const rerender = useRenderTrigger();
 
-    const [tenantName, setTenantName] = useState("");
-    const [tenantErrors, setTenantErrors] = useState("");
-    const [studyDayStartTime, setStudyDayStartTime] = useState("");
-    const [studyDayStartTimeErrors, setStudyDayStartTimeErrors] = useState("");
-    const [lessonDurationTime, setLessonDurationTime] = useState("");
-    const [lessonDurationTimeErrors, setLessonDurationTimeErrors] = useState("");
-    const [breaksDurationTime, setBreaksDurationTime] = useState("");
-    const [breaksDurationTimeErrors, setBreaksDurationTimeErrors] = useState("");
+    const tenantNameInput = useInput('text');
+    const studyDayStartTimeInput = useInput('text');
+    const lessonDurationTimeInput = useInput('text');
+    const breaksDurationTimeInput = useInput('text');
 
-    const { tenantStore, userStore } = useStore();
+    const { tenantStore } = useStore();
 
-    const tenantRef = useRef<HTMLInputElement>();
-    const studyDayStartTimeRef = useRef<HTMLInputElement>();
-    const lessonDurationTimeRef = useRef<HTMLInputElement>();
-    const breaksDurationTimeRef = useRef<HTMLInputElement>();
     const emailRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
 
-    const handleTenantNameChange = (e: Focus) => {
-        const tenant = e.target.value;
+    const hasErrors = () => 
+        tenantNameInput.errors.current !== '' 
+    ||  studyDayStartTimeInput.errors.current !== ''
+    ||  lessonDurationTimeInput.errors.current !== ''
+    ||  breaksDurationTimeInput.errors.current !== ''
 
-        if(tenant.length === 0) {
-            setTenantErrors(translator('input-helpers.tenant-name-required'));
-        } else {
-            setTenantErrors('');
-        }
-
-        setTenantName(tenant);
-    }
-
-    const handleStudyDayStartTimeChange = (e: Focus) => {
-        const time = e.target.value;
-
-        if(time.length === 0) {
-            setStudyDayStartTimeErrors(translator('input-helpers.study-start-time-required'));
-        } else {
-            setStudyDayStartTimeErrors('');
-        }
-
-        setStudyDayStartTime(time);
-    }
-
-    const handleLessonDurationTimeChange = (e: Focus) => {
-        const time = e.target.value;
-
-        if(time.length === 0) {
-            setLessonDurationTimeErrors(translator('input-helpers.lesson-duration-time-required'));
-        } else {
-            setLessonDurationTimeErrors('');
-        }
-
-        setLessonDurationTime(time);
-    }
-
-    const handleBreaksDurationTimeChange = (e: Focus) => {
-        const time = e.target.value;
-
-        if(time.length === 0) {
-            setBreaksDurationTimeErrors(translator('input-helpers.breaks-duration-time-required'));
-        } else {
-            setBreaksDurationTimeErrors('');
-        }
-
-        setBreaksDurationTime(time);
-    }
-
-    const hasErrors = () => {
-        tenantRef.current?.focus();
+    const validateInputs = () => {
+        tenantNameInput.ref.current?.focus();
         emailRef.current?.focus();
-        studyDayStartTimeRef.current?.focus();
-        lessonDurationTimeRef.current?.focus();
-        breaksDurationTimeRef.current?.focus();
+        studyDayStartTimeInput.ref.current?.focus();
+        lessonDurationTimeInput.ref.current?.focus();
+        breaksDurationTimeInput.ref.current?.focus();
         passwordRef.current?.focus();
-        passwordRef.current?.blur();
-
-        const isTouched = tenantName.length 
-                        && studyDayStartTime.length 
-                        && lessonDurationTime.length 
-                        && breaksDurationTime.length 
-        const hasAnyError = tenantErrors.length 
-                        || studyDayStartTimeErrors.length
-                        || lessonDurationTimeErrors.length
-                        || breaksDurationTimeErrors.length
-
-        return !isTouched || (isTouched && hasAnyError)
     }
 
     const submit = async () => {
+        validateInputs();
+
         if (hasErrors()) {
+            rerender();
             return;
         }
 
         const settings: TenantSettingsCreateModel = {
-            studyDayStartTime: studyDayStartTime,
-            lessonDurationTime: lessonDurationTime,
-            breaksDurationTime: breaksDurationTime,
+            studyDayStartTime: studyDayStartTimeInput.value,
+            lessonDurationTime: lessonDurationTimeInput.value,
+            breaksDurationTime: breaksDurationTimeInput.value,
         }
         const tenant: TenantCreateModel = { 
-            name: tenantName,
+            name: tenantNameInput.value,
             settings: settings
         };
 
@@ -149,55 +82,31 @@ export function CreateTenant() {
                     autoComplete="off"
                 >    
                     <Box>
-                        <Box sx={rowStyles}>              
-                            <TextField
-                                label={translator('labels.tenant-name')}
-                                variant="filled"
-                                value={tenantName}
-                                required={true}
-                                helperText= {tenantErrors}
-                                error={tenantErrors.length !== 0}
-                                inputRef={tenantRef}
-                                onFocus={(e: Focus) => handleTenantNameChange(e)}
-                                onChange={handleTenantNameChange}
-                            />
+                        <Box sx={rowStyles}>   
+                            <ETextField 
+                                label={translator('labels.tenant-name')} 
+                                inputProvider={tenantNameInput} 
+                                required={true}                                
+                            /> 
                         </Box>
                         <Box sx={rowStyles}>  
-                            <TextField
-                                label={translator('labels.study-day-start-time')}
-                                variant="filled"
-                                type="time"
-                                value={studyDayStartTime}
-                                required={true}
-                                helperText= {studyDayStartTimeErrors}
-                                error={studyDayStartTimeErrors.length !== 0}
-                                inputRef={studyDayStartTimeRef}
-                                onFocus={(e: Focus) => handleStudyDayStartTimeChange(e)}
-                                onChange={handleStudyDayStartTimeChange}
+                            <ETextField 
+                                label={translator('labels.study-day-start-time')} 
+                                inputProvider={studyDayStartTimeInput} 
+                                required={true}  
+                                type="time"                              
                             />
-                            <TextField
-                                label={translator('labels.lesson-duration-time')}
-                                variant="filled"
-                                type='time'
-                                value={lessonDurationTime}
+                            <ETextField 
+                                label={translator('labels.lesson-duration-time')} 
+                                inputProvider={lessonDurationTimeInput} 
                                 required={true}
-                                helperText= {lessonDurationTimeErrors}
-                                error={lessonDurationTimeErrors.length !== 0}
-                                inputRef={lessonDurationTimeRef}
-                                onFocus={(e: Focus) => handleLessonDurationTimeChange(e)}
-                                onChange={handleLessonDurationTimeChange}
+                                type="time"                                
                             />
-                            <TextField
-                                label={translator('labels.breaks-duration-time')}
-                                variant="filled"
-                                type="time"
-                                value={breaksDurationTime}
-                                required={true}
-                                helperText= {breaksDurationTimeErrors}
-                                error={breaksDurationTimeErrors.length !== 0}
-                                inputRef={breaksDurationTimeRef}
-                                onFocus={(e: Focus) => handleBreaksDurationTimeChange(e)}
-                                onChange={handleBreaksDurationTimeChange}
+                            <ETextField 
+                                label={translator('labels.breaks-duration-time')} 
+                                inputProvider={breaksDurationTimeInput} 
+                                required={true}  
+                                type="time"                              
                             />
                         </Box>  
                     </Box>
