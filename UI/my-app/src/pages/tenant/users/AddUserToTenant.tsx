@@ -11,7 +11,7 @@ import PageBox from "../../../components/wrappers/PageBox";
 
 export default function AddUserToTenant() {
     const { translator } = useCult();
-    const { userStore, tenantStore } = useStore();
+    const { userStore } = useStore();
     const [userCode, setUserCode] = useState('');
     const [error, setError] = useState('');
 

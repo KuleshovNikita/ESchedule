@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "../../api/stores/StoresManager";
 import { mainBoxStyle, 
          profileBoxStyle, 
@@ -22,9 +22,9 @@ import EIcon from "../../components/wrappers/EIcon";
 import PageBox from "../../components/wrappers/PageBox";
 import PopupForm from "../../components/modalWindow/PopupForm";
 import RequestTenantAccess from "../../components/modalWindow/tenant/RequestTenantAccess";
-
-const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-type Focus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
+import { useInput } from "../../hooks/useInput";
+import { ETextField } from "../../components/wrappers/ETextField";
+import { useRenderTrigger } from "../../hooks/useRenderTrigger";
 
 export default function UserPage() {
     const passwordSecret = "**********";
@@ -33,23 +33,14 @@ export default function UserPage() {
     const navigate = useNavigate();
     const currentUser = userStore.user;
 
-    const [name, setName] = useState(currentUser!.name);
-    const [firstNameErrors, setNameErrors] = useState('');
+    const rerender = useRenderTrigger();
 
-    const [lastName, setLastName] = useState(currentUser!.lastName);
-    const [lastNameErrors, setLastNameErrors] = useState('');
-
-    const [fatherName, setFatherName] = useState(currentUser!.fatherName);
-    const [fatherNameErrors, setFatherNameErrors] = useState('');
-
-    const [age, setAge] = useState(currentUser!.age);
-    const [ageErrors, setAgeErrors] = useState('');
-
-    const [email, setEmail] = useState(currentUser!.login);
-    const [emailErrors, setEmailErrors] = useState('');
-
-    const [password, setPassword] = useState(passwordSecret);
-    const [passwordErrors, setPasswordErrors] = useState('');
+    const firstNameInput = useInput('text', currentUser!.name);
+    const lastNameInput = useInput('text', currentUser!.lastName);
+    const fatherNameInput = useInput('text', currentUser!.fatherName);
+    const ageInput = useInput('number', currentUser!.age.toString());
+    const emailInput = useInput('email', currentUser!.login);
+    const passwordInput = useInput('text', passwordSecret);
 
     const [changeMode, setChangeMode] = useState(true);
     const [tenantRequestModal, setTenantRequestModal] = useState(false);
@@ -66,103 +57,27 @@ export default function UserPage() {
         window.location.reload();
     }
 
-    const firstNameRef = useRef<HTMLInputElement>();
-    const lastNameRef = useRef<HTMLInputElement>();
-    const fatherNameRef = useRef<HTMLInputElement>();
-    const ageRef = useRef<HTMLInputElement>();
-    const loginRef = useRef<HTMLInputElement>();
-    const passwordRef = useRef<HTMLInputElement>();
+    const hasErrors = () => 
+        firstNameInput.errors.current !== '' 
+     || lastNameInput.errors.current !== '' 
+     || fatherNameInput.errors.current !== '' 
+     || emailInput.errors.current !== '' 
+     || passwordInput.errors.current !== '';
 
-    const handleFirstNameChange = (e: Focus) => {
-        const firstName = e.target.value;
-
-        if (firstName.length === 0) {
-            setNameErrors(translator('input-helpers.first-name-required'));
-        } else {
-            setNameErrors('');
-        }
-
-        setName(firstName);
-    }
-
-    const handleLastNameChange = (e: Focus) => {
-        const lastName = e.target.value;
-
-        if (lastName.length === 0) {
-            setLastNameErrors(translator('input-helpers.last-name-required'));
-        } else {
-            setLastNameErrors('');
-        }
-
-        setLastName(lastName);
-    }
-
-    const handleFatherNameChange = (e: Focus) => {
-        const fatherName = e.target.value;
-
-        if (fatherName.length === 0) {
-            setFatherNameErrors(translator('input-helpers.father-name-required'));
-        } else {
-            setFatherNameErrors('');
-        }
-
-        setFatherName(fatherName);
-    }
-
-    const handleAgeChange = (e: Focus) => {
-        const age = Number(e.target.value);
-
-        if(!age) {
-            return;
-        } else if (age < 5) {
-            setAgeErrors(translator('input-helpers.minimal-age-5'));
-        } else if (age > 99) {
-            setAgeErrors(translator('input-helpers.maximal-age-99'));
-        } else {
-            setAgeErrors('');
-        }
-
-        setAge(age);
-    }
-
-    const handleEmailChange = (e: Focus) => {
-        const email = e.target.value;
-
-        if (email.length === 0) {
-            setEmailErrors(translator('input-helpers.email-required'));
-        } else if (!email.match(EMAIL_REGEX)) {
-            setEmailErrors(translator('input-helpers.email-should-be-correct'));
-        } else {
-            setEmailErrors('');
-        }
-
-        setEmail(email);
-    }
-
-    const handlePasswordChange = (e: Focus) => {
-        const password = e.target.value;
-
-        if (password.length === 0) {
-            setPasswordErrors(translator('input-helpers.please-enter-password'));
-        } else {
-            setPasswordErrors('');
-        }
-
-        setPassword(password);
-    }
-
-    const hasErrors = () => {
-        const hasAnyErrors = firstNameErrors.length 
-                         || lastNameErrors.length 
-                         || fatherNameErrors.length 
-                         || emailErrors.length
-                         || passwordErrors.length;
-
-        return hasAnyErrors;
+    const validateInputs = () => {
+        firstNameInput.ref.current?.focus();
+        lastNameInput.ref.current?.focus();
+        fatherNameInput.ref.current?.focus();
+        ageInput.ref.current?.focus();
+        emailInput.ref.current?.focus();
+        passwordInput.ref.current?.focus();
     }
 
     const submit = async () => {
+        validateInputs();
+
         if (hasErrors()) {
+            rerender();
             return;
         }
 
@@ -170,14 +85,14 @@ export default function UserPage() {
 
         const user: UserUpdateModel = {
             id: currentUser?.id!,
-            login: email, 
-            age: age,
+            login: emailInput.value, 
+            age: ageInput.value as unknown as number,
             role: null,
             groupId: null,
-            name: name,
-            lastName: lastName, 
-            fatherName: fatherName,
-            password: password === passwordSecret || !password ? null : password
+            name: firstNameInput.value,
+            lastName: lastNameInput.value, 
+            fatherName: fatherNameInput.value,
+            password: passwordInput.value === passwordSecret || !passwordInput.value ? null : passwordInput.value
         };
 
         await userStore.updateUserInfo(user);
@@ -276,61 +191,33 @@ export default function UserPage() {
                         <Typography variant='h5'> 
                             {translator('headers.personal-info')}
                         </Typography>
-                        <TextField 
-                            label={translator('labels.first-name')}
-                            variant="filled"
-                            size="small"
-                            helperText={firstNameErrors}
-                            value={name}
+                        <ETextField 
+                            label={'labels.first-name'} 
+                            inputProvider={firstNameInput} 
                             required={true}
                             disabled={changeMode}
-                            inputRef={firstNameRef}
-                            error={firstNameErrors.length !== 0}
-                            margin="dense"
-                            onFocus={(e: Focus) => handleFirstNameChange(e)}
-                            onChange={handleFirstNameChange}
+                            size="small"                        
                         />
-                        <TextField 
-                            label={translator('labels.last-name')}
-                            variant="filled"
-                            size="small"
-                            helperText={lastNameErrors}
-                            value={lastName}
+                        <ETextField 
+                            label={'labels.last-name'} 
+                            inputProvider={lastNameInput} 
                             required={true}
                             disabled={changeMode}
-                            inputRef={lastNameRef}
-                            error={lastNameErrors.length !== 0}
-                            margin="dense"
-                            onFocus={(e: Focus) => handleLastNameChange(e)}
-                            onChange={handleLastNameChange}
+                            size="small"                        
                         />
-                        <TextField 
-                            label={translator('labels.father-name')}
-                            variant="filled"
-                            size="small"
-                            helperText={fatherNameErrors}
-                            value={fatherName}
+                        <ETextField 
+                            label={'labels.father-name'} 
+                            inputProvider={fatherNameInput} 
                             required={true}
                             disabled={changeMode}
-                            inputRef={fatherNameRef}
-                            error={fatherNameErrors.length !== 0}
-                            margin="dense"
-                            onFocus={(e: Focus) => handleFatherNameChange(e)}
-                            onChange={handleFatherNameChange}
+                            size="small"                        
                         />
-                        <TextField 
-                            label={translator('labels.age')}
-                            variant="filled"
-                            size="small"
-                            helperText={ageErrors}
-                            value={age}
+                        <ETextField 
+                            label={'labels.age-name'} 
+                            inputProvider={ageInput} 
                             required={true}
                             disabled={changeMode}
-                            inputRef={ageRef}
-                            error={ageErrors.length !== 0}
-                            margin="dense"
-                            onFocus={(e: Focus) => handleAgeChange(e)}
-                            onChange={handleAgeChange}
+                            size="small"                        
                         />
                         <hr/>
                     </Box>
@@ -338,34 +225,19 @@ export default function UserPage() {
                         <Typography variant='h5'> 
                             {translator('headers.credentials')}
                         </Typography>
-                        <TextField 
-                            label={translator('labels.email')}
-                            variant="filled"
-                            size="small"
-                            helperText={emailErrors}
-                            value={email}
+                        <ETextField 
+                            label={'labels.email'} 
+                            inputProvider={emailInput} 
                             required={true}
                             disabled={changeMode}
-                            inputRef={loginRef}
-                            error={emailErrors.length !== 0}
-                            margin="dense"
-                            onFocus={(e: Focus) => handleEmailChange(e)}
-                            onChange={handleEmailChange}
+                            size="small"                        
                         />
-                        <TextField 
-                            label={translator('labels.password')}
-                            variant="filled"
-                            size="small"
-                            helperText={passwordErrors}
-                            type="password"
-                            value={password}
+                        <ETextField 
+                            label={'labels.password'} 
+                            inputProvider={passwordInput} 
                             required={true}
                             disabled={changeMode}
-                            inputRef={passwordRef}
-                            error={passwordErrors.length !== 0}
-                            margin="dense"
-                            onFocus={(e: Focus) => handlePasswordChange(e)}
-                            onChange={handlePasswordChange}
+                            size="small"                        
                         />
                         <hr/>
                     </Box>
