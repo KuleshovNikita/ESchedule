@@ -14,30 +14,19 @@ import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import PageBox from "../../components/wrappers/PageBox";
-
-const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+import { useInput } from "../../hooks/useInput";
 
 export default function RegistrationPage() {
     const { translator } = useCult();
-    const [name, setName] = useState('');
-    const [nameErrors, setNameErrors] = useState('');
-
-    const [lastName, setLastName] = useState('');
-    const [lastNameErrors, setLastNameErrors] = useState('');
-
-    const [fatherName, setFatherName] = useState('');
-    const [fatherNameErrors, setFatherNameErrors] = useState('');
-
-    const [age, setAge] = useState('');
-    const [ageErrors, setAgeErrors] = useState('');
 
     const [role, setRole] = useState(Role.Pupil);
 
-    const [email, setEmail] = useState('');
-    const [emailErrors, setEmailErrors] = useState("");
-
-    const [password, setPassword] = useState('');
-    const [passwordErrors, setPasswordErrors] = useState("");
+    const nameInput = useInput('text');
+    const lastNameInput = useInput('text');
+    const fatherNameInput = useInput('text');
+    const ageInput = useInput('number', '5', [5, 99]);
+    const emailInput = useInput('email');
+    const passwordInput = useInput('text');
 
     const [repeatPassword, setRepeatPassword] = useState('');
     const [repeatPasswordErrors, setRepeatPasswordErrors] = useState('');
@@ -45,86 +34,18 @@ export default function RegistrationPage() {
     const { userStore } = useStore();
     const navigate = useNavigate();
 
-    const firstRender = useRef(true);
-
     useEffect(() => {
-        console.log('effect');
-        if (firstRender.current) {
-            firstRender.current = false;
-            return;
-        }
-
         validateForm();
-    }, [name, lastName, fatherName, age, role, email, password, repeatPassword]);
+    }, [repeatPassword]);
 
     const validateForm = () => {
-        validateFirstName();
-        validateLastName();
-        validateFatherName();
-        validateAge();
-        validateEmail();
-        validatePassword();
         validateRepeatPassword();
-    }
-
-    const validateFirstName = () => {
-        if (name.length === 0) {
-            setNameErrors(translator('input-helpers.first-name-required'));
-        } else {
-            setNameErrors('');
-        }
-    }
-
-    const validateLastName = () => {
-        if (lastName.length === 0) {
-            setLastNameErrors(translator('input-helpers.last-name-required'));
-        } else {
-            setLastNameErrors('');
-        }
-    }
-
-    const validateFatherName = () => {
-        if (fatherName.length === 0) {
-            setFatherNameErrors(translator('input-helpers.father-name-required'));
-        } else {
-            setFatherNameErrors('');
-        }
-    }
-
-    const validateAge = () => {
-        const num = Number(age);
-
-        if (!num || num < 5) {
-            setAgeErrors(translator('input-helpers.minimal-age-5'));
-        } else if (num > 99) {
-            setAgeErrors(translator('input-helpers.maximal-age-99'));
-        } else {
-            setAgeErrors('');
-        }
-    }
-
-    const validateEmail = () => {
-        if (email.length === 0) {
-            setEmailErrors(translator('input-helpers.email-required'));
-        } else if (!email.match(EMAIL_REGEX)) {
-            setEmailErrors(translator('input-helpers.email-should-be-correct'));
-        } else {
-            setEmailErrors('');
-        }
-    }
-
-    const validatePassword = () => {
-        if (password.length === 0) {
-            setPasswordErrors(translator('input-helpers.please-enter-password'));
-        } else {
-            setPasswordErrors('');
-        }
     }
 
     const validateRepeatPassword = () => {
         if (repeatPassword.length === 0) {
             setRepeatPasswordErrors(translator('input-helpers.please-repeat-password'));
-        } else if (repeatPassword !== password) {
+        } else if (repeatPassword !== passwordInput.value) {
             setRepeatPasswordErrors(translator('input-helpers.passwords-do-not-match'));
         } else {
             setRepeatPasswordErrors('');
@@ -132,12 +53,12 @@ export default function RegistrationPage() {
     }
 
     const hasErrors = () => 
-        nameErrors.length 
-        || lastNameErrors.length 
-        || fatherNameErrors.length 
-        || ageErrors.length 
-        || emailErrors.length 
-        || passwordErrors.length 
+        nameInput.errors.length 
+        || lastNameInput.errors.length 
+        || fatherNameInput.errors.length 
+        || ageInput.errors.length 
+        || emailInput.errors.length 
+        || passwordInput.errors.length 
         || repeatPasswordErrors.length;
 
     const submit = async () => {
@@ -146,12 +67,12 @@ export default function RegistrationPage() {
         }
 
         const user: UserCreateModel = {
-            login: email, 
-            name: name,
-            lastName: lastName, 
-            fatherName: fatherName, 
-            age: Number(age),
-            password: password,
+            login: emailInput.value, 
+            name: nameInput.value,
+            lastName: lastNameInput.value, 
+            fatherName: fatherNameInput.value, 
+            age: Number(ageInput.value),
+            password: passwordInput.value,
             role: role as Role
         };
 
@@ -189,43 +110,51 @@ export default function RegistrationPage() {
                         <TextField
                             label={translator('labels.first-name')}
                             variant="filled"
-                            value={name}
+                            value={nameInput.value}
                             required={true}
-                            helperText={nameErrors}
-                            error={nameErrors.length !== 0}
-                            onChange={(e: any) => setName(e.target.value)}
+                            helperText={nameInput.errors}
+                            error={nameInput.errors.length !== 0}
+                            inputRef={nameInput.ref}
+                            onFocus={nameInput.handleChange}
+                            onChange={nameInput.handleChange}
                         />
                         <TextField
                             label={translator('labels.last-name')}
                             variant="filled"
-                            value={lastName}
+                            value={lastNameInput.value}
                             required={true}
-                            helperText={lastNameErrors}
-                            error={lastNameErrors.length !== 0}
-                            onChange={(e: any) => setLastName(e.target.value)}
+                            helperText={lastNameInput.errors}
+                            error={lastNameInput.errors.length !== 0}
+                            onChange={lastNameInput.handleChange}
+                            inputRef={lastNameInput.ref}
+                            onFocus={lastNameInput.handleChange}
                         />
                         <TextField 
                             label={translator('labels.father-name')}
                             variant="filled"
-                            helperText={fatherNameErrors}
-                            value={fatherName}
+                            helperText={fatherNameInput.errors}
+                            value={fatherNameInput.value}
                             required={true}
-                            error={fatherNameErrors.length !== 0}
+                            error={fatherNameInput.errors.length !== 0}
                             margin="dense"
-                            onChange={(e: any) => setFatherName(e.target.value)}
+                            inputRef={fatherNameInput.ref}
+                            onChange={fatherNameInput.handleChange}
+                            onFocus={fatherNameInput.handleChange}
                         />
                     </Box>
                     <Box sx={personalDataRowStyles}>
                         <TextField
                             label={translator('labels.age')}
                             variant="filled"
-                            value={age}
+                            value={ageInput.value}
                             type="number"
                             required
-                            helperText={ageErrors}
-                            error={ageErrors.length !== 0}
+                            helperText={ageInput.errors}
+                            error={ageInput.errors.length !== 0}
                             margin="dense"
-                            onChange={(e: any) => setAge(e.target.value)}
+                            inputRef={ageInput.ref}
+                            onChange={ageInput.handleChange}
+                            onFocus={ageInput.handleChange}
                         />
                         <FormControl>
                             <InputLabel id="role-registration-select-label">{translator('labels.role')}</InputLabel>
@@ -246,21 +175,25 @@ export default function RegistrationPage() {
                         <TextField
                             label={translator('labels.email')}
                             variant="filled"
-                            value={email}
+                            value={emailInput.value}
                             required={true}
-                            helperText={emailErrors}
-                            error={emailErrors.length !== 0}
-                            onChange={(e: any) => setEmail(e.target.value)}
+                            helperText={emailInput.errors}
+                            error={emailInput.errors.length !== 0}
+                            inputRef={emailInput.ref}
+                            onFocus={emailInput.handleChange}
+                            onChange={emailInput.handleChange}
                         />
                         <TextField
                             label={translator('labels.password')}
                             variant="filled"
                             type="password"
-                            value={password}
+                            value={passwordInput.value}
                             required={true}
-                            helperText={passwordErrors}
-                            error={passwordErrors.length !== 0}
-                            onChange={(e: any) => setPassword(e.target.value)}
+                            helperText={passwordInput.errors}
+                            error={passwordInput.errors.length !== 0}
+                            inputRef={passwordInput.ref}
+                            onFocus={passwordInput.handleChange}
+                            onChange={passwordInput.handleChange}
                         />
                         <TextField
                             label={translator('labels.repeat-password')}

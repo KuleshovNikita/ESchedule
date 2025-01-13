@@ -20,7 +20,7 @@ export function LoginPage() {
     const loader = useLoader();
 
     const emailInput = useInput('email');
-    const passwordInput = useInput('password');
+    const passwordInput = useInput('text');
 
     const { userStore } = useStore();
 
