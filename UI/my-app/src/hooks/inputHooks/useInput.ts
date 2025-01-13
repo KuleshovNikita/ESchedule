@@ -1,11 +1,17 @@
 import { MutableRefObject, RefObject, useRef, useState } from "react";
-import { useCult } from "./useTranslator";
-
-const GUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+import { useCult } from "../useTranslator";
+import { EMAIL_REGEX, GUID_REGEX } from "../../utils/RegexConstants";
 
 export type InputFocus = React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>; 
 type InputHookType = 'guid' | 'email' | 'text' | 'number' | 'repeatPassword';
+
+export type InputHookPayload = {
+    ref: RefObject<HTMLInputElement>,
+    value: string,
+    errors: MutableRefObject<string>,
+    handleChange: (e: InputFocus) => void,
+    validate: (...args: any) => void
+} 
 
 export const useInput = (type: InputHookType, defaultValue: string = '', args: any[] = []) => {
     const { translator } = useCult();
@@ -23,7 +29,15 @@ export const useInput = (type: InputHookType, defaultValue: string = '', args: a
         case 'number': funcs = numberHandler(translator, setValue, errorsRef, args[0], args[1]); break;
     }
 
-    return { ref, value, errors: errorsRef, handleChange: funcs.handleChange, validate: funcs.validate }
+    const result: InputHookPayload = { 
+        ref, 
+        value, 
+        errors: errorsRef, 
+        handleChange: funcs.handleChange, 
+        validate: funcs.validate 
+    }
+
+    return result;
 }
 
 const textHandler = (translator: (key: string) => string, setValue: any, errorsRef: MutableRefObject<string>, regex: RegExp | null = null) => {

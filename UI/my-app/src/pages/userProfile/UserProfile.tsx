@@ -22,9 +22,10 @@ import EIcon from "../../components/wrappers/EIcon";
 import PageBox from "../../components/wrappers/PageBox";
 import PopupForm from "../../components/modalWindow/PopupForm";
 import RequestTenantAccess from "../../components/modalWindow/tenant/RequestTenantAccess";
-import { useInput } from "../../hooks/useInput";
+import { useInput } from "../../hooks/inputHooks/useInput";
 import { ETextField } from "../../components/wrappers/ETextField";
 import { useRenderTrigger } from "../../hooks/useRenderTrigger";
+import { useInputValidator } from "../../hooks/inputHooks/useInputValidator";
 
 export default function UserPage() {
     const passwordSecret = "**********";
@@ -34,6 +35,7 @@ export default function UserPage() {
     const currentUser = userStore.user;
 
     const rerender = useRenderTrigger();
+    const hasErrors = useInputValidator();
 
     const firstNameInput = useInput('text', currentUser!.name);
     const lastNameInput = useInput('text', currentUser!.lastName);
@@ -57,26 +59,15 @@ export default function UserPage() {
         window.location.reload();
     }
 
-    const hasErrors = () => 
-        firstNameInput.errors.current !== '' 
-     || lastNameInput.errors.current !== '' 
-     || fatherNameInput.errors.current !== '' 
-     || emailInput.errors.current !== '' 
-     || passwordInput.errors.current !== '';
-
-    const validateInputs = () => {
-        firstNameInput.ref.current?.focus();
-        lastNameInput.ref.current?.focus();
-        fatherNameInput.ref.current?.focus();
-        ageInput.ref.current?.focus();
-        emailInput.ref.current?.focus();
-        passwordInput.ref.current?.focus();
-    }
-
     const submit = async () => {
-        validateInputs();
-
-        if (hasErrors()) {
+        if (hasErrors(
+            firstNameInput,
+            lastNameInput,
+            fatherNameInput,
+            ageInput,
+            emailInput,
+            passwordInput
+        )) {
             rerender();
             return;
         }

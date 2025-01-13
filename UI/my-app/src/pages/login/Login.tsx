@@ -11,15 +11,17 @@ import Typography from "@mui/material/Typography";
 import { useLoader } from "../../hooks/useLoader";
 import Loader from "../../components/hoc/loading/Loader";
 import PageBox from "../../components/wrappers/PageBox";
-import { useInput } from "../../hooks/useInput";
+import { useInput } from "../../hooks/inputHooks/useInput";
 import { ETextField } from "../../components/wrappers/ETextField";
 import { useRenderTrigger } from "../../hooks/useRenderTrigger";
+import { useInputValidator } from "../../hooks/inputHooks/useInputValidator";
 
 export function LoginPage() {
     const navigate = useNavigate();
     const { translator } = useCult();
     const loader = useLoader();
 
+    const hasErrors = useInputValidator();
     const rerender = useRenderTrigger();
 
     const emailInput = useInput('email');
@@ -27,19 +29,8 @@ export function LoginPage() {
 
     const { userStore } = useStore();
 
-    const hasErrors = () =>
-        emailInput.errors.current !== '' 
-     || passwordInput.errors.current !== '' 
-
-    const validateInputs = () => {
-        emailInput.ref.current?.focus();
-        passwordInput.ref.current?.focus();
-    }
-
-    const submit = async () => {
-        validateInputs();
-        
-        if (hasErrors()) {
+    const submit = async () => {        
+        if (hasErrors(emailInput, passwordInput)) {
             rerender();
             return;
         }

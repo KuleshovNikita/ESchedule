@@ -8,6 +8,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import EIcon from "../../../components/wrappers/EIcon";
 import PageBox from "../../../components/wrappers/PageBox";
+import { GUID_REGEX } from "../../../utils/RegexConstants";
+import { isGuid } from "../../../utils/Utils";
 
 export default function AddUserToTenant() {
     const { translator } = useCult();
@@ -16,16 +18,12 @@ export default function AddUserToTenant() {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if(isGuid() && error !== '') {
+        if(isGuid(userCode) && error !== '') {
             setError('');
         } else {
             setError(translator('input-helpers.invalid-user-code-inserted'));
         }
     }, [userCode])
-
-    const isGuid = () => {
-        return /^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$/.test(userCode);
-    }
 
     const addUserToTenant = async () => {
         await userStore.updateUserTenant(userCode)
@@ -46,7 +44,7 @@ export default function AddUserToTenant() {
                 <Button 
                     variant='contained' 
                     sx={buttonHoverStyles}
-                    disabled={!isGuid()}
+                    disabled={!isGuid(userCode)}
                     onClick={addUserToTenant}
                 >
                     {translator('buttons.add')}

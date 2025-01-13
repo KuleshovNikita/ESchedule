@@ -5,7 +5,7 @@ import EIcon from "../../wrappers/EIcon";
 import { useStore } from "../../../api/stores/StoresManager";
 import { RequestTenantAccessModel } from "../../../models/Tenants";
 import { toast } from "react-toastify";
-import { useInput } from "../../../hooks/useInput";
+import { useInput } from "../../../hooks/inputHooks/useInput";
 import { ETextField } from "../../wrappers/ETextField";
 import { useRenderTrigger } from "../../../hooks/useRenderTrigger";
 

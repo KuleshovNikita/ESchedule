@@ -1,4 +1,5 @@
 import { UserModel } from "../models/Users";
+import { GUID_REGEX } from "./RegexConstants";
 
 export const getEnumKey = (targetEnum: any, value: any) => {
     const key = Object.values(targetEnum).indexOf(value as unknown as any);
@@ -12,7 +13,10 @@ export const normalizeUserName = (user: UserModel | null) => {
         return "";
     }
 }
-        
+
+export const isGuid = (value: string) => {
+    return GUID_REGEX.test(value);
+}
 
 export const timeTableScope = { start: 8, end: 18 };
 

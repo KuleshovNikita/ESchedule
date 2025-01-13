@@ -13,15 +13,18 @@ import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import PageBox from "../../components/wrappers/PageBox";
-import { useInput } from "../../hooks/useInput";
+import { useInput } from "../../hooks/inputHooks/useInput";
 import { ETextField } from "../../components/wrappers/ETextField";
 import { useRenderTrigger } from "../../hooks/useRenderTrigger";
+import { useInputValidator } from "../../hooks/inputHooks/useInputValidator";
 
 export default function RegistrationPage() {
     const { translator } = useCult();
 
     const [role, setRole] = useState(Role.Pupil);
     const rerender = useRenderTrigger();
+
+    const hasErrors = useInputValidator();
 
     const nameInput = useInput('text');
     const lastNameInput = useInput('text');
@@ -34,31 +37,18 @@ export default function RegistrationPage() {
     const { userStore } = useStore();
     const navigate = useNavigate();
 
-    const hasErrors = () => 
-        nameInput.errors.current !== ''  
-        || lastNameInput.errors.current !== '' 
-        || fatherNameInput.errors.current !== '' 
-        || ageInput.errors.current !== '' 
-        || emailInput.errors.current !== ''  
-        || passwordInput.errors.current !== ''  
-        || passwordRepeatInput.errors.current !== '';
-
-    const validateInputs = () => {
-        nameInput.ref.current?.focus();
-        lastNameInput.ref.current?.focus();
-        fatherNameInput.ref.current?.focus();
-        ageInput.ref.current?.focus();
-        emailInput.ref.current?.focus();
-        passwordInput.ref.current?.focus();
-        passwordRepeatInput.ref.current?.focus();
-
-        passwordRepeatInput.validate(passwordRepeatInput.value, passwordInput.value);
-    }
-
     const submit = async () => {
-        validateInputs();
+        passwordRepeatInput.validate(passwordRepeatInput.value, passwordInput.value);
 
-        if (hasErrors()) {
+        if (hasErrors(
+                nameInput,
+                lastNameInput,
+                fatherNameInput,
+                ageInput,
+                emailInput,
+                passwordInput,
+                passwordRepeatInput
+            )) {
             rerender();
             return;
         }

@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../../api/stores/StoresManager";
 import { toast } from "react-toastify";
@@ -10,15 +9,18 @@ import Loader from "../../../components/hoc/loading/Loader";
 import { useLoader } from "../../../hooks/useLoader";
 import { createTenantButtonStyle, formStyle, rowStyles } from "./TenantStyles";
 import PageBox from "../../../components/wrappers/PageBox";
-import { useInput } from "../../../hooks/useInput";
+import { useInput } from "../../../hooks/inputHooks/useInput";
 import { ETextField } from "../../../components/wrappers/ETextField";
 import { useRenderTrigger } from "../../../hooks/useRenderTrigger";
+import { useInputValidator } from "../../../hooks/inputHooks/useInputValidator";
 
 export function CreateTenant() {
     const navigate = useNavigate();
     const { translator } = useCult();
     const loader = useLoader();
     const rerender = useRenderTrigger();
+
+    const hasErrors = useInputValidator();
 
     const tenantNameInput = useInput('text');
     const studyDayStartTimeInput = useInput('text');
@@ -27,28 +29,8 @@ export function CreateTenant() {
 
     const { tenantStore } = useStore();
 
-    const emailRef = useRef<HTMLInputElement>();
-    const passwordRef = useRef<HTMLInputElement>();
-
-    const hasErrors = () => 
-        tenantNameInput.errors.current !== '' 
-    ||  studyDayStartTimeInput.errors.current !== ''
-    ||  lessonDurationTimeInput.errors.current !== ''
-    ||  breaksDurationTimeInput.errors.current !== ''
-
-    const validateInputs = () => {
-        tenantNameInput.ref.current?.focus();
-        emailRef.current?.focus();
-        studyDayStartTimeInput.ref.current?.focus();
-        lessonDurationTimeInput.ref.current?.focus();
-        breaksDurationTimeInput.ref.current?.focus();
-        passwordRef.current?.focus();
-    }
-
     const submit = async () => {
-        validateInputs();
-
-        if (hasErrors()) {
+        if (hasErrors(tenantNameInput, studyDayStartTimeInput, lessonDurationTimeInput, breaksDurationTimeInput)) {
             rerender();
             return;
         }
