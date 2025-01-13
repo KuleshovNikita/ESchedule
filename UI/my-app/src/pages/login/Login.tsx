@@ -30,7 +30,7 @@ export function LoginPage() {
         passwordInput.ref.current?.blur();
 
         const isTouched = emailInput.value.length && passwordInput.value.length
-        const hasAnyError = emailInput.errors.length || passwordInput.errors.length
+        const hasAnyError = emailInput.errors.current !== '' || passwordInput.errors.current !== '' 
 
         return !isTouched || (isTouched && hasAnyError)
     }
@@ -76,8 +76,8 @@ export function LoginPage() {
                             variant="filled"
                             value={emailInput.value}
                             required={true}
-                            helperText= {emailInput.errors}
-                            error={emailInput.errors.length !== 0}
+                            helperText= {emailInput.errors.current}
+                            error={emailInput.errors.current !== ''}
                             inputRef={emailInput.ref}
                             onFocus={emailInput.handleChange}
                             onChange={emailInput.handleChange}
@@ -88,8 +88,8 @@ export function LoginPage() {
                             type="password"
                             value={passwordInput.value}
                             required={true}
-                            helperText= {passwordInput.errors}
-                            error={passwordInput.errors.length !== 0}
+                            helperText= {passwordInput.errors.current}
+                            error={passwordInput.errors.current !== ''}
                             inputRef={passwordInput.ref}
                             onFocus={passwordInput.handleChange}
                             onChange={passwordInput.handleChange}

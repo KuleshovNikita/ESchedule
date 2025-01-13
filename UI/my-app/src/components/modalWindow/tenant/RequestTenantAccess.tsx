@@ -35,11 +35,11 @@ const RequestTenantAccess = ({closeModal}: any) => {
         <TextField 
             label={translator('labels.tenant-code')}
             variant="filled"
-            helperText={errors}
+            helperText={errors.current}
             value={value}
             required={true}
             inputRef={ref}
-            error={errors.length !== 0}
+            error={errors.current !== ''}
             margin="dense"
             onFocus={handleChange}
             onChange={handleChange}

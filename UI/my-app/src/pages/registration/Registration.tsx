@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
 import { toast } from 'react-toastify';
@@ -6,7 +6,6 @@ import { createTenantButtonStyle, loginButtonStyle, formStyle, personalDataRowSt
 import { Role, UserCreateModel } from "../../models/Users";
 import { useCult } from "../../hooks/useTranslator";
 import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -15,11 +14,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import PageBox from "../../components/wrappers/PageBox";
 import { useInput } from "../../hooks/useInput";
+import { ETextField } from "../../components/wrappers/ETextField";
 
 export default function RegistrationPage() {
     const { translator } = useCult();
 
     const [role, setRole] = useState(Role.Pupil);
+    const [renderTrigger, setRenderTrigger] = useState(true);
 
     const nameInput = useInput('text');
     const lastNameInput = useInput('text');
@@ -27,41 +28,36 @@ export default function RegistrationPage() {
     const ageInput = useInput('number', '5', [5, 99]);
     const emailInput = useInput('email');
     const passwordInput = useInput('text');
-
-    const [repeatPassword, setRepeatPassword] = useState('');
-    const [repeatPasswordErrors, setRepeatPasswordErrors] = useState('');
+    const passwordRepeatInput = useInput('repeatPassword', '', [passwordInput.value]);
 
     const { userStore } = useStore();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        validateForm();
-    }, [repeatPassword]);
-
-    const validateForm = () => {
-        validateRepeatPassword();
-    }
-
-    const validateRepeatPassword = () => {
-        if (repeatPassword.length === 0) {
-            setRepeatPasswordErrors(translator('input-helpers.please-repeat-password'));
-        } else if (repeatPassword !== passwordInput.value) {
-            setRepeatPasswordErrors(translator('input-helpers.passwords-do-not-match'));
-        } else {
-            setRepeatPasswordErrors('');
-        }
-    }
-
     const hasErrors = () => 
-        nameInput.errors.length 
-        || lastNameInput.errors.length 
-        || fatherNameInput.errors.length 
-        || ageInput.errors.length 
-        || emailInput.errors.length 
-        || passwordInput.errors.length 
-        || repeatPasswordErrors.length;
+        nameInput.errors.current !== ''  
+        || lastNameInput.errors.current !== '' 
+        || fatherNameInput.errors.current !== '' 
+        || ageInput.errors.current !== '' 
+        || emailInput.errors.current !== ''  
+        || passwordInput.errors.current !== ''  
+        || passwordRepeatInput.errors.current !== '';
+
+    const validateInputs = () => {
+        nameInput.ref.current?.focus();
+        lastNameInput.ref.current?.focus();
+        fatherNameInput.ref.current?.focus();
+        ageInput.ref.current?.focus();
+        emailInput.ref.current?.focus();
+        passwordInput.ref.current?.focus();
+        passwordRepeatInput.ref.current?.focus();
+
+        passwordRepeatInput.validate(passwordRepeatInput.value, passwordInput.value);
+    }
 
     const submit = async () => {
+        validateInputs();
+        setRenderTrigger((prev) => !prev);
+
         if (hasErrors()) {
             return;
         }
@@ -107,57 +103,33 @@ export default function RegistrationPage() {
             >
                 <Box>
                     <Box sx={personalDataRowStyles}>
-                        <TextField
+                        <ETextField
                             label={translator('labels.first-name')}
-                            variant="filled"
-                            value={nameInput.value}
+                            inputProvider={nameInput}
                             required={true}
-                            helperText={nameInput.errors}
-                            error={nameInput.errors.length !== 0}
-                            inputRef={nameInput.ref}
-                            onFocus={nameInput.handleChange}
-                            onChange={nameInput.handleChange}
                         />
-                        <TextField
+                        <ETextField
                             label={translator('labels.last-name')}
-                            variant="filled"
-                            value={lastNameInput.value}
+                            inputProvider={lastNameInput}
                             required={true}
-                            helperText={lastNameInput.errors}
-                            error={lastNameInput.errors.length !== 0}
-                            onChange={lastNameInput.handleChange}
-                            inputRef={lastNameInput.ref}
-                            onFocus={lastNameInput.handleChange}
                         />
-                        <TextField 
+                        <ETextField 
                             label={translator('labels.father-name')}
-                            variant="filled"
-                            helperText={fatherNameInput.errors}
-                            value={fatherNameInput.value}
+                            inputProvider={fatherNameInput}
                             required={true}
-                            error={fatherNameInput.errors.length !== 0}
-                            margin="dense"
-                            inputRef={fatherNameInput.ref}
-                            onChange={fatherNameInput.handleChange}
-                            onFocus={fatherNameInput.handleChange}
                         />
                     </Box>
                     <Box sx={personalDataRowStyles}>
-                        <TextField
+                        <ETextField
                             label={translator('labels.age')}
-                            variant="filled"
-                            value={ageInput.value}
+                            inputProvider={ageInput}
+                            required={true}
                             type="number"
-                            required
-                            helperText={ageInput.errors}
-                            error={ageInput.errors.length !== 0}
-                            margin="dense"
-                            inputRef={ageInput.ref}
-                            onChange={ageInput.handleChange}
-                            onFocus={ageInput.handleChange}
                         />
                         <FormControl>
-                            <InputLabel id="role-registration-select-label">{translator('labels.role')}</InputLabel>
+                            <InputLabel id="role-registration-select-label">
+                                {translator('labels.role')}
+                            </InputLabel>
                             <Select
                                 label={translator('labels.role')}
                                 id="role-registration-select"
@@ -172,38 +144,22 @@ export default function RegistrationPage() {
                         </FormControl>
                     </Box>
                     <Box sx={personalDataRowStyles}>
-                        <TextField
+                        <ETextField
                             label={translator('labels.email')}
-                            variant="filled"
-                            value={emailInput.value}
+                            inputProvider={emailInput}
                             required={true}
-                            helperText={emailInput.errors}
-                            error={emailInput.errors.length !== 0}
-                            inputRef={emailInput.ref}
-                            onFocus={emailInput.handleChange}
-                            onChange={emailInput.handleChange}
                         />
-                        <TextField
+                        <ETextField
                             label={translator('labels.password')}
-                            variant="filled"
-                            type="password"
-                            value={passwordInput.value}
+                            inputProvider={passwordInput}
                             required={true}
-                            helperText={passwordInput.errors}
-                            error={passwordInput.errors.length !== 0}
-                            inputRef={passwordInput.ref}
-                            onFocus={passwordInput.handleChange}
-                            onChange={passwordInput.handleChange}
+                            type="password"
                         />
-                        <TextField
+                        <ETextField
                             label={translator('labels.repeat-password')}
-                            variant="filled"
-                            type="password"
-                            value={repeatPassword}
+                            inputProvider={passwordRepeatInput}
                             required={true}
-                            helperText={repeatPasswordErrors}
-                            error={repeatPasswordErrors.length !== 0}
-                            onChange={(e: any) => setRepeatPassword(e.target.value)}
+                            type="password"
                         />
                     </Box>
                 </Box>
