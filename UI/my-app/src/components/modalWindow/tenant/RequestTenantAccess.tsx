@@ -1,5 +1,3 @@
-import { TextField } from "@mui/material";
-import { useRef, useState } from "react";
 import { useCult } from "../../../hooks/useTranslator";
 import Button from "@material-ui/core/Button";
 import { buttonHoverStyles } from "../../../styles/ButtonStyles";
@@ -8,21 +6,22 @@ import { useStore } from "../../../api/stores/StoresManager";
 import { RequestTenantAccessModel } from "../../../models/Tenants";
 import { toast } from "react-toastify";
 import { useInput } from "../../../hooks/useInput";
+import { ETextField } from "../../wrappers/ETextField";
 
 const RequestTenantAccess = ({closeModal}: any) => {
     const { translator } = useCult();
     const { userStore, tenantStore } = useStore();
     
-    const { ref, value, errors, handleChange } = useInput('guid');
+    const tenantCodeInput = useInput('guid');
 
     const sendTenantRequest = async () => {
-        if(errors) {
+        if(tenantCodeInput.errors) {
             return;
         }
 
         const request: RequestTenantAccessModel = {
             userId: userStore.user!.id,
-            tenantId: value
+            tenantId: tenantCodeInput.value
         }
 
         await tenantStore.sendTenantAccessRequest(request)
@@ -32,17 +31,10 @@ const RequestTenantAccess = ({closeModal}: any) => {
     }
     
     return (<>
-        <TextField 
+        <ETextField
             label={translator('labels.tenant-code')}
-            variant="filled"
-            helperText={errors.current}
-            value={value}
+            inputProvider={tenantCodeInput}
             required={true}
-            inputRef={ref}
-            error={errors.current !== ''}
-            margin="dense"
-            onFocus={handleChange}
-            onChange={handleChange}
         />
         <Button
             sx={buttonHoverStyles}   
