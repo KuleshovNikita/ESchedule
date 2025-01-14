@@ -17,6 +17,7 @@ import { useInput } from "../../hooks/inputHooks/useInput";
 import { ETextField } from "../../components/wrappers/ETextField";
 import { useRenderTrigger } from "../../hooks/useRenderTrigger";
 import { useInputValidator } from "../../hooks/inputHooks/useInputValidator";
+import pageRoutes from "../../utils/RoutesProvider";
 
 export default function RegistrationPage() {
     const { translator } = useCult();
@@ -65,15 +66,15 @@ export default function RegistrationPage() {
 
         await userStore.register(user);
         
-        navigate("/login");
+        navigate(pageRoutes.login);
         toast.success(translator('toasts.verification-email-sent'));
     }
 
     const redirectToLogin = () => 
-        navigate("/login");
+        navigate(pageRoutes.login);
 
     const redirectToTenantCreator = () => 
-        navigate("/createTenant");
+        navigate(pageRoutes.createTenant);
 
     const getRolesItems = () => {
         const values = Object.values(Role).filter(x => typeof x !== 'string') as Role[];

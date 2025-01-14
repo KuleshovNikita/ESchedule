@@ -13,6 +13,7 @@ import { useInput } from "../../../hooks/inputHooks/useInput";
 import { ETextField } from "../../../components/wrappers/ETextField";
 import { useRenderTrigger } from "../../../hooks/useRenderTrigger";
 import { useInputValidator } from "../../../hooks/inputHooks/useInputValidator";
+import pageRoutes from "../../../utils/RoutesProvider";
 
 export function CreateTenant() {
     const navigate = useNavigate();
@@ -50,7 +51,7 @@ export function CreateTenant() {
         await tenantStore.createTenant(tenant)
             .then(() => toast.success(translator('toasts.tenant-created')))
             .then(() => loader.hide())
-            .then(() => navigate('/logout'))
+            .then(() => navigate(pageRoutes.logout))
             .catch(err => loader.hide());
     };
 

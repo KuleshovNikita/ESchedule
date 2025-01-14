@@ -2,6 +2,7 @@ import {Navigate, useLocation} from "react-router-dom";
 import { useStore } from "../../api/stores/StoresManager";
 import { Role } from "../../models/Users";
 import { toast } from "react-toastify";
+import pageRoutes from "../../utils/RoutesProvider";
 
 type Props = {
     children: JSX.Element,
@@ -13,7 +14,7 @@ export const Auth = ({children, role = null}: Props) => {
     const { userStore } = useStore();
 
     if (!userStore.isLoggedIn) {
-        return <Navigate to='/login' state={{from: location}}/>
+        return <Navigate to={pageRoutes.login} state={{from: location}}/>
     }
 
     if(role) {
@@ -21,7 +22,7 @@ export const Auth = ({children, role = null}: Props) => {
             return children;
         } else {
             toast.error('You do not have permission to access this page');
-            return <Navigate to='/profile' />
+            return <Navigate to={pageRoutes.profile} />
         }
     }
 

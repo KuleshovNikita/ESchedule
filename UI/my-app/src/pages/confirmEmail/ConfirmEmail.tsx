@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useLoader } from "../../hooks/useLoader";
 import PageBox from "../../components/wrappers/PageBox";
+import pageRoutes from "../../utils/RoutesProvider";
 
 export default function ConfirmEmailPage() {
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ export default function ConfirmEmailPage() {
     }
 
     const redirectToLogin = () => {
-        navigate("/login", { replace: true });
+        navigate(pageRoutes.login, { replace: true });
     }
 
     return (

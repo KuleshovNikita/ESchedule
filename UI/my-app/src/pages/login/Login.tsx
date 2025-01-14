@@ -15,6 +15,7 @@ import { useInput } from "../../hooks/inputHooks/useInput";
 import { ETextField } from "../../components/wrappers/ETextField";
 import { useRenderTrigger } from "../../hooks/useRenderTrigger";
 import { useInputValidator } from "../../hooks/inputHooks/useInputValidator";
+import pageRoutes from "../../utils/RoutesProvider";
 
 export function LoginPage() {
     const navigate = useNavigate();
@@ -47,14 +48,14 @@ export function LoginPage() {
             .catch(err => loader.hide());
 
         loader.hide();
-        navigate('/profile');
+        navigate(pageRoutes.profile);
     };
 
     const redirectToRegistration = () => 
-        navigate("/register");
+        navigate(pageRoutes.register);
 
     const redirectToTenantCreator = () => 
-        navigate("/createTenant");
+        navigate(pageRoutes.createTenant);
 
     return (
         <Loader>

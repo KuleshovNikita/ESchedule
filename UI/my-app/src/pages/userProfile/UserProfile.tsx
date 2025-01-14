@@ -26,6 +26,7 @@ import { useInput } from "../../hooks/inputHooks/useInput";
 import { ETextField } from "../../components/wrappers/ETextField";
 import { useRenderTrigger } from "../../hooks/useRenderTrigger";
 import { useInputValidator } from "../../hooks/inputHooks/useInputValidator";
+import pageRoutes from "../../utils/RoutesProvider";
 
 export default function UserPage() {
     const passwordSecret = "**********";
@@ -92,7 +93,7 @@ export default function UserPage() {
     }
 
     const createTenant = async () => {
-        navigate('/createTenant');
+        navigate(pageRoutes.createTenant);
     }
 
     function getGroupLabelName(): React.ReactNode {
