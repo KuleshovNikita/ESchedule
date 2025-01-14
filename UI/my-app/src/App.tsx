@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AppRoutes from './components/AppRoutes';
+import AppRoutes from './components/routing/AppRoutes';
 import Header from './components/markups/header/Header';
 import {I18nextProvider} from "react-i18next";
 import i18next from "i18next";

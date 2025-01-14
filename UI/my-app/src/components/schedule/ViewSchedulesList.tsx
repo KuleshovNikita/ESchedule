@@ -3,7 +3,7 @@ import { useStore } from "../../api/stores/StoresManager";
 import { noneWord, normalizeUserName } from "../../utils/Utils";
 import { useCult } from "../../hooks/useTranslator";
 import CustomSelect, { SelectItem } from "../CustomSelect";
-import { buttonHoverStyles, buttonImageIconStyle } from "../../styles/ButtonStyles";
+import { buttonHoverStyles } from "../../styles/ButtonStyles";
 import { useNavigate } from "react-router-dom";
 import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
@@ -11,6 +11,7 @@ import Loader from "../hoc/loading/Loader";
 import { useLoader } from "../../hooks/useLoader";
 import EIcon from "../wrappers/EIcon";
 import { observer } from "mobx-react-lite";
+import pageRoutes from "../../utils/RoutesProvider";
 
 const ViewSchedulesList = () => {
     const { userStore, groupStore, tenantStore } = useStore();
@@ -65,7 +66,7 @@ const ViewSchedulesList = () => {
     }
 
     const openSchedule = () => {
-        navigate(`/schedule/${targetSchedule.type}/${targetSchedule.id}`, {replace: false})
+        navigate(`${pageRoutes.scheduleView}/${targetSchedule.type}/${targetSchedule.id}`, {replace: false})
     }
 
     const updateCurrentValue = (item: string) => {

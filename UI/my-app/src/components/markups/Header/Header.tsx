@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import EIcon from '../../wrappers/EIcon';
 import { useRoleCheck } from "../../../hooks/useRoleCheck";
 import { useTenantCheck } from "../../../hooks/useTenantCheck";
+import pageRoutes from "../../../utils/RoutesProvider";
 
 const navOptions = { 
     replace: false
@@ -30,25 +31,25 @@ const Header = () => {
     const location = useLocation();
 
     const logout = () => {
-        navigate('/logout', navOptions);
+        navigate(pageRoutes.logout, navOptions);
     }
 
     const userProfile = () => {
-        navigate('/profile', navOptions);
+        navigate(pageRoutes.profile, navOptions);
     }
 
     const schedules = () => {
-        navigate(`/schedule/teacher/${userStore.user?.id}`, navOptions);
+        navigate(`${pageRoutes.scheduleView}/teacher/${userStore.user?.id}`, navOptions);
     }
 
     const scheduleBuilder = () => {
-        navigate('/tenantManager', navOptions);
+        navigate(pageRoutes.managementPage, navOptions);
     }
 
     return( 
         <>
             {
-                !location.pathname.startsWith('/confirmEmail') 
+                !location.pathname.startsWith(pageRoutes.confirmEmail) 
              &&
                 <Box sx={headerBox}>
                     <Box sx={headerLeftSideBoxStyle}>
@@ -74,8 +75,8 @@ const Header = () => {
                     </Box>
 
                     {
-                       !location.pathname.startsWith('/login') 
-                    && !location.pathname.startsWith('/register') 
+                       !location.pathname.startsWith(pageRoutes.login) 
+                    && !location.pathname.startsWith(pageRoutes.register) 
                     && !location.pathname.startsWith('/createTenant') 
                     &&
                         <Box sx={navigationButtonsStyle}>

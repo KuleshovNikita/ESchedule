@@ -9,6 +9,7 @@ import { GroupsLessonsCreateModel, GroupsLessonsModel, TeachersGroupsLessonsCrea
 import { RuleInputModel, RuleModel, ScheduleModel } from "../models/Schedules";
 import { RequestTenantAccessModel, ScheduleStartEndTime, TenantCreateModel, TenantModel, TenantSettingsCreateModel, TenantSettingsModel, TenantSettingsUpdateModel, TenantUpdateModel } from "../models/Tenants";
 import i18n from "i18next";
+import pageRoutes from "../utils/RoutesProvider";
 
 interface ErrorResponse {
     detail: string
@@ -38,7 +39,7 @@ axios.interceptors.response.use(async (response) => response,
                     store.userStore.logout();
                     toast.error('The session has expired - please login again');
                 }
-                redirect('/login');
+                redirect(pageRoutes.login);
                 break;
             case 403:
                 toast.error(translator('You do not have access to this page'));
