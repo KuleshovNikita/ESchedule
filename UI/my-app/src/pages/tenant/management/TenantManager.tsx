@@ -1,58 +1,42 @@
-import { useCult } from "../../../hooks/useTranslator";
-import { Typography } from "@material-ui/core";
 import Box from "@mui/material/Box";
-import { Button } from "@mui/material";
-import EIcon from "../../../components/wrappers/EIcon";
-import { btnStyle, iconStyle, pageStyle } from "./TenantManagerStyles";
-import { useNavigate } from "react-router-dom";
+import { pageStyle } from "./TenantManagerStyles";
 import PageBox from "../../../components/wrappers/PageBox";
-import { buttonHoverStyles } from "../../../styles/ButtonStyles";
+import { TenantManagerButton } from "./TenantManagerButton";
 
 export default function TenantManager() {
-    const { translator } = useCult();
-    const navigate = useNavigate();
-
     return (
         <PageBox>
             <Box sx={pageStyle}>
-                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/rulesManagement')}>
-                    <EIcon type='edit' sx={iconStyle}/>
-                    <Typography>
-                        {translator('labels.rules-list')}
-                    </Typography>
-                </Button>
+                <TenantManagerButton 
+                    icon={'edit'} 
+                    text={'labels.rules-list'} 
+                    route={'/rulesManagement'}                
+                />
 
-                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/scheduleManagement')}>
-                    <EIcon type='calendar' sx={iconStyle}/>
-                    <Typography>
-                        {translator('labels.schedule-viewer')}
-                    </Typography>
-                </Button>
+                <TenantManagerButton 
+                    icon={'calendar'} 
+                    text={'labels.schedule-viewer'} 
+                    route={'/scheduleManagement'}                
+                />
 
-                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/lessonsManagement')}>
-                    <EIcon type='preview' sx={iconStyle}/>
-                    <Typography>
-                        {translator('labels.lessons-viewer')}
-                    </Typography>
-                </Button>
+                <TenantManagerButton 
+                    icon={'preview'} 
+                    text={'labels.lessons-viewer'} 
+                    route={'/lessonsManagement'}                
+                />
 
-                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/addUserToTenant')}>
-                    <EIcon type='person add' sx={iconStyle}/>
-                    <Box>
-                        <Typography>
-                            {translator('labels.add-user-to-tenant')}
-                        </Typography>
-                    </Box>
-                </Button>
+                <TenantManagerButton 
+                    icon={'person add'} 
+                    text={'labels.add-user-to-tenant'} 
+                    route={'/addUserToTenant'}                
+                />
 
-                <Button sx={btnStyle} variant="contained" onClick={() => navigate('/viewTenantRequests')}>
-                    <EIcon type='list' sx={iconStyle}/>
-                    <Box>
-                        <Typography>
-                            {translator('labels.view-tenant-requests')}
-                        </Typography>
-                    </Box>
-                </Button>
+                <TenantManagerButton 
+                    icon={'list'} 
+                    text={'labels.view-tenant-requests'} 
+                    route={'/viewTenantRequests'}                
+                />
             </Box>
         </PageBox>
-);}
+    );
+}

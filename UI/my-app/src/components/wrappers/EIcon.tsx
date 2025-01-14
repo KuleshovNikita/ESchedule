@@ -16,7 +16,7 @@ import { SxProps, Theme } from "@mui/material";
 import MapsUgcIcon from '@mui/icons-material/MapsUgc';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
-type IconType = 
+export type IconType = 
       'add' 
     | 'remove' 
     | 'delete'
