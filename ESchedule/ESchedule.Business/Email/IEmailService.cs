@@ -5,6 +5,6 @@ namespace ESchedule.Business.Email
 {
     public interface IEmailService
     {
-        Task SendEmailConfirmMessage(UserModel userModel);
+        Task SendConfirmEmailMessage(UserModel userModel);
     }
 }

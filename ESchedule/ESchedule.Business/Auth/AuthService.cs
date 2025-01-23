@@ -104,7 +104,7 @@ namespace ESchedule.Business.Auth
             userDomainModel.Id = Guid.NewGuid();
 
             await _repository.Insert(userDomainModel);
-            await _emailService.SendEmailConfirmMessage(userDomainModel);
+            await _emailService.SendConfirmEmailMessage(userDomainModel);
         }
 
         public async Task<Guid> ConfirmEmail(string key)
