@@ -10,8 +10,6 @@ namespace ESchedule.Business.Auth
 
         Task<string> Login(AuthModel authModel);
 
-        Task<UserModel> ValidateCredentials(AuthModel authModel);
-
         Task Register(UserCreateModel userModel);
 
         Task<UserModel> GetUserInfoWithTenant(Guid id);
