@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Lessons;
@@ -9,7 +10,7 @@ namespace ESchedule.Business.Lessons
     {
         private readonly EScheduleDbContext _context;
 
-        public LessonService(IRepository<LessonModel> repository, IMapper mapper, EScheduleDbContext dbContext) 
+        public LessonService(IRepository<LessonModel> repository, IMainMapper mapper, EScheduleDbContext dbContext) 
             : base(repository, mapper)
         {
             _context = dbContext;

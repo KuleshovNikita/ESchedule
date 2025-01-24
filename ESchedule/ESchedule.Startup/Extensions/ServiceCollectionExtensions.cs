@@ -2,6 +2,7 @@
 using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Responses;
 using ESchedule.Api.Models.Updates;
+using ESchedule.Business.Mappers.Profiles;
 using ESchedule.Business.Modules;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Modules;
@@ -24,6 +25,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 using System.Text;
 
 namespace ESchedule.Startup.Extensions
@@ -35,7 +37,7 @@ namespace ESchedule.Startup.Extensions
             services.AddModule<BusinessModule>();
             services.AddModule<DataAccessModule>();
 
-            services.AddAutoMapper(GetAutoMapperConfigs());
+            services.AddAutoMapper([Assembly.GetAssembly(typeof(MainMapperProfile))]);
 
             return services;
         }
@@ -107,40 +109,5 @@ namespace ESchedule.Startup.Extensions
 
             return services;
         }
-
-        private static Action<IMapperConfigurationExpression> GetAutoMapperConfigs()
-            => cfg =>
-            {
-                cfg.CreateMap<UserCreateModel, UserModel>();
-                cfg.CreateMap<UserUpdateModel, UserModel>();
-                cfg.CreateMap<UserModel, UserUpdateModel>();
-
-                cfg.CreateMap<GroupCreateModel, GroupModel>();
-                cfg.CreateMap<GroupUpdateModel, GroupModel>();
-
-                cfg.CreateMap<LessonCreateModel, LessonModel>();
-                cfg.CreateMap<LessonUpdateModel, LessonModel>();
-
-                cfg.CreateMap<TenantUpdateModel, TenantModel>();
-                cfg.CreateMap<TenantCreateModel, TenantModel>();
-                cfg.CreateMap<TenantSettingsUpdateModel, TenantSettingsModel>();
-                cfg.CreateMap<TenantSettingsCreateModel, TenantSettingsModel>();
-                cfg.CreateMap<RequestTenantAccessCreateModel, RequestTenantAccessModel>();
-
-                cfg.CreateMap<ScheduleUpdateModel, ScheduleModel>();
-                cfg.CreateMap<ScheduleCreateModel, ScheduleModel>();
-                cfg.CreateMap<ScheduleModel, ScheduleItemResponse>()
-                    .ForPath(x => x.Teacher.Name, o => o.MapFrom(x => x.Teacher.Name))
-                    .ForPath(x => x.Teacher.LastName, o => o.MapFrom(x => x.Teacher.LastName))
-                    .ForPath(x => x.Teacher.FatherName, o => o.MapFrom(x => x.Teacher.FatherName))
-                    .ForMember(x => x.GroupName, o => o.MapFrom(x => x.StudyGroup.Title))
-                    .ForMember(x => x.LessonName, o => o.MapFrom(x => x.Lesson.Title));
-
-                cfg.CreateMap<RuleInputModel, RuleModel>();
-
-                cfg.CreateMap<TeachersGroupsLessonsCreateModel, TeachersGroupsLessonsModel>();
-                cfg.CreateMap<TeachersLessonsCreateModel, TeachersLessonsModel>();
-                cfg.CreateMap<GroupsLessonsCreateModel, GroupsLessonsModel>();
-            };
     }
 }

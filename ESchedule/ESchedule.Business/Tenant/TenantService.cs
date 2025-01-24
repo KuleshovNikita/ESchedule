@@ -2,6 +2,7 @@
 using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Auth;
+using ESchedule.Business.Mappers;
 using ESchedule.Business.Users;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Repos;
@@ -33,7 +34,7 @@ namespace ESchedule.Business.Tenant
             IRepository<TenantSettingsModel> settingsRepo,
             IRepository<RequestTenantAccessModel> tenantRequestRepo,
             IAuthRepository authService, 
-            IMapper mapper,
+            IMainMapper mapper,
             IUserService userService,
             IHttpContextAccessor httpAccessor,
             ITenantContextProvider tenantContextProvider, 

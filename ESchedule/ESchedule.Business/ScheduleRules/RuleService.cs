@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ESchedule.Api.Models.Requests;
+using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
@@ -10,7 +11,7 @@ namespace ESchedule.Business.ScheduleRules
     {
         private readonly ITenantContextProvider _tenantContextProvider;
 
-        public RuleService(IRepository<RuleModel> repository, ITenantContextProvider tenantContextProvider, IMapper mapper) : base(repository, mapper)
+        public RuleService(IRepository<RuleModel> repository, ITenantContextProvider tenantContextProvider, IMainMapper mapper) : base(repository, mapper)
         {
             _tenantContextProvider = tenantContextProvider;
         }

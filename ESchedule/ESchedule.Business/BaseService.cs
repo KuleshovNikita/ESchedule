@@ -1,6 +1,5 @@
-﻿using AutoMapper;
-using ESchedule.Api.Models.Updates;
-using ESchedule.Business.Extensions;
+﻿using ESchedule.Api.Models.Updates;
+using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Exceptions;
@@ -12,9 +11,9 @@ namespace ESchedule.Business
         where T : BaseModel
     {
         protected readonly IRepository<T> _repository;
-        protected readonly IMapper _mapper;
+        protected readonly IMainMapper _mapper;
 
-        public BaseService(IRepository<T> repository, IMapper mapper)
+        public BaseService(IRepository<T> repository, IMainMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -61,32 +60,23 @@ namespace ESchedule.Business
 
         public async virtual Task RemoveItem(Guid itemId)
         {
-            if (await ItemExists(itemId))
-            {
-                var items = await GetItems(x => x.Id == itemId);
-                await _repository.Remove(items.First());
-            }
+            await ThrowIfDoesNotExist(itemId);
 
-            throw new EntityNotFoundException();
+            var item = await SingleOrDefault(x => x.Id == itemId);
+            await _repository.Remove(item);
         }
 
         public async virtual Task RemoveItem(T item)
         {
-            if (await ItemExists(item.Id))
-            {
-                await _repository.Remove(item);
-            }
+            await ThrowIfDoesNotExist(item.Id);
 
-            throw new EntityNotFoundException();
+            await _repository.Remove(item);
         }
 
         public async virtual Task UpdateItem<TUpdatedModel>(TUpdatedModel updateModel)
             where TUpdatedModel : BaseUpdateModel
         {
-            if (!await ItemExists(updateModel.Id))
-            {
-                throw new EntityNotFoundException();
-            }
+            await ThrowIfDoesNotExist(updateModel.Id);
 
             var user = await FirstOrDefault(x => x.Id == updateModel.Id);
             user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
@@ -96,5 +86,13 @@ namespace ESchedule.Business
 
         protected async Task<bool> ItemExists(Guid itemId)
             => await _repository.Any(x => x.Id == itemId);
+
+        private async Task ThrowIfDoesNotExist(Guid itemId)
+        {
+            if (!await ItemExists(itemId))
+            {
+                throw new EntityNotFoundException();
+            }
+        }
     }
 }

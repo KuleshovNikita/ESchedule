@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Email;
+using ESchedule.Business.Mappers;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
@@ -30,7 +30,7 @@ public class AuthService : BaseService<UserModel>, IAuthService
     
     public AuthService(
         IRepository<UserModel> repository, 
-        IMapper mapper, 
+        IMainMapper mapper, 
         IPasswordHasher passwordHasher, 
         IEmailService emailService, 
         IConfiguration config,
@@ -64,15 +64,6 @@ public class AuthService : BaseService<UserModel>, IAuthService
             throw new ArgumentNullException(Resources.InvalidDataFoundCantRegisterUser);
         }
 
-        var logins = await _authRepository.Where(x => x.Login == userModel.Login);
-
-        if (logins.Any())
-        {
-            throw new InvalidOperationException(Resources.UserWithSuchEmailAlreadyRegistered);
-        }
-
-        var userDomainModel = _mapper.Map<UserModel>(userModel);
-
         ValidateEmail(userModel.Login);
 
         if (await IsLoginAlreadyRegistered(userModel.Login))
@@ -80,7 +71,9 @@ public class AuthService : BaseService<UserModel>, IAuthService
             throw new InvalidOperationException(Resources.TheLoginIsAlreadyRegistered);
         }
 
-        var hashedPassword = _passwordHasher.HashPassword(userModel.Password);
+        var userDomainModel = _mapper.Map<UserModel>(userModel);        
+
+        var hashedPassword = _passwordHasher.HashPassword(userDomainModel.Password);
         userDomainModel.Password = hashedPassword;
         userDomainModel.Id = Guid.NewGuid();
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Extensions;
+using ESchedule.Business.Mappers;
 using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
@@ -17,7 +18,7 @@ namespace ESchedule.Business.Users
         private readonly IAuthRepository _authRepository;
         private readonly ITenantContextProvider _tenantContextProvider;
 
-        public UserService(IRepository<UserModel> repository, IMapper mapper, IPasswordHasher passwordHasher,
+        public UserService(IRepository<UserModel> repository, IMainMapper mapper, IPasswordHasher passwordHasher,
              ITenantContextProvider tenantContextProvider, IAuthRepository authRepository) 
             : base(repository, mapper)
         {

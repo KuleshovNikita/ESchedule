@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Responses;
+using ESchedule.Business.Mappers;
 using ESchedule.Business.ScheduleRules;
 using ESchedule.Business.Tenant;
 using ESchedule.DataAccess.Repos;
@@ -28,7 +29,7 @@ namespace ESchedule.Business.ScheduleBuilding
 
         public ScheduleService(IBaseService<GroupModel> groupService, IBaseService<UserModel> teacherService,
             IBaseService<LessonModel> lessonService, ITenantService tenantService,
-            IScheduleBuilder scheduleBuilder, IRepository<ScheduleModel> repo, IMapper mapper,
+            IScheduleBuilder scheduleBuilder, IRepository<ScheduleModel> repo, IMainMapper mapper,
             IBaseService<RuleModel> ruleService, ITenantContextProvider tenantContextProvider) 
             : base(repo, mapper)
         {

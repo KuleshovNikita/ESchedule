@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Tenant;
 
@@ -11,7 +12,7 @@ namespace ESchedule.Business.Tenant
         public TenantSettingsService(
             IRepository<TenantSettingsModel> repository, 
             ITenantContextProvider tenantContextProvider, 
-            IMapper mapper) : base(repository, mapper)
+            IMainMapper mapper) : base(repository, mapper)
         {
             _tenantContextProvider = tenantContextProvider;
         }
