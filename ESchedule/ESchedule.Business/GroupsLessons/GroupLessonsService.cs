@@ -3,36 +3,35 @@ using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Tenant;
 
-namespace ESchedule.Business.GroupLessons
+namespace ESchedule.Business.GroupLessons;
+
+public class GroupLessonsService : BaseService<GroupsLessonsModel>
 {
-    public class GroupLessonsService : BaseService<GroupsLessonsModel>
+    protected readonly ITenantContextProvider _tenantContextProvider;
+
+    public GroupLessonsService(
+        IRepository<GroupsLessonsModel> repository, 
+        IMainMapper mapper, 
+        ITenantContextProvider tenantContextProvider) 
+        : base(repository, mapper)
     {
-        protected readonly ITenantContextProvider _tenantContextProvider;
+        _tenantContextProvider = tenantContextProvider;
+    }
 
-        public GroupLessonsService(
-            IRepository<GroupsLessonsModel> repository, 
-            IMainMapper mapper, 
-            ITenantContextProvider tenantContextProvider) 
-            : base(repository, mapper)
+    public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)
+    {
+        if(request == null || !request.Any())
         {
-            _tenantContextProvider = tenantContextProvider;
+            throw new ArgumentNullException(nameof(request));
         }
 
-        public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)
-        {
-            if(request == null || !request.Any())
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+        var mapped = request.Select(x => {
+            var item = _mapper.Map<GroupsLessonsModel>(x);
+            item.TenantId = _tenantContextProvider.Current.TenantId;
 
-            var mapped = request.Select(x => {
-                var item = _mapper.Map<GroupsLessonsModel>(x);
-                item.TenantId = _tenantContextProvider.Current.TenantId;
+            return item;
+        });
 
-                return item;
-            });
-
-            await _repository.InsertMany(mapped);
-        }
+        await _repository.InsertMany(mapped);
     }
 }

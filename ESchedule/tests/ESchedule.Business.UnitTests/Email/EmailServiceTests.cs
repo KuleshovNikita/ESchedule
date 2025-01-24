@@ -12,14 +12,13 @@ public class EmailServiceTests : TestBase<EmailService>
 {
     private Mock<IConfiguration> _mockConfig;
     private Mock<IEmailMessageClient> _mockMessageClient;
-    private EmailService _sut;
 
     public EmailServiceTests()
     {
         _mockConfig = new Mock<IConfiguration>();
         _mockMessageClient = new Mock<IEmailMessageClient>();
 
-        _sut = GetNewSut();
+        Sut = GetNewSut();
     }
 
     [Fact]
@@ -40,7 +39,7 @@ public class EmailServiceTests : TestBase<EmailService>
             .Setup(x => x.GetSection("ClientUrl"))
             .Returns(mockConfigSection.Object);
 
-        await _sut.SendConfirmEmailMessage(userModel);
+        await Sut.SendConfirmEmailMessage(userModel);
 
         _mockMessageClient.Verify(x => x.SendEmail(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
     }
@@ -81,7 +80,7 @@ public class EmailServiceTests : TestBase<EmailService>
             .Setup(x => x.SendEmail(It.IsAny<string>(), It.IsAny<string>()))
             .Callback(new InvocationAction(x => resultEmailMessage = (string)x.Arguments[0]));
 
-        await _sut.SendConfirmEmailMessage(userModel);
+        await Sut.SendConfirmEmailMessage(userModel);
 
         return resultEmailMessage;
     }

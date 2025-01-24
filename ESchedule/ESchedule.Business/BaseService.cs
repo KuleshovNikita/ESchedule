@@ -87,7 +87,7 @@ namespace ESchedule.Business
         protected async Task<bool> ItemExists(Guid itemId)
             => await _repository.Any(x => x.Id == itemId);
 
-        private async Task ThrowIfDoesNotExist(Guid itemId)
+        protected async Task ThrowIfDoesNotExist(Guid itemId)
         {
             if (!await ItemExists(itemId))
             {

@@ -28,9 +28,7 @@ public class AuthServiceTests : TestBase<AuthService>
     private Mock<IPasswordHasher> _mockPasswordHasher;
     private Mock<IRepository<UserModel>> _mockUserRepository;  
     private Mock<IMainMapper> _mockMapper;
-    private IConfiguration _configuration;  
-
-    private AuthService _sut;
+    private IConfiguration _configuration;
 
     public AuthServiceTests()
     {
@@ -53,7 +51,7 @@ public class AuthServiceTests : TestBase<AuthService>
                         .AddInMemoryCollection(inMemorySettings)
                         .Build();
 
-        _sut = GetNewSut();
+        Sut = GetNewSut();
     }
 
     [Fact]
@@ -63,7 +61,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.FirstOrDefault(IsAny<Expression<Func<UserModel, bool>>>()))
             .ReturnsAsync(new UserModel { IsEmailConfirmed = true });
 
-        var action = async () => await _sut.ConfirmEmail("test-key");
+        var action = async () => await Sut.ConfirmEmail("test-key");
 
         await action.Should().ThrowAsync<Exception>();
     }
@@ -87,7 +85,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.Any(IsAny<Expression<Func<UserModel, bool>>>()))
             .ReturnsAsync(true);
 
-        var id = await _sut.ConfirmEmail("test-key");
+        var id = await Sut.ConfirmEmail("test-key");
 
         id.Should().NotBeEmpty();
     }
@@ -95,7 +93,7 @@ public class AuthServiceTests : TestBase<AuthService>
     [Fact]
     public async Task Login_Throws_IfArgumentIsNull()
     {
-        var action = async () => await _sut.Login(null!);
+        var action = async () => await Sut.Login(null!);
 
         await action.Should().ThrowAsync<ArgumentNullException>();
     }
@@ -103,7 +101,7 @@ public class AuthServiceTests : TestBase<AuthService>
     [Fact]
     public async Task Login_Throws_IfLoginIsNotEmailFormat()
     {
-        var action = async () => await _sut.Login(new AuthModel { Login = "invalid_login"});
+        var action = async () => await Sut.Login(new AuthModel { Login = "invalid_login"});
 
         await action.Should().ThrowAsync<FormatException>();
     }
@@ -115,7 +113,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.FirstOrDefault(IsAny<Expression<Func<UserModel, bool>>>()))
             .ReturnsAsync(new UserModel { IsEmailConfirmed = false });
 
-        var action = async () => await _sut.Login(new AuthModel { Login = "admin@admin.com" });
+        var action = async () => await Sut.Login(new AuthModel { Login = "admin@admin.com" });
 
         await action.Should().ThrowAsync<AuthenticationException>();
     }
@@ -130,7 +128,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.ComparePasswords(IsAny<string>(), IsAny<string>()))
             .Returns(false);
 
-        var action = async () => await _sut.Login(new AuthModel { Login = "admin@admin.com" });
+        var action = async () => await Sut.Login(new AuthModel { Login = "admin@admin.com" });
 
         await action.Should().ThrowAsync<AuthenticationException>();
     }
@@ -154,7 +152,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.ComparePasswords(IsAny<string>(), IsAny<string>()))
             .Returns(true);
 
-        var token = await _sut.Login(new AuthModel { Login = "admin@admin.com", Password = "password" });
+        var token = await Sut.Login(new AuthModel { Login = "admin@admin.com", Password = "password" });
 
         token.Should().NotBeNullOrEmpty();
     }
@@ -162,7 +160,7 @@ public class AuthServiceTests : TestBase<AuthService>
     [Fact]
     public async Task Register_Throws_IfArgumentIsNull()
     {
-        var action = async () => await _sut.Register(null!);
+        var action = async () => await Sut.Register(null!);
 
         await action.Should().ThrowAsync<ArgumentNullException>();
     }
@@ -179,7 +177,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.Any(IsAny<Expression<Func<UserModel, bool>>>()))
             .ReturnsAsync(true);
 
-        var action = async () => await _sut.Register(userCreateModel);
+        var action = async () => await Sut.Register(userCreateModel);
 
         await action.Should().ThrowAsync<InvalidOperationException>();
     }
@@ -192,7 +190,7 @@ public class AuthServiceTests : TestBase<AuthService>
             Login = "invalid_login"
         };
 
-        var action = async () => await _sut.Register(new());
+        var action = async () => await Sut.Register(new());
 
         await action.Should().ThrowAsync<FormatException>();
     }
@@ -212,7 +210,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.Map<UserModel>(IsAny<UserCreateModel>()))
             .Returns(mappedUserModel);
 
-        await _sut.Register(createModel);
+        await Sut.Register(createModel);
 
         _mockPasswordHasher.Verify(x => x.HashPassword(IsAny<string>()), Times.Once);
     }
@@ -237,7 +235,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.HashPassword(IsAny<string>()))
             .Returns(hashedPassword);
 
-        await _sut.Register(createModel);
+        await Sut.Register(createModel);
 
         mappedUserModel.Password.Should().Be(hashedPassword);
     }
@@ -258,7 +256,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.Map<UserModel>(IsAny<UserCreateModel>()))
             .Returns(mappedUserModel);
 
-        await _sut.Register(createModel);
+        await Sut.Register(createModel);
 
         mappedUserModel.Id.Should().NotBeEmpty();
     }
@@ -278,7 +276,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.Map<UserModel>(IsAny<UserCreateModel>()))
             .Returns(mappedUserModel);
 
-        await _sut.Register(createModel);
+        await Sut.Register(createModel);
 
         _mockUserRepository.Verify(x => x.Insert(mappedUserModel), Times.Once);
     }
@@ -298,7 +296,7 @@ public class AuthServiceTests : TestBase<AuthService>
             .Setup(x => x.Map<UserModel>(IsAny<UserCreateModel>()))
             .Returns(mappedUserModel);
 
-        await _sut.Register(createModel);
+        await Sut.Register(createModel);
 
         _mockEmailService.Verify(x => x.SendConfirmEmailMessage(mappedUserModel), Times.Once);
     }
