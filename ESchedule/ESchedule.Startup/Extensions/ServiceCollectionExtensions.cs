@@ -1,21 +1,11 @@
-﻿using AutoMapper;
-using ESchedule.Api.Models.Requests;
-using ESchedule.Api.Models.Responses;
-using ESchedule.Api.Models.Updates;
-using ESchedule.Business.Mappers.Profiles;
+﻿using ESchedule.Business.Mappers.Profiles;
 using ESchedule.Business.Modules;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Modules;
 using ESchedule.Domain.Auth;
-using ESchedule.Domain.Lessons;
-using ESchedule.Domain.Lessons.Schedule;
-using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Modules;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Policy.Requirements;
-using ESchedule.Domain.Schedule.Rules;
-using ESchedule.Domain.Tenant;
-using ESchedule.Domain.Users;
 using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -37,7 +27,7 @@ namespace ESchedule.Startup.Extensions
             services.AddModule<BusinessModule>();
             services.AddModule<DataAccessModule>();
 
-            services.AddAutoMapper([Assembly.GetAssembly(typeof(MainMapperProfile))]);
+            services.AddAutoMapper([Assembly.GetAssembly(typeof(UserProfile))]);
 
             return services;
         }

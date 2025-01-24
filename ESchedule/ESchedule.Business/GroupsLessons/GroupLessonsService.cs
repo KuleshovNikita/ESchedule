@@ -1,12 +1,11 @@
-﻿using AutoMapper;
-using ESchedule.Business.Mappers;
+﻿using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Tenant;
 
 namespace ESchedule.Business.GroupLessons
 {
-    internal class GroupLessonsService : BaseService<GroupsLessonsModel>
+    public class GroupLessonsService : BaseService<GroupsLessonsModel>
     {
         protected readonly ITenantContextProvider _tenantContextProvider;
 
