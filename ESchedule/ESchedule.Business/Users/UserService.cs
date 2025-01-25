@@ -41,9 +41,9 @@ public class UserService : BaseService<UserModel>, IUserService
     {
         var isPasswordChanged = updateModel.Password != null;
 
-        await ThrowIfDoesNotExist(updateModel.Id);
+        var user = await SingleOrDefault(x => x.Id == updateModel.Id)
+            ?? throw new EntityNotFoundException();
 
-        var user = await FirstOrDefault(x => x.Id == updateModel.Id);
         user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
 
         if (isPasswordChanged)

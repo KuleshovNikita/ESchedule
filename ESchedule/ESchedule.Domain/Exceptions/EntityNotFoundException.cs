@@ -1,17 +1,18 @@
 ﻿using ESchedule.Domain.Properties;
 
-namespace ESchedule.Domain.Exceptions
+namespace ESchedule.Domain.Exceptions;
+
+public class EntityNotFoundException : Exception
 {
-    public class EntityNotFoundException : Exception
+    private static readonly string DefaultMessage = Resources.TheItemDoesntExist;
+
+    public EntityNotFoundException() : base(DefaultMessage)
     {
-        public EntityNotFoundException() : base(Resources.TheItemDoesntExist)
-        {
 
-        }
+    }
 
-        public EntityNotFoundException(string message) : base(message)
-        {
+    public EntityNotFoundException(string? message) : base(message ?? DefaultMessage)
+    {
 
-        }
     }
 }
