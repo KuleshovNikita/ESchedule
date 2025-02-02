@@ -1,0 +1,9 @@
+services:
+  eschedule.api:
+    image: ${DOCKER_REGISTRY-}escheduleapi
+    container_name: "eschedule-api"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "20001:20001" 
