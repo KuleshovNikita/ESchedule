@@ -13,6 +13,7 @@ using FluentAssertions;
 using Moq;
 using System.Linq.Expressions;
 using static Moq.It;
+
 namespace ESchedule.Business.UnitTests.User;
 
 public class UserServiceTests : TestBase<UserService>

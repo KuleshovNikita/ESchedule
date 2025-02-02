@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Schedule.Rules;
@@ -18,10 +17,7 @@ namespace ESchedule.Business.ScheduleRules
 
         public async Task<RuleModel> CreateRule(RuleInputModel request)
         {
-            if(request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            ArgumentNullException.ThrowIfNull(request);
 
             var mapped = _mapper.Map<RuleModel>(request);
             mapped.Id = Guid.NewGuid();
