@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Tenant;
 
@@ -9,9 +10,9 @@ namespace ESchedule.Business.Tenant
         private readonly ITenantContextProvider _tenantContextProvider;
 
         public TenantSettingsService(
-            IRepository<TenantSettingsModel> repository, 
-            ITenantContextProvider tenantContextProvider, 
-            IMapper mapper) : base(repository, mapper)
+            IRepository<TenantSettingsModel> repository,
+            ITenantContextProvider tenantContextProvider,
+            IMainMapper mapper) : base(repository, mapper)
         {
             _tenantContextProvider = tenantContextProvider;
         }
@@ -23,7 +24,7 @@ namespace ESchedule.Business.Tenant
             var currentTime = tenantSettings.StudyDayStartTime;
             var resultList = new List<object>();
 
-            for(var i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var endTime = currentTime + tenantSettings.LessonDurationTime;
                 resultList.Add(new { startTime = currentTime, endTime = endTime });

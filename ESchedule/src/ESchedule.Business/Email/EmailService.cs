@@ -1,62 +1,38 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Net.Mail;
-using System.Net;
+﻿using ESchedule.Business.Email.Client;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
+using Microsoft.Extensions.Configuration;
 
-namespace ESchedule.Business.Email
+namespace ESchedule.Business.Email;
+
+public class EmailService(
+    IConfiguration config,
+    IEmailMessageClient messageClient
+)
+    : IEmailService
 {
-    public class EmailService : IEmailService
+    public async Task SendConfirmEmailMessage(UserModel userModel)
     {
-        private readonly IConfiguration _config;
+        var confirmUrl = BuildConfirmUrl(userModel);
+        var message = BuildEmailMessage(confirmUrl);
+        await messageClient.SendEmail(message, userModel.Login);
+    }
 
-        public EmailService(IConfiguration config)
-        {
-            _config = config;
-        }
+    private string BuildConfirmUrl(UserModel userModel)
+    {
+        var serverUrl = config.GetSection("ClientUrl").Value;
 
-        public async Task SendEmailConfirmMessage(UserModel userModel)
-        {
-            var confirmUrl = BuildConfirmUrl(userModel);
-            var message = BuildEmailMessage(confirmUrl);
-            await SendEmail(message, userModel.Login);
-        }
+        var encodedHashKey = Uri.EscapeDataString(userModel.Password);
+        var confirmEndpoint = $"/confirmEmail/{encodedHashKey}";
 
-        private string BuildConfirmUrl(UserModel userModel)
-        {
-            var serverUrl = _config.GetSection("ClientUrl").Value;
+        return serverUrl + confirmEndpoint;
+    }
 
-            var encodedHashKey = Uri.EscapeDataString(userModel.Password);
-            var confirmEndpoint = $"/confirmEmail/{encodedHashKey}";
+    private string BuildEmailMessage(string confirmUrl)
+    {
+        var messageTemplate = Resources.EmailMessageTemplate;
+        var messageWithLink = string.Format(messageTemplate, confirmUrl);
 
-            return serverUrl + confirmEndpoint;
-        }
-
-        private string BuildEmailMessage(string confirmUrl)
-        {
-            var messageTemplate = Resources.EmailMessageTemplate;
-            var messageWithLink = string.Format(messageTemplate, confirmUrl);
-
-            return messageWithLink;
-        }
-
-        private async Task SendEmail(string message, string consumer)
-        {
-            var host = _config.GetSection("EmailBotData:Host").Value;
-            var sender = _config.GetSection("EmailBotData:BotMail").Value;
-            var password = _config.GetSection("EmailBotData:Password").Value;
-
-            var client = new SmtpClient
-            {
-                Port = 587,
-                Host = host!,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(sender, password)
-            };
-
-            await client.SendMailAsync(sender!, consumer, Resources.ConfirmYourEmail, message);
-        }
+        return messageWithLink;
     }
 }

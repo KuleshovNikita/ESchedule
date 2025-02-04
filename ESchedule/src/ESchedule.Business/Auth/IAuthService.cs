@@ -2,20 +2,17 @@
 using ESchedule.Domain;
 using ESchedule.Domain.Users;
 
-namespace ESchedule.Business.Auth
+namespace ESchedule.Business.Auth;
+
+public interface IAuthService : IBaseService<UserModel>
 {
-    public interface IAuthService : IBaseService<UserModel>
-    {
-        Task<Guid> ConfirmEmail(string key);
+    Task<Guid> ConfirmEmail(string key);
 
-        Task<string> Login(AuthModel authModel);
+    Task<string> Login(AuthModel authModel);
 
-        Task<UserModel> ValidateCredentials(AuthModel authModel);
+    Task Register(UserCreateModel userModel);
 
-        Task Register(UserCreateModel userModel);
+    Task<UserModel> GetUserInfoWithTenant(Guid id);
 
-        Task<UserModel> GetUserInfoWithTenant(Guid id);
-
-        Task<UserModel> GetUserInfoWithoutTenant(Guid id);
-    }
+    Task<UserModel> GetUserInfoWithoutTenant(Guid id);
 }

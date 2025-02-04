@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Tenant;
@@ -11,7 +12,7 @@ namespace ESchedule.Business.TeachersLessons
 
         public TeachersLessonsService(
             IRepository<TeachersLessonsModel> repository,
-            IMapper mapper,
+            IMainMapper mapper,
             ITenantContextProvider tenantContextProvider)
             : base(repository, mapper)
         {
