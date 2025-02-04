@@ -6,7 +6,6 @@ using ESchedule.Domain.Auth;
 using ESchedule.Domain.Modules;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Policy.Requirements;
-using ESchedule.ServiceResulting;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -19,94 +18,93 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
 
-namespace ESchedule.Startup.Extensions
+namespace ESchedule.Startup.Extensions;
+
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+    public static IServiceCollection RegisterDependencies(this IServiceCollection services)
     {
-        public static IServiceCollection RegisterDependencies(this IServiceCollection services)
+        services.AddModule<BusinessModule>();
+        services.AddModule<DataAccessModule>();
+
+        services.AddAutoMapper([Assembly.GetAssembly(typeof(UserProfile))]);
+
+        return services;
+    }
+
+    public static IServiceCollection ConfigureDbConnection(this IServiceCollection services, ConfigurationManager config)
+        => services
+            .AddDbContext<TenantEScheduleDbContext>(ServiceLifetime.Transient)
+            .AddDbContext<EScheduleDbContext>(
+                opt => opt.UseSqlServer(config.GetConnectionString("SqlServer")!),
+                ServiceLifetime.Transient
+            );
+
+    public static void ConfigureAuthorization(this IServiceCollection services)
+    {
+        services.AddSingleton<IAuthorizationHandler, DispatcherRoleHandler>();
+        services.AddSingleton<IAuthorizationHandler, TeacherRoleHandler>();
+
+        services.AddAuthorization(opt =>
         {
-            services.AddModule<BusinessModule>();
-            services.AddModule<DataAccessModule>();
+            opt.AddPolicy(Policies.TeacherOnly, p => p.Requirements.Add(new TeacherRoleRequirement()));
+            opt.AddPolicy(Policies.DispatcherOnly, p => p.Requirements.Add(new DispatcherRoleRequirement()));
+        });
+    }
 
-            services.AddAutoMapper([Assembly.GetAssembly(typeof(UserProfile))]);
-
-            return services;
-        }
-
-        public static IServiceCollection ConfigureDbConnection(this IServiceCollection services, ConfigurationManager config)
-            => services
-                .AddDbContext<TenantEScheduleDbContext>(ServiceLifetime.Transient)
-                .AddDbContext<EScheduleDbContext>(
-                    opt => opt.UseSqlServer(config.GetConnectionString("SqlServer")!),
-                    ServiceLifetime.Transient
-                );
-
-        public static void ConfigureAuthorization(this IServiceCollection services)
-        {
-            services.AddSingleton<IAuthorizationHandler, DispatcherRoleHandler>();
-            services.AddSingleton<IAuthorizationHandler, TeacherRoleHandler>();
-
-            services.AddAuthorization(opt =>
+    public static AuthenticationBuilder ConfigureAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
+        => services
+            .AddAuthentication("OAuth")
+            .AddJwtBearer("OAuth", cfg =>
             {
-                opt.AddPolicy(Policies.TeacherOnly, p => p.Requirements.Add(new TeacherRoleRequirement()));
-                opt.AddPolicy(Policies.DispatcherOnly, p => p.Requirements.Add(new DispatcherRoleRequirement()));
-            });
-        }
+                var secretBytes = Encoding.UTF8.GetBytes(jwtSettings.Secret);
+                var key = new SymmetricSecurityKey(secretBytes);
 
-        public static AuthenticationBuilder ConfigureAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
-            => services
-                .AddAuthentication("OAuth")
-                .AddJwtBearer("OAuth", cfg =>
+                cfg.TokenValidationParameters = new TokenValidationParameters
                 {
-                    var secretBytes = Encoding.UTF8.GetBytes(jwtSettings.Secret);
-                    var key = new SymmetricSecurityKey(secretBytes);
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Audience,
+                    IssuerSigningKey = key
+                };
 
-                    cfg.TokenValidationParameters = new TokenValidationParameters
+                cfg.Events = new JwtBearerEvents
+                {
+                    OnChallenge = async context =>
                     {
-                        ValidIssuer = jwtSettings.Issuer,
-                        ValidAudience = jwtSettings.Audience,
-                        IssuerSigningKey = key
-                    };
+                        context.HandleResponse();
+                        context.Response.StatusCode = 401;
+                        await context.Response.WriteAsJsonAsync(
+                            new ProblemDetails
+                            {
+                                Status = 401,
+                                Detail = "Not authenticated"
+                            }
+                        );
+                    }
+                };
 
-                    cfg.Events = new JwtBearerEvents
+                cfg.Events = new JwtBearerEvents
+                {
+                    OnForbidden = async context =>
                     {
-                        OnChallenge = async context =>
-                        {
-                            context.HandleResponse();
-                            context.Response.StatusCode = 401;
-                            await context.Response.WriteAsJsonAsync(
-                                new ProblemDetails
-                                {
-                                    Status = 401,
-                                    Detail = "Not authenticated"
-                                }
-                            );
-                        }
-                    };
+                        context.Response.StatusCode = 403;
+                        await context.Response.WriteAsJsonAsync(
+                            new ProblemDetails
+                            {
+                                Status = 403,
+                                Detail = "You don't have permissions for this action"
+                            }
+                        );
+                    }
+                };
+            });
 
-                    cfg.Events = new JwtBearerEvents
-                    {
-                        OnForbidden = async context =>
-                        {
-                            context.Response.StatusCode = 403;
-                            await context.Response.WriteAsJsonAsync(
-                                new ProblemDetails
-                                {
-                                    Status = 403,
-                                    Detail = "You don't have permissions for this action"
-                                }
-                            );
-                        }
-                    };
-                });
+    private static IServiceCollection AddModule<TModule>(this IServiceCollection services)
+        where TModule : IModule, new()
+    {
+        var module = new TModule();
+        module.ConfigureModule(services);
 
-        private static IServiceCollection AddModule<TModule>(this IServiceCollection services)
-            where TModule : IModule, new()
-        {
-            var module = new TModule();
-            module.ConfigureModule(services);
-
-            return services;
-        }
+        return services;
     }
 }
