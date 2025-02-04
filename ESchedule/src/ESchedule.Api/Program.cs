@@ -1,13 +1,12 @@
 using ESchedule.Api.Middlewares;
 using ESchedule.DataAccess.Context;
-using ESchedule.Domain.Auth;
 using ESchedule.Startup.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+var environment = builder.Environment;
 
 builder.Services.AddLogging()
                 .AddControllers()
@@ -17,43 +16,19 @@ builder.Services.AddLogging()
                     opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                     opt.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 });
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(cfg =>
-{
-    cfg.ResolveConflictingActions(api => api.First());
-    cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        Name = "Authorization",
-        In = ParameterLocation.Header
-    });
-    cfg.AddSecurityRequirement(new OpenApiSecurityRequirement 
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-    });
-});
-builder.Services.RegisterDependencies();
-builder.Services.ConfigureCors(builder.Environment);
-builder.Services.AddHttpContextAccessor();
 
-builder.Services.ConfigureAuthentication(configuration.GetSection("Jwt").Get<JwtSettings>()!);
-builder.Services.ConfigureAuthorization();
-builder.Services.ConfigureDbConnection(configuration);
+builder.Services.AddDevelopmentServices(environment)
+                .AddEndpointsApiExplorer()
+                .RegisterDependencyModules()
+                .AddAutoMappers()
+                .AddHttpContextAccessor()
+                .AddDbContext(configuration)
+                .AddCustomAuthentication(configuration)
+                .AddCustomAuthorization();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
