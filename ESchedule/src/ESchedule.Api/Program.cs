@@ -44,7 +44,7 @@ builder.Services.AddSwaggerGen(cfg =>
     });
 });
 builder.Services.RegisterDependencies();
-builder.Services.AddCors(x => x.AllowAnyOriginPolicy());
+builder.Services.ConfigureCors(builder.Environment);
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureAuthentication(configuration.GetSection("Jwt").Get<JwtSettings>()!);
