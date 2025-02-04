@@ -27,6 +27,7 @@
     <ProjectReference Include="..\ESchedule.Api.Models\ESchedule.Api.Models.csproj" />
     <ProjectReference Include="..\ESchedule.Domain\ESchedule.Domain.csproj" />
     <ProjectReference Include="..\ESchedule.Startup\ESchedule.Startup.csproj" />
+    <ProjectReference Include="..\PowerInfrastructure\PowerInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESchedule.UnitTestsHelpers"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESchedule.Business.UnitTests", "tests\ESchedule.Business.UnitTests\ESchedule.Business.UnitTests.csproj", "{D3B09304-AA07-4808-A252-D78F93C1661A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerInfrastructure", "src\PowerInfrastructure\PowerInfrastructure.csproj", "{9AE81C78-F24F-4629-A203-B8527A03509C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{D3B09304-AA07-4808-A252-D78F93C1661A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3B09304-AA07-4808-A252-D78F93C1661A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3B09304-AA07-4808-A252-D78F93C1661A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE81C78-F24F-4629-A203-B8527A03509C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE81C78-F24F-4629-A203-B8527A03509C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE81C78-F24F-4629-A203-B8527A03509C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE81C78-F24F-4629-A203-B8527A03509C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

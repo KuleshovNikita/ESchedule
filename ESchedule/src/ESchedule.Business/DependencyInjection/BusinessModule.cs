@@ -15,13 +15,16 @@ using ESchedule.Core.Interfaces;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Modules;
 using Microsoft.Extensions.DependencyInjection;
+using PowerInfrastructure.DependencyInjection;
 
-namespace ESchedule.Business.Modules;
+namespace ESchedule.Business.DependencyInjection;
 
 public class BusinessModule : IModule
 {
     public IServiceCollection ConfigureModule(IServiceCollection services)
     {
+        services.AddMigrationCommands();
+
         services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 
         services.AddScoped<IAuthService, AuthService>();

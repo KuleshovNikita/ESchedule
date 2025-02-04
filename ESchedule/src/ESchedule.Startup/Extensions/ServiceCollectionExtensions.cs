@@ -1,5 +1,5 @@
 ﻿using ESchedule.Business.Mappers.Profiles;
-using ESchedule.Business.Modules;
+using ESchedule.Business.DependencyInjection;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Modules;
 using ESchedule.Domain.Auth;

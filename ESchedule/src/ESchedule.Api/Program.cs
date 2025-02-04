@@ -1,7 +1,7 @@
 using ESchedule.Api.Middlewares;
-using ESchedule.DataAccess.Context;
 using ESchedule.Startup.Extensions;
 using Microsoft.EntityFrameworkCore;
+using PowerInfrastructure.Extensions;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +9,7 @@ var configuration = builder.Configuration;
 var environment = builder.Environment;
 
 builder.Services.AddLogging()
+                .AddEndpointsApiExplorer()
                 .AddControllers()
                 .AddJsonOptions(opt =>
                 {
@@ -18,7 +19,6 @@ builder.Services.AddLogging()
                 });
 
 builder.Services.AddDevelopmentServices(environment)
-                .AddEndpointsApiExplorer()
                 .RegisterDependencyModules()
                 .AddAutoMappers()
                 .AddHttpContextAccessor()
@@ -46,9 +46,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var options = new DbContextOptionsBuilder<EScheduleDbContext>().UseSqlServer(configuration.GetConnectionString("SqlServer")!);
-using var context = new EScheduleDbContext(options.Options);
-await context.Database.MigrateAsync();
+var migrationResult = await app.Migrate();
+if(!migrationResult)
+{
+    app.Run();
+}
 
 
-app.Run();
+
