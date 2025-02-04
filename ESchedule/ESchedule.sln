@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Api", "ESchedule.Api\ESchedule.Api.csproj", "{EB95C841-A5FD-48AC-8EC7-BB328B6DCA95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Api", "src\ESchedule.Api\ESchedule.Api.csproj", "{EB95C841-A5FD-48AC-8EC7-BB328B6DCA95}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Domain", "ESchedule.Domain\ESchedule.Domain.csproj", "{24FCEAD4-58BC-4608-84EC-B59BA98D732F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Domain", "src\ESchedule.Domain\ESchedule.Domain.csproj", "{24FCEAD4-58BC-4608-84EC-B59BA98D732F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.DataAccess", "ESchedule.DataAccess\ESchedule.DataAccess.csproj", "{0DA51E0B-C618-4CFA-A850-2D15B46CACDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.DataAccess", "src\ESchedule.DataAccess\ESchedule.DataAccess.csproj", "{0DA51E0B-C618-4CFA-A850-2D15B46CACDA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Startup", "ESchedule.Startup\ESchedule.Startup.csproj", "{A81719E5-3463-4A81-8492-A4D104691747}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Startup", "src\ESchedule.Startup\ESchedule.Startup.csproj", "{A81719E5-3463-4A81-8492-A4D104691747}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Api.Models", "ESchedule.Api.Models\ESchedule.Api.Models.csproj", "{C4464C43-DFAE-4D2B-9A6F-F32D2B4AE404}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Api.Models", "src\ESchedule.Api.Models\ESchedule.Api.Models.csproj", "{C4464C43-DFAE-4D2B-9A6F-F32D2B4AE404}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Business", "ESchedule.Business\ESchedule.Business.csproj", "{26C09738-9F8D-4311-9555-BFFB9643C2C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESchedule.Business", "src\ESchedule.Business\ESchedule.Business.csproj", "{26C09738-9F8D-4311-9555-BFFB9643C2C0}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B0FAE382-786E-485D-964E-9FBF860D6DA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{26C09738-9F8D-4311-9555-BFFB9643C2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26C09738-9F8D-4311-9555-BFFB9643C2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26C09738-9F8D-4311-9555-BFFB9643C2C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0FAE382-786E-485D-964E-9FBF860D6DA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0FAE382-786E-485D-964E-9FBF860D6DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0FAE382-786E-485D-964E-9FBF860D6DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0FAE382-786E-485D-964E-9FBF860D6DA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
