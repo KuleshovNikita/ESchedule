@@ -1,9 +1,42 @@
 services:
   eschedule.api:
-    image: ${DOCKER_REGISTRY-}escheduleapi
+    depends_on:
+      mssqlserver:
+        condition: service_started
+    image: localdockerimage:dev
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
     container_name: "eschedule-api"
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./src/ESchedule.Api/Dockerfile
     ports:
-      - "20001:20001" 
+      - "20000:443" 
+      - "20001:80" 
+    networks:
+      - mynetwork
+
+  mssqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: "mssqlserver"
+    hostname: "mssqlserver"
+    restart: always
+    environment:
+      - MSSQL_SA_PASSWORD=admin123456
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+    ports:
+      - "1434:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - mynetwork
+
+volumes:
+  mssql_data:
+  
+networks:
+  mynetwork:
+    driver: bridge
+    name: mynetwork

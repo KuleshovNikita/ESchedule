@@ -9,7 +9,8 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-builder.Services.AddControllers()
+builder.Services.AddLogging()
+                .AddControllers()
                 .AddJsonOptions(opt =>
                 {
                     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -72,6 +73,7 @@ app.MapControllers();
 
 var options = new DbContextOptionsBuilder<EScheduleDbContext>().UseSqlServer(configuration.GetConnectionString("SqlServer")!);
 using var context = new EScheduleDbContext(options.Options);
-context.Database.Migrate();
+await context.Database.MigrateAsync();
+
 
 app.Run();

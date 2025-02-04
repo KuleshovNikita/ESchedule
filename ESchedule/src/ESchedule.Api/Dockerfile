@@ -13,7 +13,7 @@ RUN dotnet restore ESchedule.Api/ESchedule.Api.csproj
 
 COPY src .
 
-RUN dotnet publish ESchedule.Api/ESchedule.Api.csproj -c Debug -o /out --no-restore
+RUN dotnet publish ESchedule.Api/ESchedule.Api.csproj -c Release -o /out --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 
