@@ -13,7 +13,6 @@ public static class IHostExtensions
         var migrationCommands = scope.ServiceProvider.GetServices<IMigrationCommand>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<IHost>>();
 
-
         try
         {
             foreach (var command in migrationCommands)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyModel;
 using PowerInfrastructure.Integration;
 using System.Reflection;
 
@@ -15,11 +14,15 @@ public static class Integration
     /// <returns>
     /// <see cref="IServiceCollection"/> so that other calls can be chained
     /// </returns>
-    public static IServiceCollection AddMigrationCommands(this IServiceCollection services)
-        => services.Scan(x =>
-            x.FromDependencyContext(DependencyContext.Load(Assembly.GetCallingAssembly())!)
+    public static IServiceCollection AddMigrationCommands(this IServiceCollection services, Type type)
+    {
+        var assembly = Assembly.GetCallingAssembly();
+
+        return services.Scan(x =>
+            x.FromAssemblies(assembly)
                 .AddClasses(x => x.AssignableTo<IMigrationCommand>())
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
-            );
+        );
+    }
 }

@@ -46,8 +46,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var migrationResult = await app.Migrate();
-if(!migrationResult)
+var migratedSuccessfully = await app.Migrate();
+if(migratedSuccessfully)
 {
     app.Run();
 }

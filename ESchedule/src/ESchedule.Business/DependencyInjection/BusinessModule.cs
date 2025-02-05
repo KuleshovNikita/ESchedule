@@ -5,6 +5,7 @@ using ESchedule.Business.GroupLessons;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Lessons;
 using ESchedule.Business.Mappers;
+using ESchedule.Business.MigrationCommands;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Business.ScheduleRules;
 using ESchedule.Business.TeachersGroupsLessons;
@@ -23,7 +24,7 @@ public class BusinessModule : IModule
 {
     public IServiceCollection ConfigureModule(IServiceCollection services)
     {
-        services.AddMigrationCommands();
+        services.AddMigrationCommands(typeof(DatabaseMigrationCommand));
 
         services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 
