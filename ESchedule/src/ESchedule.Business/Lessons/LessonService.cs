@@ -5,15 +5,14 @@ using ESchedule.Domain.Lessons;
 
 namespace ESchedule.Business.Lessons;
 
-public class LessonService : BaseService<LessonModel>, ILessonService
+public class LessonService(
+    IRepository<LessonModel> repository, 
+    IMainMapper mapper, 
+    EScheduleDbContext dbContext
+) 
+    : BaseService<LessonModel>(repository, mapper), ILessonService
 {
-    private readonly EScheduleDbContext _context;
-
-    public LessonService(IRepository<LessonModel> repository, IMainMapper mapper, EScheduleDbContext dbContext)
-        : base(repository, mapper)
-    {
-        _context = dbContext;
-    }
+    private readonly EScheduleDbContext _context = dbContext;
 
     public async Task RemoveLessons(IEnumerable<Guid> lessonsToRemove)
     {

@@ -13,49 +13,32 @@ using System.Security.Claims;
 
 namespace ESchedule.Business.Tenant;
 
-public class TenantService : BaseService<TenantModel>, ITenantService
+public class TenantService(
+    IRepository<TenantModel> repository,
+    IRepository<TenantSettingsModel> settingsRepo,
+    IRepository<RequestTenantAccessModel> tenantRequestRepo,
+    IAuthRepository authService,
+    IMainMapper mapper,
+    IUserService userService,
+    IHttpContextAccessor httpAccessor,
+    ITenantContextProvider tenantContextProvider,
+    IRepository<UserModel> userRepo
+)
+    : BaseService<TenantModel>(repository, mapper), ITenantService
 {
-    private readonly IAuthRepository _authRepo;
-    private readonly IUserService _userService;
-    private readonly IRepository<TenantSettingsModel> _tenantSettingsRepo;
-    private readonly IRepository<RequestTenantAccessModel> _tenantRequestRepo;
-    private readonly IHttpContextAccessor _httpAccessor;
-    private readonly ITenantContextProvider _tenantContextProvider;
-    private readonly IRepository<UserModel> _userRepo;
-
-    public TenantService(
-        IRepository<TenantModel> repository,
-        IRepository<TenantSettingsModel> settingsRepo,
-        IRepository<RequestTenantAccessModel> tenantRequestRepo,
-        IAuthRepository authService,
-        IMainMapper mapper,
-        IUserService userService,
-        IHttpContextAccessor httpAccessor,
-        ITenantContextProvider tenantContextProvider,
-        IRepository<UserModel> userRepo) : base(repository, mapper)
-    {
-        _authRepo = authService;
-        _tenantSettingsRepo = settingsRepo;
-        _userService = userService;
-        _httpAccessor = httpAccessor;
-        _tenantRequestRepo = tenantRequestRepo;
-        _tenantContextProvider = tenantContextProvider;
-        _userRepo = userRepo;
-    }
-
     public async Task<TenantModel> CreateTenant(TenantCreateModel request)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var tenantExists = await _repository.SingleOrDefault(x => EF.Functions.Like(x.Name, $"{request.Name}"));
+        var tenantExists = await Repository.SingleOrDefault(x => EF.Functions.Like(x.Name, $"{request.Name}"));
 
         if (tenantExists != null)
         {
             throw new InvalidOperationException(Resources.TenantAlreadyExists);
         }
 
-        var userId = _httpAccessor.HttpContext.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
-        var user = await _authRepo.SingleOrDefault(x => x.Id == Guid.Parse(userId));
+        var userId = httpAccessor.HttpContext.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+        var user = await authService.SingleOrDefault(x => x.Id == Guid.Parse(userId));
 
         if (user.TenantId != null)
         {
@@ -63,72 +46,72 @@ public class TenantService : BaseService<TenantModel>, ITenantService
         }
         var tenant = await CreateItem(request);
 
-        await _userService.SignUserToTenant(user.Id, tenant.Id);
+        await userService.SignUserToTenant(user.Id, tenant.Id);
 
         return tenant;
     }
 
     public async Task AcceptAccessRequest(Guid userId)
     {
-        var user = await _userRepo.IgnoreQueryFilters().SingleOrDefault(x => x.Id == userId)
+        var user = await userRepo.IgnoreQueryFilters().SingleOrDefault(x => x.Id == userId)
             ?? throw new EntityNotFoundException(Resources.UserDoesNotExist);
 
-        var allUserRequests = await _tenantRequestRepo.IgnoreQueryFilters().Where(x => x.UserId == userId);
-        await _tenantRequestRepo.RemoveRange(allUserRequests);
-        user.TenantId = _tenantContextProvider.Current.TenantId;
+        var allUserRequests = await tenantRequestRepo.IgnoreQueryFilters().Where(x => x.UserId == userId);
+        await tenantRequestRepo.RemoveRange(allUserRequests);
+        user.TenantId = tenantContextProvider.Current.TenantId;
 
-        await _userRepo.SaveChangesAsync();
+        await userRepo.SaveChangesAsync();
     }
 
     public async Task DeclineAccessRequest(Guid userId)
     {
-        var user = await _userRepo.IgnoreQueryFilters().SingleOrDefault(x => x.Id == userId)
+        var user = await userRepo.IgnoreQueryFilters().SingleOrDefault(x => x.Id == userId)
             ?? throw new EntityNotFoundException(Resources.UserDoesNotExist);
 
-        var userRequest = await _tenantRequestRepo.SingleOrDefault(x => x.UserId == userId);
-        await _tenantRequestRepo.Remove(userRequest);
+        var userRequest = await tenantRequestRepo.SingleOrDefault(x => x.UserId == userId);
+        await tenantRequestRepo.Remove(userRequest);
 
-        await _userRepo.SaveChangesAsync();
+        await userRepo.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<UserModel>> GetAccessRequests()
     {
-        var tenantExists = await _repository.Any(x => x.Id == _tenantContextProvider.Current.TenantId);
+        var tenantExists = await Repository.Any(x => x.Id == tenantContextProvider.Current.TenantId);
 
         if (!tenantExists)
         {
             throw new EntityNotFoundException(Resources.TenantDoesNotExist);
         }
 
-        var requests = await _tenantRequestRepo.All();
+        var requests = await tenantRequestRepo.All();
         var userIds = requests.Select(x => x.UserId);
 
-        return await _userRepo.IgnoreQueryFilters().Where(x => userIds.Contains(x.Id));
+        return await userRepo.IgnoreQueryFilters().Where(x => userIds.Contains(x.Id));
     }
 
     public async Task RequestTenantAccess(RequestTenantAccessCreateModel request)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var tenantExists = await _repository.Any(x => x.Id == request.TenantId);
+        var tenantExists = await Repository.Any(x => x.Id == request.TenantId);
 
         if (!tenantExists)
         {
             throw new EntityNotFoundException(Resources.TenantDoesNotExist);
         }
 
-        var entity = await _tenantRequestRepo.SingleOrDefault(x => x.UserId == request.UserId);
+        var entity = await tenantRequestRepo.SingleOrDefault(x => x.UserId == request.UserId);
 
         if (entity != null)
         {
             throw new InvalidOperationException(Resources.RequestToTenantAlreadySent);
         }
 
-        var domainModel = _mapper.Map<RequestTenantAccessModel>(request);
+        var domainModel = Mapper.Map<RequestTenantAccessModel>(request);
 
-        await _tenantRequestRepo.Insert(domainModel);
+        await tenantRequestRepo.Insert(domainModel);
     }
 
     public async Task<TenantSettingsModel> CreateTenantSettings(TenantSettingsModel request)
-        => await _tenantSettingsRepo.Insert(request);
+        => await settingsRepo.Insert(request);
 }

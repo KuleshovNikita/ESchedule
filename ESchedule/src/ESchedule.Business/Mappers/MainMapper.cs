@@ -2,12 +2,8 @@
 
 namespace ESchedule.Business.Mappers;
 
-public class MainMapper : Mapper, IMainMapper
+public class MainMapper(IConfigurationProvider configuration) : Mapper(configuration), IMainMapper
 {
-    public MainMapper(IConfigurationProvider configuration) : base(configuration)
-    {
-    }
-
     public TDest MapOnlyUpdatedProperties<TFrom, TDest>(TFrom from, TDest to)
             where TFrom : class
             where TDest : class

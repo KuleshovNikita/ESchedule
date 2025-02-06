@@ -1,7 +1,6 @@
-﻿namespace ESchedule.Api.Models.Updates
+﻿namespace ESchedule.Api.Models.Updates;
+
+public abstract record BaseUpdateModel
 {
-    public abstract record BaseUpdateModel
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }

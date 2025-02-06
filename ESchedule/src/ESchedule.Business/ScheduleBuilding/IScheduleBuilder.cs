@@ -2,10 +2,9 @@
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule;
 
-namespace ESchedule.Business.ScheduleBuilding
+namespace ESchedule.Business.ScheduleBuilding;
+
+public interface IScheduleBuilder
 {
-    public interface IScheduleBuilder
-    {
-        HashSet<ScheduleModel> BuildSchedules(ScheduleBuilderHelpData builderData, IEnumerable<BaseScheduleRule> rules);
-    }
+    HashSet<ScheduleModel> BuildSchedules(ScheduleBuilderHelpData builderData, IEnumerable<BaseScheduleRule> rules);
 }

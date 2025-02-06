@@ -4,36 +4,29 @@ using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Tenant;
 
-namespace ESchedule.Business.TeachersLessons
+namespace ESchedule.Business.TeachersLessons;
+
+public class TeachersLessonsService(
+    IRepository<TeachersLessonsModel> repository,
+    IMainMapper mapper,
+    ITenantContextProvider tenantContextProvider
+) 
+    : BaseService<TeachersLessonsModel>(repository, mapper)
 {
-    public class TeachersLessonsService : BaseService<TeachersLessonsModel>
+    public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)
     {
-        protected readonly ITenantContextProvider _tenantContextProvider;
-
-        public TeachersLessonsService(
-            IRepository<TeachersLessonsModel> repository,
-            IMainMapper mapper,
-            ITenantContextProvider tenantContextProvider)
-            : base(repository, mapper)
+        if (request == null || !request.Any())
         {
-            _tenantContextProvider = tenantContextProvider;
+            throw new ArgumentNullException(nameof(request));
         }
 
-        public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)
-        {
-            if (request == null || !request.Any())
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+        var mapped = request.Select(x => {
+            var item = Mapper.Map<TeachersLessonsModel>(x);
+            item.TenantId = tenantContextProvider.Current.TenantId;
 
-            var mapped = request.Select(x => {
-                var item = _mapper.Map<TeachersLessonsModel>(x);
-                item.TenantId = _tenantContextProvider.Current.TenantId;
+            return item;
+        });
 
-                return item;
-            });
-
-            await _repository.InsertMany(mapped);
-        }
+        await Repository.InsertMany(mapped);
     }
 }

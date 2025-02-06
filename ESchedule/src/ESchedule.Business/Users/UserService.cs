@@ -10,31 +10,25 @@ using ESchedule.Domain.Users;
 
 namespace ESchedule.Business.Users;
 
-public class UserService : BaseService<UserModel>, IUserService
+public class UserService(
+    IRepository<UserModel> repository, 
+    IMainMapper mapper, 
+    IPasswordHasher passwordHasher,
+    ITenantContextProvider tenantContextProvider, 
+    IAuthRepository authRepository
+)
+    : BaseService<UserModel>(repository, mapper), IUserService
 {
-    private readonly IPasswordHasher _passwordHasher;
-    private readonly IAuthRepository _authRepository;
-    private readonly ITenantContextProvider _tenantContextProvider;
-
-    public UserService(IRepository<UserModel> repository, IMainMapper mapper, IPasswordHasher passwordHasher,
-         ITenantContextProvider tenantContextProvider, IAuthRepository authRepository)
-        : base(repository, mapper)
-    {
-        _passwordHasher = passwordHasher;
-        _tenantContextProvider = tenantContextProvider;
-        _authRepository = authRepository;
-    }
-
     public async Task SignUserToTenant(Guid userId)
-        => await SignUserToTenant(userId, _tenantContextProvider.Current.TenantId);
+        => await SignUserToTenant(userId, tenantContextProvider.Current.TenantId);
 
     public async Task SignUserToTenant(Guid userId, Guid tenantId)
     {
-        var user = await _authRepository.SingleOrDefault(x => x.Id == userId)
+        var user = await authRepository.SingleOrDefault(x => x.Id == userId)
             ?? throw new EntityNotFoundException(Resources.NoUsersForSpecifiedKeyWereFound);
 
         user.TenantId = tenantId;
-        await _authRepository.SaveChangesAsync();
+        await authRepository.SaveChangesAsync();
     }
 
     public async Task UpdateUser(UserUpdateModel updateModel)
@@ -44,13 +38,13 @@ public class UserService : BaseService<UserModel>, IUserService
         var user = await SingleOrDefault(x => x.Id == updateModel.Id)
             ?? throw new EntityNotFoundException();
 
-        user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
+        user = Mapper.MapOnlyUpdatedProperties(updateModel, user);
 
         if (isPasswordChanged)
         {
-            user.Password = _passwordHasher.HashPassword(updateModel.Password!);
+            user.Password = passwordHasher.HashPassword(updateModel.Password!);
         }
 
-        await _repository.Update(user);
+        await Repository.Update(user);
     }
 }

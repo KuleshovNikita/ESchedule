@@ -2,9 +2,9 @@
 using PowerInfrastructure.Integration;
 using System.Reflection;
 
-namespace PowerInfrastructure.DependencyInjection;
+namespace PowerInfrastructure.DependencyInjection.Extensions;
 
-public static class Integration
+public static class MigrationCommandsExtensions
 {
     /// <summary>
     /// Finds all classes that implement <see cref="IMigrationCommand"/> interface in the calling assembly 

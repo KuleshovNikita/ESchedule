@@ -1,11 +1,10 @@
-﻿namespace ESchedule.Api.Models.Requests
+﻿namespace ESchedule.Api.Models.Requests;
+
+public record TeachersGroupsLessonsCreateModel
 {
-    public record TeachersGroupsLessonsCreateModel
-    {
-        public Guid StudyGroupId { get; set; }
+    public Guid StudyGroupId { get; set; }
 
-        public Guid TeacherId { get; set; }
+    public Guid TeacherId { get; set; }
 
-        public Guid LessonId { get; set; }
-    }
+    public Guid LessonId { get; set; }
 }

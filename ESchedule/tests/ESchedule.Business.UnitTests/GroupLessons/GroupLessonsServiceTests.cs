@@ -1,5 +1,5 @@
 ﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Business.GroupLessons;
+using ESchedule.Business.GroupsLessons;
 using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;

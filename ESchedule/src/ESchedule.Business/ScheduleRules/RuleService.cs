@@ -6,23 +6,21 @@ using ESchedule.Domain.Tenant;
 
 namespace ESchedule.Business.ScheduleRules;
 
-public class RuleService : BaseService<RuleModel>, IRuleService
+public class RuleService(
+    IRepository<RuleModel> repository, 
+    ITenantContextProvider tenantContextProvider, 
+    IMainMapper mapper
+)
+    : BaseService<RuleModel>(repository, mapper), IRuleService
 {
-    private readonly ITenantContextProvider _tenantContextProvider;
-
-    public RuleService(IRepository<RuleModel> repository, ITenantContextProvider tenantContextProvider, IMainMapper mapper) : base(repository, mapper)
-    {
-        _tenantContextProvider = tenantContextProvider;
-    }
-
     public async Task<RuleModel> CreateRule(RuleInputModel request)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var mapped = _mapper.Map<RuleModel>(request);
+        var mapped = Mapper.Map<RuleModel>(request);
         mapped.Id = Guid.NewGuid();
-        mapped.TenantId = _tenantContextProvider.Current.TenantId;
+        mapped.TenantId = tenantContextProvider.Current.TenantId;
 
-        return await _repository.Insert(mapped);
+        return await Repository.Insert(mapped);
     }
 }

@@ -1,33 +1,32 @@
 ﻿using System.Linq.Expressions;
 
-namespace ESchedule.DataAccess.Repos
+namespace ESchedule.DataAccess.Repos;
+
+public interface IRepository<TModel> where TModel : class
 {
-    public interface IRepository<TModel> where TModel : class
-    {
-        Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> command);
+    Task<TModel> FirstOrDefault(Expression<Func<TModel, bool>> command);
 
-        Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command);
+    Task<TModel> SingleOrDefault(Expression<Func<TModel, bool>> command);
 
-        Task<TModel> SingleOrDefault();
+    Task<TModel> SingleOrDefault();
 
-        Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command);
+    Task<IEnumerable<TModel>> Where(Expression<Func<TModel, bool>> command);
 
-        Task<IEnumerable<TModel>> All();
+    Task<IEnumerable<TModel>> All();
 
-        Task<bool> Any(Expression<Func<TModel, bool>> command);
+    Task<bool> Any(Expression<Func<TModel, bool>> command);
 
-        Task<TModel> Insert(TModel entity);
+    Task<TModel> Insert(TModel entity);
 
-        Task InsertMany(IEnumerable<TModel> entities);
+    Task InsertMany(IEnumerable<TModel> entities);
 
-        Task Update(TModel entity);
+    Task Update(TModel entity);
 
-        Task Remove(TModel entity);
+    Task Remove(TModel entity);
 
-        Task RemoveRange(IEnumerable<TModel> entities);
+    Task RemoveRange(IEnumerable<TModel> entities);
 
-        Task SaveChangesAsync();
+    Task SaveChangesAsync();
 
-        IRepository<TModel> IgnoreQueryFilters();
-    }
+    IRepository<TModel> IgnoreQueryFilters();
 }

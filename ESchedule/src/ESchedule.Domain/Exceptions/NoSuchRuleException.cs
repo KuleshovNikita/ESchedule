@@ -1,10 +1,5 @@
-﻿namespace ESchedule.Domain.Exceptions
+﻿namespace ESchedule.Domain.Exceptions;
+
+public class NoSuchRuleException(string message) : Exception(message)
 {
-    public class NoSuchRuleException : Exception
-    {
-        public NoSuchRuleException(string message) : base(message)
-        {
-            
-        }
-    }
 }

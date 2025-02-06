@@ -8,18 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESchedule.Business.Lessons;
 
-public class AttendanceService : IAttendanceService
+public class AttendanceService(EScheduleDbContext context) : IAttendanceService
 {
-    private readonly EScheduleDbContext _context;
-
-    public AttendanceService(EScheduleDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task TickPupilAttendance(Guid pupilId)
     {
-        var user = await _context.Users
+        var user = await context.Users
                             .FirstOrDefaultAsync(x => x.Id == pupilId);
 
         if (user == null)
@@ -44,8 +37,8 @@ public class AttendanceService : IAttendanceService
                 TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             };
 
-            _context.Schedules.Add(schedule);
-            _context.SaveChanges();
+            context.Schedules.Add(schedule);
+            context.SaveChanges();
         }
 
         var model = new AttendanceModel
@@ -57,15 +50,15 @@ public class AttendanceService : IAttendanceService
             Date = currentTime,
         };
 
-        await _context.Attendances.AddAsync(model);
-        await _context.SaveChangesAsync();
+        await context.Attendances.AddAsync(model);
+        await context.SaveChangesAsync();
     }
 
     private ScheduleModel? GetTargetSchedule(UserModel user, TimeSpan currentTime)
     {
         var groupId = user.GroupId;
 
-        return _context.Schedules
+        return context.Schedules
             .AsEnumerable()
             .FirstOrDefault(x => x.StartTime <= currentTime && x.EndTime >= currentTime && groupId == x.StudyGroupId && x.DayOfWeek == DateTime.Today.DayOfWeek);
     }

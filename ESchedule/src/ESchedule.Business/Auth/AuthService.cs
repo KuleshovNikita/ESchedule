@@ -20,30 +20,18 @@ using System.Text;
 
 namespace ESchedule.Business.Auth;
 
-public class AuthService : BaseService<UserModel>, IAuthService
+public class AuthService(
+    IRepository<UserModel> repository,
+    IMainMapper mapper,
+    IPasswordHasher passwordHasher,
+    IEmailService emailService,
+    IConfiguration config,
+    IUserService userService,
+    IAuthRepository authRepository
+)
+    : BaseService<UserModel>(repository, mapper), IAuthService
 {
-    private readonly IEmailService _emailService;
-    private readonly IUserService _userService;
-    private readonly IAuthRepository _authRepository;
-    private readonly IPasswordHasher _passwordHasher;
-    private readonly JwtSettings _jwtSettings;
-
-    public AuthService(
-        IRepository<UserModel> repository,
-        IMainMapper mapper,
-        IPasswordHasher passwordHasher,
-        IEmailService emailService,
-        IConfiguration config,
-        IUserService userService,
-        IAuthRepository authRepository) : base(repository, mapper)
-    {
-        _emailService = emailService;
-        _passwordHasher = passwordHasher;
-        _userService = userService;
-        _authRepository = authRepository;
-
-        _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>()!;
-    }
+    private readonly JwtSettings _jwtSettings = config.GetSection("Jwt").Get<JwtSettings>()!;
 
     public async Task<string> Login(AuthModel authModel)
     {
@@ -71,19 +59,19 @@ public class AuthService : BaseService<UserModel>, IAuthService
             throw new InvalidOperationException(Resources.TheLoginIsAlreadyRegistered);
         }
 
-        var userDomainModel = _mapper.Map<UserModel>(userModel);
+        var userDomainModel = Mapper.Map<UserModel>(userModel);
 
-        var hashedPassword = _passwordHasher.HashPassword(userDomainModel.Password);
+        var hashedPassword = passwordHasher.HashPassword(userDomainModel.Password);
         userDomainModel.Password = hashedPassword;
         userDomainModel.Id = Guid.NewGuid();
 
-        await _repository.Insert(userDomainModel);
-        await _emailService.SendConfirmEmailMessage(userDomainModel);
+        await Repository.Insert(userDomainModel);
+        await emailService.SendConfirmEmailMessage(userDomainModel);
     }
 
     public async Task<Guid> ConfirmEmail(string key)
     {
-        var userResult = await _authRepository.FirstOrDefault(x => x.Password.ToLower() == key.ToLower());
+        var userResult = await authRepository.FirstOrDefault(x => x.Password.ToLower() == key.ToLower());
 
         if (userResult.IsEmailConfirmed)
         {
@@ -91,7 +79,7 @@ public class AuthService : BaseService<UserModel>, IAuthService
         }
 
         userResult.IsEmailConfirmed = true;
-        var userUpdateModel = _mapper.Map<UserUpdateModel>(userResult);
+        var userUpdateModel = Mapper.Map<UserUpdateModel>(userResult);
 
         await UpdateItem(userUpdateModel);
 
@@ -102,14 +90,14 @@ public class AuthService : BaseService<UserModel>, IAuthService
     {
         ValidateEmail(authModel.Login);
 
-        var user = await _authRepository.FirstOrDefault(x => x.Login == authModel.Login);
+        var user = await authRepository.FirstOrDefault(x => x.Login == authModel.Login);
 
         if (!user.IsEmailConfirmed)
         {
             throw new AuthenticationException(Resources.EmailConfirmationIsNeeded);
         }
 
-        if (!_passwordHasher.ComparePasswords(authModel.Password, user.Password))
+        if (!passwordHasher.ComparePasswords(authModel.Password, user.Password))
         {
             throw new AuthenticationException(Resources.WrongPasswordOrLogin);
         }
@@ -151,11 +139,11 @@ public class AuthService : BaseService<UserModel>, IAuthService
     }
 
     private async Task<bool> IsLoginAlreadyRegistered(string login)
-       => await _authRepository.Any(x => x.Login == login);
+       => await authRepository.Any(x => x.Login == login);
 
     public async Task<UserModel> GetUserInfoWithTenant(Guid id)
-        => await _userService.SingleOrDefault(x => x.Id == id);
+        => await userService.SingleOrDefault(x => x.Id == id);
 
     public async Task<UserModel> GetUserInfoWithoutTenant(Guid id)
-        => await _authRepository.SingleOrDefault(x => x.Id == id);
+        => await authRepository.SingleOrDefault(x => x.Id == id);
 }

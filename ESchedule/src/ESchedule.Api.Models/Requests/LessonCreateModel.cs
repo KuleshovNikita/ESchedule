@@ -1,9 +1,8 @@
-﻿namespace ESchedule.Api.Models.Requests
-{
-    public record LessonCreateModel
-    {
-        public string Title { get; set; } = null!;
+﻿namespace ESchedule.Api.Models.Requests;
 
-        public Guid TenantId { get; set; }
-    }
+public record LessonCreateModel
+{
+    public string Title { get; set; } = null!;
+
+    public Guid TenantId { get; set; }
 }

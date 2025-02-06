@@ -1,7 +1,7 @@
 ﻿using ESchedule.Business.Auth;
 using ESchedule.Business.Email;
 using ESchedule.Business.Email.Client;
-using ESchedule.Business.GroupLessons;
+using ESchedule.Business.GroupsLessons;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Lessons;
 using ESchedule.Business.Mappers;
@@ -14,13 +14,13 @@ using ESchedule.Business.Tenant;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
 using ESchedule.Domain.ManyToManyModels;
-using ESchedule.Domain.Modules;
 using Microsoft.Extensions.DependencyInjection;
 using PowerInfrastructure.DependencyInjection;
+using PowerInfrastructure.DependencyInjection.Extensions;
 
 namespace ESchedule.Business.DependencyInjection;
 
-public class BusinessModule : IModule
+public class BusinessModule : IDependencyModule
 {
     public IServiceCollection ConfigureModule(IServiceCollection services)
     {

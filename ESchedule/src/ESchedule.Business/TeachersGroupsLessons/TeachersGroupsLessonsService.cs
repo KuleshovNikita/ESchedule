@@ -5,18 +5,13 @@ using ESchedule.Domain.Tenant;
 
 namespace ESchedule.Business.TeachersGroupsLessons;
 
-public class TeachersGroupsLessonsService : BaseService<TeachersGroupsLessonsModel>
+public class TeachersGroupsLessonsService(
+    IRepository<TeachersGroupsLessonsModel> repository,
+    IMainMapper mapper,
+    ITenantContextProvider tenantContextProvider
+) 
+    : BaseService<TeachersGroupsLessonsModel>(repository, mapper)
 {
-    protected readonly ITenantContextProvider _tenantContextProvider;
-
-    public TeachersGroupsLessonsService(
-        IRepository<TeachersGroupsLessonsModel> repository,
-        IMainMapper mapper,
-        ITenantContextProvider tenantContextProvider) : base(repository, mapper)
-    {
-        _tenantContextProvider = tenantContextProvider;
-    }
-
     public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)
     {
         if (request == null || !request.Any())
@@ -25,12 +20,12 @@ public class TeachersGroupsLessonsService : BaseService<TeachersGroupsLessonsMod
         }
 
         var mapped = request.Select(x => {
-            var item = _mapper.Map<TeachersGroupsLessonsModel>(x);
-            item.TenantId = _tenantContextProvider.Current.TenantId;
+            var item = Mapper.Map<TeachersGroupsLessonsModel>(x);
+            item.TenantId = tenantContextProvider.Current.TenantId;
 
             return item;
         });
 
-        await _repository.InsertMany(mapped);
+        await Repository.InsertMany(mapped);
     }
 }

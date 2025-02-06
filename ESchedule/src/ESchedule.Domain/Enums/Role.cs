@@ -1,9 +1,8 @@
-﻿namespace ESchedule.Domain.Enums
+﻿namespace ESchedule.Domain.Enums;
+
+public enum Role
 {
-    public enum Role
-    {
-        Pupil = 0,
-        Teacher = 1,
-        Dispatcher = 2
-    }
+    Pupil = 0,
+    Teacher = 1,
+    Dispatcher = 2
 }

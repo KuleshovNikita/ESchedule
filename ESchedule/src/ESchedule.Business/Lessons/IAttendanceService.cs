@@ -1,7 +1,6 @@
-﻿namespace ESchedule.Business.Lessons
+﻿namespace ESchedule.Business.Lessons;
+
+public interface IAttendanceService
 {
-    public interface IAttendanceService
-    {
-        Task TickPupilAttendance(Guid pupilId);
-    }
+    Task TickPupilAttendance(Guid pupilId);
 }

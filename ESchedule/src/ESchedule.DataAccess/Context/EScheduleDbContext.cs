@@ -1,5 +1,4 @@
-﻿using ESchedule.Core.Interfaces;
-using ESchedule.DataAccess.Context.ConfigurationModels;
+﻿using ESchedule.DataAccess.Context.ConfigurationModels;
 using ESchedule.Domain.Lessons;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.ManyToManyModels;
@@ -8,43 +7,38 @@ using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace ESchedule.DataAccess.Context
+namespace ESchedule.DataAccess.Context;
+
+public class EScheduleDbContext(DbContextOptions options) : DbContext(options)
 {
-    public class EScheduleDbContext : DbContext
+    public DbSet<UserModel>? Users { get; set; }
+    public DbSet<LessonModel>? Lessons { get; set; }
+    public DbSet<ScheduleModel>? Schedules { get; set; }
+    public DbSet<RuleModel>? ScheduleRules { get; set; }
+    public DbSet<TenantSettingsModel>? TenantSettings { get; set; }
+    public DbSet<TenantModel>? Tenant { get; set; }
+    public DbSet<GroupModel>? Groups { get; set; }
+    public DbSet<GroupsLessonsModel>? GroupsLessons { get; set; }
+    public DbSet<TeachersGroupsLessonsModel>? TeachersGroupsLessons { get; set; }
+    public DbSet<TeachersLessonsModel>? TeachersLessons { get; set; }
+    public DbSet<AttendanceModel>? Attendances { get; set; }
+    public DbSet<RequestTenantAccessModel>? TenantAccessRequests { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public DbSet<UserModel> Users { get; set; }
-        public DbSet<LessonModel> Lessons { get; set; }
-        public DbSet<ScheduleModel> Schedules { get; set; }
-        public DbSet<RuleModel> ScheduleRules { get; set; }
-        public DbSet<TenantSettingsModel> TenantSettings { get; set; }
-        public DbSet<TenantModel> Tenant { get; set; }
-        public DbSet<GroupModel> Groups { get; set; }
-        public DbSet<GroupsLessonsModel> GroupsLessons { get; set; }
-        public DbSet<TeachersGroupsLessonsModel> TeachersGroupsLessons { get; set; }
-        public DbSet<TeachersLessonsModel> TeachersLessons { get; set; }
-        public DbSet<AttendanceModel> Attendances { get; set; }
-        public DbSet<RequestTenantAccessModel> TenantAccessRequests { get; set; }
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new GroupConfiguration());
+        modelBuilder.ApplyConfiguration(new LessonConfiguration());
+        modelBuilder.ApplyConfiguration(new TenantSettingsConfiguration());
+        modelBuilder.ApplyConfiguration(new TeachersGroupsLessonsConfiguration());
+        modelBuilder.ApplyConfiguration(new TeachersLessonsConfiguration());
+        modelBuilder.ApplyConfiguration(new GroupsLessonsConfiguration());
+        modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
+        modelBuilder.ApplyConfiguration(new TenantConfiguration());
+        modelBuilder.ApplyConfiguration(new ScheduleRulesConfiguration());
+        modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
+        modelBuilder.ApplyConfiguration(new RequestTenantAccessConfiguration());
 
-        public EScheduleDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new GroupConfiguration());
-            modelBuilder.ApplyConfiguration(new LessonConfiguration());
-            modelBuilder.ApplyConfiguration(new TenantSettingsConfiguration());
-            modelBuilder.ApplyConfiguration(new TeachersGroupsLessonsConfiguration());
-            modelBuilder.ApplyConfiguration(new TeachersLessonsConfiguration());
-            modelBuilder.ApplyConfiguration(new GroupsLessonsConfiguration());
-            modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
-            modelBuilder.ApplyConfiguration(new TenantConfiguration());
-            modelBuilder.ApplyConfiguration(new ScheduleRulesConfiguration());
-            modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
-            modelBuilder.ApplyConfiguration(new RequestTenantAccessConfiguration());
-
-            Seeds.ApplySeeds(modelBuilder);
-        }
+        Seeds.ApplySeeds(modelBuilder);
     }
 }

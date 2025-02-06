@@ -1,9 +1,8 @@
 ﻿using ESchedule.Business.Mappers.Profiles;
 using ESchedule.Business.DependencyInjection;
 using ESchedule.DataAccess.Context;
-using ESchedule.DataAccess.Modules;
+using ESchedule.DataAccess.DependencyInjection;
 using ESchedule.Domain.Auth;
-using ESchedule.Domain.Modules;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Policy.Requirements;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using PowerInfrastructure.DependencyInjection;
 
 namespace ESchedule.Startup.Extensions;
 
@@ -124,7 +124,7 @@ public static class ServiceCollectionExtensions
     }
 
     private static IServiceCollection AddModule<TModule>(this IServiceCollection services)
-        where TModule : IModule, new()
+        where TModule : IDependencyModule, new()
     {
         var module = new TModule();
         module.ConfigureModule(services);

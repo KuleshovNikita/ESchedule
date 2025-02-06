@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ESchedule.Domain\ESchedule.Domain.csproj" />
+    <ProjectReference Include="..\PowerInfrastructure\PowerInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>

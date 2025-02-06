@@ -3,21 +3,15 @@ using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Tenant;
 
-namespace ESchedule.Business.GroupLessons;
+namespace ESchedule.Business.GroupsLessons;
 
-public class GroupLessonsService : BaseService<GroupsLessonsModel>
+public class GroupLessonsService(
+    IRepository<GroupsLessonsModel> repository,
+    IMainMapper mapper,
+    ITenantContextProvider tenantContextProvider
+)
+    : BaseService<GroupsLessonsModel>(repository, mapper)
 {
-    protected readonly ITenantContextProvider _tenantContextProvider;
-
-    public GroupLessonsService(
-        IRepository<GroupsLessonsModel> repository,
-        IMainMapper mapper,
-        ITenantContextProvider tenantContextProvider)
-        : base(repository, mapper)
-    {
-        _tenantContextProvider = tenantContextProvider;
-    }
-
     public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)
     {
         if (request == null || !request.Any())
@@ -25,13 +19,14 @@ public class GroupLessonsService : BaseService<GroupsLessonsModel>
             throw new ArgumentNullException(nameof(request));
         }
 
-        var mapped = request.Select(x => {
-            var item = _mapper.Map<GroupsLessonsModel>(x);
-            item.TenantId = _tenantContextProvider.Current.TenantId;
+        var mapped = request.Select(x =>
+        {
+            var item = Mapper.Map<GroupsLessonsModel>(x);
+            item.TenantId = tenantContextProvider.Current.TenantId;
 
             return item;
         });
 
-        await _repository.InsertMany(mapped);
+        await Repository.InsertMany(mapped);
     }
 }

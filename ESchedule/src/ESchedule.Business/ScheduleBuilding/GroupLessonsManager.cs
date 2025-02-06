@@ -1,32 +1,25 @@
 ﻿using ESchedule.Domain.Lessons;
 
-namespace ESchedule.Business.ScheduleBuilding
+namespace ESchedule.Business.ScheduleBuilding;
+
+public class GroupLessonsManager(LessonModel[] lessonsList)
 {
-    public class GroupLessonsManager
+    public int Count => lessonsList.Length;
+
+    private int _currentLessonIndex = 0;
+
+    public LessonModel Next()
     {
-        public int Count => _lessonsList.Length;
-
-        private readonly LessonModel[] _lessonsList;
-        private int _currentLessonIndex = 0;
-
-        public GroupLessonsManager(LessonModel[] lessonsList)
+        try
         {
-            _lessonsList = lessonsList;
+            return GetNextLesson();
         }
-
-        public LessonModel Next()
+        catch(IndexOutOfRangeException)
         {
-            try
-            {
-                return GetNextLesson();
-            }
-            catch(IndexOutOfRangeException)
-            {
-                _currentLessonIndex = 0;
-                return GetNextLesson();
-            }
+            _currentLessonIndex = 0;
+            return GetNextLesson();
         }
-
-        private LessonModel GetNextLesson() => _lessonsList[_currentLessonIndex++];
     }
+
+    private LessonModel GetNextLesson() => lessonsList[_currentLessonIndex++];
 }

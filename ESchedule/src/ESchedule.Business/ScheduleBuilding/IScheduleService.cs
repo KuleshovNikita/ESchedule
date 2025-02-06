@@ -2,14 +2,13 @@
 using ESchedule.Domain.Lessons.Schedule;
 using System.Linq.Expressions;
 
-namespace ESchedule.Business.ScheduleBuilding
+namespace ESchedule.Business.ScheduleBuilding;
+
+public interface IScheduleService : IBaseService<ScheduleModel>
 {
-    public interface IScheduleService : IBaseService<ScheduleModel>
-    {
-        Task BuildSchedule();
+    Task BuildSchedule();
 
-        Task RemoveAll();
+    Task RemoveAll();
 
-        Task<IEnumerable<ScheduleItemResponse>> GetMinimalSchedule(Expression<Func<ScheduleModel, bool>> predicate);
-    }
+    Task<IEnumerable<ScheduleItemResponse>> GetMinimalSchedule(Expression<Func<ScheduleModel, bool>> predicate);
 }
