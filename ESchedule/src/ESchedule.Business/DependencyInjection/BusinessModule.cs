@@ -4,7 +4,6 @@ using ESchedule.Business.Email.Client;
 using ESchedule.Business.GroupsLessons;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Lessons;
-using ESchedule.Business.Mappers;
 using ESchedule.Business.MigrationCommands;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Business.ScheduleRules;
@@ -15,6 +14,7 @@ using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
 using ESchedule.Domain.ManyToManyModels;
 using Microsoft.Extensions.DependencyInjection;
+using PowerInfrastructure.AutoMapper;
 using PowerInfrastructure.DependencyInjection;
 using PowerInfrastructure.DependencyInjection.Extensions;
 

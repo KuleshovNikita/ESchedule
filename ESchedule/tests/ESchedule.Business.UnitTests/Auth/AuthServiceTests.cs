@@ -2,7 +2,6 @@
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Auth;
 using ESchedule.Business.Email;
-using ESchedule.Business.Mappers;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
@@ -14,6 +13,7 @@ using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using PowerInfrastructure.AutoMapper;
 using System.Linq.Expressions;
 using System.Security.Authentication;
 using static Moq.It;

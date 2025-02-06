@@ -1,5 +1,4 @@
 ﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Business.Mappers;
 using ESchedule.Business.TeachersGroupsLessons;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;
@@ -7,6 +6,7 @@ using ESchedule.Domain.Tenant;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
 using Moq;
+using PowerInfrastructure.AutoMapper;
 
 namespace ESchedule.Business.UnitTests.TeachersGroupsLessons;
 

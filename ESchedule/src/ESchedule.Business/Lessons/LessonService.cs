@@ -1,7 +1,7 @@
-﻿using ESchedule.Business.Mappers;
-using ESchedule.DataAccess.Context;
+﻿using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Lessons;
+using PowerInfrastructure.AutoMapper;
 
 namespace ESchedule.Business.Lessons;
 

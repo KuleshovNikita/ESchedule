@@ -1,5 +1,4 @@
 ﻿using ESchedule.Api.Models.Updates;
-using ESchedule.Business.Mappers;
 using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
@@ -7,6 +6,7 @@ using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
+using PowerInfrastructure.AutoMapper;
 
 namespace ESchedule.Business.Users;
 

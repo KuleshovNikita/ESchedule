@@ -1,5 +1,4 @@
 ﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Business.Mappers;
 using ESchedule.Business.Users;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
@@ -9,6 +8,7 @@ using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using PowerInfrastructure.AutoMapper;
 using System.Security.Claims;
 
 namespace ESchedule.Business.Tenant;

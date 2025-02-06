@@ -1,8 +1,8 @@
 ﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
+using PowerInfrastructure.AutoMapper;
 
 namespace ESchedule.Business.ScheduleRules;
 

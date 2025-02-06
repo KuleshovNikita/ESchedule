@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace ESchedule.Business.Mappers;
+namespace PowerInfrastructure.AutoMapper;
 
 public interface IMainMapper : IMapper
 {

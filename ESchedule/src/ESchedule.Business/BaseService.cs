@@ -1,8 +1,8 @@
 ﻿using ESchedule.Api.Models.Updates;
-using ESchedule.Business.Mappers;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Exceptions;
+using PowerInfrastructure.AutoMapper;
 using System.Linq.Expressions;
 
 namespace ESchedule.Business;

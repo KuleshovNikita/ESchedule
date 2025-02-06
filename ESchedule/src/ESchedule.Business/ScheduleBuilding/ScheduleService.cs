@@ -1,6 +1,5 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Responses;
-using ESchedule.Business.Mappers;
 using ESchedule.Business.ScheduleRules;
 using ESchedule.Business.Tenant;
 using ESchedule.DataAccess.Repos;
@@ -11,6 +10,7 @@ using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
+using PowerInfrastructure.AutoMapper;
 using System.Data;
 using System.Linq.Expressions;
 

@@ -1,5 +1,4 @@
 ﻿using ESchedule.Api.Models.Updates;
-using ESchedule.Business.Mappers;
 using ESchedule.Business.Users;
 using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
@@ -10,6 +9,7 @@ using ESchedule.Domain.Users;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
 using Moq;
+using PowerInfrastructure.AutoMapper;
 using System.Linq.Expressions;
 using static Moq.It;
 

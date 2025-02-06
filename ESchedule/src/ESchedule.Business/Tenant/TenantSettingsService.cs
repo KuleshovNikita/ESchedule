@@ -1,6 +1,6 @@
-﻿using ESchedule.Business.Mappers;
-using ESchedule.DataAccess.Repos;
+﻿using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Tenant;
+using PowerInfrastructure.AutoMapper;
 
 namespace ESchedule.Business.Tenant;
 

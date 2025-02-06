@@ -1,7 +1,7 @@
-﻿using ESchedule.Business.Mappers;
-using ESchedule.DataAccess.Repos;
+﻿using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;
 using ESchedule.Domain.Tenant;
+using PowerInfrastructure.AutoMapper;
 
 namespace ESchedule.Business.TeachersGroupsLessons;
 
