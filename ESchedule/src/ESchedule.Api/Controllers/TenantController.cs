@@ -2,61 +2,52 @@
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.Tenant;
-using ESchedule.Domain.Policy;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ESchedule.Api.Controllers
+namespace ESchedule.Api.Controllers;
+
+public class TenantController(IBaseService<TenantModel> service, ITenantService tenantService) : BaseController<TenantModel>(service)
 {
-    public class TenantController : BaseController<TenantModel>
-    {
-        private readonly ITenantService _tenantService;
+    [Authorize]
+    [HttpPost]
+    public async Task CreateTenant([FromBody] TenantCreateModel tenantModel)
+        => await tenantService.CreateTenant(tenantModel);
 
-        public TenantController(IBaseService<TenantModel> service, ITenantService tenantService) : base(service)
-        {
-            _tenantService = tenantService;
-        }
+    [Authorize]
+    [HttpDelete("acceptAccessRequest/{userId}")]
+    public async Task AcceptAccessRequest(Guid userId)
+        => await tenantService.AcceptAccessRequest(userId);
 
-        [Authorize]
-        [HttpPost]
-        public async Task CreateTenant([FromBody] TenantCreateModel tenantModel)
-            => await _tenantService.CreateTenant(tenantModel);
+    [Authorize]
+    [HttpDelete("declineAccessRequest/{userId}")]
+    public async Task DeclineAccessRequest(Guid userId)
+        => await tenantService.DeclineAccessRequest(userId);
 
-        [Authorize]
-        [HttpDelete("acceptAccessRequest/{userId}")]
-        public async Task AcceptAccessRequest(Guid userId)
-            => await _tenantService.AcceptAccessRequest(userId);
+    [Authorize]
+    [HttpGet("accessRequests")]
+    public async Task<IEnumerable<UserModel>> AccessRequests()
+        => await tenantService.GetAccessRequests();
 
-        [Authorize]
-        [HttpDelete("declineAccessRequest/{userId}")]
-        public async Task DeclineAccessRequest(Guid userId)
-            => await _tenantService.DeclineAccessRequest(userId);
+    [Authorize]
+    [HttpPost("request")]
+    public async Task RequestTenantAccess([FromBody] RequestTenantAccessCreateModel tenantModel)
+        => await tenantService.RequestTenantAccess(tenantModel);
 
-        [Authorize]
-        [HttpGet("accessRequests")]
-        public async Task<IEnumerable<UserModel>> AccessRequests()
-            => await _tenantService.GetAccessRequests();
+    [Authorize]
+    [HttpPut]
+    public async Task UpdateTenant([FromBody] TenantUpdateModel tenantModel)
+        => await service.UpdateItem(tenantModel);
 
-        [Authorize]
-        [HttpPost("request")]
-        public async Task RequestTenantAccess([FromBody] RequestTenantAccessCreateModel tenantModel)
-            => await _tenantService.RequestTenantAccess(tenantModel);
+    [Authorize]
+    [HttpGet("{tenantId}")]
+    public async Task<TenantModel> GetTenants(Guid tenantId)
+        => await service.FirstOrDefault(x => x.Id == tenantId);
 
-        [Authorize]
-        [HttpPut]
-        public async Task UpdateTenant([FromBody] TenantUpdateModel tenantModel)
-            => await _service.UpdateItem(tenantModel);
-
-        [Authorize]
-        [HttpGet("{tenantId}")]
-        public async Task<TenantModel> GetTenants(Guid tenantId)
-            => await _service.FirstOrDefault(x => x.Id == tenantId);
-
-        [Authorize]
-        [HttpDelete("{tenantId}")]
-        public async Task RemoveTenant(Guid tenantId)
-            => await _service.RemoveItem(tenantId);
-    }
+    [Authorize]
+    [HttpDelete("{tenantId}")]
+    public async Task RemoveTenant(Guid tenantId)
+        => await service.RemoveItem(tenantId);
 }

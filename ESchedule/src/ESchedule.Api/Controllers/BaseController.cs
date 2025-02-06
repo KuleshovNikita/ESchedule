@@ -2,18 +2,12 @@
 using ESchedule.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ESchedule.Api.Controllers
-{
-    [ApiController]
-    [Route("api/[controller]")]
-    public abstract class BaseController<TModel> : ControllerBase
-        where TModel : BaseModel
-    {
-        protected readonly IBaseService<TModel> _service;
+namespace ESchedule.Api.Controllers;
 
-        public BaseController(IBaseService<TModel> service)
-        {
-            _service = service;
-        }
-    }
+[ApiController]
+[Route("api/[controller]")]
+public abstract class BaseController<TModel>(IBaseService<TModel> service) : ControllerBase
+    where TModel : BaseModel
+{
+    protected readonly IBaseService<TModel> service = service;
 }

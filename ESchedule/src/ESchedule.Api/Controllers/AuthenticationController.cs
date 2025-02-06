@@ -6,53 +6,45 @@ using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace ESchedule.Api.Controllers
+namespace ESchedule.Api.Controllers;
+
+public class AuthenticationController(IAuthService authService, IBaseService<UserModel> userService) : BaseController<UserModel>(userService)
 {
-    public class AuthenticationController : BaseController<UserModel>
+    [HttpPost("register")]
+    public async Task Register([FromBody] UserCreateModel registerModel)
+        => await authService.Register(registerModel);
+
+    [HttpPost("login")]
+    public async Task<string> Login([FromBody] AuthModel authModel)
+        => await authService.Login(authModel);
+
+    [HttpGet]
+    public async Task<UserModel> GetAuthenticatedUserInfo()
     {
-        private readonly IAuthService _authService;
+        var claims = HttpContext.User.Claims;
 
-        public AuthenticationController(IAuthService authService, IBaseService<UserModel> userService) : base(userService)
+        if(!claims.Any())
         {
-            _authService = authService;
+            return null!;
         }
 
-        [HttpPost("register")]
-        public async Task Register([FromBody] UserCreateModel registerModel)
-            => await _authService.Register(registerModel);
+        var userId = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+        var hasTenant = claims.Any(x => x.Type == ClaimTypes.Surname);
 
-        [HttpPost("login")]
-        public async Task<string> Login([FromBody] AuthModel authModel)
-            => await _authService.Login(authModel);
-
-        [HttpGet]
-        public async Task<UserModel> GetAuthenticatedUserInfo()
+        if(!Guid.TryParse(userId, out var id))
         {
-            var claims = HttpContext.User.Claims;
-
-            if(!claims.Any())
-            {
-                return null!;
-            }
-
-            var userId = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var hasTenant = claims.Any(x => x.Type == ClaimTypes.Surname);
-
-            if(!Guid.TryParse(userId, out var id))
-            {
-                throw new InvalidOperationException("Invalid token provided");
-            }
-
-            return hasTenant
-                    ? await _authService.GetUserInfoWithTenant(id)
-                    : await _authService.GetUserInfoWithoutTenant(id);
+            throw new InvalidOperationException("Invalid token provided");
         }
 
-        [HttpPatch("confirmEmail/{key}")]
-        public async Task<Guid> ConfirmEmail(string key)
-        {
-            key = Uri.UnescapeDataString(key);
-            return await _authService.ConfirmEmail(key);
-        }
+        return hasTenant
+                ? await authService.GetUserInfoWithTenant(id)
+                : await authService.GetUserInfoWithoutTenant(id);
+    }
+
+    [HttpPatch("confirmEmail/{key}")]
+    public async Task<Guid> ConfirmEmail(string key)
+    {
+        key = Uri.UnescapeDataString(key);
+        return await authService.ConfirmEmail(key);
     }
 }
