@@ -11,18 +11,18 @@ namespace ESchedule.DataAccess.Context;
 
 public class EScheduleDbContext(DbContextOptions options) : DbContext(options)
 {
-    public DbSet<UserModel>? Users { get; set; }
-    public DbSet<LessonModel>? Lessons { get; set; }
-    public DbSet<ScheduleModel>? Schedules { get; set; }
-    public DbSet<RuleModel>? ScheduleRules { get; set; }
-    public DbSet<TenantSettingsModel>? TenantSettings { get; set; }
-    public DbSet<TenantModel>? Tenant { get; set; }
-    public DbSet<GroupModel>? Groups { get; set; }
-    public DbSet<GroupsLessonsModel>? GroupsLessons { get; set; }
-    public DbSet<TeachersGroupsLessonsModel>? TeachersGroupsLessons { get; set; }
-    public DbSet<TeachersLessonsModel>? TeachersLessons { get; set; }
-    public DbSet<AttendanceModel>? Attendances { get; set; }
-    public DbSet<RequestTenantAccessModel>? TenantAccessRequests { get; set; }
+    public virtual DbSet<UserModel>? Users { get; set; }
+    public virtual DbSet<LessonModel>? Lessons { get; set; }
+    public virtual DbSet<ScheduleModel>? Schedules { get; set; }
+    public virtual DbSet<RuleModel>? ScheduleRules { get; set; }
+    public virtual DbSet<TenantSettingsModel>? TenantSettings { get; set; }
+    public virtual DbSet<TenantModel>? Tenant { get; set; }
+    public virtual DbSet<GroupModel>? Groups { get; set; }
+    public virtual DbSet<GroupsLessonsModel>? GroupsLessons { get; set; }
+    public virtual DbSet<TeachersGroupsLessonsModel>? TeachersGroupsLessons { get; set; }
+    public virtual DbSet<TeachersLessonsModel>? TeachersLessons { get; set; }
+    public virtual DbSet<AttendanceModel>? Attendances { get; set; }
+    public virtual DbSet<RequestTenantAccessModel>? TenantAccessRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

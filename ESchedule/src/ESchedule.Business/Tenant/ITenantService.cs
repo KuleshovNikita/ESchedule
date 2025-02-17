@@ -8,8 +8,6 @@ public interface ITenantService : IBaseService<TenantModel>
 {
     Task<TenantModel> CreateTenant(TenantCreateModel request);
 
-    Task<TenantSettingsModel> CreateTenantSettings(TenantSettingsModel request);
-
     Task AcceptAccessRequest(Guid userId);
 
     Task DeclineAccessRequest(Guid userId);

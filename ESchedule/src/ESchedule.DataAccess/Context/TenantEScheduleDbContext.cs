@@ -10,11 +10,11 @@ namespace ESchedule.DataAccess.Context;
 
 public class TenantEScheduleDbContext(
     DbContextOptions options,
-    ITenantContextProvider _tenantContextProvider
+    ITenantContextProvider tenantContextProvider
 )
     : EScheduleDbContext(options)
 {
-    private TenantContext TenantContext { get; set; } = _tenantContextProvider.Current;
+    public TenantContext TenantContext => tenantContextProvider.Current;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

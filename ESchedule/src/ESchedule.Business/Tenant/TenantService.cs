@@ -6,21 +6,20 @@ using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PowerInfrastructure.AutoMapper;
+using PowerInfrastructure.Http;
 using System.Security.Claims;
 
 namespace ESchedule.Business.Tenant;
 
 public class TenantService(
     IRepository<TenantModel> repository,
-    IRepository<TenantSettingsModel> settingsRepo,
     IRepository<RequestTenantAccessModel> tenantRequestRepo,
     IAuthRepository authService,
     IMainMapper mapper,
     IUserService userService,
-    IHttpContextAccessor httpAccessor,
+    IClaimsAccessor claimAccessor,
     ITenantContextProvider tenantContextProvider,
     IRepository<UserModel> userRepo
 )
@@ -30,25 +29,25 @@ public class TenantService(
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var tenantExists = await Repository.SingleOrDefault(x => EF.Functions.Like(x.Name, $"{request.Name}"));
+        var existingTenant = await Repository.SingleOrDefault(x => EF.Functions.Like(x.Name, $"{request.Name}"));
 
-        if (tenantExists != null)
+        if (existingTenant != null)
         {
             throw new InvalidOperationException(Resources.TenantAlreadyExists);
         }
 
-        var userId = httpAccessor.HttpContext.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+        var userId = claimAccessor.GetRequiredClaimValue(ClaimTypes.NameIdentifier);
         var user = await authService.SingleOrDefault(x => x.Id == Guid.Parse(userId));
 
         if (user.TenantId != null)
         {
             throw new InvalidOperationException(Resources.UserAlreadyBlongsToTenant);
         }
-        var tenant = await CreateItem(request);
+        var newTenant = await CreateItem(request);
 
-        await userService.SignUserToTenant(user.Id, tenant.Id);
+        await userService.SignUserToTenant(user.Id, newTenant.Id);
 
-        return tenant;
+        return newTenant;
     }
 
     public async Task AcceptAccessRequest(Guid userId)
@@ -76,12 +75,8 @@ public class TenantService(
 
     public async Task<IEnumerable<UserModel>> GetAccessRequests()
     {
-        var tenantExists = await Repository.Any(x => x.Id == tenantContextProvider.Current.TenantId);
-
-        if (!tenantExists)
-        {
-            throw new EntityNotFoundException(Resources.TenantDoesNotExist);
-        }
+        _ = await Repository.SingleOrDefault(x => x.Id == tenantContextProvider.Current.TenantId)
+            ?? throw new EntityNotFoundException(Resources.TenantDoesNotExist);
 
         var requests = await tenantRequestRepo.All();
         var userIds = requests.Select(x => x.UserId);
@@ -93,12 +88,8 @@ public class TenantService(
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var tenantExists = await Repository.Any(x => x.Id == request.TenantId);
-
-        if (!tenantExists)
-        {
-            throw new EntityNotFoundException(Resources.TenantDoesNotExist);
-        }
+        _ = await Repository.SingleOrDefault(x => x.Id == request.TenantId)
+                ?? throw new EntityNotFoundException(Resources.TenantDoesNotExist);
 
         var entity = await tenantRequestRepo.SingleOrDefault(x => x.UserId == request.UserId);
 
@@ -111,7 +102,4 @@ public class TenantService(
 
         await tenantRequestRepo.Insert(domainModel);
     }
-
-    public async Task<TenantSettingsModel> CreateTenantSettings(TenantSettingsModel request)
-        => await settingsRepo.Insert(request);
 }

@@ -1,6 +1,7 @@
 using ESchedule.Api.Middlewares;
 using ESchedule.Startup.Extensions;
 using Microsoft.EntityFrameworkCore;
+using PowerInfrastructure.DependencyInjection.Extensions;
 using PowerInfrastructure.Extensions;
 using System.Text.Json.Serialization;
 
@@ -22,6 +23,7 @@ builder.Services.AddDevelopmentServices(environment)
                 .RegisterDependencyModules()
                 .AddAutoMappers()
                 .AddHttpContextAccessor()
+                .AddClaimsAccessor()
                 .AddDbContext(configuration)
                 .AddCustomAuthentication(configuration)
                 .AddCustomAuthorization();

@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Moq" />
+	<PackageReference Include="Moq.EntityFrameworkCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ESchedule.DataAccess\ESchedule.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
