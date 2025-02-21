@@ -1,9 +1,8 @@
-﻿namespace ESchedule.Domain
-{
-    public record AuthModel
-    {
-        public string Login { get; set; } = null!;
+﻿namespace ESchedule.Domain;
 
-        public string Password { get; set; } = null!;
-    }
+public record AuthModel
+{
+    public string Login { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
 }

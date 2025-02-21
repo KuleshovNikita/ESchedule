@@ -1,7 +1,6 @@
-﻿namespace ESchedule.Domain.Tenant
+﻿namespace ESchedule.Domain.Tenant;
+
+public interface ITenantContextProvider
 {
-    public interface ITenantContextProvider
-    {
-        TenantContext Current { get; }
-    }
+    TenantContext Current { get; }
 }

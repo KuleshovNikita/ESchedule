@@ -1,32 +1,26 @@
-﻿using AutoMapper;
-using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
+using PowerInfrastructure.AutoMapper;
 
-namespace ESchedule.Business.ScheduleRules
+namespace ESchedule.Business.ScheduleRules;
+
+public class RuleService(
+    IRepository<RuleModel> repository, 
+    ITenantContextProvider tenantContextProvider, 
+    IMainMapper mapper
+)
+    : BaseService<RuleModel>(repository, mapper), IRuleService
 {
-    public class RuleService : BaseService<RuleModel>, IRuleService
+    public async Task<RuleModel> CreateRule(RuleInputModel request)
     {
-        private readonly ITenantContextProvider _tenantContextProvider;
+        ArgumentNullException.ThrowIfNull(request);
 
-        public RuleService(IRepository<RuleModel> repository, ITenantContextProvider tenantContextProvider, IMapper mapper) : base(repository, mapper)
-        {
-            _tenantContextProvider = tenantContextProvider;
-        }
+        var mapped = Mapper.Map<RuleModel>(request);
+        mapped.Id = Guid.NewGuid();
+        mapped.TenantId = tenantContextProvider.Current.TenantId;
 
-        public async Task<RuleModel> CreateRule(RuleInputModel request)
-        {
-            if(request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            var mapped = _mapper.Map<RuleModel>(request);
-            mapped.Id = Guid.NewGuid();
-            mapped.TenantId = _tenantContextProvider.Current.TenantId;
-
-            return await _repository.Insert(mapped);
-        }
+        return await Repository.Insert(mapped);
     }
 }

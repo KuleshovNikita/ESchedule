@@ -1,8 +1,7 @@
-﻿namespace ESchedule.Domain.Policy
+﻿namespace ESchedule.Domain.Policy;
+
+public class Policies
 {
-    public class Policies
-    {
-        public const string DispatcherOnly = "DispatcherOnly";
-        public const string TeacherOnly = "TeacherOnly";
-    }
+    public const string DispatcherOnly = "DispatcherOnly";
+    public const string TeacherOnly = "TeacherOnly";
 }

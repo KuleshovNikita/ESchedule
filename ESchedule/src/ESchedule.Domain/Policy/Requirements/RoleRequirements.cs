@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace ESchedule.Domain.Policy.Requirements
-{
-    public class DispatcherRoleRequirement : IAuthorizationRequirement { }
+namespace ESchedule.Domain.Policy.Requirements;
 
-    public class TeacherRoleRequirement : IAuthorizationRequirement { }
-}
+public class DispatcherRoleRequirement : IAuthorizationRequirement { }
+
+public class TeacherRoleRequirement : IAuthorizationRequirement { }

@@ -2,24 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ESchedule.DataAccess.Context.ConfigurationModels
+namespace ESchedule.DataAccess.Context.ConfigurationModels;
+
+public record TeachersLessonsConfiguration : IEntityTypeConfiguration<TeachersLessonsModel>
 {
-    public record TeachersLessonsConfiguration : IEntityTypeConfiguration<TeachersLessonsModel>
+    public void Configure(EntityTypeBuilder<TeachersLessonsModel> builder)
     {
-        public void Configure(EntityTypeBuilder<TeachersLessonsModel> builder)
-        {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.TenantId);
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.TenantId);
 
-            builder.HasOne(x => x.Teacher)
-                .WithMany(x => x.TaughtLessons)
-                .HasForeignKey(x => x.TeacherId)
-                .OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne(x => x.Teacher)
+            .WithMany(x => x.TaughtLessons)
+            .HasForeignKey(x => x.TeacherId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(x => x.Lesson)
-                .WithMany(x => x.ResponsibleTeachers)
-                .HasForeignKey(x => x.LessonId)
-                .OnDelete(DeleteBehavior.Cascade);
-        }
+        builder.HasOne(x => x.Lesson)
+            .WithMany(x => x.ResponsibleTeachers)
+            .HasForeignKey(x => x.LessonId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

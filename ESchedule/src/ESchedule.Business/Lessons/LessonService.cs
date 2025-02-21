@@ -1,35 +1,33 @@
-﻿using AutoMapper;
-using ESchedule.DataAccess.Context;
+﻿using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Lessons;
+using PowerInfrastructure.AutoMapper;
 
-namespace ESchedule.Business.Lessons
+namespace ESchedule.Business.Lessons;
+
+public class LessonService(
+    IRepository<LessonModel> repository, 
+    IMainMapper mapper, 
+    EScheduleDbContext dbContext
+) 
+    : BaseService<LessonModel>(repository, mapper), ILessonService
 {
-    public class LessonService : BaseService<LessonModel>, ILessonService
+    private readonly EScheduleDbContext _context = dbContext;
+
+    public async Task RemoveLessons(IEnumerable<Guid> lessonsToRemove)
     {
-        private readonly EScheduleDbContext _context;
+        var lessons = _context.Lessons.Where(x => lessonsToRemove.Contains(x.Id));
 
-        public LessonService(IRepository<LessonModel> repository, IMapper mapper, EScheduleDbContext dbContext) 
-            : base(repository, mapper)
-        {
-            _context = dbContext;
-        }
+        _context.Lessons.RemoveRange(lessons);
 
-        public async Task RemoveLessons(IEnumerable<Guid> lessonsToRemove)
-        {
-            var lessons = _context.Lessons.Where(x => lessonsToRemove.Contains(x.Id));
+        await _context.SaveChangesAsync();
 
-            _context.Lessons.RemoveRange(lessons);
+        //var tenantLessons = (await Where(x => x.TenantId == tenantId)).Value;
+        //var removedLessons = tenantLessons.Where(x => !newLessonsList.Contains(x.Id)).Select(x => x.Id);
 
-            await _context.SaveChangesAsync();
-
-            //var tenantLessons = (await Where(x => x.TenantId == tenantId)).Value;
-            //var removedLessons = tenantLessons.Where(x => !newLessonsList.Contains(x.Id)).Select(x => x.Id);
-
-            //foreach (var lesson in removedLessons)
-            //{
-            //    result = await RemoveItem(lesson);
-            //}
-        }
+        //foreach (var lesson in removedLessons)
+        //{
+        //    result = await RemoveItem(lesson);
+        //}
     }
 }

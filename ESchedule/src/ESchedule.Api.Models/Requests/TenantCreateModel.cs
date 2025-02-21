@@ -1,13 +1,11 @@
-﻿using ESchedule.Domain.Tenant;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ESchedule.Api.Models.Requests
+namespace ESchedule.Api.Models.Requests;
+
+public record TenantCreateModel
 {
-    public record TenantCreateModel
-    {
-        public string Name { get; set; } = null!;
-        
-        [NotMapped]
-        public TenantSettingsCreateModel Settings { get; set; } = null!;
-    }
+    public string Name { get; set; } = null!;
+    
+    [NotMapped]
+    public TenantSettingsCreateModel Settings { get; set; } = null!;
 }

@@ -1,7 +1,6 @@
-﻿namespace ESchedule.Business.Lessons
+﻿namespace ESchedule.Business.Lessons;
+
+public interface ILessonService
 {
-    public interface ILessonService
-    {
-        Task RemoveLessons(IEnumerable<Guid> newLessonsList);
-    }
+    Task RemoveLessons(IEnumerable<Guid> newLessonsList);
 }

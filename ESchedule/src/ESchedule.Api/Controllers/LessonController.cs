@@ -6,53 +6,47 @@ using ESchedule.Domain.Lessons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ESchedule.Api.Controllers
+namespace ESchedule.Api.Controllers;
+
+public class LessonController(
+    IBaseService<LessonModel> baseLessonService, 
+    ILessonService lessonService,
+    IAttendanceService attendanceService
+) 
+    : BaseController<LessonModel>(baseLessonService)
 {
-    public class LessonController : BaseController<LessonModel>
-    {
-        private readonly ILessonService _lessonService;
-        private readonly IAttendanceService _attendanceService;
+    [Authorize]
+    [HttpPost]
+    public async Task<LessonModel> CreateLesson([FromBody] LessonCreateModel lessonModel) 
+        => await service.CreateItem(lessonModel);
 
-        public LessonController(IBaseService<LessonModel> baseLessonService, ILessonService lessonService,
-            IAttendanceService attendanceService) : base(baseLessonService)
-        {
-            _lessonService = lessonService;
-            _attendanceService = attendanceService;
-        }
+    [Authorize]
+    [HttpPut("many")]
+    public async Task RemoveLessons([FromBody] IEnumerable<Guid> lessonsToRemove)
+        => await lessonService.RemoveLessons(lessonsToRemove);
 
-        [Authorize]
-        [HttpPost]
-        public async Task<LessonModel> CreateLesson([FromBody] LessonCreateModel lessonModel) 
-            => await _service.CreateItem(lessonModel);
+    [Authorize]
+    [HttpPut]
+    public async Task UpdateLesson([FromBody] LessonUpdateModel lessonModel)
+        => await service.UpdateItem(lessonModel);
 
-        [Authorize]
-        [HttpPut("many")]
-        public async Task RemoveLessons([FromBody] IEnumerable<Guid> lessonsToRemove)
-            => await _lessonService.RemoveLessons(lessonsToRemove);
+    [Authorize]
+    [HttpGet("{lessonId}")]
+    public async Task<LessonModel> GetLesson(Guid lessonId)
+        => await service.FirstOrDefault(x => x.Id == lessonId);
 
-        [Authorize]
-        [HttpPut]
-        public async Task UpdateLesson([FromBody] LessonUpdateModel lessonModel)
-            => await _service.UpdateItem(lessonModel);
+    [Authorize]
+    [HttpGet]
+    public async Task<IEnumerable<LessonModel>> GetLessons()
+        => await service.GetItems();
 
-        [Authorize]
-        [HttpGet("{lessonId}")]
-        public async Task<LessonModel> GetLesson(Guid lessonId)
-            => await _service.FirstOrDefault(x => x.Id == lessonId);
+    [Authorize]
+    [HttpDelete("{lessonId}")]
+    public async Task RemoveLesson(Guid lessonId)
+        => await service.RemoveItem(lessonId);
 
-        [Authorize]
-        [HttpGet]
-        public async Task<IEnumerable<LessonModel>> GetLessons()
-            => await _service.GetItems();
-
-        [Authorize]
-        [HttpDelete("{lessonId}")]
-        public async Task RemoveLesson(Guid lessonId)
-            => await _service.RemoveItem(lessonId);
-
-        //[Authorize]
-        [HttpPost("attendance/{pupilId}")]
-        public async Task TickPupilAttendance(Guid pupilId)
-            => await _attendanceService.TickPupilAttendance(pupilId);
-    }
+    //[Authorize]
+    [HttpPost("attendance/{pupilId}")]
+    public async Task TickPupilAttendance(Guid pupilId)
+        => await attendanceService.TickPupilAttendance(pupilId);
 }

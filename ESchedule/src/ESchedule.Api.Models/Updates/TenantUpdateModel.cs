@@ -1,7 +1,6 @@
-﻿namespace ESchedule.Api.Models.Updates
+﻿namespace ESchedule.Api.Models.Updates;
+
+public record TenantUpdateModel : BaseUpdateModel
 {
-    public record TenantUpdateModel : BaseUpdateModel
-    {
-        public string? Name { get; set; } = null!;
-    }
+    public string? Name { get; set; } = null!;
 }

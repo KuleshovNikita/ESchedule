@@ -1,10 +1,8 @@
-﻿using ESchedule.Domain;
-using ESchedule.Domain.Users;
+﻿using ESchedule.Domain.Users;
 
-namespace ESchedule.Business.Email
+namespace ESchedule.Business.Email;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        Task SendEmailConfirmMessage(UserModel userModel);
-    }
+    Task SendConfirmEmailMessage(UserModel userModel);
 }

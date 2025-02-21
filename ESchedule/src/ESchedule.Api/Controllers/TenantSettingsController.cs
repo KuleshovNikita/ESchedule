@@ -6,41 +6,36 @@ using ESchedule.Domain.Tenant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ESchedule.Api.Controllers
+namespace ESchedule.Api.Controllers;
+
+public class TenantSettingsController(
+    IBaseService<TenantSettingsModel> service, 
+    ITenantSettingsService tenantSettingsService
+)
+    : BaseController<TenantSettingsModel>(service)
 {
-    public class TenantSettingsController : BaseController<TenantSettingsModel>
-    {
-        private readonly ITenantSettingsService _tenantSettingsService;
+    [Authorize]
+    [HttpPost]
+    public async Task CreateTenantSettings([FromBody] TenantSettingsCreateModel tenantModel)
+        => await service.CreateItem(tenantModel);
 
-        public TenantSettingsController(IBaseService<TenantSettingsModel> service, ITenantSettingsService tenantSettingsService) 
-            : base(service)
-        {
-            _tenantSettingsService = tenantSettingsService;
-        }
+    [Authorize]
+    [HttpPut]
+    public async Task UpdateTenantSettings([FromBody] TenantSettingsUpdateModel tenantModel)
+        => await service.UpdateItem(tenantModel);
 
-        [Authorize]
-        [HttpPost]
-        public async Task CreateTenantSettings([FromBody] TenantSettingsCreateModel tenantModel)
-            => await _service.CreateItem(tenantModel);
+    [Authorize]
+    [HttpGet("time")]
+    public async Task<List<object>> GetTenantScheduleTimes()
+        => await tenantSettingsService.BuildSchedulesTimeTable();
 
-        [Authorize]
-        [HttpPut]
-        public async Task UpdateTenantSettings([FromBody] TenantSettingsUpdateModel tenantModel)
-            => await _service.UpdateItem(tenantModel);
+    [Authorize]
+    [HttpGet("{tenantId}")]
+    public async Task<TenantSettingsModel> GetTenantSettings(Guid tenantId)
+        => await service.FirstOrDefault(x => x.Id == tenantId);
 
-        [Authorize]
-        [HttpGet("time")]
-        public async Task<List<object>> GetTenantScheduleTimes()
-            => await _tenantSettingsService.BuildSchedulesTimeTable();
-
-        [Authorize]
-        [HttpGet("{tenantId}")]
-        public async Task<TenantSettingsModel> GetTenantSettings(Guid tenantId)
-            => await _service.FirstOrDefault(x => x.Id == tenantId);
-
-        [Authorize]
-        [HttpDelete("{tenantId}")]
-        public async Task RemoveTenantSettings(Guid tenantId)
-            => await _service.RemoveItem(tenantId);
-    }
+    [Authorize]
+    [HttpDelete("{tenantId}")]
+    public async Task RemoveTenantSettings(Guid tenantId)
+        => await service.RemoveItem(tenantId);
 }

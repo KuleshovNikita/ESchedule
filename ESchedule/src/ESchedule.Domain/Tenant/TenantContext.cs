@@ -1,12 +1,6 @@
-﻿namespace ESchedule.Domain.Tenant
-{
-    public class TenantContext
-    {
-        public Guid TenantId { get; init; }
+﻿namespace ESchedule.Domain.Tenant;
 
-        public TenantContext(Guid id) 
-        {
-            TenantId = id;
-        }
-    }
+public record TenantContext(Guid id)
+{
+    public Guid TenantId { get; init; } = id;
 }

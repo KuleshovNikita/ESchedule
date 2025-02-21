@@ -1,65 +1,50 @@
-﻿using AutoMapper;
-using ESchedule.Api.Models.Updates;
-using ESchedule.Business.Extensions;
-using ESchedule.Core.Interfaces;
+﻿using ESchedule.Api.Models.Updates;
+using ESchedule.Business.Hashing;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
 using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
+using PowerInfrastructure.AutoMapper;
 
-namespace ESchedule.Business.Users
+namespace ESchedule.Business.Users;
+
+public class UserService(
+    IRepository<UserModel> repository, 
+    IMainMapper mapper, 
+    IPasswordHasher passwordHasher,
+    ITenantContextProvider tenantContextProvider, 
+    IAuthRepository authRepository
+)
+    : BaseService<UserModel>(repository, mapper), IUserService
 {
-    public class UserService : BaseService<UserModel>, IUserService
+    public async Task SignUserToTenant(Guid userId)
+        => await SignUserToTenant(userId, tenantContextProvider.Current.TenantId);
+
+    public async Task SignUserToTenant(Guid userId, Guid tenantId)
     {
-        private readonly IPasswordHasher _passwordHasher;
-        private readonly IAuthRepository _authRepository;
-        private readonly ITenantContextProvider _tenantContextProvider;
+        var user = await authRepository.SingleOrDefault(x => x.Id == userId)
+            ?? throw new EntityNotFoundException(Resources.NoUsersForSpecifiedKeyWereFound);
 
-        public UserService(IRepository<UserModel> repository, IMapper mapper, IPasswordHasher passwordHasher,
-             ITenantContextProvider tenantContextProvider, IAuthRepository authRepository) 
-            : base(repository, mapper)
+        user.TenantId = tenantId;
+        await authRepository.SaveChangesAsync();
+    }
+
+    public async Task UpdateUser(UserUpdateModel updateModel)
+    {
+        var isPasswordChanged = updateModel.Password != null;
+
+        var user = await SingleOrDefault(x => x.Id == updateModel.Id)
+            ?? throw new EntityNotFoundException();
+
+        user = Mapper.MapOnlyUpdatedProperties(updateModel, user);
+
+        if (isPasswordChanged)
         {
-            _passwordHasher = passwordHasher;
-            _tenantContextProvider = tenantContextProvider;
-            _authRepository = authRepository;
+            user.Password = passwordHasher.HashPassword(updateModel.Password!);
         }
 
-        public async Task SignUserToTenant(Guid userId)
-            => await SignUserToTenant(userId, _tenantContextProvider.Current.TenantId);
-
-        public async Task SignUserToTenant(Guid userId, Guid tenantId)
-        {
-            var user = await _authRepository.SingleOrDefault(x => x.Id == userId);
-
-            if (user == null)
-            {
-                throw new EntityNotFoundException(Resources.NoUsersForSpecifiedKeyWereFound);
-            }
-
-            user.TenantId = tenantId;
-            await _authRepository.SaveChangesAsync();
-        }
-
-        public async Task UpdateUser(UserUpdateModel updateModel)
-        {
-            var isPsswordChanged = updateModel.Password != null;
-
-            if (!await ItemExists(updateModel.Id))
-            {
-                throw new EntityNotFoundException();
-            }
-
-            var user = await FirstOrDefault(x => x.Id == updateModel.Id);
-            user = _mapper.MapOnlyUpdatedProperties(updateModel, user);
-
-            if(isPsswordChanged)
-            {
-                user.Password = _passwordHasher.HashPassword(updateModel.Password!);
-            }
-
-            await _repository.Update(user);
-        }
+        await Repository.Update(user);
     }
 }

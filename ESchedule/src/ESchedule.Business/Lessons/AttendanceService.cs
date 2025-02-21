@@ -6,68 +6,60 @@ using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace ESchedule.Business.Lessons
-{
-    public class AttendanceService : IAttendanceService
-    {
-        private readonly EScheduleDbContext _context;
+namespace ESchedule.Business.Lessons;
 
-        public AttendanceService(EScheduleDbContext context)
+public class AttendanceService(EScheduleDbContext context) : IAttendanceService
+{
+    public async Task TickPupilAttendance(Guid pupilId)
+    {
+        var user = await context.Users
+                            .FirstOrDefaultAsync(x => x.Id == pupilId);
+
+        if (user == null)
         {
-            _context = context;
+            throw new EntityNotFoundException(Resources.NoUsersForSpecifiedKeyWereFound);
         }
 
-        public async Task TickPupilAttendance(Guid pupilId)
+        var currentTime = DateTime.Now;
+        ScheduleModel schedule = null!;
+
+        if (schedule == null)
         {
-            var user = await _context.Users
-                                .FirstOrDefaultAsync(x => x.Id == pupilId);
-
-            if(user == null)
-            {
-                throw new EntityNotFoundException(Resources.NoUsersForSpecifiedKeyWereFound);
-            }
-
-            var currentTime = DateTime.Now;
-            ScheduleModel schedule = null!;
-
-            if(schedule == null)
-            {
-                schedule = new ScheduleModel
-                {
-                    Id = Guid.NewGuid(),
-                    StartTime = currentTime.TimeOfDay,
-                    EndTime = currentTime.TimeOfDay,
-                    DayOfWeek = DateTime.Today.DayOfWeek,
-                    StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                    TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
-                    LessonId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                    TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
-                };
-
-                _context.Schedules.Add(schedule);
-                _context.SaveChanges();
-            }
-
-            var model = new AttendanceModel
+            schedule = new ScheduleModel
             {
                 Id = Guid.NewGuid(),
-                ScheduleId = schedule.Id,
-                PupilId = pupilId,
-                TenantId = schedule.TenantId,
-                Date = currentTime,
+                StartTime = currentTime.TimeOfDay,
+                EndTime = currentTime.TimeOfDay,
+                DayOfWeek = DateTime.Today.DayOfWeek,
+                StudyGroupId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                TeacherId = Guid.Parse("00000000-0000-0000-0000-000000000005"),
+                LessonId = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                TenantId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             };
 
-            await _context.Attendances.AddAsync(model);
-            await _context.SaveChangesAsync();
+            context.Schedules.Add(schedule);
+            context.SaveChanges();
         }
 
-        private ScheduleModel? GetTargetSchedule(UserModel user, TimeSpan currentTime)
+        var model = new AttendanceModel
         {
-            var groupId = user.GroupId;
+            Id = Guid.NewGuid(),
+            ScheduleId = schedule.Id,
+            PupilId = pupilId,
+            TenantId = schedule.TenantId,
+            Date = currentTime,
+        };
 
-            return _context.Schedules
-                .AsEnumerable()
-                .FirstOrDefault(x => x.StartTime <= currentTime && x.EndTime >= currentTime && groupId == x.StudyGroupId && x.DayOfWeek == DateTime.Today.DayOfWeek);
-        }
+        await context.Attendances.AddAsync(model);
+        await context.SaveChangesAsync();
+    }
+
+    private ScheduleModel? GetTargetSchedule(UserModel user, TimeSpan currentTime)
+    {
+        var groupId = user.GroupId;
+
+        return context.Schedules
+            .AsEnumerable()
+            .FirstOrDefault(x => x.StartTime <= currentTime && x.EndTime >= currentTime && groupId == x.StudyGroupId && x.DayOfWeek == DateTime.Today.DayOfWeek);
     }
 }

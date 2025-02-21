@@ -1,17 +1,15 @@
-﻿using ESchedule.Domain;
-using ESchedule.Domain.Lessons.Schedule;
+﻿using ESchedule.Domain.Lessons.Schedule;
 using System.Text.Json;
 
-namespace ESchedule.Business.ScheduleRules
+namespace ESchedule.Business.ScheduleRules;
+
+public class BaseScheduleRule
 {
-    public class BaseScheduleRule
-    {
-        public virtual string Name { get; set; } = null!;
+    public virtual string Name { get; set; } = null!;
 
-        public Guid ActorId { get; set; }
+    public Guid ActorId { get; set; }
 
-        public virtual bool Verify(ScheduleModel schedule) => throw new NotImplementedException();
+    public virtual bool Verify(ScheduleModel schedule) => throw new NotImplementedException();
 
-        public string GetJson() => JsonSerializer.Serialize(this, GetType());
-    }
+    public string GetJson() => JsonSerializer.Serialize(this, GetType());
 }

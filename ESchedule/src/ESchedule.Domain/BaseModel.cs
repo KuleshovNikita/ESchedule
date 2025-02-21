@@ -1,7 +1,6 @@
-﻿namespace ESchedule.Domain
+﻿namespace ESchedule.Domain;
+
+public abstract record BaseModel
 {
-    public abstract record BaseModel
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }
