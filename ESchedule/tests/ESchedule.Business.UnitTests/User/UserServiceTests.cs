@@ -10,6 +10,7 @@ using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
 using Moq;
 using PowerInfrastructure.AutoMapper;
+using PowerInfrastructure.Exceptions;
 using System.Linq.Expressions;
 using static Moq.It;
 

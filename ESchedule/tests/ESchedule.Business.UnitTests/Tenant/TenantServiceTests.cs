@@ -9,6 +9,7 @@ using ESchedule.Domain.Users;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
 using PowerInfrastructure.AutoMapper;
+using PowerInfrastructure.Exceptions;
 using PowerInfrastructure.Http;
 using System.Linq.Expressions;
 

@@ -15,7 +15,9 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using PowerInfrastructure.AutoMapper;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Authentication;
+using System.Security.Claims;
 using static Moq.It;
 
 namespace ESchedule.Business.UnitTests.Auth;
@@ -299,6 +301,67 @@ public class AuthServiceTests : TestBase<AuthService>
         await Sut.Register(createModel);
 
         _mockEmailService.Verify(x => x.SendConfirmEmailMessage(mappedUserModel), Times.Once);
+    }
+
+    [Theory]
+    [MemberData(nameof(InvalidInputs))]
+    public async Task GetAuthenticatedUserInfo_ReturnsNull_WhenInputIsNullOrEmpty(IEnumerable<Claim> input)
+    {
+        var result = await Sut.GetAuthenticatedUserInfo(input);
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetAuthenticatedUserInfo_Throws_WhenUserIdIsInvalid()
+    {
+        var claims = new Claim[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, "invalid-id")
+        };
+
+        var action = async () => await Sut.GetAuthenticatedUserInfo(claims);
+
+        await action.Should().ThrowAsync<InvalidOperationException>();
+    }
+
+    [Fact]
+    public async Task GetAuthenticatedUserInfo_IgnoresTenantFilter_WhenNotTenantClaimPresented()
+    {
+        var claims = new Claim[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+        };
+        _mockUserRepository
+            .Setup(x => x.IgnoreQueryFilters())
+            .Returns(_mockUserRepository.Object);
+
+        _ = await Sut.GetAuthenticatedUserInfo(claims);
+
+        _mockUserRepository.Verify(x => x.IgnoreQueryFilters(), Times.Once);
+    }
+
+    [Fact]
+    public async Task GetAuthenticatedUserInfo_AppliesTenantFilter_WhenTenantClaimPresented()
+    {
+        var claims = new Claim[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Surname, Guid.NewGuid().ToString()),
+        };
+        _mockUserRepository
+            .Setup(x => x.IgnoreQueryFilters())
+            .Returns(_mockUserRepository.Object);
+
+        _ = await Sut.GetAuthenticatedUserInfo(claims);
+
+        _mockUserRepository.Verify(x => x.IgnoreQueryFilters(), Times.Never);
+    }
+
+    public static IEnumerable<object[]> InvalidInputs()
+    {
+        yield return new object[] { null! };
+        yield return new object[] { Enumerable.Empty<Claim>() };
     }
 
     protected override AuthService GetNewSut()

@@ -1,8 +1,9 @@
 ﻿using ESchedule.Domain.Properties;
+using PowerInfrastructure.Exceptions;
 
 namespace ESchedule.Domain.Exceptions;
 
-public class EntityNotFoundException : Exception
+public class EntityNotFoundException : ItemNotFoundException
 {
     private static readonly string DefaultMessage = Resources.TheItemDoesntExist;
 

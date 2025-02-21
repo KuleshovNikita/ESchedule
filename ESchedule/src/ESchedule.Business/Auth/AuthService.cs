@@ -86,6 +86,25 @@ public class AuthService(
         return userResult.Id;
     }
 
+    public async Task<UserModel?> GetAuthenticatedUserInfo(IEnumerable<Claim>? claims)
+    {
+        if (claims.IsNullOrEmpty())
+        {
+            return null!; //TODO throw 401
+        }
+
+        var userId = claims!.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+        var hasTenant = claims!.Any(x => x.Type == ClaimTypes.Surname);
+
+        if (!Guid.TryParse(userId, out var id))
+        {
+            throw new InvalidOperationException("Invalid token provided");
+        }
+
+        var repo = hasTenant ? Repository : Repository.IgnoreQueryFilters();
+        return await repo.SingleOrDefault(x => x.Id == id);
+    }
+
     private async Task<UserModel> ValidateCredentials(AuthModel authModel)
     {
         ValidateEmail(authModel.Login);
@@ -140,10 +159,4 @@ public class AuthService(
 
     private async Task<bool> IsLoginAlreadyRegistered(string login)
        => await authRepository.Any(x => x.Login == login);
-
-    public async Task<UserModel> GetUserInfoWithTenant(Guid id)
-        => await userService.SingleOrDefault(x => x.Id == id);
-
-    public async Task<UserModel> GetUserInfoWithoutTenant(Guid id)
-        => await authRepository.SingleOrDefault(x => x.Id == id);
 }

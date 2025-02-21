@@ -4,7 +4,6 @@ using ESchedule.Business.Auth;
 using ESchedule.Domain;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace ESchedule.Api.Controllers;
 
@@ -19,27 +18,8 @@ public class AuthenticationController(IAuthService authService, IBaseService<Use
         => await authService.Login(authModel);
 
     [HttpGet]
-    public async Task<UserModel> GetAuthenticatedUserInfo()
-    {
-        var claims = HttpContext.User.Claims;
-
-        if(!claims.Any())
-        {
-            return null!;
-        }
-
-        var userId = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-        var hasTenant = claims.Any(x => x.Type == ClaimTypes.Surname);
-
-        if(!Guid.TryParse(userId, out var id))
-        {
-            throw new InvalidOperationException("Invalid token provided");
-        }
-
-        return hasTenant
-                ? await authService.GetUserInfoWithTenant(id)
-                : await authService.GetUserInfoWithoutTenant(id);
-    }
+    public async Task<UserModel?> GetAuthenticatedUserInfo()
+        => await authService.GetAuthenticatedUserInfo(HttpContext.User.Claims);
 
     [HttpPatch("confirmEmail/{key}")]
     public async Task<Guid> ConfirmEmail(string key)
