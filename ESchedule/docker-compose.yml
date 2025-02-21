@@ -5,7 +5,7 @@ services:
         condition: service_started
     image: localdockerimage:dev
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80
     container_name: "eschedule-api"
     build:

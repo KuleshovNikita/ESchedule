@@ -1,5 +1,5 @@
-﻿using ESchedule.Business.Mappers.Profiles;
-using ESchedule.Business.DependencyInjection;
+﻿using ESchedule.Business.DependencyInjection;
+using ESchedule.Business.Mappers.Profiles;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.DependencyInjection;
 using ESchedule.Domain.Auth;
@@ -13,12 +13,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PowerInfrastructure.DependencyInjection;
+using PowerInfrastructure.Extensions;
 using System.Reflection;
 using System.Text;
-using PowerInfrastructure.DependencyInjection;
 
 namespace ESchedule.Startup.Extensions;
 
@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDevelopmentServices(this IServiceCollection services, IWebHostEnvironment environment)
     {
-        if(environment.IsDevelopment())
+        if(environment.IsLocal())
         {
             services.AddSwagger();
             services.AddCors(x => x.AllowAnyOriginPolicy());

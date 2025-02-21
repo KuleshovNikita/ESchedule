@@ -25,7 +25,7 @@ public class AuthenticationController(IAuthService authService, IBaseService<Use
 
         if(!claims.Any())
         {
-            return null!;
+            return null!; //TODO throw 401
         }
 
         var userId = claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;

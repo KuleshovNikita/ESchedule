@@ -1,8 +1,8 @@
-using ESchedule.Api.Middlewares;
 using ESchedule.Startup.Extensions;
 using Microsoft.EntityFrameworkCore;
 using PowerInfrastructure.DependencyInjection.Extensions;
 using PowerInfrastructure.Extensions;
+using PowerInfrastructure.Http.Filters;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +11,10 @@ var environment = builder.Environment;
 
 builder.Services.AddLogging()
                 .AddEndpointsApiExplorer()
-                .AddControllers()
+                .AddControllers(opt =>
+                {
+                    opt.Filters.Add<ExceptionFilter>();
+                })
                 .AddJsonOptions(opt =>
                 {
                     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -39,7 +42,6 @@ if (environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors();
-app.UseExceptionHandler(new ExceptionHandlerOptions() { ExceptionHandler = new ExceptionHandler().InvokeAsync });
 
 app.UseAuthentication();
 app.UseAuthorization();
