@@ -1,6 +1,7 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Domain;
 using ESchedule.Domain.Users;
+using System.Security.Claims;
 
 namespace ESchedule.Business.Auth;
 
@@ -12,7 +13,5 @@ public interface IAuthService : IBaseService<UserModel>
 
     Task Register(UserCreateModel userModel);
 
-    Task<UserModel> GetUserInfoWithTenant(Guid id);
-
-    Task<UserModel> GetUserInfoWithoutTenant(Guid id);
+    Task<UserModel?> GetAuthenticatedUserInfo(IEnumerable<Claim>? claims);
 }
