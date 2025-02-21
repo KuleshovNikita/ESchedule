@@ -1,6 +1,6 @@
 ﻿using ESchedule.Api.Models.Updates;
+using ESchedule.Business.Hashing;
 using ESchedule.Business.Users;
-using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
 using ESchedule.Domain.Exceptions;

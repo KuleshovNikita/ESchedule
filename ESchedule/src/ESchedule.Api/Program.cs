@@ -44,8 +44,6 @@ app.UseExceptionHandler(new ExceptionHandlerOptions() { ExceptionHandler = new E
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseMiddleware<ErrorResponseMiddleware>();
-
 app.MapControllers();
 
 var migratedSuccessfully = await app.Migrate();

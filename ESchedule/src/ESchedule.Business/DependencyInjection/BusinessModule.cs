@@ -11,7 +11,6 @@ using ESchedule.Business.TeachersGroupsLessons;
 using ESchedule.Business.TeachersLessons;
 using ESchedule.Business.Tenant;
 using ESchedule.Business.Users;
-using ESchedule.Core.Interfaces;
 using ESchedule.Domain.ManyToManyModels;
 using Microsoft.Extensions.DependencyInjection;
 using PowerInfrastructure.AutoMapper;

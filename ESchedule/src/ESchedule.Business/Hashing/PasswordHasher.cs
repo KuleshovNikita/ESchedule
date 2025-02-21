@@ -1,5 +1,4 @@
-﻿using ESchedule.Core.Interfaces;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace ESchedule.Business.Hashing;
 
@@ -46,7 +45,7 @@ public class PasswordHasher : IPasswordHasher
     }
 
     private Rfc2898DeriveBytes MakeHash(string password, byte[] salt)
-        => new Rfc2898DeriveBytes(password, salt, RfcIterationsCount);
+        => new(password, salt, RfcIterationsCount, HashAlgorithmName.SHA256);
 
     private byte[] GetSaltOfPassword(string expectedHash)
     {

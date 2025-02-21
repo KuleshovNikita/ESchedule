@@ -2,7 +2,6 @@
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Email;
 using ESchedule.Business.Users;
-using ESchedule.Core.Interfaces;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
 using ESchedule.Domain.Auth;
@@ -17,6 +16,7 @@ using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
 using PowerInfrastructure.AutoMapper;
+using ESchedule.Business.Hashing;
 
 namespace ESchedule.Business.Auth;
 
