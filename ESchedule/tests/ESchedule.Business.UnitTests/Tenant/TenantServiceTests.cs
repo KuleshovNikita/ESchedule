@@ -1,4 +1,5 @@
 ﻿using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Requests.Create.Tenants;
 using ESchedule.Business.Tenant;
 using ESchedule.Business.Users;
 using ESchedule.DataAccess.Repos;

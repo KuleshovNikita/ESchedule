@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests.Update.Users;
 using ESchedule.Business.Hashing;
 using ESchedule.Business.Users;
 using ESchedule.DataAccess.Repos;
@@ -8,9 +8,7 @@ using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
-using Moq;
 using PowerInfrastructure.AutoMapper;
-using PowerInfrastructure.Exceptions;
 using System.Linq.Expressions;
 using static Moq.It;
 
