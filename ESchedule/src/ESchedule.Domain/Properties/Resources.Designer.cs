@@ -106,15 +106,6 @@ namespace ESchedule.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ERR0006.
-        /// </summary>
-        public static string InvalidDataFoundCantRegisterUser {
-            get {
-                return ResourceManager.GetString("InvalidDataFoundCantRegisterUser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ERR0007.
         /// </summary>
         public static string InvalidEmailAddressFormatSpecified {

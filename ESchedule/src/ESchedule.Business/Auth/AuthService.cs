@@ -1,22 +1,21 @@
 ﻿using ESchedule.Api.Models.Requests;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Email;
-using ESchedule.Business.Users;
+using ESchedule.Business.Hashing;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
+using ESchedule.Domain;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Users;
-using ESchedule.Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using PowerInfrastructure.AutoMapper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mail;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
-using PowerInfrastructure.AutoMapper;
-using ESchedule.Business.Hashing;
 
 namespace ESchedule.Business.Auth;
 
@@ -26,7 +25,6 @@ public class AuthService(
     IPasswordHasher passwordHasher,
     IEmailService emailService,
     IConfiguration config,
-    IUserService userService,
     IAuthRepository authRepository
 )
     : BaseService<UserModel>(repository, mapper), IAuthService
@@ -47,10 +45,7 @@ public class AuthService(
 
     public async Task Register(UserCreateModel userModel)
     {
-        if (userModel is null)
-        {
-            throw new ArgumentNullException(Resources.InvalidDataFoundCantRegisterUser);
-        }
+        ArgumentNullException.ThrowIfNull(userModel);
 
         ValidateEmail(userModel.Login);
 

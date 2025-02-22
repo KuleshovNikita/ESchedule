@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PowerInfrastructure.Exceptions;
 using PowerInfrastructure.Extensions;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
 
 namespace PowerInfrastructure.Http.Filters;
@@ -18,6 +19,7 @@ public class ExceptionFilter(IHostEnvironment environment, ILogger<ExceptionFilt
         {
             ItemNotFoundException => 404,
             AuthenticationException => 401,
+            ValidationException => 400,
             _ => 500,
         };
 

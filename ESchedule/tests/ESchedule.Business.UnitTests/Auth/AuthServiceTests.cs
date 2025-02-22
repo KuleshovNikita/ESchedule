@@ -3,7 +3,6 @@ using ESchedule.Api.Models.Updates;
 using ESchedule.Business.Auth;
 using ESchedule.Business.Email;
 using ESchedule.Business.Hashing;
-using ESchedule.Business.Users;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;
 using ESchedule.Domain;
@@ -12,10 +11,8 @@ using ESchedule.Domain.Users;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using Moq;
 using PowerInfrastructure.AutoMapper;
 using System.Linq.Expressions;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Authentication;
 using System.Security.Claims;
 using static Moq.It;
@@ -25,7 +22,6 @@ namespace ESchedule.Business.UnitTests.Auth;
 public class AuthServiceTests : TestBase<AuthService>
 {
     private Mock<IEmailService> _mockEmailService;
-    private Mock<IUserService> _mockUserService;
     private Mock<IAuthRepository> _mockAuthRepository;
     private Mock<IPasswordHasher> _mockPasswordHasher;
     private Mock<IRepository<UserModel>> _mockUserRepository;
@@ -35,7 +31,6 @@ public class AuthServiceTests : TestBase<AuthService>
     public AuthServiceTests()
     {
         _mockEmailService = new Mock<IEmailService>();
-        _mockUserService = new Mock<IUserService>();
         _mockAuthRepository = new Mock<IAuthRepository>();
         _mockPasswordHasher = new Mock<IPasswordHasher>();
         _mockUserRepository = new Mock<IRepository<UserModel>>();
@@ -371,7 +366,6 @@ public class AuthServiceTests : TestBase<AuthService>
             _mockPasswordHasher.Object,
             _mockEmailService.Object,
             _configuration,
-            _mockUserService.Object,
             _mockAuthRepository.Object
         );
 }
