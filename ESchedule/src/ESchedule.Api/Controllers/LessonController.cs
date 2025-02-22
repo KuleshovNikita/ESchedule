@@ -1,5 +1,5 @@
-﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests.Create.Lessons;
+using ESchedule.Api.Models.Requests.Update.Lessons;
 using ESchedule.Business;
 using ESchedule.Business.Lessons;
 using ESchedule.Domain.Lessons;

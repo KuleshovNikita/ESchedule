@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests.Create.Schedules.Rules;
 using ESchedule.Api.Models.Responses;
 using ESchedule.Business.ScheduleRules;
 using ESchedule.Business.Tenant;
@@ -41,7 +41,7 @@ public class ScheduleService(
         await InsertMany(schedules);
     }
 
-    private async Task InsertRules(IEnumerable<RuleInputModel> rules, Guid tenantId)
+    private async Task InsertRules(IEnumerable<RuleCreateModel> rules, Guid tenantId)
     {
         var ruleModels = rules.Select(r =>
             new RuleModel

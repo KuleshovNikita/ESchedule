@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests.Create.GroupsLessons;
 using ESchedule.Business.GroupsLessons;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.ManyToManyModels;

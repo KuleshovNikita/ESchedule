@@ -132,9 +132,6 @@
   <data name="InvalidDataFoundCantAuthenticateUser" xml:space="preserve">
     <value>ERR0005</value>
   </data>
-  <data name="InvalidDataFoundCantRegisterUser" xml:space="preserve">
-    <value>ERR0006</value>
-  </data>
   <data name="InvalidEmailAddressFormatSpecified" xml:space="preserve">
     <value>ERR0007</value>
   </data>

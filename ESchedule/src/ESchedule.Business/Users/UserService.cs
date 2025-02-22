@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests.Update.Users;
 using ESchedule.Business.Hashing;
 using ESchedule.DataAccess.Repos;
 using ESchedule.DataAccess.Repos.Auth;

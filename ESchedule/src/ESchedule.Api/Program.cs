@@ -23,6 +23,7 @@ builder.Services.AddLogging()
                 });
 
 builder.Services.AddDevelopmentServices(environment)
+                .AddValidators()
                 .RegisterDependencyModules()
                 .AddAutoMappers()
                 .AddHttpContextAccessor()
@@ -33,7 +34,7 @@ builder.Services.AddDevelopmentServices(environment)
 
 var app = builder.Build();
 
-if (environment.IsDevelopment())
+if (environment.IsLocal())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

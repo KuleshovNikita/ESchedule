@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests.Update.Users;
 using ESchedule.Domain.Users;
 
 namespace ESchedule.Business.Users;

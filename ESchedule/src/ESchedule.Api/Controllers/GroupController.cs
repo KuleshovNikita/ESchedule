@@ -1,5 +1,5 @@
-﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests.Create.Groups;
+using ESchedule.Api.Models.Requests.Update.Groups;
 using ESchedule.Business;
 using ESchedule.Domain.Users;
 using Microsoft.AspNetCore.Authorization;

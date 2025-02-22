@@ -1,6 +1,6 @@
-﻿using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests.Create.Schedules.Rules;
+using ESchedule.Api.Models.Requests.Update.Schedules;
 using ESchedule.Api.Models.Responses;
-using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Business.ScheduleRules;
@@ -56,7 +56,7 @@ public class ScheduleController(
 
     [Authorize(Policies.DispatcherOnly)]
     [HttpPost("rule")]
-    public async Task CreateRule([FromBody] RuleInputModel ruleModel)
+    public async Task CreateRule([FromBody] RuleCreateModel ruleModel)
        => await rulesService.CreateRule(ruleModel);
 
     [Authorize(Policies.DispatcherOnly)]

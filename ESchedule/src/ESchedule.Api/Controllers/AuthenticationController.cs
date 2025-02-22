@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests.Create.Users;
 using ESchedule.Business;
 using ESchedule.Business.Auth;
 using ESchedule.Domain;

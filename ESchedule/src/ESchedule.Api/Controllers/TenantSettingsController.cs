@@ -1,5 +1,5 @@
-﻿using ESchedule.Api.Models.Requests;
-using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests.Create.Tenants.Settings;
+using ESchedule.Api.Models.Requests.Update.Tenants.Settings;
 using ESchedule.Business;
 using ESchedule.Business.Tenant;
 using ESchedule.Domain.Tenant;
