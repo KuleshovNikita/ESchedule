@@ -1,7 +1,7 @@
 ﻿using ESchedule.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace ESchedule.Api.Models.Requests;
+namespace ESchedule.Api.Models.Requests.Create.Users;
 
 public record UserCreateModel
 {
@@ -11,7 +11,6 @@ public record UserCreateModel
 
     public string FatherName { get; set; } = null!;
 
-    [Range(5, 99)]
     public int Age { get; set; }
 
     public string Login { get; set; } = null!;

@@ -14,7 +14,6 @@ builder.Services.AddLogging()
                 .AddControllers(opt =>
                 {
                     opt.Filters.Add<ExceptionFilter>();
-                    opt.Filters.Add<RequestValidationFilter>();
                 })
                 .AddJsonOptions(opt =>
                 {
@@ -24,6 +23,7 @@ builder.Services.AddLogging()
                 });
 
 builder.Services.AddDevelopmentServices(environment)
+                .AddValidators()
                 .RegisterDependencyModules()
                 .AddAutoMappers()
                 .AddHttpContextAccessor()

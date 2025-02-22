@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests.Create.Schedules.Rules;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
@@ -13,7 +13,7 @@ public class RuleService(
 )
     : BaseService<RuleModel>(repository, mapper), IRuleService
 {
-    public async Task<RuleModel> CreateRule(RuleInputModel request)
+    public async Task<RuleModel> CreateRule(RuleCreateModel request)
     {
         ArgumentNullException.ThrowIfNull(request);
 

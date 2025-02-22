@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests.Create.Lessons;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.Lessons;

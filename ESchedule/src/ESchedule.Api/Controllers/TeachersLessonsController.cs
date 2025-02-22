@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests.Create.TeachersLessons;
 using ESchedule.Business;
 using ESchedule.Domain.ManyToManyModels;
 using Microsoft.AspNetCore.Authorization;

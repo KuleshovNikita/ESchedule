@@ -1,10 +1,13 @@
-﻿using ESchedule.Business.DependencyInjection;
+﻿using ESchedule.Api.Models.Requests.Create.Groups;
+using ESchedule.Business.DependencyInjection;
 using ESchedule.Business.Mappers.Profiles;
 using ESchedule.DataAccess.Context;
 using ESchedule.DataAccess.DependencyInjection;
 using ESchedule.Domain.Auth;
 using ESchedule.Domain.Policy;
 using ESchedule.Domain.Policy.Requirements;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +36,13 @@ public static class ServiceCollectionExtensions
         }
 
         return services;
+    }
+
+    public static IServiceCollection AddValidators(this IServiceCollection services)
+    {
+        return services
+                .AddFluentValidationAutoValidation()
+                .AddValidatorsFromAssemblyContaining<GroupCreateValidator>();
     }
 
     public static IServiceCollection RegisterDependencyModules(this IServiceCollection services)

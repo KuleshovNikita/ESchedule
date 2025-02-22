@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Requests.Create.Groups;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Domain.Users;
 

@@ -1,4 +1,4 @@
-﻿namespace ESchedule.Api.Models.Requests;
+﻿namespace ESchedule.Api.Models.Requests.Create.Lessons;
 
 public record LessonCreateModel
 {

@@ -1,4 +1,4 @@
-﻿namespace ESchedule.Api.Models.Requests;
+﻿namespace ESchedule.Api.Models.Requests.Create.Tenants.Settings;
 
 public record TenantSettingsCreateModel
 {

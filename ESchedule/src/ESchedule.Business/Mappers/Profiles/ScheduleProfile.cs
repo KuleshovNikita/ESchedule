@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using ESchedule.Api.Models.Requests;
+using ESchedule.Api.Models.Requests.Create.Schedules;
+using ESchedule.Api.Models.Requests.Create.Schedules.Rules;
 using ESchedule.Api.Models.Responses;
 using ESchedule.Api.Models.Updates;
 using ESchedule.Domain.Lessons.Schedule;
@@ -20,6 +21,6 @@ public class SchedulesProfile : Profile
             .ForMember(x => x.GroupName, o => o.MapFrom(x => x.StudyGroup.Title))
             .ForMember(x => x.LessonName, o => o.MapFrom(x => x.Lesson.Title));
 
-        CreateMap<RuleInputModel, RuleModel>();
+        CreateMap<RuleCreateModel, RuleModel>();
     }
 }
