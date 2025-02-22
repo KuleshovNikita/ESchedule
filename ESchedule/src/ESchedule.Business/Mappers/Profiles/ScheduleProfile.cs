@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ESchedule.Api.Models.Requests.Create.Schedules;
 using ESchedule.Api.Models.Requests.Create.Schedules.Rules;
+using ESchedule.Api.Models.Requests.Update.Schedules;
 using ESchedule.Api.Models.Responses;
-using ESchedule.Api.Models.Updates;
 using ESchedule.Domain.Lessons.Schedule;
 using ESchedule.Domain.Schedule.Rules;
 

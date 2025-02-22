@@ -1,4 +1,4 @@
-﻿namespace ESchedule.Api.Models.Updates;
+﻿namespace ESchedule.Api.Models.Requests.Update;
 
 public abstract record BaseUpdateModel
 {

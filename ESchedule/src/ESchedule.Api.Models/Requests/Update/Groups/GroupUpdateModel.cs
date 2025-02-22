@@ -1,4 +1,6 @@
-﻿namespace ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests.Update;
+
+namespace ESchedule.Api.Models.Requests.Update.Groups;
 
 public record GroupUpdateModel : BaseUpdateModel
 {

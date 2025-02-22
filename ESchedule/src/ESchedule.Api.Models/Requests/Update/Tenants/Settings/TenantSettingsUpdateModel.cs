@@ -1,4 +1,4 @@
-﻿namespace ESchedule.Api.Models.Updates;
+﻿namespace ESchedule.Api.Models.Requests.Update.Tenants.Settings;
 
 public record TenantSettingsUpdateModel : BaseUpdateModel
 {

@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Updates;
+﻿using ESchedule.Api.Models.Requests.Update;
 using ESchedule.DataAccess.Repos;
 using ESchedule.Domain;
 using ESchedule.Domain.Exceptions;

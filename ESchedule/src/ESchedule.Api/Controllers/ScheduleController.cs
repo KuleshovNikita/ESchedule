@@ -1,6 +1,6 @@
 ﻿using ESchedule.Api.Models.Requests.Create.Schedules.Rules;
+using ESchedule.Api.Models.Requests.Update.Schedules;
 using ESchedule.Api.Models.Responses;
-using ESchedule.Api.Models.Updates;
 using ESchedule.Business;
 using ESchedule.Business.ScheduleBuilding;
 using ESchedule.Business.ScheduleRules;

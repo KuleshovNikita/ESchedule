@@ -1,5 +1,5 @@
 ﻿using ESchedule.Api.Models.Requests.Create.Users;
-using ESchedule.Api.Models.Updates;
+using ESchedule.Api.Models.Requests.Update.Users;
 using ESchedule.Business.Email;
 using ESchedule.Business.Hashing;
 using ESchedule.DataAccess.Repos;

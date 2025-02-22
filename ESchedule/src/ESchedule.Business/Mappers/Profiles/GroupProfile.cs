@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ESchedule.Api.Models.Requests.Create.Groups;
-using ESchedule.Api.Models.Updates;
+using ESchedule.Api.Models.Requests.Update.Groups;
 using ESchedule.Domain.Users;
 
 namespace ESchedule.Business.Mappers.Profiles;

@@ -1,17 +1,18 @@
-﻿using FluentValidation;
+﻿using ESchedule.Api.Models.ValidationRules;
+using FluentValidation;
 
 namespace ESchedule.Api.Models.Requests.Create.Groups;
 
 public class GroupCreateValidator : AbstractValidator<GroupCreateModel>
 {
-    private readonly (int, int) _maxLessonsCountPerDayBoundaries = (1, 10);
+    private readonly MaxLessonsPerDayValidationRule _rule = new();
 
     public GroupCreateValidator()
     {
-        RuleFor(x => x.Title).NotEmpty();
+        RuleFor(x => x.Title)
+            .NotEmpty()
+            .MaximumLength(5);
         RuleFor(x => x.TenantId).NotEmpty();
-        RuleFor(x => x.MaxLessonsCountPerDay)
-            .InclusiveBetween(_maxLessonsCountPerDayBoundaries.Item1, _maxLessonsCountPerDayBoundaries.Item2)
-            .WithMessage($"Max lessons count per day value must be between {_maxLessonsCountPerDayBoundaries.Item1} and {_maxLessonsCountPerDayBoundaries.Item2}");
+        _rule.Apply(this);
     }
 }
