@@ -8,6 +8,7 @@ using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using PowerInfrastructure.AutoMapper;
 using System.Linq.Expressions;
 using static Moq.It;
@@ -21,6 +22,7 @@ public class UserServiceTests : TestBase<UserService>
     private readonly Mock<IPasswordHasher> _mockPasswordHasher;
     private readonly Mock<ITenantContextProvider> _mockTenantContextProvider;
     private readonly Mock<IAuthRepository> _mockAuthRepository;
+    private readonly Mock<ILogger<UserService>> _mockLogger;
 
     public UserServiceTests()
     {
@@ -29,6 +31,7 @@ public class UserServiceTests : TestBase<UserService>
         _mockPasswordHasher = new Mock<IPasswordHasher>();
         _mockTenantContextProvider = new Mock<ITenantContextProvider>();
         _mockAuthRepository = new Mock<IAuthRepository>();
+        _mockLogger = new Mock<ILogger<UserService>>();
 
         Sut = GetNewSut();
     }
@@ -125,6 +128,7 @@ public class UserServiceTests : TestBase<UserService>
             _mockMapper.Object,
             _mockPasswordHasher.Object,
             _mockTenantContextProvider.Object,
-            _mockAuthRepository.Object
+            _mockAuthRepository.Object,
+            _mockLogger.Object
         );
 }

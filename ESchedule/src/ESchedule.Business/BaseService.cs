@@ -16,20 +16,17 @@ public class BaseService<T>(IRepository<T> repository, IMainMapper mapper) : IBa
     public async virtual Task<T> CreateItem<TCreateModel>(TCreateModel itemCreateModel)
     {
         var itemDomainModel = Mapper.Map<T>(itemCreateModel);
-        // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
         itemDomainModel.Id = Guid.NewGuid();
         return await Repository.Insert(itemDomainModel);
     }
 
     public async virtual Task InsertMany(IEnumerable<T> itemsSet)
     {
-        // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
         await Repository.InsertMany(itemsSet);
     }
 
     public async virtual Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> itemsSet)
     {
-        // тут долна быть валидация, но надо проверить как валидирует модельки апи Model.IsValid, может в бинесе и не придется ничего валидировать
         var mappedItems = Mapper.Map<IEnumerable<T>>(itemsSet);
         await Repository.InsertMany(mappedItems);
     }

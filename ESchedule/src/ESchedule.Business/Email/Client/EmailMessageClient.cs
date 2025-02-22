@@ -1,11 +1,12 @@
 ﻿using ESchedule.Domain.Properties;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Net.Mail;
 
 namespace ESchedule.Business.Email.Client;
 
-public class EmailMessageClient(IConfiguration config) : IEmailMessageClient
+public class EmailMessageClient(IConfiguration config, ILogger<EmailMessageClient> logger) : IEmailMessageClient
 {
     private readonly IConfiguration _config = config;
 
@@ -25,6 +26,14 @@ public class EmailMessageClient(IConfiguration config) : IEmailMessageClient
             Credentials = new NetworkCredential(sender, password)
         };
 
-        await client.SendMailAsync(sender!, consumer, Resources.ConfirmYourEmail, message);
+        try
+        {
+            await client.SendMailAsync(sender!, consumer, Resources.ConfirmYourEmail, message);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed sending registration confirmation email message");
+            throw;
+        }
     }
 }

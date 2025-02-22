@@ -6,6 +6,7 @@ using ESchedule.Domain.Exceptions;
 using ESchedule.Domain.Properties;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
+using Microsoft.Extensions.Logging;
 using PowerInfrastructure.AutoMapper;
 
 namespace ESchedule.Business.Users;
@@ -15,7 +16,8 @@ public class UserService(
     IMainMapper mapper, 
     IPasswordHasher passwordHasher,
     ITenantContextProvider tenantContextProvider, 
-    IAuthRepository authRepository
+    IAuthRepository authRepository,
+    ILogger<UserService> logger
 )
     : BaseService<UserModel>(repository, mapper), IUserService
 {
@@ -24,15 +26,21 @@ public class UserService(
 
     public async Task SignUserToTenant(Guid userId, Guid tenantId)
     {
+        logger.LogInformation("Signing user {userId} to tenant {tenantId}", userId, tenantId);
+
         var user = await authRepository.SingleOrDefault(x => x.Id == userId)
             ?? throw new EntityNotFoundException(Resources.NoUsersForSpecifiedKeyWereFound);
 
         user.TenantId = tenantId;
         await authRepository.SaveChangesAsync();
+
+        logger.LogInformation("Successfully signed user {userId} to tenant {tenantId}", userId, tenantId);
     }
 
     public async Task UpdateUser(UserUpdateModel updateModel)
     {
+        logger.LogInformation("Updating information for user {userId}", updateModel.Id);
+
         var isPasswordChanged = updateModel.Password != null;
 
         var user = await SingleOrDefault(x => x.Id == updateModel.Id)
@@ -46,5 +54,7 @@ public class UserService(
         }
 
         await Repository.Update(user);
+
+        logger.LogInformation("Updated user data successfully");
     }
 }

@@ -10,6 +10,7 @@ using ESchedule.Domain.Schedule;
 using ESchedule.Domain.Schedule.Rules;
 using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
+using Microsoft.Extensions.Logging;
 using PowerInfrastructure.AutoMapper;
 using System.Data;
 using System.Linq.Expressions;
@@ -25,12 +26,15 @@ public class ScheduleService(
     IRepository<ScheduleModel> repo, 
     IMainMapper mapper,
     IBaseService<RuleModel> ruleService, 
-    ITenantContextProvider tenantContextProvider
+    ITenantContextProvider tenantContextProvider,
+    ILogger<ScheduleService> logger
 )
     : BaseService<ScheduleModel>(repo, mapper), IScheduleService, IBaseService<ScheduleModel>
 {
     public async Task BuildSchedule()
     {
+        logger.LogInformation("Building schedule on tenant {tenantId}", tenantContextProvider.Current.TenantId);
+
         var rules = await ruleService.GetItems();
 
         var builderData = await GetNecessaryBuilderData();
