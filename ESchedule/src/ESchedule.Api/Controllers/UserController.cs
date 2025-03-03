@@ -12,7 +12,7 @@ public class UserController(IBaseService<UserModel> baseService, IUserService us
 {
     [Authorize]
     [HttpPut]
-    public async Task UpdateUser([FromBody] UserUpdateModel userModel)
+    public async Task<UserModel> UpdateUser([FromBody] UserUpdateModel userModel)
         => await userService.UpdateUser(userModel);
 
     [Authorize]

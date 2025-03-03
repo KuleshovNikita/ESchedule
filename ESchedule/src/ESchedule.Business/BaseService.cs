@@ -64,15 +64,17 @@ public class BaseService<T>(IRepository<T> repository, IMainMapper mapper) : IBa
         await Repository.Remove(item);
     }
 
-    public async virtual Task UpdateItem<TUpdatedModel>(TUpdatedModel updateModel)
+    public async virtual Task<T> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel)
         where TUpdatedModel : BaseUpdateModel
     {
         await ThrowIfDoesNotExist(updateModel.Id);
 
-        var user = await FirstOrDefault(x => x.Id == updateModel.Id);
-        user = Mapper.MapOnlyUpdatedProperties(updateModel, user);
+        var item = await FirstOrDefault(x => x.Id == updateModel.Id);
+        item = Mapper.MapOnlyUpdatedProperties(updateModel, item);
 
-        await Repository.Update(user);
+        await Repository.Update(item);
+
+        return item;
     }
 
     protected async Task<bool> ItemExists(Guid itemId)

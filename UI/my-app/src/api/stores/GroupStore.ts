@@ -14,8 +14,18 @@ export default class GroupStore implements CacheDisposable {
     createGroup = async (group: GroupCreateModel) => 
         await this.client.createGroup(group);
     
-    updateGroup = async (group: GroupUpdateModel) => 
-        await this.client.updateGroup(group);
+    updateGroup = async (group: GroupUpdateModel) => {
+        const updatedGroup = await this.client.updateGroup(group);
+        this.groups = this.groups!.map((val: GroupModel) => { 
+            if(val.id === updatedGroup.id) {
+                val = updatedGroup;
+            }
+
+            return val;
+        });
+
+        return updatedGroup;
+    }        
 
     removeGroup = async (id: string) => 
         await this.client.removeGroup(id);

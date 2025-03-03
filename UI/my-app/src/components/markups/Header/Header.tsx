@@ -18,12 +18,13 @@ import EIcon from '../../wrappers/EIcon';
 import { useRoleCheck } from "../../../hooks/useRoleCheck";
 import { useTenantCheck } from "../../../hooks/useTenantCheck";
 import pageRoutes from "../../../utils/RoutesProvider";
+import { observer } from "mobx-react-lite";
 
 const navOptions = { 
     replace: false
 }
 
-const Header = () => {
+const Header = observer(() => {
     const { userStore, tenantStore } = useStore();
     const checkRole = useRoleCheck();
     const checkTenantNotEmpty = useTenantCheck();
@@ -118,6 +119,6 @@ const Header = () => {
             }
         </>
     );
-}
+});
 
 export default Header;

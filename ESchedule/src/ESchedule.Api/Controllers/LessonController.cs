@@ -27,7 +27,7 @@ public class LessonController(
 
     [Authorize]
     [HttpPut]
-    public async Task UpdateLesson([FromBody] LessonUpdateModel lessonModel)
+    public async Task<LessonModel> UpdateLesson([FromBody] LessonUpdateModel lessonModel)
         => await service.UpdateItem(lessonModel);
 
     [Authorize]

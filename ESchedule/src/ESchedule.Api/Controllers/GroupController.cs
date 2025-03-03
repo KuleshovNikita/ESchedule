@@ -16,7 +16,7 @@ public class GroupController(IBaseService<GroupModel> groupService) : BaseContro
 
     [Authorize]
     [HttpPut]
-    public async Task UpdateGroup([FromBody] GroupUpdateModel groupModel)
+    public async Task<GroupModel> UpdateGroup([FromBody] GroupUpdateModel groupModel)
         => await service.UpdateItem(groupModel);
 
     [Authorize]

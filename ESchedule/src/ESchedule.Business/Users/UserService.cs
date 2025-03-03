@@ -37,7 +37,7 @@ public class UserService(
         logger.LogInformation("Successfully signed user {userId} to tenant {tenantId}", userId, tenantId);
     }
 
-    public async Task UpdateUser(UserUpdateModel updateModel)
+    public async Task<UserModel> UpdateUser(UserUpdateModel updateModel)
     {
         logger.LogInformation("Updating information for user {userId}", updateModel.Id);
 
@@ -56,5 +56,7 @@ public class UserService(
         await Repository.Update(user);
 
         logger.LogInformation("Updated user data successfully");
+
+        return user;
     }
 }
