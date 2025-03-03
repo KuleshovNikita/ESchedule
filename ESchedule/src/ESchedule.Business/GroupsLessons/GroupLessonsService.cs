@@ -14,7 +14,10 @@ public class GroupLessonsService(
 {
     public async override Task InsertMany<TCreateModel>(IEnumerable<TCreateModel> request)
     {
-        ArgumentException.ThrowIfNullOrEmpty(nameof(request));
+        if (request == null || !request.Any())
+        {
+            throw new ArgumentNullException(nameof(request));
+        }
 
         var mapped = request.Select(x =>
         {

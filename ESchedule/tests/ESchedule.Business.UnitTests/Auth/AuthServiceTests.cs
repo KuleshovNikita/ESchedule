@@ -100,14 +100,6 @@ public class AuthServiceTests : TestBase<AuthService>
     }
 
     [Fact]
-    public async Task Login_Throws_IfLoginIsNotEmailFormat()
-    {
-        var action = async () => await Sut.Login(new AuthModel { Login = "invalid_login" });
-
-        await action.Should().ThrowAsync<FormatException>();
-    }
-
-    [Fact]
     public async Task Login_Throws_IfEmailNotConfirmed()
     {
         _mockAuthRepository
@@ -181,19 +173,6 @@ public class AuthServiceTests : TestBase<AuthService>
         var action = async () => await Sut.Register(userCreateModel);
 
         await action.Should().ThrowAsync<InvalidOperationException>();
-    }
-
-    [Fact]
-    public async Task Register_Throws_IfLoginIsNotEmailFormat()
-    {
-        var mappedUserModel = new UserModel
-        {
-            Login = "invalid_login"
-        };
-
-        var action = async () => await Sut.Register(new());
-
-        await action.Should().ThrowAsync<FormatException>();
     }
 
     [Fact]

@@ -34,12 +34,12 @@ public class AuthService(
 
     public async Task<string> Login(AuthModel authModel)
     {
-        logger.LogInformation("Trying to login user {email}", authModel.Login);
-
         if (authModel is null)
         {
             throw new ArgumentNullException(nameof(authModel), Resources.InvalidDataFoundCantAuthenticateUser);
         }
+
+        logger.LogInformation("Trying to login user {email}", authModel.Login);
 
         var user = await ValidateCredentials(authModel);
 

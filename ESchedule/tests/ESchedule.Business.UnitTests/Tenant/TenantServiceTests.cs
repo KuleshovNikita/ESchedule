@@ -322,6 +322,9 @@ public class TenantServiceTests : TestBase<TenantService>
         _mockRepository
             .Setup(x => x.SingleOrDefault(It.IsAny<Expression<Func<TenantModel, bool>>>()))
             .ReturnsAsync(tenantResult);
+        _mockTenantContextProvider
+            .Setup(x => x.Current)
+            .Returns(new TenantContext(Guid.NewGuid()));
         var sut = GetNewSut();
 
         var action = sut.GetAccessRequests;
