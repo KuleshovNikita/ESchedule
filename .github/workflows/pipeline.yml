@@ -10,10 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./ESchedule
 
     steps:
     - uses: actions/checkout@v4
@@ -24,10 +20,10 @@ jobs:
         dotnet-version: 8.0.x
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./ESchedule/ESchedule.sln
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./ESchedule/ESchedule.sln --no-restore
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test ./ESchedule/ESchedule.sln --no-build --verbosity normal
