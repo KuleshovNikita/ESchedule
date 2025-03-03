@@ -74,7 +74,7 @@ const Auth = {
 }
 
 const User = {
-    updateUser: (body: UserUpdateModel) => requests.put("/user", body),
+    updateUser: (body: UserUpdateModel) => requests.put<UserModel>("/user", body),
     updateUserTenant: (userId: string) => requests.patch(`/user/tenant/${userId}`),
     getUser: (id: string) => requests.get<UserModel>(`/user/${id}`),
     getUsersByRole: (role: Role) => requests.get<UserModel[]>(`/user/role/${role}`),

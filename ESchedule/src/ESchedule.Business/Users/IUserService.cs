@@ -5,7 +5,7 @@ namespace ESchedule.Business.Users;
 
 public interface IUserService : IBaseService<UserModel>
 {
-    Task UpdateUser(UserUpdateModel updateModel);
+    Task<UserModel> UpdateUser(UserUpdateModel updateModel);
 
     Task SignUserToTenant(Guid userId);
 

@@ -35,8 +35,12 @@ export default class UserStore implements CacheDisposable {
         clearStores(store);
     };
 
-    updateUserInfo = async (user: UserUpdateModel) => 
-        await agent.User.updateUser(user);
+    updateUserInfo = async (user: UserUpdateModel) => {
+        const updatedUser = await agent.User.updateUser(user);
+        this.user = updatedUser;
+
+        return updatedUser;
+    }
 
     updateUserTenant = async (userId: string) => 
         await agent.User.updateUserTenant(userId);
