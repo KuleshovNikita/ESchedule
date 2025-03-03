@@ -1,5 +1,4 @@
 ﻿using ESchedule.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace ESchedule.Api.Models.Requests.Create.Users;
 

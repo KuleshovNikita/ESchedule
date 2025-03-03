@@ -1,4 +1,4 @@
-﻿using ESchedule.Api.Models.Requests;
+﻿using ESchedule.Api.Models.Requests.Create.Tenants;
 using ESchedule.Business.Tenant;
 using ESchedule.Business.Users;
 using ESchedule.DataAccess.Repos;
@@ -8,8 +8,8 @@ using ESchedule.Domain.Tenant;
 using ESchedule.Domain.Users;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using PowerInfrastructure.AutoMapper;
-using PowerInfrastructure.Exceptions;
 using PowerInfrastructure.Http;
 using System.Linq.Expressions;
 
@@ -25,6 +25,7 @@ public class TenantServiceTests : TestBase<TenantService>
     private readonly Mock<IClaimsAccessor> _mockClaimAccessor;
     private readonly Mock<ITenantContextProvider> _mockTenantContextProvider;
     private readonly Mock<IRepository<UserModel>> _mockUserRepo;
+    private readonly Mock<ILogger<TenantService>> _mockLogger;
 
     public TenantServiceTests()
     {
@@ -36,6 +37,7 @@ public class TenantServiceTests : TestBase<TenantService>
         _mockClaimAccessor = new Mock<IClaimsAccessor>();
         _mockTenantContextProvider = new Mock<ITenantContextProvider>();
         _mockUserRepo = new Mock<IRepository<UserModel>>();
+        _mockLogger = new Mock<ILogger<TenantService>>();
     }
 
     [Fact]
@@ -320,6 +322,9 @@ public class TenantServiceTests : TestBase<TenantService>
         _mockRepository
             .Setup(x => x.SingleOrDefault(It.IsAny<Expression<Func<TenantModel, bool>>>()))
             .ReturnsAsync(tenantResult);
+        _mockTenantContextProvider
+            .Setup(x => x.Current)
+            .Returns(new TenantContext(Guid.NewGuid()));
         var sut = GetNewSut();
 
         var action = sut.GetAccessRequests;
@@ -442,6 +447,7 @@ public class TenantServiceTests : TestBase<TenantService>
                 _mockUserService.Object,
                 _mockClaimAccessor.Object,
                 _mockTenantContextProvider.Object,
-                _mockUserRepo.Object
+                _mockUserRepo.Object,
+                _mockLogger.Object
         );
 }

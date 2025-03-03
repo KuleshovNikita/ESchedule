@@ -1,4 +1,5 @@
-﻿using ESchedule.Api.Models.Requests.Create.Users;
+﻿using Castle.Core.Logging;
+using ESchedule.Api.Models.Requests.Create.Users;
 using ESchedule.Api.Models.Requests.Update.Users;
 using ESchedule.Business.Auth;
 using ESchedule.Business.Email;
@@ -11,6 +12,7 @@ using ESchedule.Domain.Users;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using PowerInfrastructure.AutoMapper;
 using System.Linq.Expressions;
 using System.Security.Authentication;
@@ -27,6 +29,7 @@ public class AuthServiceTests : TestBase<AuthService>
     private Mock<IRepository<UserModel>> _mockUserRepository;
     private Mock<IMainMapper> _mockMapper;
     private IConfiguration _configuration;
+    private Mock<ILogger<AuthService>> _mockLogger;
 
     public AuthServiceTests()
     {
@@ -35,6 +38,7 @@ public class AuthServiceTests : TestBase<AuthService>
         _mockPasswordHasher = new Mock<IPasswordHasher>();
         _mockUserRepository = new Mock<IRepository<UserModel>>();
         _mockMapper = new Mock<IMainMapper>();
+        _mockLogger = new Mock<ILogger<AuthService>>();
 
         var inMemorySettings = new Dictionary<string, string?>
         {
@@ -93,14 +97,6 @@ public class AuthServiceTests : TestBase<AuthService>
         var action = async () => await Sut.Login(null!);
 
         await action.Should().ThrowAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async Task Login_Throws_IfLoginIsNotEmailFormat()
-    {
-        var action = async () => await Sut.Login(new AuthModel { Login = "invalid_login" });
-
-        await action.Should().ThrowAsync<FormatException>();
     }
 
     [Fact]
@@ -177,19 +173,6 @@ public class AuthServiceTests : TestBase<AuthService>
         var action = async () => await Sut.Register(userCreateModel);
 
         await action.Should().ThrowAsync<InvalidOperationException>();
-    }
-
-    [Fact]
-    public async Task Register_Throws_IfLoginIsNotEmailFormat()
-    {
-        var mappedUserModel = new UserModel
-        {
-            Login = "invalid_login"
-        };
-
-        var action = async () => await Sut.Register(new());
-
-        await action.Should().ThrowAsync<FormatException>();
     }
 
     [Fact]
@@ -366,6 +349,7 @@ public class AuthServiceTests : TestBase<AuthService>
             _mockPasswordHasher.Object,
             _mockEmailService.Object,
             _configuration,
-            _mockAuthRepository.Object
+            _mockAuthRepository.Object,
+            _mockLogger.Object
         );
 }

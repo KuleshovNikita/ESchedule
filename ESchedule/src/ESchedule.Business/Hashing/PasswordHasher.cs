@@ -1,8 +1,9 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.Extensions.Logging;
+using System.Security.Cryptography;
 
 namespace ESchedule.Business.Hashing;
 
-public class PasswordHasher : IPasswordHasher
+public class PasswordHasher(ILogger<PasswordHasher> logger) : IPasswordHasher
 {
     private const int RfcIterationsCount = 100000;
     private const int SaltLength = 16;
@@ -13,6 +14,8 @@ public class PasswordHasher : IPasswordHasher
 
     public string HashPassword(string password)
     {
+        logger.LogTrace("Hashing password...");
+
         var salt = new byte[SaltLength];
         _cryptoProvider.GetBytes(salt);
 

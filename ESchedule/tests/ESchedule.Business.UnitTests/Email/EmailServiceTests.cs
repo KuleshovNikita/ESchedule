@@ -1,10 +1,11 @@
-﻿using ESchedule.Business.Email;
+﻿using Castle.Core.Logging;
+using ESchedule.Business.Email;
 using ESchedule.Business.Email.Client;
 using ESchedule.Domain.Users;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using Moq;
+using Microsoft.Extensions.Logging;
 
 namespace ESchedule.Business.UnitTests.Email;
 
@@ -12,11 +13,13 @@ public class EmailServiceTests : TestBase<EmailService>
 {
     private Mock<IConfiguration> _mockConfig;
     private Mock<IEmailMessageClient> _mockMessageClient;
+    private Mock<ILogger<EmailService>> _mockLogger;
 
     public EmailServiceTests()
     {
         _mockConfig = new Mock<IConfiguration>();
         _mockMessageClient = new Mock<IEmailMessageClient>();
+        _mockLogger = new Mock<ILogger<EmailService>>();
 
         Sut = GetNewSut();
     }
@@ -86,5 +89,5 @@ public class EmailServiceTests : TestBase<EmailService>
     }
 
     protected override EmailService GetNewSut()
-        => new(_mockConfig.Object, _mockMessageClient.Object);
+        => new(_mockConfig.Object, _mockMessageClient.Object, _mockLogger.Object);
 }

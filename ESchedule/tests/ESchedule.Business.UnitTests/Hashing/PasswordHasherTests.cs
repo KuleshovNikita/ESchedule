@@ -1,13 +1,18 @@
 ﻿using ESchedule.Business.Hashing;
 using ESchedule.UnitTestsHelpers.Infrastructure;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 
 namespace ESchedule.Business.UnitTests.Hashing;
 
 public class PasswordHasherTests : TestBase<PasswordHasher>
 {
+    private readonly Mock<ILogger<PasswordHasher>> _mockPasswordHasher;
+
     public PasswordHasherTests()
     {
+        _mockPasswordHasher = new Mock<ILogger<PasswordHasher>>();
+
         Sut = GetNewSut();
     }
 
@@ -56,5 +61,5 @@ public class PasswordHasherTests : TestBase<PasswordHasher>
     }
 
     protected override PasswordHasher GetNewSut()
-        => new();
+        => new(_mockPasswordHasher.Object);
 }
