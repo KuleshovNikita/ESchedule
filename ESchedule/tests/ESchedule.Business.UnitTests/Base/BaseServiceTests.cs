@@ -25,6 +25,10 @@ public class BaseServiceTests : TestBase<BaseService<TestDomainEntity>>
     [Fact]
     public async Task CreateItem_MapsCreateModelToDomainModel()
     {
+        _mockMapper
+            .Setup(x => x.Map<TestDomainEntity>(It.IsAny<TestCreateEntity>()))
+            .Returns(new TestDomainEntity());
+
         _ = await Sut.CreateItem(new TestCreateEntity());
 
         _mockMapper.Verify(x => x.Map<It.IsAnyType>(It.IsAny<TestCreateEntity>()), Times.Once);
