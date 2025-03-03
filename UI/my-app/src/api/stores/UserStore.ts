@@ -42,8 +42,10 @@ export default class UserStore implements CacheDisposable {
         return updatedUser;
     }
 
-    updateUserTenant = async (userId: string) => 
+    updateUserTenant = async (userId: string) => {
         await agent.User.updateUserTenant(userId);
+        this.user!.tenantId = userId;
+    }        
 
     confirmEmail = async (key: string) => 
         await agent.Auth.confirmEmail(key);

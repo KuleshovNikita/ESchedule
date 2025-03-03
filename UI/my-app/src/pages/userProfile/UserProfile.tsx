@@ -73,8 +73,6 @@ export default function UserPage() {
             return;
         }
 
-        setProfileChanging();
-
         const user: UserUpdateModel = {
             id: currentUser?.id!,
             login: emailInput.value, 
@@ -88,6 +86,8 @@ export default function UserPage() {
         };
 
         await userStore.updateUserInfo(user);
+
+        setProfileChanging();
         
         toast.success(translator('toasts.profile-updated'));
     }

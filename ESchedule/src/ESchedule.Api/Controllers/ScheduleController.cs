@@ -26,7 +26,7 @@ public class ScheduleController(
 
     [Authorize(Policies.DispatcherOnly)]
     [HttpPut]
-    public async Task UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel) //TODO сделать позже, подумать как должно работать
+    public async Task<ScheduleModel> UpdateSchedule([FromBody] ScheduleUpdateModel scheduleModel) //TODO сделать позже, подумать как должно работать
         => await service.UpdateItem(scheduleModel);
 
     [Authorize]

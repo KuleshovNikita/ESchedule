@@ -28,5 +28,5 @@ public interface IBaseService<TModel> where TModel : BaseModel
 
     Task RemoveItem(TModel item);
 
-    Task UpdateItem<TUpdatedModel>(TUpdatedModel updateModel) where TUpdatedModel : BaseUpdateModel;
+    Task<TModel> UpdateItem<TUpdatedModel>(TUpdatedModel updateModel) where TUpdatedModel : BaseUpdateModel;
 }

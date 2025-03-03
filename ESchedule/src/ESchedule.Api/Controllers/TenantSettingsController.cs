@@ -21,7 +21,7 @@ public class TenantSettingsController(
 
     [Authorize]
     [HttpPut]
-    public async Task UpdateTenantSettings([FromBody] TenantSettingsUpdateModel tenantModel)
+    public async Task<TenantSettingsModel> UpdateTenantSettings([FromBody] TenantSettingsUpdateModel tenantModel)
         => await service.UpdateItem(tenantModel);
 
     [Authorize]

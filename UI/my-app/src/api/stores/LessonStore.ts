@@ -15,8 +15,18 @@ export default class LessonStore implements CacheDisposable {
         await this.client.createLesson(lesson)
             .then((item) => this.lessons?.push(item));
 
-    updateLesson = async (lesson: LessonUpdateModel) => 
-        await this.client.updateLesson(lesson);
+    updateLesson = async (lesson: LessonUpdateModel) => {
+        const updatedLesson = await this.client.updateLesson(lesson);
+        this.lessons = this.lessons!.map((val: LessonModel) => { 
+            if(val.id === updatedLesson.id) {
+                val = updatedLesson;
+            }
+
+            return val;
+        });
+        
+        return updatedLesson;
+    }
 
     removeLesson = async (id: string) => 
         await this.client.removeLesson(id);

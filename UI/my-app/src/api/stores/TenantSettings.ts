@@ -15,8 +15,12 @@ export default class TenantSettingsStore implements CacheDisposable {
     createTenantSettings = async (settings: TenantSettingsCreateModel) => 
         await this.client.createTenantSettings(settings);
 
-    updateTenantSettings = async (settings: TenantSettingsUpdateModel) =>
-        await this.client.updateTenantSettings(settings);
+    updateTenantSettings = async (settings: TenantSettingsUpdateModel) => {
+        const updatedSettings = await this.client.updateTenantSettings(settings);
+        this.settings = updatedSettings;
+
+        return updatedSettings;
+    }
 
     removeTenantSettings = async (id: string) =>
         await this.client.removeTenantSettings(id);

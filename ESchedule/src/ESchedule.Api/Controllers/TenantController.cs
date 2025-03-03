@@ -39,7 +39,7 @@ public class TenantController(IBaseService<TenantModel> service, ITenantService 
 
     [Authorize]
     [HttpPut]
-    public async Task UpdateTenant([FromBody] TenantUpdateModel tenantModel)
+    public async Task<TenantModel> UpdateTenant([FromBody] TenantUpdateModel tenantModel)
         => await service.UpdateItem(tenantModel);
 
     [Authorize]

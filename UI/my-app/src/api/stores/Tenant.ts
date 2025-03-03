@@ -24,8 +24,12 @@ export default class TenantStore implements CacheDisposable {
         return await this.client.createTenant(tenant); 
     }
         
-    updateTenant = async (tenant: TenantUpdateModel) => 
-        await this.client.updateTenant(tenant); 
+    updateTenant = async (tenant: TenantUpdateModel) => {
+        const updatedTenant = await this.client.updateTenant(tenant); 
+        this.tenant = updatedTenant;
+
+        return updatedTenant;
+    }
 
     removeTenant = async (id: string) => 
         await this.client.removeTenant(id); 

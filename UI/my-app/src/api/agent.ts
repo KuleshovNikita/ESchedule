@@ -82,7 +82,7 @@ const User = {
 
 const Group = {
     createGroup: (body: GroupCreateModel) => requests.post(`/group`, body),
-    updateGroup: (body: GroupUpdateModel) => requests.put(`/group`, body),
+    updateGroup: (body: GroupUpdateModel) => requests.put<GroupModel>(`/group`, body),
     getGroup: (id: string) => requests.get<GroupModel>(`/group/${id}`),
     getGroups: () => requests.get<GroupModel[]>(`/group`),
     removeGroup: (id: string) => requests.delete(`/group/${id}`),
@@ -91,7 +91,7 @@ const Group = {
 const Lesson = {
     createLesson: (body: LessonCreateModel) => requests.post<LessonModel>(`/lesson`, body),
     removeLessons: (body: string[]) => requests.put("/lesson/many/", body),
-    updateLesson: (body: LessonUpdateModel) => requests.put(`/lesson`, body),
+    updateLesson: (body: LessonUpdateModel) => requests.put<LessonModel>(`/lesson`, body),
     getLesson: (id: string) => requests.get<LessonModel>(`/lesson/${id}`),
     getLessons: () => requests.get<LessonModel[]>(`/lesson`),
     removeLesson: (id: string) => requests.delete(`/lesson/${id}`),
@@ -112,7 +112,7 @@ const Schedule = {
 
 const Tenant = {
     createTenant: (body: TenantCreateModel) => requests.post<TenantModel>(`/tenant`, body),
-    updateTenant: (body: TenantUpdateModel) => requests.put(`/tenant`, body),
+    updateTenant: (body: TenantUpdateModel) => requests.put<TenantModel>(`/tenant`, body),
     getTenant: (id: string) => requests.get<TenantModel>(`/tenant/${id}`),
     removeTenant: (id: string) => requests.delete(`/tenant/${id}`),
     sendTenantAccessRequest: (request: RequestTenantAccessModel) => requests.post('/tenant/request', request),
@@ -123,7 +123,7 @@ const Tenant = {
 
 const TenantSettings = {
     createTenantSettings: (body: TenantSettingsCreateModel) => requests.post(`/tenantSettings`, body),
-    updateTenantSettings: (body: TenantSettingsUpdateModel) => requests.put(`/tenantSettings`, body),
+    updateTenantSettings: (body: TenantSettingsUpdateModel) => requests.put<TenantSettingsModel>(`/tenantSettings`, body),
     getTenantSettings: (tenantId: string) => requests.get<TenantSettingsModel>(`/tenantSettings/${tenantId}`),
     getTenantScheduleTimes: () => requests.get<ScheduleStartEndTime[]>(`/tenantSettings/time`),
     removeTenantSettings: (tenantId: string) => requests.delete(`/tenantSettings/${tenantId}`),
